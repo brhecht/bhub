@@ -191,22 +191,22 @@
       font-family: 'Playfair Display', serif;
       font-size: 24px;
       font-weight: 700;
-      color: white;
-      margin-bottom: 24px;
+      color: rgba(255, 245, 235, 0.9);
+      margin-bottom: 20px;
       position: relative;
       z-index: 1;
     }
 
     .card-eddy .card-icon {
-      background: rgba(100, 80, 200, 0.35);
+      background: rgba(90, 70, 180, 0.35);
     }
 
     .card-things .card-icon {
-      background: rgba(40, 150, 100, 0.3);
+      background: rgba(30, 130, 85, 0.3);
     }
 
     .card-content .card-icon {
-      background: rgba(190, 140, 30, 0.3);
+      background: rgba(180, 130, 20, 0.3);
     }
 
     /* Card label - dark semi-transparent */
@@ -221,49 +221,48 @@
       z-index: 1;
     }
 
-    /* Card name - DARK text */
+    /* Card name - DARK text, tighter spacing */
     .card-name {
       font-family: 'Playfair Display', serif;
       font-size: 28px;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       letter-spacing: -0.5px;
       position: relative;
       z-index: 1;
       color: #2D2A26;
     }
 
-    /* Card description - DARK text, not white */
+    /* Card description - flows naturally below name, no auto-push */
     .card-desc {
-      font-size: 14px;
-      color: rgba(45, 42, 38, 0.6);
+      font-size: 15px;
+      color: rgba(45, 42, 38, 0.55);
       font-weight: 400;
-      line-height: 1.55;
-      margin-top: auto;
+      line-height: 1.5;
       position: relative;
       z-index: 1;
     }
 
-    /* Arrow button - CREAM/BEIGE solid circle, not frosted glass */
+    /* Arrow button - small, inline at bottom-right */
     .card-arrow {
       position: absolute;
       bottom: 24px;
       right: 24px;
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.4);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      color: #2D2A26;
+      font-size: 14px;
+      color: rgba(45, 42, 38, 0.6);
       transition: background 0.25s ease, transform 0.25s ease;
       z-index: 1;
     }
 
     .card:hover .card-arrow {
-      background: rgba(255, 255, 255, 0.65);
+      background: rgba(255, 255, 255, 0.6);
       transform: translate(2px, -2px);
     }
 
@@ -329,7 +328,7 @@
         <div class="card-label">Tracker</div>
         <div class="card-name">B Eddy</div>
         <div class="card-desc">Course launch timeline, tool decisions, and budget planning</div>
-        <div class="card-arrow">&#8599;</div>
+        <div class="card-arrow">&#8594;</div>
       </a>
 
       <a class="card card-things" href="https://things-app-gamma.vercel.app/" target="_blank" rel="noopener">
@@ -337,7 +336,7 @@
         <div class="card-label">Tasks</div>
         <div class="card-name">B Things</div>
         <div class="card-desc">Organize, prioritize, and track to-dos across projects</div>
-        <div class="card-arrow">&#8599;</div>
+        <div class="card-arrow">&#8594;</div>
       </a>
 
       <a class="card card-content" href="https://content-calendar-nine.vercel.app/" target="_blank" rel="noopener">
@@ -345,7 +344,7 @@
         <div class="card-label">Calendar</div>
         <div class="card-name">B Content</div>
         <div class="card-desc">Plan and schedule for LinkedIn, YouTube, and Beehiiv</div>
-        <div class="card-arrow">&#8599;</div>
+        <div class="card-arrow">&#8594;</div>
       </a>
     </div>
 
