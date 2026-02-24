@@ -15,12 +15,37 @@
       background: #FAF6F1;
       min-height: 100vh;
       color: #2D2A26;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page-accent {
+      position: fixed;
+      top: -200px;
+      right: -200px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(232, 168, 56, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page-accent-bl {
+      position: fixed;
+      bottom: -200px;
+      left: -200px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(124, 106, 232, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     .container {
-      max-width: 900px;
+      max-width: 920px;
       margin: 0 auto;
       padding: 80px 32px 48px;
+      position: relative;
+      z-index: 1;
     }
 
     .header {
@@ -28,25 +53,33 @@
       margin-bottom: 64px;
     }
 
-    .header-icon {
-      font-size: 28px;
-      margin-bottom: 16px;
+    .header-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #C4A265;
+      background: rgba(196, 162, 101, 0.1);
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 24px;
     }
 
     .header h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 48px;
+      font-size: 52px;
       font-weight: 700;
       color: #2D2A26;
-      margin-bottom: 12px;
-      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+      letter-spacing: -1px;
     }
 
     .header p {
       font-size: 17px;
-      color: #8A8078;
+      color: #9A9088;
       font-weight: 400;
-      max-width: 400px;
+      max-width: 380px;
       margin: 0 auto;
       line-height: 1.6;
     }
@@ -55,7 +88,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
-      margin-bottom: 64px;
+      margin-bottom: 0;
     }
 
     .card {
@@ -63,55 +96,71 @@
       padding: 36px 28px 32px;
       text-decoration: none;
       color: white;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
       position: relative;
       overflow: hidden;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 60%);
+      pointer-events: none;
     }
 
     .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
     }
 
     .card-eddy {
-      background: linear-gradient(135deg, #7C6AE8 0%, #9B8CF8 50%, #B4A7FF 100%);
+      background: linear-gradient(135deg, #6B5CE7 0%, #8B7CF8 40%, #A99BFF 100%);
     }
 
     .card-things {
-      background: linear-gradient(135deg, #3BA676 0%, #4CC98F 50%, #6EDBA8 100%);
+      background: linear-gradient(135deg, #2D9B6A 0%, #42B883 40%, #5FCFA0 100%);
     }
 
     .card-content {
-      background: linear-gradient(135deg, #E8A838 0%, #F0C060 50%, #F5D480 100%);
+      background: linear-gradient(135deg, #D4922A 0%, #E8A838 40%, #F0C060 100%);
     }
 
     .card-emoji {
-      font-size: 32px;
-      margin-bottom: 20px;
+      font-size: 36px;
+      margin-bottom: 24px;
       display: block;
     }
 
     .card-name {
       font-family: 'Playfair Display', serif;
-      font-size: 24px;
+      font-size: 26px;
       font-weight: 600;
       margin-bottom: 8px;
+      letter-spacing: -0.3px;
     }
 
     .card-desc {
       font-size: 14px;
-      opacity: 0.85;
+      opacity: 0.8;
       font-weight: 400;
       line-height: 1.5;
+      margin-top: auto;
     }
 
     .card-arrow {
       position: absolute;
       top: 28px;
       right: 24px;
-      font-size: 18px;
-      opacity: 0.6;
-      transition: opacity 0.2s ease, transform 0.2s ease;
+      font-size: 20px;
+      opacity: 0.5;
+      transition: opacity 0.25s ease, transform 0.25s ease;
     }
 
     .card:hover .card-arrow {
@@ -120,16 +169,22 @@
     }
 
     .footer {
+      margin-top: 80px;
       text-align: center;
-      padding-bottom: 32px;
+      padding-bottom: 40px;
+      background: none;
+      border: none;
     }
 
-    .footer-text {
-      font-size: 12px;
-      color: #C4BAB0;
+    .footer span {
+      font-size: 11px;
+      color: #C9C0B6;
       font-weight: 500;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
+      background: none;
+      border: none;
+      display: inline;
     }
 
     @media (max-width: 700px) {
@@ -138,7 +193,7 @@
         gap: 16px;
       }
       .header h1 {
-        font-size: 36px;
+        font-size: 38px;
       }
       .container {
         padding: 48px 20px 32px;
@@ -147,9 +202,12 @@
   </style>
 </head>
 <body>
+  <div class="page-accent"></div>
+  <div class="page-accent-bl"></div>
+
   <div class="container">
     <div class="header">
-      <div class="header-icon">&#9670;</div>
+      <div class="header-badge">Humble Conviction</div>
       <h1>B Suite</h1>
       <p>Your tools, one tap away.</p>
     </div>
@@ -178,7 +236,7 @@
     </div>
 
     <div class="footer">
-      <div class="footer-text">Humble Conviction</div>
+      <span>Humble Conviction</span>
     </div>
   </div>
 </body>
