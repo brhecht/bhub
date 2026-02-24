@@ -6,7 +6,7 @@
   <title>B Suite</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -18,162 +18,241 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    .page-accent {
-      position: fixed;
-      top: -200px;
-      right: -200px;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(232, 168, 56, 0.06) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .page-accent-bl {
-      position: fixed;
-      bottom: -200px;
-      left: -200px;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(124, 106, 232, 0.05) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
     .container {
-      max-width: 920px;
+      max-width: 1060px;
       margin: 0 auto;
-      padding: 80px 32px 48px;
-      position: relative;
-      z-index: 1;
+      padding: 60px 48px 48px;
     }
 
-    .header {
-      text-align: center;
+    /* ─── TOP BAR ─── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 72px;
+    }
+
+    .topbar-logo {
+      width: 44px;
+      height: 44px;
+      background: #2D2A26;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .topbar-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .topbar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #2D2A26;
+      letter-spacing: -0.3px;
+    }
+
+    .topbar-sub {
+      font-size: 12px;
+      color: #B0A89E;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
       margin-bottom: 64px;
+      max-width: 680px;
     }
 
-    .header-badge {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #C4A265;
-      background: rgba(196, 162, 101, 0.1);
-      padding: 6px 16px;
-      border-radius: 20px;
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 62px;
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -2px;
+      color: #2D2A26;
       margin-bottom: 24px;
     }
 
-    .header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 52px;
-      font-weight: 700;
-      color: #2D2A26;
-      margin-bottom: 14px;
-      letter-spacing: -1px;
+    .hero h1 .accent {
+      color: #E07A5F;
+      position: relative;
+      display: inline-block;
     }
 
-    .header p {
-      font-size: 17px;
-      color: #9A9088;
-      font-weight: 400;
-      max-width: 380px;
-      margin: 0 auto;
-      line-height: 1.6;
+    .hero h1 .accent::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: url("data:image/svg+xml,%3Csvg width='200' height='8' viewBox='0 0 200 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5.5C20 1.5 40 7 60 3.5C80 0 100 6 120 3C140 0 160 6.5 199 2' stroke='%23E07A5F' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat;
+      background-size: 100% 100%;
     }
 
+    .hero p {
+      font-size: 18px;
+      color: #8A8078;
+      line-height: 1.65;
+      max-width: 520px;
+    }
+
+    .hero p strong {
+      color: #6B6560;
+      font-weight: 600;
+    }
+
+    /* ─── CARDS GRID ─── */
     .cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
-      margin-bottom: 0;
     }
 
     .card {
-      border-radius: 20px;
-      padding: 36px 28px 32px;
+      border-radius: 24px;
+      padding: 32px 28px 28px;
       text-decoration: none;
       color: white;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       position: relative;
       overflow: hidden;
-      min-height: 200px;
+      min-height: 280px;
       display: flex;
       flex-direction: column;
     }
 
-    .card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
     .card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
     }
 
     .card-eddy {
-      background: linear-gradient(135deg, #6B5CE7 0%, #8B7CF8 40%, #A99BFF 100%);
+      background: linear-gradient(145deg, #7B68EE 0%, #9B8BF4 45%, #B8AAFE 100%);
     }
 
     .card-things {
-      background: linear-gradient(135deg, #2D9B6A 0%, #42B883 40%, #5FCFA0 100%);
+      background: linear-gradient(145deg, #3BAF7A 0%, #4CC98F 45%, #6DDBA8 100%);
     }
 
     .card-content {
-      background: linear-gradient(135deg, #D4922A 0%, #E8A838 40%, #F0C060 100%);
+      background: linear-gradient(145deg, #E0A030 0%, #ECBA50 45%, #F4D078 100%);
     }
 
-    .card-emoji {
-      font-size: 36px;
+    /* Decorative circles */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      pointer-events: none;
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      left: 30px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      pointer-events: none;
+    }
+
+    /* App icon */
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
       margin-bottom: 24px;
-      display: block;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
     }
 
     .card-name {
       font-family: 'Playfair Display', serif;
-      font-size: 26px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      letter-spacing: -0.3px;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 1;
     }
 
     .card-desc {
       font-size: 14px;
-      opacity: 0.8;
+      opacity: 0.75;
       font-weight: 400;
-      line-height: 1.5;
+      line-height: 1.55;
       margin-top: auto;
+      position: relative;
+      z-index: 1;
     }
 
     .card-arrow {
       position: absolute;
-      top: 28px;
+      bottom: 24px;
       right: 24px;
-      font-size: 20px;
-      opacity: 0.5;
-      transition: opacity 0.25s ease, transform 0.25s ease;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: background 0.25s ease, transform 0.25s ease;
+      z-index: 1;
     }
 
     .card:hover .card-arrow {
-      opacity: 1;
-      transform: translate(3px, -3px);
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(2px, -2px);
     }
 
+    /* ─── FOOTER ─── */
     .footer {
       margin-top: 80px;
       text-align: center;
       padding-bottom: 40px;
-      background: none;
-      border: none;
     }
 
     .footer span {
@@ -182,59 +261,71 @@
       font-weight: 500;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      background: none;
-      border: none;
-      display: inline;
     }
 
-    @media (max-width: 700px) {
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 800px) {
       .cards {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 20px;
       }
-      .header h1 {
-        font-size: 38px;
+      .hero h1 {
+        font-size: 42px;
       }
       .container {
-        padding: 48px 20px 32px;
+        padding: 40px 24px 32px;
+      }
+      .card {
+        min-height: 220px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="page-accent"></div>
-  <div class="page-accent-bl"></div>
-
   <div class="container">
-    <div class="header">
-      <div class="header-badge">Humble Conviction</div>
-      <h1>B Suite</h1>
-      <p>Your tools, one tap away.</p>
+    <!-- Top bar -->
+    <div class="topbar">
+      <div class="topbar-logo">B</div>
+      <div class="topbar-text">
+        <div class="topbar-title">B Suite</div>
+        <div class="topbar-sub">Humble Conviction</div>
+      </div>
     </div>
 
+    <!-- Hero -->
+    <div class="hero">
+      <h1>Your tools.<br><span class="accent">All in one place.</span></h1>
+      <p>The productivity suite powering <strong>Humble Conviction</strong> &mdash; from content planning to course launch.</p>
+    </div>
+
+    <!-- Cards -->
     <div class="cards">
       <a class="card card-eddy" href="https://eddy-tracker.vercel.app" target="_blank" rel="noopener">
-        <span class="card-arrow">&#8599;</span>
-        <span class="card-emoji">&#127927;</span>
+        <div class="card-icon">E</div>
+        <div class="card-label">Tracker</div>
         <div class="card-name">B Eddy</div>
-        <div class="card-desc">Course Launch Tracker</div>
+        <div class="card-desc">Course launch timeline, tool decisions, and budget planning</div>
+        <div class="card-arrow">&#8599;</div>
       </a>
 
       <a class="card card-things" href="https://things-app-gamma.vercel.app/" target="_blank" rel="noopener">
-        <span class="card-arrow">&#8599;</span>
-        <span class="card-emoji">&#9745;</span>
+        <div class="card-icon">T</div>
+        <div class="card-label">Tasks</div>
         <div class="card-name">B Things</div>
-        <div class="card-desc">Task Manager</div>
+        <div class="card-desc">Organize, prioritize, and track to-dos across projects</div>
+        <div class="card-arrow">&#8599;</div>
       </a>
 
       <a class="card card-content" href="https://content-calendar-nine.vercel.app/" target="_blank" rel="noopener">
-        <span class="card-arrow">&#8599;</span>
-        <span class="card-emoji">&#128197;</span>
+        <div class="card-icon">C</div>
+        <div class="card-label">Calendar</div>
         <div class="card-name">B Content</div>
-        <div class="card-desc">Content Calendar</div>
+        <div class="card-desc">Plan and schedule for LinkedIn, YouTube, and Beehiiv</div>
+        <div class="card-arrow">&#8599;</div>
       </a>
     </div>
 
+    <!-- Footer -->
     <div class="footer">
       <span>Humble Conviction</span>
     </div>
