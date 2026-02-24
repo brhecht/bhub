@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>B Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #FAF6F1;
+      min-height: 100vh;
+      color: #2D2A26;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px 32px 48px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .header-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: #2D2A26;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .header p {
+      font-size: 17px;
+      color: #8A8078;
+      font-weight: 400;
+      max-width: 400px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 64px;
+    }
+
+    .card {
+      border-radius: 20px;
+      padding: 36px 28px 32px;
+      text-decoration: none;
+      color: white;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-eddy {
+      background: linear-gradient(135deg, #7C6AE8 0%, #9B8CF8 50%, #B4A7FF 100%);
+    }
+
+    .card-things {
+      background: linear-gradient(135deg, #3BA676 0%, #4CC98F 50%, #6EDBA8 100%);
+    }
+
+    .card-content {
+      background: linear-gradient(135deg, #E8A838 0%, #F0C060 50%, #F5D480 100%);
+    }
+
+    .card-emoji {
+      font-size: 32px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      opacity: 0.85;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .card-arrow {
+      position: absolute;
+      top: 28px;
+      right: 24px;
+      font-size: 18px;
+      opacity: 0.6;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover .card-arrow {
+      opacity: 1;
+      transform: translate(3px, -3px);
+    }
+
+    .footer {
+      text-align: center;
+      padding-bottom: 32px;
+    }
+
+    .footer-text {
+      font-size: 12px;
+      color: #C4BAB0;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 700px) {
+      .cards {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .header h1 {
+        font-size: 36px;
+      }
+      .container {
+        padding: 48px 20px 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-icon">&#9670;</div>
+      <h1>B Suite</h1>
+      <p>Your tools, one tap away.</p>
+    </div>
+
+    <div class="cards">
+      <a class="card card-eddy" href="https://eddy-tracker.vercel.app" target="_blank" rel="noopener">
+        <span class="card-arrow">&#8599;</span>
+        <span class="card-emoji">&#127927;</span>
+        <div class="card-name">B Eddy</div>
+        <div class="card-desc">Course Launch Tracker</div>
+      </a>
+
+      <a class="card card-things" href="https://things-app-gamma.vercel.app/" target="_blank" rel="noopener">
+        <span class="card-arrow">&#8599;</span>
+        <span class="card-emoji">&#9745;</span>
+        <div class="card-name">B Things</div>
+        <div class="card-desc">Task Manager</div>
+      </a>
+
+      <a class="card card-content" href="https://content-calendar-nine.vercel.app/" target="_blank" rel="noopener">
+        <span class="card-arrow">&#8599;</span>
+        <span class="card-emoji">&#128197;</span>
+        <div class="card-name">B Content</div>
+        <div class="card-desc">Content Calendar</div>
+      </a>
+    </div>
+
+    <div class="footer">
+      <div class="footer-text">Humble Conviction</div>
+    </div>
+  </div>
+</body>
+</html>
