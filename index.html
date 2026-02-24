@@ -83,21 +83,26 @@
       margin-bottom: 24px;
     }
 
-    .hero h1 .accent {
-      color: #E07A5F;
+    /* "All in" gets the squiggle underline */
+    .hero h1 .underline {
       position: relative;
       display: inline-block;
     }
 
-    .hero h1 .accent::after {
+    .hero h1 .underline::after {
       content: '';
       position: absolute;
-      bottom: -4px;
+      bottom: -2px;
       left: 0;
       width: 100%;
       height: 8px;
       background: url("data:image/svg+xml,%3Csvg width='200' height='8' viewBox='0 0 200 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5.5C20 1.5 40 7 60 3.5C80 0 100 6 120 3C140 0 160 6.5 199 2' stroke='%23E07A5F' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat;
       background-size: 100% 100%;
+    }
+
+    /* "one place." gets bright coral color */
+    .hero h1 .accent {
+      color: #E8845A;
     }
 
     .hero p {
@@ -119,69 +124,67 @@
       gap: 24px;
     }
 
+    /* Cards are VERTICAL RECTANGLES - taller than wide */
     .card {
       border-radius: 24px;
       padding: 32px 28px 28px;
       text-decoration: none;
-      color: white;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       position: relative;
       overflow: hidden;
-      min-height: 280px;
+      min-height: 340px;
       display: flex;
       flex-direction: column;
     }
 
     .card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
     }
 
+    /* Lighter pastel gradients */
     .card-eddy {
-      background: linear-gradient(145deg, #7B68EE 0%, #9B8BF4 45%, #B8AAFE 100%);
+      background: linear-gradient(155deg, #BEB0FF 0%, #CBBFFF 40%, #DDD6FF 100%);
     }
 
     .card-things {
-      background: linear-gradient(145deg, #3BAF7A 0%, #4CC98F 45%, #6DDBA8 100%);
+      background: linear-gradient(155deg, #80DEB4 0%, #9AEAC8 40%, #B4F0D6 100%);
     }
 
     .card-content {
-      background: linear-gradient(145deg, #E0A030 0%, #ECBA50 45%, #F4D078 100%);
+      background: linear-gradient(155deg, #F5D478 0%, #F8E098 40%, #FBEAB4 100%);
     }
 
-    /* Decorative circles */
+    /* Decorative circles - more visible */
     .card::before {
       content: '';
       position: absolute;
-      top: -30px;
-      right: -30px;
-      width: 120px;
-      height: 120px;
+      top: -20px;
+      right: -20px;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.25);
       pointer-events: none;
     }
 
     .card::after {
       content: '';
       position: absolute;
-      bottom: -40px;
-      left: 30px;
-      width: 80px;
-      height: 80px;
+      bottom: -30px;
+      left: 40px;
+      width: 70px;
+      height: 70px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.15);
       pointer-events: none;
     }
 
-    /* App icon */
+    /* App icon - DARKER shade of card gradient, not white */
     .card-icon {
       width: 52px;
       height: 52px;
       border-radius: 14px;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -194,30 +197,46 @@
       z-index: 1;
     }
 
+    .card-eddy .card-icon {
+      background: rgba(100, 80, 200, 0.35);
+    }
+
+    .card-things .card-icon {
+      background: rgba(40, 150, 100, 0.3);
+    }
+
+    .card-content .card-icon {
+      background: rgba(190, 140, 30, 0.3);
+    }
+
+    /* Card label - dark semi-transparent */
     .card-label {
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      opacity: 0.7;
+      color: rgba(45, 42, 38, 0.45);
       margin-bottom: 8px;
       position: relative;
       z-index: 1;
     }
 
+    /* Card name - DARK text */
     .card-name {
       font-family: 'Playfair Display', serif;
       font-size: 28px;
       font-weight: 700;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       letter-spacing: -0.5px;
       position: relative;
       z-index: 1;
+      color: #2D2A26;
     }
 
+    /* Card description - DARK text, not white */
     .card-desc {
       font-size: 14px;
-      opacity: 0.75;
+      color: rgba(45, 42, 38, 0.6);
       font-weight: 400;
       line-height: 1.55;
       margin-top: auto;
@@ -225,6 +244,7 @@
       z-index: 1;
     }
 
+    /* Arrow button - CREAM/BEIGE solid circle, not frosted glass */
     .card-arrow {
       position: absolute;
       bottom: 24px;
@@ -232,19 +252,18 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.45);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 18px;
+      color: #2D2A26;
       transition: background 0.25s ease, transform 0.25s ease;
       z-index: 1;
     }
 
     .card:hover .card-arrow {
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.65);
       transform: translate(2px, -2px);
     }
 
@@ -253,6 +272,9 @@
       margin-top: 80px;
       text-align: center;
       padding-bottom: 40px;
+      background: none !important;
+      background-color: transparent !important;
+      border: none !important;
     }
 
     .footer span {
@@ -261,6 +283,8 @@
       font-weight: 500;
       letter-spacing: 1.5px;
       text-transform: uppercase;
+      background: none !important;
+      background-color: transparent !important;
     }
 
     /* ─── RESPONSIVE ─── */
@@ -276,7 +300,7 @@
         padding: 40px 24px 32px;
       }
       .card {
-        min-height: 220px;
+        min-height: 260px;
       }
     }
   </style>
@@ -292,9 +316,9 @@
       </div>
     </div>
 
-    <!-- Hero -->
+    <!-- Hero: "All in" underlined, "one place." bright coral -->
     <div class="hero">
-      <h1>Your tools.<br><span class="accent">All in one place.</span></h1>
+      <h1>Your tools.<br><span class="underline">All in</span> <span class="accent">one place.</span></h1>
       <p>The productivity suite powering <strong>Humble Conviction</strong> &mdash; from content planning to course launch.</p>
     </div>
 
