@@ -121,7 +121,7 @@
     /* ─── CARDS GRID ─── */
     .cards {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 24px;
     }
 
@@ -154,6 +154,10 @@
 
     .card-content {
       background: linear-gradient(155deg, #F2C84E 0%, #F6D56E 40%, #FAE290 100%);
+    }
+
+    .card-people {
+      background: linear-gradient(155deg, #E8845A 0%, #F0A07A 40%, #F5BFA0 100%);
     }
 
     /* Decorative circles - more visible */
@@ -208,6 +212,10 @@
 
     .card-content .card-icon {
       background: rgba(170, 120, 10, 0.45);
+    }
+
+    .card-people .card-icon {
+      background: rgba(160, 60, 30, 0.45);
     }
 
     /* Card label - dark semi-transparent */
@@ -345,6 +353,14 @@
         <div class="card-label">Calendar</div>
         <div class="card-name">B Content</div>
         <div class="card-desc">Plan and schedule for LinkedIn, YouTube, and Beehiiv</div>
+        <div class="card-arrow">&#8594;</div>
+      </a>
+
+      <a class="card card-people" href="http://localhost:5173" target="_blank" rel="noopener">
+        <div class="card-icon">P</div>
+        <div class="card-label">CRM</div>
+        <div class="card-name">B People</div>
+        <div class="card-desc">Stay close to your network &mdash; reminders, touches, and relationship intel</div>
         <div class="card-arrow">&#8594;</div>
       </a>
     </div>
