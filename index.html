@@ -168,6 +168,10 @@
       background: linear-gradient(155deg, #5BA4E8 0%, #7AB8F0 40%, #A0D0F5 100%);
     }
 
+    .card-marketing {
+      background: linear-gradient(155deg, #E8845A 0%, #F2A07A 40%, #F7C4A8 100%);
+    }
+
     /* Decorative circles - more visible */
     .card::before {
       content: '';
@@ -232,6 +236,10 @@
 
     .card-bpis .card-icon {
       background: rgba(20, 60, 130, 0.45);
+    }
+
+    .card-marketing .card-icon {
+      background: rgba(160, 50, 20, 0.45);
     }
 
     /* Card label - dark semi-transparent */
@@ -393,6 +401,14 @@
         <div class="card-label">Metrics</div>
         <div class="card-name">BPIs</div>
         <div class="card-desc">Key performance indicators for Humble Conviction &mdash; track what matters</div>
+        <div class="card-arrow">&#8594;</div>
+      </a>
+
+      <a class="card card-marketing" href="https://hc-funnel.vercel.app" target="_blank" rel="noopener">
+        <div class="card-icon">M</div>
+        <div class="card-label">Funnel</div>
+        <div class="card-name">B Marketing</div>
+        <div class="card-desc">Quiz-based lead gen funnel &mdash; assess, score, and capture waitlist signups</div>
         <div class="card-arrow">&#8594;</div>
       </a>
     </div>
