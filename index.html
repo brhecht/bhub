@@ -172,6 +172,39 @@
       background: linear-gradient(155deg, #E8845A 0%, #F2A07A 40%, #F7C4A8 100%);
     }
 
+    .card-library {
+      background: linear-gradient(155deg, #7B8FA8 0%, #9AADBE 40%, #B8C9D6 100%);
+    }
+
+    .card-vault {
+      background: linear-gradient(155deg, #A89078 0%, #C0AA96 40%, #D6C8B8 100%);
+    }
+
+    /* ─── SECTION DIVIDER ─── */
+    .section-divider {
+      margin-top: 64px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .section-divider h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #2D2A26;
+      letter-spacing: -0.5px;
+      white-space: nowrap;
+    }
+
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #E0D8D0;
+    }
+
     /* Decorative circles - more visible */
     .card::before {
       content: '';
@@ -240,6 +273,14 @@
 
     .card-marketing .card-icon {
       background: rgba(160, 50, 20, 0.45);
+    }
+
+    .card-library .card-icon {
+      background: rgba(40, 55, 80, 0.45);
+    }
+
+    .card-vault .card-icon {
+      background: rgba(100, 65, 35, 0.45);
     }
 
     /* Card label - dark semi-transparent */
@@ -409,6 +450,29 @@
         <div class="card-label">Funnel</div>
         <div class="card-name">B Marketing</div>
         <div class="card-desc">Quiz-based lead gen funnel &mdash; assess, score, and capture waitlist signups</div>
+        <div class="card-arrow">&#8594;</div>
+      </a>
+    </div>
+
+    <!-- Resources section -->
+    <div class="section-divider">
+      <h2>B Resources</h2>
+    </div>
+
+    <div class="cards">
+      <a class="card card-library" href="b-library.html" rel="noopener">
+        <div class="card-icon">L</div>
+        <div class="card-label">Knowledge</div>
+        <div class="card-name">Library</div>
+        <div class="card-desc">Frameworks, playbooks, and reference material for the team</div>
+        <div class="card-arrow">&#8594;</div>
+      </a>
+
+      <a class="card card-vault" href="b-vault.html" rel="noopener">
+        <div class="card-icon">V</div>
+        <div class="card-label">Assets</div>
+        <div class="card-name">Vault</div>
+        <div class="card-desc">Brand assets, templates, credentials, and key documents</div>
         <div class="card-arrow">&#8594;</div>
       </a>
     </div>

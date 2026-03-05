@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vault — B Suite</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23A89078'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' font-weight='bold' fill='white'%3EV%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #FAF7F4;
+      min-height: 100vh;
+      color: #2D2A26;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 48px;
+      text-align: center;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 64px;
+    }
+    .topbar-back {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: rgba(168,144,120,0.12); display: flex; align-items: center;
+      justify-content: center; text-decoration: none; color: #A89078; font-size: 16px;
+      transition: background 0.2s;
+    }
+    .topbar-back:hover { background: rgba(168,144,120,0.22); }
+    .topbar-logo {
+      width: 40px; height: 40px; background: #A89078; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center; color: white;
+      font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700;
+    }
+    .topbar-text { display: flex; flex-direction: column; gap: 1px; text-align: left; }
+    .topbar-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: #2D2A26; }
+    .topbar-sub { font-size: 11px; color: #C4B5A8; font-weight: 500; letter-spacing: 0.3px; }
+    .icon-large {
+      width: 80px; height: 80px; border-radius: 20px;
+      background: linear-gradient(135deg, #A89078, #C0AA96);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 32px; color: white;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px; font-weight: 800; letter-spacing: -1px;
+      color: #2D2A26; margin-bottom: 12px;
+    }
+    h1 span { color: #A89078; }
+    p { font-size: 16px; color: #B0A898; line-height: 1.6; max-width: 400px; margin: 0 auto 40px; }
+    .badge {
+      display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; padding: 8px 20px; border-radius: 8px;
+      background: rgba(168,144,120,0.1); color: #A89078;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="topbar-back" href="https://b-hub-liard.vercel.app/" title="Back to B Suite">&#8592;</a>
+      <div class="topbar-logo">V</div>
+      <div class="topbar-text">
+        <div class="topbar-title">Vault</div>
+        <div class="topbar-sub">B Resources</div>
+      </div>
+    </div>
+    <div class="icon-large">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <h1>Coming <span>soon.</span></h1>
+    <p>Brand assets, templates, credentials, and key documents &mdash; secured and organized for Humble Conviction.</p>
+    <span class="badge">In Development</span>
+  </div>
+</body>
+</html>
