@@ -362,7 +362,7 @@
       display: flex; align-items: center; justify-content: center;
       color: #fff; font-family: 'Playfair Display', Georgia, serif;
       font-size: 12px; font-weight: 700; margin-right: 6px; flex-shrink: 0;
-      text-decoration: none;
+      text-decoration: none; border: none; cursor: pointer;
     }
     .sw-pill {
       display: inline-flex; align-items: center; gap: 5px;
@@ -377,19 +377,59 @@
       color: #fff; font-size: 9px; font-weight: 700;
       font-family: 'Playfair Display', Georgia, serif;
     }
+
+    /* Mobile: current app label + chevron, hide pills */
+    .sw-mobile-label { display: none; color: #999; font-weight: 500; font-size: 11.5px; letter-spacing: 0.2px; }
+    .sw-chevron { display: none; color: #666; font-size: 10px; margin-left: 2px; cursor: pointer; transition: transform 0.2s; }
+    .sw-dropdown {
+      display: none; position: absolute; top: 100%; left: 0; right: 0;
+      background: #1E1E1E; border-bottom: 1px solid #333; padding: 4px 0;
+      z-index: 10000; box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .sw-dropdown a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px; text-decoration: none; color: #999;
+      font-size: 13px; font-weight: 500; transition: background 0.15s;
+    }
+    .sw-dropdown a:hover { background: #2A2A2A; color: #ccc; }
+    .sw-dropdown.open { display: block; }
+
+    @media (max-width: 767px) {
+      .sw-pill { display: none; }
+      .sw-mobile-label { display: inline; }
+      .sw-chevron { display: inline; }
+    }
   </style>
 </head>
 <body>
   <!-- App Switcher Bar -->
-  <nav class="sw-bar">
-    <a href="https://b-hub-liard.vercel.app/" class="sw-logo">B</a>
+  <nav class="sw-bar" id="sw-bar">
+    <button class="sw-logo" onclick="document.getElementById('sw-drop').classList.toggle('open')" aria-label="Open app switcher">B</button>
+    <span class="sw-mobile-label">B Hub</span>
+    <span class="sw-chevron" onclick="document.getElementById('sw-drop').classList.toggle('open')">▼</span>
     <a href="https://eddy-tracker.vercel.app" class="sw-pill"><span class="sw-icon">E</span>B Eddy</a>
     <a href="https://things-app-gamma.vercel.app" class="sw-pill"><span class="sw-icon">T</span>B Things</a>
     <a href="https://content-calendar-nine.vercel.app" class="sw-pill"><span class="sw-icon">C</span>B Content</a>
     <a href="https://b-people.vercel.app" class="sw-pill"><span class="sw-icon">P</span>B People</a>
     <a href="https://b-marketing.vercel.app" class="sw-pill"><span class="sw-icon">M</span>B Marketing</a>
     <a href="https://hc-funnel.vercel.app" class="sw-pill"><span class="sw-icon">F</span>HC Funnel</a>
+    <!-- Mobile dropdown -->
+    <div class="sw-dropdown" id="sw-drop">
+      <a href="https://eddy-tracker.vercel.app"><span class="sw-icon">E</span>B Eddy</a>
+      <a href="https://things-app-gamma.vercel.app"><span class="sw-icon">T</span>B Things</a>
+      <a href="https://content-calendar-nine.vercel.app"><span class="sw-icon">C</span>B Content</a>
+      <a href="https://b-people.vercel.app"><span class="sw-icon">P</span>B People</a>
+      <a href="https://b-marketing.vercel.app"><span class="sw-icon">M</span>B Marketing</a>
+      <a href="https://hc-funnel.vercel.app"><span class="sw-icon">F</span>HC Funnel</a>
+    </div>
   </nav>
+  <script>
+    document.addEventListener('click', function(e) {
+      var bar = document.getElementById('sw-bar');
+      var drop = document.getElementById('sw-drop');
+      if (drop && !bar.contains(e.target)) drop.classList.remove('open');
+    });
+  </script>
   <div class="container">
     <!-- Top bar -->
     <div class="topbar">
