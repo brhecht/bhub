@@ -343,9 +343,53 @@
         min-height: 260px;
       }
     }
+
+    /* ─── APP SWITCHER BAR ─── */
+    .sw-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: #1E1E1E;
+      border-bottom: 1px solid #333;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 12px;
+      position: relative;
+      z-index: 9999;
+    }
+    .sw-logo {
+      width: 22px; height: 22px; border-radius: 6px; background: #2D2A26;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-family: 'Playfair Display', Georgia, serif;
+      font-size: 12px; font-weight: 700; margin-right: 6px; flex-shrink: 0;
+      text-decoration: none;
+    }
+    .sw-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 10px; border-radius: 6px; text-decoration: none;
+      font-weight: 500; font-size: 11.5px; letter-spacing: 0.2px;
+      transition: background 0.15s, color 0.15s; color: #999; background: transparent;
+    }
+    .sw-pill:hover { background: #2A2A2A; color: #ccc; }
+    .sw-icon {
+      width: 16px; height: 16px; border-radius: 4px; background: #444;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 9px; font-weight: 700;
+      font-family: 'Playfair Display', Georgia, serif;
+    }
   </style>
 </head>
 <body>
+  <!-- App Switcher Bar -->
+  <nav class="sw-bar">
+    <a href="https://b-hub-liard.vercel.app/" class="sw-logo">B</a>
+    <a href="https://eddy-tracker.vercel.app" class="sw-pill"><span class="sw-icon">E</span>B Eddy</a>
+    <a href="https://things-app-gamma.vercel.app" class="sw-pill"><span class="sw-icon">T</span>B Things</a>
+    <a href="https://content-calendar-nine.vercel.app" class="sw-pill"><span class="sw-icon">C</span>B Content</a>
+    <a href="https://b-people.vercel.app" class="sw-pill"><span class="sw-icon">P</span>B People</a>
+    <a href="https://b-marketing.vercel.app" class="sw-pill"><span class="sw-icon">M</span>B Marketing</a>
+    <a href="https://hc-funnel.vercel.app" class="sw-pill"><span class="sw-icon">F</span>HC Funnel</a>
+  </nav>
   <div class="container">
     <!-- Top bar -->
     <div class="topbar">
