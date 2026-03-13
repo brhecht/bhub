@@ -152,9 +152,10 @@ Nico Firebase UID: N7dBZAH0HkhCCtlAPnfFIWmxn6t1
 - **content-calendar:** Deep-link support (?card=id), auto-expanding notes textarea
 
 ## Known Issues (Cross-App)
-1. **Vercel auto-deploy possibly blocked** — Some apps' git pushes show "Blocked" since March 3. Deploy Hooks are the workaround.
-2. **DM-to-bot broken in Slack** — Can't DM the Brain Inbox bot directly. @mentions in channels work.
-3. **VM git corruption risk** — Cowork VM's git can crash with SIGBUS on mounted folders. Recovery: clone fresh to /tmp/, never retry in corrupted state.
+1. **CRITICAL: B Intelligence module live but not in git** — Content Calendar production site has a full YouTube intelligence module (Dashboard, Trend Radar, Title Generator, Description Builder, Thumbnail Reviewer) built by Nico. Zero presence in the git repo. Built in flat HTML/Babel, not React. If anyone redeploys from git, it vanishes. Source files need to be recovered from Nico's machine. See content-calendar handoff for details.
+2. **Vercel auto-deploy possibly blocked** — Some apps' git pushes show "Blocked" since March 3. Deploy Hooks are the workaround.
+3. **DM-to-bot broken in Slack** — Can't DM the Brain Inbox bot directly. @mentions in channels work.
+4. **VM git corruption risk** — Cowork VM's git can crash with SIGBUS on mounted folders. Recovery: clone fresh to /tmp/, never retry in corrupted state.
 
 ## Dev Workflow
 - **Repos live at:** `~/Developer/B-Suite/` (local, NOT iCloud — moved March 12)
@@ -162,6 +163,34 @@ Nico Firebase UID: N7dBZAH0HkhCCtlAPnfFIWmxn6t1
 - **Git token:** Generate PAT at github.com/settings/tokens, save to `~/Developer/B-Suite/.git-token` for Cowork auto-push (per dev-deploy skill)
 - **Master handoff:** Lives in bhub repo root (git-tracked, syncs across devices)
 - **Per-app handoffs:** Live in each app's repo root (git-tracked)
+
+### New Device Setup (One-Time Per Machine)
+If `~/Developer/B-Suite/` doesn't exist on this machine, this device hasn't been set up yet. Walk the user through these steps:
+
+1. **Create the folder:** `mkdir -p ~/Developer/B-Suite`
+2. **Generate a GitHub PAT** (classic, `repo` scope) at github.com/settings/tokens
+3. **Clone all 10 repos** (paste this block in terminal, replacing YOUR_TOKEN):
+```bash
+cd ~/Developer/B-Suite && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/things-app.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/brain-inbox.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/content-calendar.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/b-marketing.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/eddy-tracker.git eddy && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/bhub.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/b-people.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/b-resources.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/pitch-scorer.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/hc-funnel.git && \
+echo "YOUR_TOKEN" > .git-token && \
+echo "Done — all 10 repos cloned and token saved"
+```
+4. **Revoke the PAT** at github.com/settings/tokens (the token is saved in .git-token for Cowork to use)
+5. **Mount `~/Developer/B-Suite`** in Cowork and say "handoff here"
+
+**Devices set up:**
+- MacBook Air (BRHair) — March 12, 2026
+- *(add new devices here as they're configured)*
 
 ## Design Decisions & Constraints
 - **Notifications only on handleSend** — Critical pattern across Content Calendar and B Things. Never fire notifications on card/task save.
