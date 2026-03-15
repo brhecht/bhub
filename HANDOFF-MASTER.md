@@ -1,6 +1,6 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: March 14, 2026 ~11:00 PM ET*
+*Updated: March 15, 2026 ~evening ET*
 *Source: Most recent handoff from each project*
 
 ---
@@ -81,17 +81,22 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 ---
 
 ## HC Funnel (Marketing Funnel)
-**Status:** MVP complete, deployed, pre-launch — full quiz → email → waitlist flow working
-**Last updated:** March 3, 2026
+**Status:** Fully rebuilt and deployed — scenario-based quiz live, email content pending
+**Last updated:** March 15, 2026
 **Location:** hc-funnel/
 **Live URL:** https://hc-funnel.vercel.app
 **Key context:**
-- 8-question Founder Assessment with 4-dimension scoring engine → instant results → email capture with waitlist checkbox → deep dive → waitlist CTA
-- Firestore `leads` collection captures all quiz data, scores, waitlist intent
-- Kit (ConvertKit) integration with server-side proxy, autoresponder automation live
-- Next priorities: Meta Pixel tracking, target audiences, ad creatives, AI diagnostic email pipeline
+- Complete rewrite (March 15): 8 scenario-based questions (not self-assessment) across 4 dimensions (Clarity, Investor Fluency, Self-Awareness, Persuasion Instincts)
+- Scoring engine: per-question best=2/next=1/weak=0, raw totals for tier assignment, display scores as X/5 with dot visualization
+- 3 tiers: Lost in the Noise (raw 0-3) / The Pieces Are There (raw 4-9) / So Close It Hurts (raw 10+). Validated via Monte Carlo simulation (10K runs).
+- Results page: calculating pause animation → tier badge → scorecard with explanations + cracked door lines → email gate CTA ("Send My Recommendations") + waitlist checkbox
+- New design system: navy/orange palette, Inter font, mobile-first (80%+ Meta ad traffic)
+- Strategy/content bible: `HC-PHASE1-DISCOVERY.md` in project root (all decisions, all copy, research references, Monte Carlo methodology)
+- Firestore `leads` collection captures quiz answers, scores, tier, waitlist flag
+- Kit (ConvertKit) integration with server-side proxy
+- Next priorities: Brian's design/wording tweaks, email content (results email + 5-email drip), Meta Pixel, ad creatives
 
-**Shared resources:** Firebase project `eddy-tracker-82486` (shared with eddy). Design theme derived from bhub. Kit account under Humble Conviction.
+**Shared resources:** Firebase project `eddy-tracker-82486` (shared with eddy and b-marketing). Kit account under Humble Conviction.
 
 ---
 
