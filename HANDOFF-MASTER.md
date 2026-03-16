@@ -57,7 +57,7 @@ Three custom Cowork skills are required for B-Suite sessions: **handoff**, **dev
 
 **Devices with skills installed:**
 - MacBook Pro: ✅ all three (March 14, 2026) — hashes recorded in manifest
-- iMac: ✅ handoff + dev-deploy (March 16, 2026), comms pending install
+- iMac: ✅ handoff + dev-deploy (March 16, 2026), all three (March 16, 2026)
 - MacBook Air: ⬜ pending
 - Mac Mini: ⬜ pending
 
