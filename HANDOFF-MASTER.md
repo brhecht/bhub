@@ -1,6 +1,6 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: March 15, 2026 ~evening ET*
+*Updated: March 16, 2026 ~1:45 PM ET*
 *Source: Most recent handoff from each project*
 
 ---
@@ -45,6 +45,7 @@ Three custom Cowork skills are required for B-Suite sessions: **handoff**, **dev
 
 **Devices with skills installed:**
 - MacBook Pro: ✅ all three (March 14, 2026)
+- iMac: ✅ all three (March 16, 2026)
 - MacBook Air: ⬜ pending
 - Mac Mini: ⬜ pending
 
@@ -295,9 +296,10 @@ When adding a new user: update `content-calendar/src/users.js`, `brain-inbox/api
 
 ## Devices
 
-Brian uses three machines. B-Suite folder location: `~/Developer/B-Suite/` on all devices (migrated from Desktop on March 14, 2026).
+Brian uses four machines. B-Suite folder location: `~/Developer/B-Suite/` on all devices (migrated from Desktop on March 14, 2026).
 
 - **MacBook Pro** — primary dev machine. B-Suite path: `~/Developer/B-Suite/`. Skills: ✅ all three installed.
+- **iMac (BRH iMac 2019)** — B-Suite path: `~/Developer/B-Suite/`. Fresh clone from GitHub March 16, 2026. Skills: handoff ✅, dev-deploy ✅, comms ✅ (via Cowork app install). Note: username is BRHPro.
 - **MacBook Air** — path: `~/Developer/B-Suite/` (confirm on first session)
 - **Mac Mini** — path: `~/Developer/B-Suite/` (confirm on first session)
 
