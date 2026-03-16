@@ -31,21 +31,33 @@ Check the mounted B-Suite path. If it doesn't match a known device path, ask use
 ### 4. npm Install Check
 If the session will involve building an app, check if `node_modules` exists in the target app. If not, run `npm install`. Note: this installs Linux binaries — user must run `npm install` on their Mac before any local builds after Cowork touches the app.
 
-### 5. Skill Installation Check
-Three custom Cowork skills are required for B-Suite sessions: **handoff**, **dev-deploy**, and **comms**. Check whether all three are available in the current session's skill list (they appear in `<available_skills>` in the system prompt).
+### 5. Skill Version Check
+Three custom Cowork skills are required for B-Suite sessions: **handoff**, **dev-deploy**, and **comms**. This step checks both installation AND version currency.
 
-- **If all are present** → proceed normally, no action needed.
-- **If one or more are missing** → the user needs to install them on this device. The `.skill` installer files are in `skills/` in the B-Suite root. Walk the user through:
-  1. In Finder, navigate to `~/Developer/B-Suite/skills/`
-  2. Double-click the missing `.skill` file(s) — `handoff.skill`, `dev-deploy.skill`, and/or `comms.skill`
-  3. Cowork will prompt to install — confirm
-  4. Restart the Cowork session (skills load at session start)
+**Skill files are git-tracked in `bhub/skills/`.** This means `git pull` on bhub gets the latest `.skill` installers on any device. The version manifest (`bhub/skills/skills-manifest.json`) tracks which version each device has installed.
 
-**Source of truth:** The raw SKILL.md files live in `skills/handoff/SKILL.md`, `skills/dev-deploy/SKILL.md`, and `skills/comms/SKILL.md` in the B-Suite root. When updating a skill, edit the SKILL.md, rebuild the `.skill` bundle, and reinstall on each device.
+**Bootstrap sequence:**
+1. Run `git pull` on the bhub repo (ensures latest skill files are local)
+2. Read `bhub/skills/skills-manifest.json`
+3. Identify current device from the Devices section
+4. Compare device's installed hashes against the `skills` section hashes
+5. For any mismatch or missing skill:
+   - Present the `.skill` file as a clickable install link in chat: `[Install comms.skill](computer:///path/to/mnt/B-Suite/bhub/skills/comms.skill)`
+   - Tell the user: "**[skill-name] was updated [date].** Click to install, then restart the session."
+6. After user confirms install, update the device's hash in `skills-manifest.json` and commit to bhub
+
+**If all skills are current** → proceed normally, no action needed. Just confirm: "All skills up to date."
+
+**When a skill is updated (by anyone, on any device):**
+1. Edit the SKILL.md source in `bhub/skills/src/[name]-SKILL.md`
+2. Rebuild the `.skill` bundle: `zip -r [name].skill [name]/` (containing the SKILL.md)
+3. Update `skills-manifest.json`: bump version, update hash (`md5sum` of SKILL.md), set changelog
+4. Commit and push bhub
+5. On next session start on any other device, the bootstrap will detect the mismatch and prompt install
 
 **Devices with skills installed:**
-- MacBook Pro: ✅ all three (March 14, 2026)
-- iMac: ✅ all three (March 16, 2026)
+- MacBook Pro: ✅ all three (March 14, 2026) — hashes recorded in manifest
+- iMac: ✅ handoff + dev-deploy (March 16, 2026), comms pending install
 - MacBook Air: ⬜ pending
 - Mac Mini: ⬜ pending
 

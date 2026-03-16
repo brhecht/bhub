@@ -1,0 +1,49 @@
+{
+  "_comment": "Tracks skill versions across devices. Hash is MD5 of SKILL.md source. Bootstrap protocol compares this against installed versions.",
+  "skills": {
+    "comms": {
+      "version": "1.0.0",
+      "hash": "a07eb9d2cd41056f82c593736af00760",
+      "updated": "2026-03-16",
+      "changelog": "Initial versioned release — moved to git-tracked skills in bhub"
+    },
+    "handoff": {
+      "version": "1.0.0",
+      "hash": "83cf818e0a7732b11e111af806ffdeff",
+      "updated": "2026-03-16",
+      "changelog": "Initial versioned release — moved to git-tracked skills in bhub"
+    },
+    "dev-deploy": {
+      "version": "1.0.0",
+      "hash": "5d71d7b07a2de8b32ad43c166e69e618",
+      "updated": "2026-03-16",
+      "changelog": "Initial versioned release — moved to git-tracked skills in bhub"
+    }
+  },
+  "devices": {
+    "MacBook Pro": {
+      "comms": "a07eb9d2cd41056f82c593736af00760",
+      "handoff": "83cf818e0a7732b11e111af806ffdeff",
+      "dev-deploy": "5d71d7b07a2de8b32ad43c166e69e618",
+      "last_synced": "2026-03-16"
+    },
+    "iMac": {
+      "comms": "pending-install",
+      "handoff": "83cf818e0a7732b11e111af806ffdeff",
+      "dev-deploy": "5d71d7b07a2de8b32ad43c166e69e618",
+      "last_synced": "2026-03-16"
+    },
+    "MacBook Air": {
+      "comms": "unknown",
+      "handoff": "unknown",
+      "dev-deploy": "unknown",
+      "last_synced": "never"
+    },
+    "Mac Mini": {
+      "comms": "unknown",
+      "handoff": "unknown",
+      "dev-deploy": "unknown",
+      "last_synced": "never"
+    }
+  }
+}
