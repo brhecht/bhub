@@ -1,6 +1,6 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: March 16, 2026 ~1:45 PM ET*
+*Updated: March 16, 2026 ~3:30 PM ET*
 *Source: Most recent handoff from each project*
 
 ---
@@ -57,7 +57,7 @@ Three custom Cowork skills are required for B-Suite sessions: **handoff**, **dev
 
 **Devices with skills installed:**
 - MacBook Pro: ✅ all three (March 14, 2026) — hashes recorded in manifest
-- iMac: ✅ handoff + dev-deploy (March 16, 2026), all three (March 16, 2026)
+- iMac: ✅ handoff + dev-deploy (March 16, 2026), comms pending install
 - MacBook Air: ⬜ pending
 - Mac Mini: ⬜ pending
 
@@ -67,10 +67,13 @@ Three custom Cowork skills are required for B-Suite sessions: **handoff**, **dev
 
 The b-things Firebase project uses a single shared `firestore.rules` file that lives in the **brain-inbox repo** (the sole rules deployer). All other repos have had their `firestore` sections removed from `firebase.json`.
 
-**Rules (added March 14, 2026 after production outage):**
+**Rules (added March 14, 2026, updated March 16):**
 - **Only brain-inbox can deploy Firestore rules.** Its `firebase.json` points to its local `firestore.rules`.
 - **Never run a bare `firebase deploy`** from any repo. Always scope: `--only hosting`, `--only functions`, or `--only firestore`.
-- **The canonical rules file is `brain-inbox/firestore.rules`.** Contains all collections: appConfig, tasks, projects, nicoTasks, nicoProjects, inboxMessages, nicoNotes, viewers, library, contentCards, contentCards/messages, contentPlatforms, vault.
+- **The canonical rules file is `brain-inbox/firestore.rules`.** Contains all collections: appConfig, tasks (+ nested messages subcollection), projects, nicoTasks, nicoProjects, inboxMessages, nicoNotes, viewers, library, contentCards (+ nested messages subcollection), contentPlatforms.
+- **Viewers (Nico) have full read-write on tasks and projects** (upgraded March 16 from read-only). This matches nicoTasks/nicoProjects permissions.
+- **Firestore rules don't cascade to subcollections.** Every subcollection needs its own explicit `match` rule. This was the root cause of the NoteThread bug (March 16): `users/{userId}/tasks/{taskId}/messages/{messageId}` had no rule.
+- **iMac has no Node.js** — Firebase CLI deploy must be done via Firebase console UI (Firestore > Rules > paste > Publish). Install Node when convenient.
 - **b-resources, things-app** — `firebase.json` has no `firestore` section. Cannot deploy rules.
 - **Before deploying rules**, open the Firebase console and verify you're not removing collections.
 
@@ -115,37 +118,35 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 
 ## B Things (Personal Task Manager)
 **Status:** Active, fully functional
-**Last updated:** March 14, 2026 (evening)
+**Last updated:** March 16, 2026
 **Location:** things-app/
 **Live URL:** https://things-app-gamma.vercel.app
 **Key context:**
 - Kanban-style task board with time-based columns, project grouping, drag-and-drop
-- Viewer mode for Nico (read-only)
+- **Full read-write for both Brian and Nico** (viewer mode upgraded from read-only to read-write March 16)
 - Part of B Suite app switcher ecosystem
 - Firebase project: `b-things`
 - `firebase.json` is now empty `{}` — things-app should never deploy Firebase resources
-- **Quick-add `+` on project headers** — inline task creation scoped to project + bucket
-- **Completed task editing** — click to open, edit, "Move to Incomplete" to restore
-- **Mobile scroll-vs-tap fix** — `onClick` + scroll-position guard (not touch events) for reliable tap detection with `touchAction: pan-y`
-- **Mobile swipe-down-to-close** — drag handle on TaskModal, manual `addEventListener({ passive: false })`
-- **Assign to Nico** — button in TaskModal, POSTs to `handoff-notify` API, deep link to card, `→N` badge on board. Flag: `assignedToNico` + `assignedAt` in Firestore.
-- Git push from Cowork uses `/tmp/things-app-push` clone (HEAD.lock workaround on mounted folder)
+- **NoteThread messaging** — iMessage-style threaded chat on each task with @mention notifications via Slack DM. Notification toast feedback. Error handling separates message-save failures (restore draft) from metadata/notification failures (non-fatal, fire-and-forget).
+- **Star feature** — optimistic local update in Zustand store, immediate persist from modal, starred items sort to top of project group via `sortWeight`. Kanban re-sort is intentional behavior.
+- **Assign to Nico** — button in TaskModal, POSTs to `handoff-notify` API, deep link to card, `→N` badge on board
+- Git push from Cowork uses `/tmp/things-build` clone (HEAD.lock workaround on mounted folder)
 
-**Shared resources:** Firebase project `b-things` shared with Content Calendar, B Resources, and Brain Inbox. AppSwitcher component shared across B Suite apps. Brain Inbox `handoff-notify` API used for Assign to Nico feature.
+**Shared resources:** Firebase project `b-things` shared with Content Calendar, B Resources, and Brain Inbox. AppSwitcher component shared across B Suite apps. Brain Inbox `handoff-notify` API used for Assign to Nico and NoteThread notifications.
 
 ---
 
 ## Content Calendar
 **Status:** Active, fully functional
-**Last updated:** March 7, 2026
+**Last updated:** March 16, 2026
 **Location:** content-calendar/
 **Live URL:** https://content-calendar-nine.vercel.app/
 **Key context:**
 - Manages content across YouTube Videos, YouTube Shorts, LinkedIn, Beehiiv newsletters
 - 11-stage pipeline from Ghost → Published with auto-archiving
 - Vercel serverless proxies for Beehiiv and YouTube APIs
-- **NoteThread chat system** (added March 7): iMessage-style threaded messaging on each card, replacing the old plain-text notes field. Messages stored in `contentCards/{cardId}/messages` subcollection. Bi-directional @mention notifications via Slack DM + Brain Inbox. Unread indicators on cards. User registry in `src/users.js`. Legacy notes auto-migrate as first message.
-- **handoff-notify endpoint** (brain-inbox) updated to route notifications to any user by email — not just Nico. Resolves Firebase UID at runtime via Admin Auth.
+- **NoteThread chat system**: iMessage-style threaded messaging on each card. Messages stored in `contentCards/{cardId}/messages` subcollection. Bi-directional @mention notifications via Slack DM + Brain Inbox. Notification toast feedback added March 16. Calls `handoff-notify` directly without Content-Type header (CORS avoidance). Unread indicators on cards. User registry in `src/users.js`.
+- **handoff-notify endpoint** (brain-inbox) routes notifications to any user by email — not just Nico. Resolves Firebase UID at runtime via Admin Auth.
 
 **Shared resources:** Firebase project `b-things`. AppSwitcher component.
 
@@ -311,7 +312,7 @@ When adding a new user: update `content-calendar/src/users.js`, `brain-inbox/api
 Brian uses four machines. B-Suite folder location: `~/Developer/B-Suite/` on all devices (migrated from Desktop on March 14, 2026).
 
 - **MacBook Pro** — primary dev machine. B-Suite path: `~/Developer/B-Suite/`. Skills: ✅ all three installed.
-- **iMac (BRH iMac 2019)** — B-Suite path: `~/Developer/B-Suite/`. Fresh clone from GitHub March 16, 2026. Skills: handoff ✅, dev-deploy ✅, comms ✅ (via Cowork app install). Note: username is BRHPro.
+- **iMac (BRH iMac 2019)** — B-Suite path: `~/Developer/B-Suite/`. Fresh clone from GitHub March 16, 2026. Skills: handoff ✅, dev-deploy ✅, comms ✅. Note: username is BRHPro. **No Node.js installed** — use Firebase console for rules deploy.
 - **MacBook Air** — path: `~/Developer/B-Suite/` (confirm on first session)
 - **Mac Mini** — path: `~/Developer/B-Suite/` (confirm on first session)
 
