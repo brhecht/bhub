@@ -9,6 +9,9 @@
 
 **Claude must execute these steps automatically on every "handoff here" — no user prompting required.**
 
+### 0. Mount Path
+The user mounts `~/Developer/B-Suite/`. Inside the Cowork VM this appears at `/mnt/Developer/B-Suite/`. All repo paths follow the pattern `/mnt/Developer/B-Suite/<repo-name>/`. If the mount point is `~/Developer/` (the parent), B-Suite will be one level deeper — adjust accordingly. Always verify with `ls` before assuming paths.
+
 ### 1. Git Auto-Config
 Read `.git-token` from B-Suite root. If it exists, configure git credentials in the VM:
 ```bash
@@ -32,7 +35,7 @@ Check the mounted B-Suite path. If it doesn't match a known device path, ask use
 If the session will involve building an app, check if `node_modules` exists in the target app. If not, run `npm install`. Note: this installs Linux binaries — user must run `npm install` on their Mac before any local builds after Cowork touches the app.
 
 ### 5. Skill Version Check
-Three custom Cowork skills are required for B-Suite sessions: **handoff**, **dev-deploy**, and **comms**. This step checks both installation AND version currency.
+Custom Cowork skills tracked for B-Suite sessions: **handoff**, **dev-deploy**, **comms**, and **expert**. This step checks both installation AND version currency.
 
 **Skill files are git-tracked in `bhub/skills/`.** This means `git pull` on bhub gets the latest `.skill` installers on any device. The version manifest (`bhub/skills/skills-manifest.json`) tracks which version each device has installed.
 
@@ -49,15 +52,24 @@ Three custom Cowork skills are required for B-Suite sessions: **handoff**, **dev
 **If all skills are current** → proceed normally, no action needed. Just confirm: "All skills up to date."
 
 **When a skill is updated (by anyone, on any device):**
-1. Edit the SKILL.md source in `bhub/skills/src/[name]-SKILL.md`
-2. Rebuild the `.skill` bundle: `zip -r [name].skill [name]/` (containing the SKILL.md)
-3. Update `skills-manifest.json`: bump version, update hash (`md5sum` of SKILL.md), set changelog
-4. Commit and push bhub
-5. On next session start on any other device, the bootstrap will detect the mismatch and prompt install
+
+Claude must handle all of the following automatically — the user should never have to ask for or think about these steps. If a skill's SKILL.md is modified during a session (via skill-creator, direct edit, or any other method), Claude must immediately execute this full pipeline before moving on:
+
+1. Copy the updated SKILL.md to `bhub/skills/src/[name]-SKILL.md`
+2. Rebuild the `.skill` bundle: create a directory named `[name]/` containing the SKILL.md, then `zip -r [name].skill [name]/`
+3. Copy the `.skill` file to `bhub/skills/`
+4. Compute the new hash: `md5sum` of the SKILL.md
+5. Update `skills-manifest.json`: bump version, update hash, set changelog describing what changed, update the current device's hash entry
+6. Commit and push bhub (use `/tmp/` clone workaround if mounted filesystem has lock issues)
+7. Confirm to user: "Skill synced to bhub — other devices will be prompted to update on next session."
+
+This is non-negotiable automation. The user should experience "we updated the skill" and "it's synced everywhere" as one seamless action, not two separate tasks.
+
+**Tracked skills:** handoff, dev-deploy, comms, expert (see `skills-manifest.json` for current versions and per-device hashes)
 
 **Devices with skills installed:**
-- MacBook Pro: ✅ all three (March 14, 2026) — hashes recorded in manifest
-- iMac: ✅ handoff + dev-deploy (March 16, 2026), comms pending install
+- MacBook Pro: ✅ all four (March 17, 2026) — hashes recorded in manifest
+- iMac: ✅ handoff, dev-deploy, comms (March 16, 2026); expert pending install
 - MacBook Air: ⬜ pending
 - Mac Mini: ⬜ pending
 
