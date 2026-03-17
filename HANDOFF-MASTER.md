@@ -40,7 +40,11 @@ Custom Cowork skills tracked for B-Suite sessions: **handoff**, **dev-deploy**, 
 **Skill files are git-tracked in `bhub/skills/`.** This means `git pull` on bhub gets the latest `.skill` installers on any device. The version manifest (`bhub/skills/skills-manifest.json`) tracks which version each device has installed.
 
 **Bootstrap sequence:**
-1. Run `git pull` on the bhub repo (ensures latest skill files are local)
+1. Run `git pull` on the bhub repo (ensures latest skill files are local). **Before pulling**, clean up any stale lock files and uncommitted Cowork artifacts that would block the pull:
+   ```bash
+   cd <bhub-path> && rm -f .git/index.lock .git/ORIG_HEAD.lock && git checkout -- . && git clean -fd skills/ && git pull
+   ```
+   This is necessary because Cowork edits files on the mounted drive but pushes via `/tmp` clones, leaving the mounted working tree dirty. The cleanup is safe — all changes are already on GitHub.
 2. Read `bhub/skills/skills-manifest.json`
 3. Identify current device from the Devices section
 4. Compare device's installed hashes against the `skills` section hashes
