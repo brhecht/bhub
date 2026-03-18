@@ -117,6 +117,7 @@ Brian's network / high-priority monitoring:
 - Zeal Capital Partners (zealcapitalpartners.com) — early-stage
 - Enable Ventures (enableventures.vc) — early-stage
 - Springbank Collective (springbankcollective.com) — early-stage
+- American Family Ventures (amfamventures.com) — early-stage, strategic CVC
 
 **Search pattern:** For each firm, search `site:{domain}` for recent announcements, or search `"{firm name}" announces investment` / `"{firm name}" leads seed` / `"{firm name}" leads Series A` for the past 48 hours. Not every firm will have news every day — scan quickly and move on if nothing's there.
 
