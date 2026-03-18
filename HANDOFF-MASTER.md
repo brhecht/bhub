@@ -1,6 +1,6 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: March 16, 2026 ~3:30 PM ET*
+*Updated: March 18, 2026 ~3:30 PM ET*
 *Source: Most recent handoff from each project*
 
 ---
@@ -8,9 +8,6 @@
 ## Session Bootstrap Protocol
 
 **Claude must execute these steps automatically on every "handoff here" — no user prompting required.**
-
-### 0. Mount Path
-The user mounts `~/Developer/B-Suite/`. Inside the Cowork VM this appears at `/mnt/Developer/B-Suite/`. All repo paths follow the pattern `/mnt/Developer/B-Suite/<repo-name>/`. If the mount point is `~/Developer/` (the parent), B-Suite will be one level deeper — adjust accordingly. Always verify with `ls` before assuming paths.
 
 ### 1. Git Auto-Config
 Read `.git-token` from B-Suite root. If it exists, configure git credentials in the VM:
@@ -35,16 +32,12 @@ Check the mounted B-Suite path. If it doesn't match a known device path, ask use
 If the session will involve building an app, check if `node_modules` exists in the target app. If not, run `npm install`. Note: this installs Linux binaries — user must run `npm install` on their Mac before any local builds after Cowork touches the app.
 
 ### 5. Skill Version Check
-Custom Cowork skills tracked for B-Suite sessions: **handoff**, **dev-deploy**, **comms**, and **expert**. This step checks both installation AND version currency.
+Three custom Cowork skills are required for B-Suite sessions: **handoff**, **dev-deploy**, and **comms**. This step checks both installation AND version currency.
 
 **Skill files are git-tracked in `bhub/skills/`.** This means `git pull` on bhub gets the latest `.skill` installers on any device. The version manifest (`bhub/skills/skills-manifest.json`) tracks which version each device has installed.
 
 **Bootstrap sequence:**
-1. Run `git pull` on the bhub repo (ensures latest skill files are local). **Before pulling**, clean up any stale lock files and uncommitted Cowork artifacts that would block the pull:
-   ```bash
-   cd <bhub-path> && rm -f .git/index.lock .git/ORIG_HEAD.lock && git checkout -- . && git clean -fd skills/ && git pull
-   ```
-   This is necessary because Cowork edits files on the mounted drive but pushes via `/tmp` clones, leaving the mounted working tree dirty. The cleanup is safe — all changes are already on GitHub.
+1. Run `git pull` on the bhub repo (ensures latest skill files are local)
 2. Read `bhub/skills/skills-manifest.json`
 3. Identify current device from the Devices section
 4. Compare device's installed hashes against the `skills` section hashes
@@ -56,24 +49,15 @@ Custom Cowork skills tracked for B-Suite sessions: **handoff**, **dev-deploy**, 
 **If all skills are current** → proceed normally, no action needed. Just confirm: "All skills up to date."
 
 **When a skill is updated (by anyone, on any device):**
-
-Claude must handle all of the following automatically — the user should never have to ask for or think about these steps. If a skill's SKILL.md is modified during a session (via skill-creator, direct edit, or any other method), Claude must immediately execute this full pipeline before moving on:
-
-1. Copy the updated SKILL.md to `bhub/skills/src/[name]-SKILL.md`
-2. Rebuild the `.skill` bundle: create a directory named `[name]/` containing the SKILL.md, then `zip -r [name].skill [name]/`
-3. Copy the `.skill` file to `bhub/skills/`
-4. Compute the new hash: `md5sum` of the SKILL.md
-5. Update `skills-manifest.json`: bump version, update hash, set changelog describing what changed, update the current device's hash entry
-6. Commit and push bhub (use `/tmp/` clone workaround if mounted filesystem has lock issues)
-7. Confirm to user: "Skill synced to bhub — other devices will be prompted to update on next session."
-
-This is non-negotiable automation. The user should experience "we updated the skill" and "it's synced everywhere" as one seamless action, not two separate tasks.
-
-**Tracked skills:** handoff, dev-deploy, comms, expert (see `skills-manifest.json` for current versions and per-device hashes)
+1. Edit the SKILL.md source in `bhub/skills/src/[name]-SKILL.md`
+2. Rebuild the `.skill` bundle: `zip -r [name].skill [name]/` (containing the SKILL.md)
+3. Update `skills-manifest.json`: bump version, update hash (`md5sum` of SKILL.md), set changelog
+4. Commit and push bhub
+5. On next session start on any other device, the bootstrap will detect the mismatch and prompt install
 
 **Devices with skills installed:**
-- MacBook Pro: ✅ all four (March 17, 2026) — hashes recorded in manifest
-- iMac: ✅ handoff, dev-deploy, comms (March 16, 2026); expert pending install
+- MacBook Pro: ✅ all three (March 14, 2026) — hashes recorded in manifest
+- iMac: ✅ handoff + dev-deploy (March 16, 2026), comms pending install
 - MacBook Air: ⬜ pending
 - Mac Mini: ⬜ pending
 
@@ -83,13 +67,10 @@ This is non-negotiable automation. The user should experience "we updated the sk
 
 The b-things Firebase project uses a single shared `firestore.rules` file that lives in the **brain-inbox repo** (the sole rules deployer). All other repos have had their `firestore` sections removed from `firebase.json`.
 
-**Rules (added March 14, 2026, updated March 16):**
+**Rules (added March 14, 2026 after production outage):**
 - **Only brain-inbox can deploy Firestore rules.** Its `firebase.json` points to its local `firestore.rules`.
 - **Never run a bare `firebase deploy`** from any repo. Always scope: `--only hosting`, `--only functions`, or `--only firestore`.
-- **The canonical rules file is `brain-inbox/firestore.rules`.** Contains all collections: appConfig, tasks (+ nested messages subcollection), projects, nicoTasks, nicoProjects, inboxMessages, nicoNotes, viewers, library, contentCards (+ nested messages subcollection), contentPlatforms.
-- **Viewers (Nico) have full read-write on tasks and projects** (upgraded March 16 from read-only). This matches nicoTasks/nicoProjects permissions.
-- **Firestore rules don't cascade to subcollections.** Every subcollection needs its own explicit `match` rule. This was the root cause of the NoteThread bug (March 16): `users/{userId}/tasks/{taskId}/messages/{messageId}` had no rule.
-- **iMac has no Node.js** — Firebase CLI deploy must be done via Firebase console UI (Firestore > Rules > paste > Publish). Install Node when convenient.
+- **The canonical rules file is `brain-inbox/firestore.rules`.** Contains all collections: appConfig, tasks, projects, nicoTasks, nicoProjects, inboxMessages, nicoNotes, viewers, library, contentCards, contentCards/messages, contentPlatforms, vault.
 - **b-resources, things-app** — `firebase.json` has no `firestore` section. Cannot deploy rules.
 - **Before deploying rules**, open the Firebase console and verify you're not removing collections.
 
@@ -134,35 +115,37 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 
 ## B Things (Personal Task Manager)
 **Status:** Active, fully functional
-**Last updated:** March 16, 2026
+**Last updated:** March 14, 2026 (evening)
 **Location:** things-app/
 **Live URL:** https://things-app-gamma.vercel.app
 **Key context:**
 - Kanban-style task board with time-based columns, project grouping, drag-and-drop
-- **Full read-write for both Brian and Nico** (viewer mode upgraded from read-only to read-write March 16)
+- Viewer mode for Nico (read-only)
 - Part of B Suite app switcher ecosystem
 - Firebase project: `b-things`
 - `firebase.json` is now empty `{}` — things-app should never deploy Firebase resources
-- **NoteThread messaging** — iMessage-style threaded chat on each task with @mention notifications via Slack DM. Notification toast feedback. Error handling separates message-save failures (restore draft) from metadata/notification failures (non-fatal, fire-and-forget).
-- **Star feature** — optimistic local update in Zustand store, immediate persist from modal, starred items sort to top of project group via `sortWeight`. Kanban re-sort is intentional behavior.
-- **Assign to Nico** — button in TaskModal, POSTs to `handoff-notify` API, deep link to card, `→N` badge on board
-- Git push from Cowork uses `/tmp/things-build` clone (HEAD.lock workaround on mounted folder)
+- **Quick-add `+` on project headers** — inline task creation scoped to project + bucket
+- **Completed task editing** — click to open, edit, "Move to Incomplete" to restore
+- **Mobile scroll-vs-tap fix** — `onClick` + scroll-position guard (not touch events) for reliable tap detection with `touchAction: pan-y`
+- **Mobile swipe-down-to-close** — drag handle on TaskModal, manual `addEventListener({ passive: false })`
+- **Assign to Nico** — button in TaskModal, POSTs to `handoff-notify` API, deep link to card, `→N` badge on board. Flag: `assignedToNico` + `assignedAt` in Firestore.
+- Git push from Cowork uses `/tmp/things-app-push` clone (HEAD.lock workaround on mounted folder)
 
-**Shared resources:** Firebase project `b-things` shared with Content Calendar, B Resources, and Brain Inbox. AppSwitcher component shared across B Suite apps. Brain Inbox `handoff-notify` API used for Assign to Nico and NoteThread notifications.
+**Shared resources:** Firebase project `b-things` shared with Content Calendar, B Resources, and Brain Inbox. AppSwitcher component shared across B Suite apps. Brain Inbox `handoff-notify` API used for Assign to Nico feature.
 
 ---
 
 ## Content Calendar
 **Status:** Active, fully functional
-**Last updated:** March 16, 2026
+**Last updated:** March 7, 2026
 **Location:** content-calendar/
 **Live URL:** https://content-calendar-nine.vercel.app/
 **Key context:**
 - Manages content across YouTube Videos, YouTube Shorts, LinkedIn, Beehiiv newsletters
 - 11-stage pipeline from Ghost → Published with auto-archiving
 - Vercel serverless proxies for Beehiiv and YouTube APIs
-- **NoteThread chat system**: iMessage-style threaded messaging on each card. Messages stored in `contentCards/{cardId}/messages` subcollection. Bi-directional @mention notifications via Slack DM + Brain Inbox. Notification toast feedback added March 16. Calls `handoff-notify` directly without Content-Type header (CORS avoidance). Unread indicators on cards. User registry in `src/users.js`.
-- **handoff-notify endpoint** (brain-inbox) routes notifications to any user by email — not just Nico. Resolves Firebase UID at runtime via Admin Auth.
+- **NoteThread chat system** (added March 7): iMessage-style threaded messaging on each card, replacing the old plain-text notes field. Messages stored in `contentCards/{cardId}/messages` subcollection. Bi-directional @mention notifications via Slack DM + Brain Inbox. Unread indicators on cards. User registry in `src/users.js`. Legacy notes auto-migrate as first message.
+- **handoff-notify endpoint** (brain-inbox) updated to route notifications to any user by email — not just Nico. Resolves Firebase UID at runtime via Admin Auth.
 
 **Shared resources:** Firebase project `b-things`. AppSwitcher component.
 
@@ -275,6 +258,34 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 
 ---
 
+## Priority Startup Intel (Daily Briefing)
+**Status:** Active — skill committed, scheduled task running on iMac
+**Last updated:** March 18, 2026
+**Skill file:** `bhub/skills/src/priority-startup-intel-SKILL.md` (git-tracked in bhub)
+**Scheduled task ID:** `priority-intel` (Cowork scheduled task, local to device)
+**Key context:**
+- Daily startup intelligence briefing delivered to brhnyc1970@gmail.com at 7am Mon–Fri
+- Monday edition = "Weekend Roundup" with 72-hour lookback (Fri–Sun), up to 15 items
+- Tuesday–Friday = standard edition, 24-hour lookback, 8-12 items
+- Three input streams: (1) Newsletter mining from Gmail (StrictlyVC, Term Sheet, Newcomer, TLDR, Crunchbase Daily, Morning Brew, Axios Pro Rata, The Information), (2) Primary source monitoring of 29 VC firm blogs + Carta/Peter Walker + YC/Techstars, (3) Web search sweep including X/Twitter and Reddit
+- Editorial filter: SaaS, Consumer, AI — private companies from pre-seed through pre-IPO. Deprioritizes public mega-cap news. "Brian Lens" meta-filter personalizes every item for founder/investor relevance.
+- **Not a B-Suite web app** — no repo, no hosting, no Firebase. It's a Cowork skill + scheduled task that produces an email.
+- The skill file in bhub is the single source of truth for editorial criteria, sources, and format. The scheduled task is a thin launcher that reads the skill.
+
+**Device setup for the scheduled task:**
+The scheduled task must be created on whichever device will be running Cowork at 7am. Currently active on the iMac. To set up on a new device:
+1. Mount `~/Developer/B-Suite/` in Cowork
+2. Run `git pull` on bhub to get the latest skill file
+3. Ask Claude to "create the priority-startup-intel scheduled task" — Claude should read the skill file and create the cron (Mon–Fri 7am) using the task prompt documented in the skill
+4. Disable the task on the old device if moving it (don't run duplicates)
+
+**Calibration:** Brian will provide feedback on briefing quality over time. Adjustments go into the skill file (source additions, filter changes, format tweaks), committed to bhub. The scheduled task prompt does not need to change unless the schedule itself changes.
+
+**Newsletter subscriptions (Brian's inbox — required for Stream 1):**
+StrictlyVC, Term Sheet (Fortune), The Newcomer (Eric Newcomer), Morning Brew, TLDR, Crunchbase Daily, Axios Pro Rata, The Download (MIT Tech Review), The Information. These are detected automatically by sender domain — no config needed when a new one starts arriving.
+
+---
+
 ## Cross-Project Dependencies
 
 - **eddy + hc-funnel** share Firebase project `eddy-tracker-82486` (same Firestore instance, separate collections: eddy uses `users/{uid}/*`, hc-funnel uses `leads`)
@@ -328,7 +339,7 @@ When adding a new user: update `content-calendar/src/users.js`, `brain-inbox/api
 Brian uses four machines. B-Suite folder location: `~/Developer/B-Suite/` on all devices (migrated from Desktop on March 14, 2026).
 
 - **MacBook Pro** — primary dev machine. B-Suite path: `~/Developer/B-Suite/`. Skills: ✅ all three installed.
-- **iMac (BRH iMac 2019)** — B-Suite path: `~/Developer/B-Suite/`. Fresh clone from GitHub March 16, 2026. Skills: handoff ✅, dev-deploy ✅, comms ✅. Note: username is BRHPro. **No Node.js installed** — use Firebase console for rules deploy.
+- **iMac (BRH iMac 2019)** — B-Suite path: `~/Developer/B-Suite/`. Fresh clone from GitHub March 16, 2026. Skills: handoff ✅, dev-deploy ✅, comms ✅ (via Cowork app install). Note: username is BRHPro.
 - **MacBook Air** — path: `~/Developer/B-Suite/` (confirm on first session)
 - **Mac Mini** — path: `~/Developer/B-Suite/` (confirm on first session)
 
