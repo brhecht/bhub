@@ -151,6 +151,16 @@ The reason this matters beyond convenience: the user may not be a developer. The
 
 **The corruption cascade to avoid:** The VM and the user's Mac often share a mounted folder. If the VM corrupts files in that shared folder (e.g., a crashed git process leaves a broken `.git/index`), those corruptions affect the user's machine too. When a VM tool crashes mid-operation: (1) stop immediately, (2) don't retry in the same directory, (3) work from a clean copy elsewhere. Repeated retries in corrupted state make everything worse.
 
+## Architecture Preference: Vercel Over Firebase Cloud Functions
+
+When adding server-side logic to a B-Suite app, strongly prefer Vercel serverless functions (`api/*.js`) over Firebase Cloud Functions. The reason: Vercel functions auto-deploy on git push — zero CLI tools, zero secrets management, zero user terminal involvement. Firebase Cloud Functions require the Firebase CLI, `npm install` in the functions directory, and Google Cloud secrets that may only exist on one developer's machine. For a non-developer founder, this difference is the gap between "Claude handles everything" and "6 cascading terminal commands on a machine that doesn't have Node installed."
+
+**The cron alternative to real-time triggers:** If you need to react to Firestore changes (e.g., a document write triggers an action), ask whether a Vercel cron polling at a reasonable interval can do the same job. For most B-Suite use cases — content calendar syncs, daily digests, scheduled notifications — a cron running every 15 minutes or once daily is functionally equivalent to a real-time Firestore trigger and dramatically simpler to deploy and maintain.
+
+**Only use Firebase Cloud Functions when:** (a) real-time response is genuinely required (sub-second latency matters), AND (b) the function is owned by the developer who has Firebase secrets configured on their machine. Even then, document the deploy dependency in the handoff so future sessions know what's required.
+
+**Where this came from:** On March 18, 2026, a Firebase Cloud Function in brain-inbox (`syncContentToThings`) required installing nvm, Node.js, npm, and firebase-tools on a fresh iMac, then a Firebase login, then hitting a secrets wall that only Nico's machine could satisfy — all for a feature that worked identically as a daily Vercel cron. Six terminal commands handed to a non-developer user. The function was removed and consolidated into a single Vercel serverless function in things-app, which deployed with zero user involvement.
+
 ## Communication Style
 
 ### Be direct about what to do
