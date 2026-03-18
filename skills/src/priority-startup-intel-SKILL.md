@@ -189,7 +189,18 @@ ECOSYSTEM SIGNAL
 
 ---
 [Total item count] items · Sources: [list of newsletter/site names that contributed]
+
+TODAY'S INSPIRATION
+"[Quote text]" — [Attribution]
 ```
+
+**Today's Inspiration rules:**
+- One quote per briefing, placed at the very bottom after the source line
+- Draw from: stoics (Marcus Aurelius, Seneca, Epictetus), classic business thinkers (Drucker, Grove, Christensen), widely respected founders/operators (Reid Hoffman, Guy Kawasaki, Sara Blakely, Howard Schultz), historical figures (Theodore Roosevelt, Churchill, Lincoln), philosophers and writers (Emerson, Thoreau, Nassim Taleb), proverbs
+- The quote should resonate with someone who builds companies and takes risk — not generic motivational poster material
+- **Avoid:** Polarizing figures (Elon Musk, Mark Zuckerberg, etc.), active politicians, anyone who might alienate a segment of a professional audience. When in doubt, skip the person.
+- No signoff after the quote — the quote IS the signoff
+- Rotate widely. Don't repeat the same person more than once per month. Keep a mental mix across categories (stoic one day, founder the next, historical figure after that)
 
 **Formatting rules:**
 - 8-12 items total on a normal day. Fewer on slow days — never pad.
