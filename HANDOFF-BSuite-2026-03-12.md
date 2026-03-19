@@ -186,10 +186,19 @@ echo "YOUR_TOKEN" > .git-token && \
 echo "Done — all 10 repos cloned and token saved"
 ```
 4. **Revoke the PAT** at github.com/settings/tokens (the token is saved in .git-token for Cowork to use)
-5. **Mount `~/Developer/B-Suite`** in Cowork and say "handoff here"
+5. **Install bsync auto-sync** (keeps all repos current without manual pulls):
+```bash
+cp ~/Developer/B-Suite/com.bsuite.bsync.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/com.bsuite.bsync.plist
+```
+This installs a LaunchAgent that pulls all 10 repos on login and every hour. The script (`bsync.sh`) and plist (`com.bsuite.bsync.plist`) both live in B-Suite root and are shared across devices via bhub. The script auto-cleans stale `.git/index.lock` and `.git/HEAD.lock` files before each pull.
+6. **Mount `~/Developer/B-Suite`** in Cowork and say "handoff here"
+
+**Why bsync exists:** The Cowork VM cannot write to `.git` internals on mounted folders (sandbox permission limitation). This means git pull/clone must happen outside the VM. The LaunchAgent handles this automatically so no terminal interaction is ever needed per session.
+
+**Logs:** Sync results are written to `~/Developer/B-Suite/.bsync-log` for troubleshooting.
 
 **Devices set up:**
-- MacBook Air (BRHair) — March 12, 2026
+- MacBook Air (BRHair) — March 12, 2026 (bsync installed March 19, 2026)
 - *(add new devices here as they're configured)*
 
 ## Design Decisions & Constraints
