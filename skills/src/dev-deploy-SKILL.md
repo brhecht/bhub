@@ -97,11 +97,24 @@ The user's role shifts from "build-error-paste-fix" loop participant to reviewer
 
 **Handoff for deploy:** Once the build is clean, give the user a single copy-paste deploy command, or run `git add && git commit && git push` directly if the user has authorized it. Always confirm before pushing — the push is the human checkpoint, not the build.
 
+### Always pull before push (MANDATORY)
+
+**Every `git push` must be preceded by `git pull --rebase`.** This is non-negotiable. The B-Suite team has two active contributors (Brian and Nico) who may push to the same repos from different Cowork sessions or devices simultaneously. Without pulling first, a push can silently overwrite the other person's changes — including handoff updates, config changes, and code.
+
+**The pattern:**
+```bash
+git add -A && git commit -m "descriptive message" && git pull --rebase origin main && git push
+```
+
+If the rebase has conflicts, resolve them (prefer the current changes unless the conflict is in a shared file like HANDOFF.md, in which case merge both). Never force-push to resolve a conflict.
+
+**This applies to every push, every repo, every session.** It adds ~2 seconds and prevents hours of debugging overwritten changes.
+
 ### Standard deploy sequence
 For projects deployed via git push (Vercel, Netlify, etc.):
 
 ```bash
-npm run build && git add -A && git commit -m "descriptive message" && git push
+npm run build && git add -A && git commit -m "descriptive message" && git pull --rebase origin main && git push
 ```
 
 After the user confirms the push succeeded (or Claude runs it with permission), the deploy will be live in ~60 seconds.
@@ -181,12 +194,12 @@ After making code changes, give a brief summary of what changed and the single t
 1. User asks for a feature → Claude writes code directly to project files
 2. Claude runs `npm run build` → catches 2 errors → fixes both → rebuilds → clean
 3. Claude says: "Build is clean. Here's what I changed: [brief summary]. Ready to push to [app-name]?"
-4. User says "ship it" → Claude runs `git add -A && git commit -m 'Add feature X' && git push`
+4. User says "ship it" → Claude runs `git add -A && git commit -m 'Add feature X' && git pull --rebase origin main && git push`
 5. Claude waits 60s → opens production URL in browser → takes screenshot → "Deploy confirmed, feature X is live. Here's what it looks like: [screenshot]"
 
 ### Terminal handoff mode (user runs commands)
 1. User asks for a feature → Claude writes code directly to project files
 2. Claude validates syntax → tells user: "Changes are in. HMR should pick them up — check localhost:5174"
-3. User confirms it looks good → Claude says: "Ready to ship. Run: `npm run build && git add -A && git commit -m 'Add feature X' && git push`"
+3. User confirms it looks good → Claude says: "Ready to ship. Run: `npm run build && git add -A && git commit -m 'Add feature X' && git pull --rebase origin main && git push`"
 4. User shares terminal output showing success → Claude says: "Deployed."
 5. Claude waits 60s → opens production URL in browser → takes screenshot → confirms deploy is live

@@ -14,10 +14,10 @@
       "changelog": "Initial versioned release \u2014 moved to git-tracked skills in bhub"
     },
     "dev-deploy": {
-      "version": "1.1.0",
-      "hash": "f740133eaa30dab26e4548a30713e7cd",
-      "updated": "2026-03-18",
-      "changelog": "Added architecture preference: Vercel serverless over Firebase Cloud Functions for deploy simplicity"
+      "version": "1.2.0",
+      "hash": "853cb97d6e415c972ea7ebe72e358c9b",
+      "updated": "2026-03-19",
+      "changelog": "Added mandatory git pull --rebase before every push — prevents overwriting changes when multiple contributors push to same repos"
     },
     "expert": {
       "version": "1.0.0",
