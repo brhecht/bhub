@@ -168,8 +168,12 @@ Nico Firebase UID: N7dBZAH0HkhCCtlAPnfFIWmxn6t1
 If `~/Developer/B-Suite/` doesn't exist on this machine, this device hasn't been set up yet. Walk the user through these steps:
 
 1. **Create the folder:** `mkdir -p ~/Developer/B-Suite`
-2. **Generate a GitHub PAT** (classic, `repo` scope) at github.com/settings/tokens
-3. **Clone all 10 repos** (paste this block in terminal, replacing YOUR_TOKEN):
+2. **Configure git identity** (one-time per machine):
+```bash
+git config --global user.name "brhecht" && git config --global user.email "brhnyc1970@gmail.com"
+```
+3. **Generate a GitHub PAT** (classic, `repo` scope) at github.com/settings/tokens
+4. **Clone all 10 repos** (paste this block in terminal, replacing YOUR_TOKEN):
 ```bash
 cd ~/Developer/B-Suite && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/things-app.git && \
@@ -185,13 +189,14 @@ git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/hc-funnel.git && \
 echo "YOUR_TOKEN" > .git-token && \
 echo "Done — all 10 repos cloned and token saved"
 ```
-4. **Revoke the PAT** at github.com/settings/tokens (the token is saved in .git-token for Cowork to use)
-5. **Install bsync auto-sync** (keeps all repos current without manual pulls):
+5. **Revoke the PAT** at github.com/settings/tokens (the token is saved in .git-token for Cowork to use)
+6. **Install bsync auto-sync** (keeps all repos current without manual pulls):
 ```bash
 cp ~/Developer/B-Suite/com.bsuite.bsync.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/com.bsuite.bsync.plist
 ```
 This installs a LaunchAgent that pulls all 10 repos on login and every hour. The script (`bsync.sh`) and plist (`com.bsuite.bsync.plist`) both live in B-Suite root and are shared across devices via bhub. The script auto-cleans stale `.git/index.lock` and `.git/HEAD.lock` files before each pull.
-6. **Mount `~/Developer/B-Suite`** in Cowork and say "handoff here"
+7. **Install skills** in Cowork: Mount `~/Developer/B-Suite` → open `bhub/skills/` → click "Copy to your skills" on each `.skill` file (comms, dev-deploy, expert, handoff, priority-startup-intel)
+8. **Mount `~/Developer/B-Suite`** in Cowork and say "handoff here"
 
 **Why bsync exists:** The Cowork VM cannot write to `.git` internals on mounted folders (sandbox permission limitation). This means git pull/clone must happen outside the VM. The LaunchAgent handles this automatically so no terminal interaction is ever needed per session.
 
