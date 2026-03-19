@@ -1,6 +1,6 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: March 18, 2026 ~3:30 PM ET*
+*Updated: March 19, 2026 ~5:30 PM ET*
 *Source: Most recent handoff from each project*
 
 ---
@@ -94,22 +94,21 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 ---
 
 ## HC Funnel (Marketing Funnel)
-**Status:** Fully rebuilt and deployed — scenario-based quiz live, email content pending
-**Last updated:** March 15, 2026
+**Status:** Full pipeline built and deployed — quiz live, action plan email pipeline live, ad creatives finalized, pre-launch
+**Last updated:** March 19, 2026
 **Location:** hc-funnel/
-**Live URL:** https://hc-funnel.vercel.app
+**Live URL:** https://quiz.humbleconviction.com (also https://hc-funnel.vercel.app)
 **Key context:**
-- Complete rewrite (March 15): 8 scenario-based questions (not self-assessment) across 4 dimensions (Clarity, Investor Fluency, Self-Awareness, Persuasion Instincts)
-- Scoring engine: per-question best=2/next=1/weak=0, raw totals for tier assignment, display scores as X/5 with dot visualization
-- 3 tiers: Lost in the Noise (raw 0-3) / The Pieces Are There (raw 4-9) / So Close It Hurts (raw 10+). Validated via Monte Carlo simulation (10K runs).
-- Results page: calculating pause animation → tier badge → scorecard with explanations + cracked door lines → email gate CTA ("Send My Recommendations") + waitlist checkbox
-- New design system: navy/orange palette, Inter font, mobile-first (80%+ Meta ad traffic)
-- Strategy/content bible: `HC-PHASE1-DISCOVERY.md` in project root (all decisions, all copy, research references, Monte Carlo methodology)
-- Firestore `leads` collection captures quiz answers, scores, tier, waitlist flag
-- Kit (ConvertKit) integration with server-side proxy
-- Next priorities: Brian's design/wording tweaks, email content (results email + 5-email drip), Meta Pixel, ad creatives
+- Complete quiz funnel: 8 scenario-based questions → 4-dimension scorecard → email gate → personalized action plan email (Claude API via Resend)
+- Full expert audit (March 18-19) of quiz, landing page, results page, email capture, and ad creatives. 7 research memos in `research/`.
+- Landing page overhauled: AppSwitcher removed, social proof added, CTA changed, mobile layout tightened
+- Post-capture confirmation rebuilt: dark navy authority block with Brian's YouTube videos, waitlist re-ask for non-checkers
+- Action plan email pipeline live: `api/action-plan.js` → Claude Sonnet → HC-branded HTML → Resend. Placeholder prompt (Brian to define final).
+- 3 ad concepts finalized (Concept 3 killed). All copy passed Meta compliance review. Revised creative brief: `ads/REVISED-CREATIVE-BRIEF-2026-03-18.md`.
+- Domain: quiz.humbleconviction.com live. Resend + Kit domains verified. Sending from results@humbleconviction.com.
+- Next priorities: Brian's action plan prompt template, Meta Pixel installation, autoresponder email copy in Kit, ad creatives in HC colors, Meta Ads Manager setup. Ad launch target: week of March 23.
 
-**Shared resources:** Firebase project `eddy-tracker-82486` (shared with eddy and b-marketing). Kit account under Humble Conviction.
+**Shared resources:** Firebase project `eddy-tracker-82486` (shared with eddy and b-marketing). Kit account under Humble Conviction. Resend account (admin@humbleconviction.com).
 
 ---
 
@@ -314,7 +313,7 @@ StrictlyVC, Term Sheet (Fortune), The Newcomer (Eric Newcomer), Morning Brew, TL
 | BPIs | https://hc-kpi-dashboard.pages.dev | — |
 | B Marketing | https://b-marketing.vercel.app | brhecht/b-marketing |
 | B Resources | https://b-resources.vercel.app | brhecht/b-resources |
-| HC Funnel | https://hc-funnel.vercel.app | brhecht/hc-funnel |
+| HC Funnel | https://quiz.humbleconviction.com | brhecht/hc-funnel |
 | HC Website | https://humbleconviction.com | brhecht/hc-website |
 | Pitch Scorer | https://pitch-scorer.vercel.app | brhecht/pitch-scorer (archive) |
 
