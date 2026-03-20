@@ -1,6 +1,6 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: March 19, 2026 ~5:30 PM ET*
+*Updated: March 19, 2026 ~9:30 PM ET*
 *Source: Most recent handoff from each project*
 
 ---
@@ -103,10 +103,11 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 - Full expert audit (March 18-19) of quiz, landing page, results page, email capture, and ad creatives. 7 research memos in `research/`.
 - Landing page overhauled: AppSwitcher removed, social proof added, CTA changed, mobile layout tightened
 - Post-capture confirmation rebuilt: dark navy authority block with Brian's YouTube videos, waitlist re-ask for non-checkers
-- Action plan email pipeline live: `api/action-plan.js` → Claude Sonnet → HC-branded HTML → Resend. Placeholder prompt (Brian to define final).
-- 3 ad concepts finalized (Concept 3 killed). All copy passed Meta compliance review. Revised creative brief: `ads/REVISED-CREATIVE-BRIEF-2026-03-18.md`.
+- Action plan email pipeline live: `api/action-plan.js` → Claude Sonnet → HC-branded HTML → Resend. Final prompt template written (`ACTION-PLAN-PROMPT.md`) — needs live testing + `{quizAnswers}` wiring.
+- 3 ad concepts finalized (Concept 3 killed). All copy passed Meta compliance review + coherence check (headlines shortened for 40-char Instagram limit, "analyzed" universal, Concept 2 new image + overlay). Revised creative brief: `ads/REVISED-CREATIVE-BRIEF-2026-03-18.md`.
 - Domain: quiz.humbleconviction.com live. Resend + Kit domains verified. Sending from results@humbleconviction.com.
-- Next priorities: Brian's action plan prompt template, Meta Pixel installation, autoresponder email copy in Kit, ad creatives in HC colors, Meta Ads Manager setup. Ad launch target: week of March 23.
+- dev-deploy skill updated to v1.2.0: mandatory `git pull --rebase` before every push (prevents overwriting changes between Brian and Nico sessions).
+- Next priorities: Live-test action plan email, Meta Pixel installation, autoresponder email copy in Kit, ad creatives in HC colors, Meta Ads Manager setup. Ad launch target: week of March 23.
 
 **Shared resources:** Firebase project `eddy-tracker-82486` (shared with eddy and b-marketing). Kit account under Humble Conviction. Resend account (admin@humbleconviction.com).
 
