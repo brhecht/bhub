@@ -1,6 +1,6 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: March 23, 2026 ~afternoon ET*
+*Updated: March 23, 2026 ~evening ET*
 *Source: Most recent handoff from each project*
 
 ---
@@ -94,6 +94,30 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 - **Before deploying rules**, open the Firebase console and verify you're not removing collections.
 
 **What happened:** On March 14 at 12:27 PM, `firebase deploy` from b-resources overwrote all Firestore rules with only vault + library, taking down B Things, Brain Inbox, and Content Calendar for ~1 hour.
+
+---
+
+## HC Strategy (Business Strategy & Operating Plan)
+**Status:** Active — strategic framework established, entering execution phase Q1 2026
+**Last updated:** March 23, 2026
+**Location:** hc-strategy/ (not a git repo — lives in B-Suite root alongside the app repos)
+**Skill:** `hc-strategy.skill` in bhub/skills/ — install on each device to enable "HC strategy check-in" and "quarterly review" triggers
+**Key context:**
+- Complete strategic brain for Humble Conviction as a business (positioning, product, distribution, revenue model)
+- Positioning: "Founder Development for the AI Era" — AI is the timely hook, communication/clarity is the durable substance
+- Primary product: Cohort-based course ($2,497/seat, 12 students, 8 weeks) — first cohort target Q3 2026
+- Fill engine: Free monthly live session (45-60 min) — Brian's live delivery is his #1 sales tool
+- Revenue streams: Cohorts (#1), 1:1 coaching ($500/session, #2), workshops ($3-5K, #3), newsletter sponsorships (#4)
+- 8-quarter operating plan targeting $250K annualized by month 24 (~$346K projected with good execution)
+- Three rounds of expert research (72 sources) with probability-weighted scenarios
+- Quarterly review protocol defined — compare actuals to plan across 8 dimensions
+- Brian's execution psychology is the binding constraint — strategy must work with his energy/avoidance patterns
+
+**Key files:**
+- `STRATEGY-CONTEXT.md` — the strategic brain (read first)
+- `operating-plan.md` — 8-quarter plan with revenue projections
+- `expert-analysis-v3.md` — full integrated expert research (~1,250 lines)
+- `archive/` — earlier expert analysis versions (v1, v2)
 
 ---
 

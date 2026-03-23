@@ -24,6 +24,12 @@
       "hash": "a45799e0f7da28bb590ce9f5b8d3f550",
       "updated": "2026-03-17",
       "changelog": "Added Consequence Check & Red Team layer — auto-triggers adversarial audit on high-stakes recommendations via 3-lens evaluation (direct downside, coherence risk, unforeseeable surface area)"
+    },
+    "hc-strategy": {
+      "version": "1.0.0",
+      "hash": "f2610e427952b6c5c3a744d6ddf90bfd",
+      "updated": "2026-03-23",
+      "changelog": "Initial release — HC strategic brain with operating plan, expert research, quarterly review protocol"
     }
   },
   "devices": {
@@ -32,28 +38,32 @@
       "handoff": "83cf818e0a7732b11e111af806ffdeff",
       "dev-deploy": "5d71d7b07a2de8b32ad43c166e69e618",
       "expert": "a45799e0f7da28bb590ce9f5b8d3f550",
-      "last_synced": "2026-03-17"
+      "last_synced": "2026-03-23",
+      "hc-strategy": "f2610e427952b6c5c3a744d6ddf90bfd"
     },
     "iMac": {
       "comms": "a07eb9d2cd41056f82c593736af00760",
       "handoff": "108be914b967a26b244985077edda053",
       "dev-deploy": "5d71d7b07a2de8b32ad43c166e69e618",
       "expert": "unknown",
-      "last_synced": "2026-03-23"
+      "last_synced": "2026-03-23",
+      "hc-strategy": "not_installed"
     },
     "MacBook Air": {
       "comms": "unknown",
       "handoff": "unknown",
       "dev-deploy": "unknown",
       "expert": "unknown",
-      "last_synced": "never"
+      "last_synced": "never",
+      "hc-strategy": "not_installed"
     },
     "Mac Mini": {
       "comms": "unknown",
       "handoff": "unknown",
       "dev-deploy": "unknown",
       "expert": "unknown",
-      "last_synced": "never"
+      "last_synced": "never",
+      "hc-strategy": "not_installed"
     }
   }
 }
