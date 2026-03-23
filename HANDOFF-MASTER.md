@@ -1,6 +1,6 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: March 23, 2026 ~evening ET*
+*Updated: March 23, 2026 ~late evening ET*
 *Source: Most recent handoff from each project*
 
 ---
@@ -105,13 +105,14 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 **Key context:**
 - Complete strategic brain for Humble Conviction as a business (positioning, product, distribution, revenue model)
 - Positioning: "Founder Development for the AI Era" — AI is the timely hook, communication/clarity is the durable substance
-- Primary product: Cohort-based course ($2,497/seat, 12 students, 8 weeks) — first cohort target Q3 2026
-- Fill engine: Free monthly live session (45-60 min) — Brian's live delivery is his #1 sales tool
-- Revenue streams: Cohorts (#1), 1:1 coaching ($500/session, #2), workshops ($3-5K, #3), newsletter sponsorships (#4)
-- 8-quarter operating plan targeting $250K annualized by month 24 (~$346K projected with good execution)
+- Five revenue streams launched in sequence: (1) Eddy async course $99 — first product after funnel validates, (2) 1:1 coaching $500/session — already running, (3) cohort-based course $2,497/seat — the big-leverage play, (4) workshops $3-5K, (5) newsletter sponsorships
+- Eddy is NOT deprioritized — it's the immediate next product (storyboarded, 2-week recording effort, targets $3-5K/month passive)
+- Fill engine for cohorts: Free monthly live session (45-60 min) — Brian's live delivery is his #1 sales tool
+- 8-quarter operating plan targeting $250K+ annualized by month 24 (~$405K/yr projected run rate with Eddy)
 - Three rounds of expert research (72 sources) with probability-weighted scenarios
 - Quarterly review protocol defined — compare actuals to plan across 8 dimensions
 - Brian's execution psychology is the binding constraint — strategy must work with his energy/avoidance patterns
+- Memo to Nico written: `~/Developer/HC Roadmap Memo to Nico - March 23.docx`
 
 **Key files:**
 - `STRATEGY-CONTEXT.md` — the strategic brain (read first)
