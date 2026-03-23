@@ -51,7 +51,7 @@ Check the master handoff in bhub (`HANDOFF-MASTER.md`) for the current list. If 
 
 The master B-Suite handoff (`HANDOFF-MASTER.md`) lives in the **bhub** repo root — not at the parent B-Suite directory level. This ensures it's tracked in git and syncs across devices automatically.
 
-- **"handoff away" for B-Suite master:** Amend `HANDOFF-MASTER.md` in the bhub repo root. This file documents the full suite: all apps, shared infrastructure, cross-app flows, deploy hooks, and known issues. When doing a full "handoff away" (all apps), always update the master in bhub as well as each individual app's handoff.
+- **"handoff away" — ALWAYS update the master too.** Every "handoff away" — whether for a single app or multiple — must also amend that app's section in `HANDOFF-MASTER.md` (in the bhub repo root). This is automatic, not optional. The master is the cross-session index that future "handoff here" sessions rely on. If only the per-app HANDOFF.md is updated, the master goes stale and the next session on a different app gets wrong context. Update the app's section in the master (status, last updated date, key context bullet points) to reflect what changed this session. Commit and push bhub alongside the app repo.
 - **"handoff here" for B-Suite / master / all apps:** Look in the bhub repo for `HANDOFF-MASTER.md`. If bhub isn't mounted, ask the user to mount it.
 - **Per-app handoffs** are a single `HANDOFF.md` in each app's repo root.
 
@@ -108,6 +108,7 @@ Things that need the user's input before proceeding.
 - Always amend the existing `HANDOFF.md` in place. Never create date-stamped copies — git history preserves the timeline if you ever need to look back.
 - When amending, update the "Last updated" timestamp and revise all sections to reflect current state. Don't just append — the file should always read as a clean, current snapshot.
 - After writing, commit the handoff file to git. If a .git-token exists in the B-Suite root, use it to push. If not, give the user a single copy-paste terminal command to commit and push.
+- **Always update the master handoff in bhub** after writing the per-app handoff. Read `HANDOFF-MASTER.md` from the bhub repo, find the section for this app, and update its status, last-updated date, and key context bullets to reflect what changed. Commit and push bhub too. This is part of every "handoff away" — not a separate step the user should have to request.
 
 ### "handoff here"
 

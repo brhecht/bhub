@@ -5,25 +5,25 @@
       "version": "1.0.0",
       "hash": "a07eb9d2cd41056f82c593736af00760",
       "updated": "2026-03-16",
-      "changelog": "Initial versioned release \u2014 moved to git-tracked skills in bhub"
+      "changelog": "Initial versioned release — moved to git-tracked skills in bhub"
     },
     "handoff": {
-      "version": "1.0.0",
-      "hash": "83cf818e0a7732b11e111af806ffdeff",
-      "updated": "2026-03-16",
-      "changelog": "Initial versioned release \u2014 moved to git-tracked skills in bhub"
+      "version": "1.1.0",
+      "hash": "00b2e3a754bb22e2cd6cd8ae5ccba3a9",
+      "updated": "2026-03-23",
+      "changelog": "Every handoff away now automatically updates the master handoff in bhub — not just full-suite handoffs"
     },
     "dev-deploy": {
-      "version": "1.2.0",
-      "hash": "853cb97d6e415c972ea7ebe72e358c9b",
-      "updated": "2026-03-19",
-      "changelog": "Added mandatory git pull --rebase before every push — prevents overwriting changes when multiple contributors push to same repos"
+      "version": "1.1.0",
+      "hash": "f740133eaa30dab26e4548a30713e7cd",
+      "updated": "2026-03-18",
+      "changelog": "Added architecture preference: Vercel serverless over Firebase Cloud Functions for deploy simplicity"
     },
     "expert": {
       "version": "1.0.0",
       "hash": "a45799e0f7da28bb590ce9f5b8d3f550",
       "updated": "2026-03-17",
-      "changelog": "Added Consequence Check & Red Team layer \u2014 auto-triggers adversarial audit on high-stakes recommendations via 3-lens evaluation (direct downside, coherence risk, unforeseeable surface area)"
+      "changelog": "Added Consequence Check & Red Team layer — auto-triggers adversarial audit on high-stakes recommendations via 3-lens evaluation (direct downside, coherence risk, unforeseeable surface area)"
     }
   },
   "devices": {
@@ -36,17 +36,17 @@
     },
     "iMac": {
       "comms": "a07eb9d2cd41056f82c593736af00760",
-      "handoff": "83cf818e0a7732b11e111af806ffdeff",
-      "dev-deploy": "f740133eaa30dab26e4548a30713e7cd",
-      "expert": "a45799e0f7da28bb590ce9f5b8d3f550",
-      "last_synced": "2026-03-19"
+      "handoff": "00b2e3a754bb22e2cd6cd8ae5ccba3a9",
+      "dev-deploy": "5d71d7b07a2de8b32ad43c166e69e618",
+      "expert": "unknown",
+      "last_synced": "2026-03-23"
     },
     "MacBook Air": {
-      "comms": "a07eb9d2cd41056f82c593736af00760",
-      "handoff": "83cf818e0a7732b11e111af806ffdeff",
-      "dev-deploy": "f740133eaa30dab26e4548a30713e7cd",
-      "expert": "a45799e0f7da28bb590ce9f5b8d3f550",
-      "last_synced": "2026-03-19"
+      "comms": "unknown",
+      "handoff": "unknown",
+      "dev-deploy": "unknown",
+      "expert": "unknown",
+      "last_synced": "never"
     },
     "Mac Mini": {
       "comms": "unknown",
