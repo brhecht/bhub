@@ -52,7 +52,7 @@ Check the master handoff in bhub (`HANDOFF-MASTER.md`) for the current list. If 
 The master B-Suite handoff (`HANDOFF-MASTER.md`) lives in the **bhub** repo root — not at the parent B-Suite directory level. This ensures it's tracked in git and syncs across devices automatically.
 
 - **"handoff away" — ALWAYS update the master too.** Every "handoff away" — whether for a single app or multiple — must also amend that app's section in `HANDOFF-MASTER.md` (in the bhub repo root). This is automatic, not optional. The master is the cross-session index that future "handoff here" sessions rely on. If only the per-app HANDOFF.md is updated, the master goes stale and the next session on a different app gets wrong context. Update the app's section in the master (status, last updated date, key context bullet points) to reflect what changed this session. Commit and push bhub alongside the app repo.
-- **"handoff here" for B-Suite / master / all apps:** Look in the bhub repo for `HANDOFF-MASTER.md`. If bhub isn't mounted, ask the user to mount it.
+- **"handoff here" — ALWAYS read the master too.** Every "handoff here" — whether for a single app or multiple — must also read `HANDOFF-MASTER.md` from bhub for cross-app context (shared Firebase projects, deploy safety rules, infra decisions, user registry). The master provides context that's relevant regardless of which app you're working on. If bhub isn't mounted, ask the user to mount it.
 - **Per-app handoffs** are a single `HANDOFF.md` in each app's repo root.
 
 **B-Suite repo locations:** All repos live under `~/Developer/B-Suite/` (local, NOT iCloud). The apps are: things-app, brain-inbox, content-calendar, b-marketing, b-people, b-resources, bhub, eddy, hc-funnel, pitch-scorer. All are git repos under `github.com/brhecht/`.
@@ -114,7 +114,7 @@ Things that need the user's input before proceeding.
 
 **First: check device setup** (see "B-Suite Device Setup Protocol" above). If the device isn't set up, handle that before proceeding.
 
-**Then:** Look for `HANDOFF.md` in the project's root directory. For the B-Suite master, look for `HANDOFF-MASTER.md` in bhub. Internalize the full context. Then respond with a brief summary of:
+**Then:** Look for `HANDOFF.md` in the project's root directory. **Also always read `HANDOFF-MASTER.md` from bhub** — even for single-app handoffs — to get cross-app context (shared infra, deploy safety, user registry, dependencies). Internalize the full context from both files. Then respond with a brief summary of:
 1. What this project is
 2. Where things stand
 3. What the most likely next steps are

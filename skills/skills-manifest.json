@@ -9,9 +9,9 @@
     },
     "handoff": {
       "version": "1.1.0",
-      "hash": "00b2e3a754bb22e2cd6cd8ae5ccba3a9",
+      "hash": "108be914b967a26b244985077edda053",
       "updated": "2026-03-23",
-      "changelog": "Every handoff away now automatically updates the master handoff in bhub — not just full-suite handoffs"
+      "changelog": "Every handoff away auto-updates master; every handoff here auto-reads master for cross-app context"
     },
     "dev-deploy": {
       "version": "1.1.0",
@@ -36,7 +36,7 @@
     },
     "iMac": {
       "comms": "a07eb9d2cd41056f82c593736af00760",
-      "handoff": "00b2e3a754bb22e2cd6cd8ae5ccba3a9",
+      "handoff": "108be914b967a26b244985077edda053",
       "dev-deploy": "5d71d7b07a2de8b32ad43c166e69e618",
       "expert": "unknown",
       "last_synced": "2026-03-23"
