@@ -1,13 +1,7 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: March 21, 2026 ~12:30 PM ET*
+*Updated: March 15, 2026 ~evening ET*
 *Source: Most recent handoff from each project*
-
-> **March 21, 2026 — HC Funnel launch prep.** Post-capture thank-you page redesigned (scorecard hidden, scroll-to-top, feels like separate page). YouTube link fixed. Nico granted GCP IAM (Service Usage Consumer) on eddy-tracker-82486 for b-resources Vault Storage rules. Meta domain verification in progress (main domain added, subdomain pending). Launch target: Tuesday March 24.
->
-> **March 20, 2026 — HC Funnel pre-launch.** Action plan email pipeline fully wired: quiz → email capture → Firestore + Kit + Claude-generated personalized action plan via Resend. Meta Pixel installed. Ad launch target: week of March 23. Kit nurture drip postponed (no course yet). All B-Suite repos now at `~/Developer/B-Suite/` on MacBook Pro (moved from Desktop March 12). Full Nico spec committed: `hc-funnel/NICO-SPEC-ACTION-PLAN-LAUNCH.md`.
->
-> **March 9, 2026 — iCloud Sync Recovery + Two-Way Messaging:** MacBook Pro recovered from iCloud sync deadlock. Two-way messaging now live in B Things: @brian and @nico both route notifications correctly. Nico can create tasks for Brian from Slack using `--notes` flag.
 
 ---
 
@@ -37,6 +31,38 @@ Check the mounted B-Suite path. If it doesn't match a known device path, ask use
 ### 4. npm Install Check
 If the session will involve building an app, check if `node_modules` exists in the target app. If not, run `npm install`. Note: this installs Linux binaries — user must run `npm install` on their Mac before any local builds after Cowork touches the app.
 
+### 5. Skill Installation Check
+Three custom Cowork skills are required for B-Suite sessions: **handoff**, **dev-deploy**, and **comms**. Check whether all three are available in the current session's skill list (they appear in `<available_skills>` in the system prompt).
+
+- **If all are present** → proceed normally, no action needed.
+- **If one or more are missing** → the user needs to install them on this device. The `.skill` installer files are in `skills/` in the B-Suite root. Walk the user through:
+  1. In Finder, navigate to `~/Developer/B-Suite/skills/`
+  2. Double-click the missing `.skill` file(s) — `handoff.skill`, `dev-deploy.skill`, and/or `comms.skill`
+  3. Cowork will prompt to install — confirm
+  4. Restart the Cowork session (skills load at session start)
+
+**Source of truth:** The raw SKILL.md files live in `skills/handoff/SKILL.md`, `skills/dev-deploy/SKILL.md`, and `skills/comms/SKILL.md` in the B-Suite root. When updating a skill, edit the SKILL.md, rebuild the `.skill` bundle, and reinstall on each device.
+
+**Devices with skills installed:**
+- MacBook Pro: ✅ all three (March 14, 2026)
+- MacBook Air: ⬜ pending
+- Mac Mini: ⬜ pending
+
+---
+
+## Firestore Rules — Deploy Safety
+
+The b-things Firebase project uses a single shared `firestore.rules` file that lives in the **brain-inbox repo** (the sole rules deployer). All other repos have had their `firestore` sections removed from `firebase.json`.
+
+**Rules (added March 14, 2026 after production outage):**
+- **Only brain-inbox can deploy Firestore rules.** Its `firebase.json` points to its local `firestore.rules`.
+- **Never run a bare `firebase deploy`** from any repo. Always scope: `--only hosting`, `--only functions`, or `--only firestore`.
+- **The canonical rules file is `brain-inbox/firestore.rules`.** Contains all collections: appConfig, tasks, projects, nicoTasks, nicoProjects, inboxMessages, nicoNotes, viewers, library, contentCards, contentCards/messages, contentPlatforms, vault.
+- **b-resources, things-app** — `firebase.json` has no `firestore` section. Cannot deploy rules.
+- **Before deploying rules**, open the Firebase console and verify you're not removing collections.
+
+**What happened:** On March 14 at 12:27 PM, `firebase deploy` from b-resources overwrote all Firestore rules with only vault + library, taking down B Things, Brain Inbox, and Content Calendar for ~1 hour.
+
 ---
 
 ## Eddy (Course Launch Tracker)
@@ -55,40 +81,44 @@ If the session will involve building an app, check if `node_modules` exists in t
 ---
 
 ## HC Funnel (Marketing Funnel)
-**Status:** Pre-launch — pipeline wired, post-capture UX shipped, pending end-to-end testing + ad creatives. Launch target: Tuesday March 24.
-**Last updated:** March 21, 2026
+**Status:** Fully rebuilt and deployed — scenario-based quiz live, email content pending
+**Last updated:** March 15, 2026
 **Location:** hc-funnel/
-**Live URL:** https://quiz.humbleconviction.com (also https://hc-funnel.vercel.app)
+**Live URL:** https://hc-funnel.vercel.app
 **Key context:**
-- 8-question Founder Assessment → 4-dimension scoring → tier result + scorecard → email gate → AI-generated personalized action plan via Claude API + Resend
-- Full pipeline: quiz → email capture → Firestore `leads` + Kit (`quiz-lead` tag) + Claude action plan email (personalized per user's specific quiz answers, not just scores)
-- Meta Pixel installed (ID: `1407883507304464`) — PageView, ViewContent, CompleteRegistration, Lead events
-- Kit nurture drip (Emails 2-5) postponed — no course to sell yet. Leads added to newsletter manually.
-- Nico spec for remaining work: `NICO-SPEC-ACTION-PLAN-LAUNCH.md`
-- Post-capture UX redesigned: scorecard hidden after email capture, scroll-to-top, YouTube link fixed to @humbleconvictionstartups
-- Nico granted GCP IAM (Service Usage Consumer) on eddy-tracker-82486 for Firebase Storage rules deployment
-- Remaining: `LAUNCH_STATUS=pre_launch` env var, end-to-end testing (all 3 tiers), ad creative production (HC colors + Feed versions), Meta Ads Manager setup, subdomain domain verification in Meta
-- See `hc-funnel/HANDOFF.md` for full detail
+- Complete rewrite (March 15): 8 scenario-based questions (not self-assessment) across 4 dimensions (Clarity, Investor Fluency, Self-Awareness, Persuasion Instincts)
+- Scoring engine: per-question best=2/next=1/weak=0, raw totals for tier assignment, display scores as X/5 with dot visualization
+- 3 tiers: Lost in the Noise (raw 0-3) / The Pieces Are There (raw 4-9) / So Close It Hurts (raw 10+). Validated via Monte Carlo simulation (10K runs).
+- Results page: calculating pause animation → tier badge → scorecard with explanations + cracked door lines → email gate CTA ("Send My Recommendations") + waitlist checkbox
+- New design system: navy/orange palette, Inter font, mobile-first (80%+ Meta ad traffic)
+- Strategy/content bible: `HC-PHASE1-DISCOVERY.md` in project root (all decisions, all copy, research references, Monte Carlo methodology)
+- Firestore `leads` collection captures quiz answers, scores, tier, waitlist flag
+- Kit (ConvertKit) integration with server-side proxy
+- Next priorities: Brian's design/wording tweaks, email content (results email + 5-email drip), Meta Pixel, ad creatives
 
-**Shared resources:** Firebase project `eddy-tracker-82486` (shared with eddy). Kit account under Humble Conviction. Resend (results@humbleconviction.com). Anthropic API.
+**Shared resources:** Firebase project `eddy-tracker-82486` (shared with eddy and b-marketing). Kit account under Humble Conviction.
 
 ---
 
 ## B Things (Personal Task Manager)
-**Status:** Active, fully functional, two-way messaging live
-**Last updated:** March 9, 2026
+**Status:** Active, fully functional
+**Last updated:** March 14, 2026 (evening)
 **Location:** things-app/
 **Live URL:** https://things-app-gamma.vercel.app
 **Key context:**
 - Kanban-style task board with time-based columns, project grouping, drag-and-drop
-- **Two-way messaging** between Brian and Nico via NoteThread (iMessage-style chat on each task)
-- @brian → Slack DM to Brian. @nico → Brain Inbox Slack channel + Firestore
-- **Slack → task creation:** Nico sends `title --notes message` in Slack → creates task in "From Nico" project with NoteThread message
-- Viewer mode for Nico (can view tasks + send/receive messages)
-- Notification proxy at `/api/notify` (replaced `/api/notify-nico`)
+- Viewer mode for Nico (read-only)
+- Part of B Suite app switcher ecosystem
 - Firebase project: `b-things`
+- `firebase.json` is now empty `{}` — things-app should never deploy Firebase resources
+- **Quick-add `+` on project headers** — inline task creation scoped to project + bucket
+- **Completed task editing** — click to open, edit, "Move to Incomplete" to restore
+- **Mobile scroll-vs-tap fix** — `onClick` + scroll-position guard (not touch events) for reliable tap detection with `touchAction: pan-y`
+- **Mobile swipe-down-to-close** — drag handle on TaskModal, manual `addEventListener({ passive: false })`
+- **Assign to Nico** — button in TaskModal, POSTs to `handoff-notify` API, deep link to card, `→N` badge on board. Flag: `assignedToNico` + `assignedAt` in Firestore.
+- Git push from Cowork uses `/tmp/things-app-push` clone (HEAD.lock workaround on mounted folder)
 
-**Shared resources:** Firebase project `b-things` shared with Content Calendar, B People, and Brain Inbox. AppSwitcher component shared across B Suite apps.
+**Shared resources:** Firebase project `b-things` shared with Content Calendar, B Resources, and Brain Inbox. AppSwitcher component shared across B Suite apps. Brain Inbox `handoff-notify` API used for Assign to Nico feature.
 
 ---
 
@@ -109,17 +139,18 @@ If the session will involve building an app, check if `node_modules` exists in t
 ---
 
 ## Brain Inbox (B Nico)
-**Status:** Active, functional — also serves as B Suite notification router
-**Last updated:** March 9, 2026
+**Status:** Active, functional with Slack integration
+**Last updated:** March 14, 2026
 **Location:** brain-inbox/
 **Live URL:** https://brain-inbox-six.vercel.app
 **GitHub:** https://github.com/brhecht/brain-inbox
 **Key context:**
 - Nico's triage inbox — captures Slack @mentions and DMs, converts to tasks
-- **Notification router for all B Suite two-way messaging** — `handoff-notify.js` routes per-recipient (Nico → Brain Inbox Slack channel, Brian → Slack DM)
-- **Slack → B Things task creation** — `nico-slack.js` with `--notes` flag creates tasks in Brian's B Things (project "from-nico") with NoteThread first message
 - Slack Bot API integration via Vercel serverless function
-- **Also hosts all Firebase Cloud Functions for `b-things`** — `functions/index.js` contains both the Brain Inbox Slack trigger AND the Content → Things sync trigger. Tech debt: should be extracted to dedicated repo.
+- Part of B Suite ecosystem
+- **Sole deployer of Firestore rules** for the b-things Firebase project. `firebase.json` points to local `firestore.rules` which contains the canonical ruleset for all apps sharing the b-things project.
+- **Also hosts all Firebase Cloud Functions for `b-things`** — `functions/index.js` contains both the Brain Inbox Slack trigger AND the Content → Things sync trigger. This is a tech debt issue: cross-app Cloud Functions shouldn't live inside a single app's repo.
+- `firebase.json` updated March 14: rules reference changed from `../firestore.rules` to `firestore.rules` (local). Complete canonical ruleset now git-tracked here.
 
 **Shared resources:** Firebase project `b-things`. AppSwitcher component.
 
@@ -152,7 +183,6 @@ If the session will involve building an app, check if `node_modules` exists in t
 - Currently links out to HC Funnel (quiz) with 3 placeholder slots (ads, email, analytics)
 - React Router pre-wired for future routes (/quiz, /ads, /email, /analytics)
 - Firebase configured to share `eddy-tracker-82486` project with hc-funnel and eddy
-- **Deploy issue:** Not wired to GitHub auto-deploy. Was deployed via `npx vercel --yes --prod`. AppSwitcher is in code but live site runs stale build without it. Needs Vercel GitHub connection or manual deploy.
 
 **Shared resources:** Firebase project `eddy-tracker-82486` (shared with eddy and hc-funnel).
 
@@ -160,7 +190,7 @@ If the session will involve building an app, check if `node_modules` exists in t
 
 ## B Resources (Knowledge & Assets Hub)
 **Status:** Just scaffolded — sub-menu and coming-soon pages only, no DB functionality
-**Last updated:** March 5, 2026
+**Last updated:** March 14, 2026
 **Location:** b-resources/
 **Live URL:** https://b-resources.vercel.app
 **GitHub:** https://github.com/brhecht/b-resources
@@ -168,17 +198,27 @@ If the session will involve building an app, check if `node_modules` exists in t
 - Standalone React app for Library (frameworks/playbooks) and Vault (brand assets/templates)
 - Both sections are "coming soon" — no Firestore usage yet
 - Config-driven ComingSoon component renders both Library and Vault pages
-- Will use `b-things` Firebase project when DB is needed
+- Uses `b-things` Firebase project for Storage rules only
+- `firebase.json` updated March 14: `firestore` section removed. Only `storage` remains. This prevents b-resources from ever overwriting shared Firestore rules.
 
-**Shared resources:** Firebase project `b-things` (planned, not yet active).
+**Shared resources:** Firebase project `b-things` (Storage only, no Firestore deploy capability).
 
 ---
 
 ## B People
-**Status:** No handoff found — context unknown
+**Status:** Active, functional — Daily Reach Out system live and verified
+**Last updated:** March 23, 2026
 **Location:** b-people/
 **Live URL:** https://b-people.vercel.app
-**Key context:** Has source code, Firebase config, and Firestore rules. Appears to be a contact/people management tool. No handoff doc available.
+**Key context:**
+- Relationship nudge engine: "Today's 3" card surfaces daily contacts with mailto: links (Superhuman) + Log Touch
+- **Daily Reach Out cron** (added March 23): Vercel cron at 9 AM ET calls `/api/daily-reach-out` → mirrors Today's 3 algorithm server-side via firebase-admin → creates B Things task in "network" project. Auth: `CRON_SECRET` for cron, `API_SECRET` for manual test (`?apiKey=`). Zero browser dependencies.
+- **`getBestEmail()`**: Smart email picker that filters Dex junk (locations stored as emails) and scores by name match, company domain, personal domain. In `utils.js` and `api/daily-reach-out.js`.
+- Firebase project: `b-people-759e5` (own project, not shared with b-things)
+- Firestore collections: `contacts`, `contacts/{id}/notes`, `feed_items`
+- Server-side env vars: `FIREBASE_SERVICE_ACCOUNT`, `BTHINGS_API_KEY`, `CRON_SECRET`, `API_SECRET` — all set in Vercel
+- API test: `https://b-people.vercel.app/api/daily-reach-out?apiKey=bpeople-api-2026`
+- **Open loop**: Dex email data cleanup — junk values in `emails` arrays filtered at runtime, but a one-time Firestore cleanup would be cleaner
 
 ---
 
@@ -189,18 +229,39 @@ If the session will involve building an app, check if `node_modules` exists in t
 
 ---
 
+## HC Website (humbleconviction.com)
+**Status:** Live — functional but layout width needs fixing
+**Last updated:** March 11, 2026
+**Location:** hc-website/
+**Live URL:** https://humbleconviction.com
+**GitHub:** https://github.com/brhecht/hc-website
+**Key context:**
+- Migrated from Carrd to Next.js 16.1.6 (App Router, TypeScript, Tailwind v4) on Vercel
+- Single-page homepage: hero, email capture (Kit/ConvertKit proxy), YouTube embed, Call for Founders, bio
+- Domain: GoDaddy A record → Vercel IP, SSL provisioned
+- **Primary issue:** Layout width doesn't look right on Brian's multi-monitor setup (Chrome viewport 3494px, screen.width 1920px). Content structure and design are approved — only width remains.
+- **Headshot image is 0 bytes** — user needs to provide actual photo file
+- Kit env vars: KIT_API_KEY + KIT_FORM_ID (in .env.local and Vercel)
+- Git push requires clone-to-/tmp workaround (mounted drive has HEAD.lock issues)
+- Full handoff: `hc-website/HANDOFF-Website-2026-03-11.md`
+
+**Shared resources:** Kit (ConvertKit) account under Humble Conviction. No Firebase dependency.
+
+---
+
 ## Cross-Project Dependencies
 
 - **eddy + hc-funnel** share Firebase project `eddy-tracker-82486` (same Firestore instance, separate collections: eddy uses `users/{uid}/*`, hc-funnel uses `leads`)
 - **hc-funnel** marketing tasks are tracked in **eddy** (W1 tasks: messaging angles, quiz structure, ad creatives, target audiences)
 - **hc-course** (not yet started) is gated by waitlist validation data from **hc-funnel**
 - **bhub** `index.html` is the design reference for **hc-funnel**'s warm light theme
-- **things-app, content-calendar, brain-inbox, b-people** all share Firebase project `b-things` and the AppSwitcher component
-- **things-app** has two-way messaging with Nico (viewer + messaging); **brain-inbox** is Nico's inbox + B Suite notification router. Nico creates Brian tasks from Slack via `--notes` flag in nico-slack.js
+- **things-app, content-calendar, brain-inbox, b-resources** all share Firebase project `b-things` and the AppSwitcher component — but **only brain-inbox can deploy Firestore rules** (see Firestore Rules section above)
+- **b-people → things-app**: Daily Reach Out cron in b-people creates tasks in B Things via `POST things-app-gamma.vercel.app/api/add-task` with `x-api-key: BTHINGS_API_KEY`. Task: "Reach out: Name1, Name2, Name3", project "network", bucket "today".
+- **things-app** has viewer mode for Nico; **brain-inbox** is Nico's primary tool — both part of the Brian↔Nico workflow
 - **Content Calendar → B Things real-time sync** — Firestore trigger (`syncContentToThings`) fires on any `contentCards` write. If `dueDate` matches today and card isn't published/archived, creates a task in B Things under HC Content / Today. Deduplicates via `sourceCardId`. Function lives in `brain-inbox/functions/index.js` (see tech debt note above). Also has a Vercel cron backup at `things-app/api/content-today.js` (daily at 7am ET) but the Firestore trigger handles real-time.
 - **bhub** links to **b-marketing** (standalone app) and **b-resources** (standalone app) as sub-hubs
 - **b-marketing** links out to **hc-funnel** for the quiz; will eventually embed or route to more marketing tools
-- **b-resources** will use **b-things** Firebase project for Library/Vault data storage
+- **b-resources** uses **b-things** Firebase project for Storage only (Firestore deploy removed March 14)
 - **gh CLI auth** is resolved — repos can now be archived
 
 ---
@@ -217,7 +278,8 @@ If the session will involve building an app, check if `node_modules` exists in t
 | BPIs | https://hc-kpi-dashboard.pages.dev | — |
 | B Marketing | https://b-marketing.vercel.app | brhecht/b-marketing |
 | B Resources | https://b-resources.vercel.app | brhecht/b-resources |
-| HC Funnel | https://quiz.humbleconviction.com | brhecht/hc-funnel |
+| HC Funnel | https://hc-funnel.vercel.app | brhecht/hc-funnel |
+| HC Website | https://humbleconviction.com | brhecht/hc-website |
 | Pitch Scorer | https://pitch-scorer.vercel.app | brhecht/pitch-scorer (archive) |
 
 ---
@@ -238,18 +300,18 @@ When adding a new user: update `content-calendar/src/users.js`, `brain-inbox/api
 
 ## Devices
 
-Brian uses three machines. B-Suite folder location may vary by device — confirm path on first use if not listed.
+Brian uses three machines. B-Suite folder location: `~/Developer/B-Suite/` on all devices (migrated from Desktop on March 14, 2026).
 
-- **MacBook Pro** — primary dev machine. B-Suite path: `~/Developer/B-Suite/` *(freshly cloned March 20, 2026 — replaced B-Suite-Clean which no longer exists)*
-- **MacBook Air** — B-Suite path: `~/Desktop/B-Suite/` (healthy, unaffected by iCloud issue)
-- **Mac Mini** — B-Suite path: `~/Desktop/B-Suite/` (healthy, unaffected by iCloud issue)
+- **MacBook Pro** — primary dev machine. B-Suite path: `~/Developer/B-Suite/`. Skills: ✅ all three installed.
+- **MacBook Air** — path: `~/Developer/B-Suite/` (confirm on first session)
+- **Mac Mini** — path: `~/Developer/B-Suite/` (confirm on first session)
 
 ---
 
 ## Local Machine Paths & Cowork Build Status
 
 - **Git push from Cowork:** Now works autonomously. GitHub PAT (classic, `repo` scope) saved to `.git-token` in B-Suite root. At session start, Claude reads this file and configures git credentials in the VM. No terminal handoff needed for deploys. Token expires ~June 2026 — regenerate at github.com/settings/tokens when it does.
-- **Git push command pattern (terminal fallback):** `cd ~/Desktop/B-Suite-Clean.nosync/<app-folder> && git push` (adjust path per device)
+- **Git push command pattern (terminal fallback):** `cd ~/Developer/B-Suite/<app-folder> && git push` (adjust path per device)
 - **Cowork npm install:** Done for all 8 apps as of March 5, 2026. Linux binaries installed. If user needs to build locally on their Mac, run `npm install` in that app first to restore Mac binaries.
 
 **Cowork build status (March 5, 2026):**
@@ -262,22 +324,32 @@ Brian uses three machines. B-Suite folder location may vary by device — confir
 | b-people | ✅ | |
 | b-marketing | ✅ | |
 | b-resources | ✅ | |
+| hc-website | ✅ | Next.js 16.1.6, builds clean in Cowork |
 | things-app | ❌ Cowork / ✅ Mac | PostCSS/Tailwind filesystem error in Cowork VM — builds fine on Mac. Retry Cowork next session, use terminal handoff for now |
-
----
-
-## Known Issues
-
-- **B Marketing deploy not wired to GitHub** — `b-marketing.vercel.app` was originally deployed via `npx vercel --yes --prod` and does not auto-deploy from GitHub pushes. The AppSwitcher component is in the code (App.jsx renders it) but the live site is running a stale build that doesn't show it. Fix: either connect the GitHub repo in the Vercel dashboard (Settings → Git → Connected Git Repository) or run `npx vercel --yes --prod` from the b-marketing folder to pick up current code. Same likely applies to `b-resources`.
 
 ---
 
 ## Backlog: Infrastructure
 
-- **Install dev-deploy skill on all devices** — Updated `dev-deploy.skill` is in B-Suite root folder (updated March 6 with Git Auto-Config section). Must be double-clicked to install on each device (MacBook Pro, MacBook Air, Mac Mini). One-time per device. Track which devices have it installed:
-  - MacBook Pro: ⬜ pending
-  - MacBook Air: ⬜ pending
-  - Mac Mini: ⬜ pending
-- **GitHub PAT renewal** — Classic PAT (`cowork`, `repo` scope) saved to `.git-token` in B-Suite root. Expires ~June 2026. When it expires, generate a new one at github.com/settings/tokens (classic), `repo` scope, and update `.git-token`.
 - **Extract shared Cloud Functions into dedicated repo** — Currently all Firebase Cloud Functions for `b-things` deploy from `brain-inbox/functions/`. This is confusing since the content-to-things sync has nothing to do with Brain Inbox. Future cleanup: create a `b-suite-functions/` repo (or similar) that owns all Firestore triggers across the ecosystem.
 - **Remove Vercel cron from things-app** — `api/content-today.js` and `vercel.json` cron config can be removed once the Firestore trigger is confirmed stable (real-time is better). Keep for now as fallback.
+- **GitHub PAT renewal** — Classic PAT (`cowork`, `repo` scope) saved to `.git-token` in B-Suite root. Expires ~June 2026. When it expires, generate a new one at github.com/settings/tokens (classic), `repo` scope, and update `.git-token`.
+- **Implement `dmOnly` flag in handoff-notify.js** — The comms skill DM channel currently also writes to Brain Inbox and posts to the Slack channel when DMing Nico. Needs a code change to `brain-inbox/api/handoff-notify.js` to skip Firestore write and DM directly when `dmOnly: true`. Brian DM path already works correctly.
+- **Intel replatform** — B Content's Intel module needs replatforming (known, scope TBD).
+
+---
+
+## Architecture Audit (March 14, 2026)
+
+Full audit document: `~/Developer/B-Suite/B-Suite Architecture Audit.md`
+
+Key findings and fixes applied:
+1. ✅ b-resources defused (can't deploy Firestore rules)
+2. ✅ Canonical `firestore.rules` created in brain-inbox (git-tracked, complete)
+3. ✅ things-app stripped of Firestore deploy capability
+4. ✅ brain-inbox confirmed as sole rules deployer
+5. ✅ b-people migrated from hardcoded Firebase config to env vars
+
+Auth patterns: All apps use Google Sign-In. State management split between Zustand (brain-inbox, content-calendar, b-people) and component-level useState (things-app, b-resources, eddy).
+
+See audit doc for full Firestore collections-by-app reference table.
