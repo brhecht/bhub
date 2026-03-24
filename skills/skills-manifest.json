@@ -26,10 +26,10 @@
       "changelog": "Added Consequence Check & Red Team layer \u2014 auto-triggers adversarial audit on high-stakes recommendations via 3-lens evaluation (direct downside, coherence risk, unforeseeable surface area)"
     },
     "hc-strategy": {
-      "version": "1.1.0",
-      "hash": "5fe6c80e81409ccc8ba643e2ea2a75e8",
-      "updated": "2026-03-23",
-      "changelog": "Fix Eddy framing: async course is next product to launch (not deprioritized), 5 revenue streams in sequence"
+      "version": "2.0.0",
+      "hash": "c224d6294aec2cf696a1a654a5d22d86",
+      "updated": "2026-03-24",
+      "changelog": "Full v2 rewrite: 3-layer positioning, async course category (SLO model), podcast strategy, AI as brand accelerant, probability-weighted scenarios, 4 revenue streams"
     }
   },
   "devices": {

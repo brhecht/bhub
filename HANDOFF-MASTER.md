@@ -98,20 +98,21 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 ---
 
 ## HC Strategy (Business Strategy & Operating Plan)
-**Status:** Active — strategic framework established, entering execution phase Q1 2026
-**Last updated:** March 23, 2026
+**Status:** Active — strategic framework v2 established March 24, entering execution phase Q1 2026
+**Last updated:** March 24, 2026
 **Location:** hc-strategy/ — private git repo at github.com/brhecht/hc-strategy (restricted access, Brian only)
 **Skill:** `hc-strategy.skill` in bhub/skills/ — install on each device to enable "HC strategy check-in" and "quarterly review" triggers
 **Key context:**
 - Complete strategic brain for Humble Conviction as a business (positioning, product, distribution, revenue model)
-- Positioning: "Founder Development for the AI Era" — AI is the timely hook, communication/clarity is the durable substance
-- Primary product: Cohort-based course ($2,497/seat, 12 students, 8 weeks) — first cohort target Q3 2026
-- Fill engine: Free monthly live session (45-60 min) — Brian's live delivery is his #1 sales tool
-- Revenue streams: Cohorts (#1), 1:1 coaching ($500/session, #2), workshops ($3-5K, #3), newsletter sponsorships (#4)
-- 8-quarter operating plan targeting $250K annualized by month 24 (~$346K projected with good execution)
-- Three rounds of expert research (72 sources) with probability-weighted scenarios
-- Quarterly review protocol defined — compare actuals to plan across 8 dimensions
-- Brian's execution psychology is the binding constraint — strategy must work with his energy/avoidance patterns
+- Three-layer positioning: narrow wedge (founder communication), broad delivery (full-stack founder guidance), AI as brand accelerant (not product)
+- Expert services business using creator economy tools — relationships drive revenue, content amplifies
+- Four revenue streams sequenced: (1) Coaching (launchpad, not permanent backbone), (2) Async courses (SLO model — category, not single product, growing toward catalog), (3) Intensive/cohort (2-3 day format first, not 8 weeks), (4) Workshops (opportunistic)
+- Distribution: LinkedIn (#1) → Email/newsletter → Meta ads + quiz funnel (SLO) → Podcast (networking strategy with content as byproduct) → Monthly live session → Direct outreach
+- Podcast is a network activation tool: audio-first, weekly, 30-min remote via Riverside. Three-layer flywheel (existing network → podcasters → reciprocal guest appearances)
+- 8-quarter operating plan targeting $250K annualized by month 24 (~$400K projected with good execution)
+- Five rounds of expert research (v1-v5) with probability-weighted scenarios. Expected 24-mo revenue ~$298K. 55-60% probability of $250K annualized.
+- Quarterly review protocol defined — compare actuals to plan across 9 dimensions
+- Brian working full-time-plus (40-50+ hrs/week). Execution psychology is the binding constraint — strategy designed around energy patterns (podcast solves outreach avoidance)
 
 **Key files:**
 - `STRATEGY-CONTEXT.md` — the strategic brain (read first)
