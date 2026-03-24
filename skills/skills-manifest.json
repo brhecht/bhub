@@ -5,13 +5,13 @@
       "version": "1.0.0",
       "hash": "a07eb9d2cd41056f82c593736af00760",
       "updated": "2026-03-16",
-      "changelog": "Initial versioned release — moved to git-tracked skills in bhub"
+      "changelog": "Initial versioned release \u2014 moved to git-tracked skills in bhub"
     },
     "handoff": {
-      "version": "1.1.0",
-      "hash": "108be914b967a26b244985077edda053",
-      "updated": "2026-03-23",
-      "changelog": "Every handoff away auto-updates master; every handoff here auto-reads master for cross-app context"
+      "version": "1.2.0",
+      "hash": "22405f905dfc09fb99964dfb5e86d7b5",
+      "updated": "2026-03-24",
+      "changelog": "Added hc-strategy to clone block (11 repos); noted private repo restriction"
     },
     "dev-deploy": {
       "version": "1.1.0",
@@ -23,7 +23,7 @@
       "version": "1.0.0",
       "hash": "a45799e0f7da28bb590ce9f5b8d3f550",
       "updated": "2026-03-17",
-      "changelog": "Added Consequence Check & Red Team layer — auto-triggers adversarial audit on high-stakes recommendations via 3-lens evaluation (direct downside, coherence risk, unforeseeable surface area)"
+      "changelog": "Added Consequence Check & Red Team layer \u2014 auto-triggers adversarial audit on high-stakes recommendations via 3-lens evaluation (direct downside, coherence risk, unforeseeable surface area)"
     },
     "hc-strategy": {
       "version": "1.1.0",

@@ -37,8 +37,9 @@ git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/b-people.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/b-resources.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/pitch-scorer.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/hc-funnel.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/hc-strategy.git && \
 echo "YOUR_TOKEN" > .git-token && \
-echo "Done — all 10 repos cloned and token saved"
+echo "Done — all 11 repos cloned and token saved"
 ```
 4. Revoke the PAT at github.com/settings/tokens (token is saved in .git-token for Cowork to use)
 5. Mount `~/Developer/B-Suite` in Cowork
@@ -55,7 +56,7 @@ The master B-Suite handoff (`HANDOFF-MASTER.md`) lives in the **bhub** repo root
 - **"handoff here" — ALWAYS read the master too.** Every "handoff here" — whether for a single app or multiple — must also read `HANDOFF-MASTER.md` from bhub for cross-app context (shared Firebase projects, deploy safety rules, infra decisions, user registry). The master provides context that's relevant regardless of which app you're working on. If bhub isn't mounted, ask the user to mount it.
 - **Per-app handoffs** are a single `HANDOFF.md` in each app's repo root.
 
-**B-Suite repo locations:** All repos live under `~/Developer/B-Suite/` (local, NOT iCloud). The apps are: things-app, brain-inbox, content-calendar, b-marketing, b-people, b-resources, bhub, eddy, hc-funnel, pitch-scorer. All are git repos under `github.com/brhecht/`.
+**B-Suite repo locations:** All repos live under `~/Developer/B-Suite/` (local, NOT iCloud). The apps are: things-app, brain-inbox, content-calendar, b-marketing, b-people, b-resources, bhub, eddy, hc-funnel, hc-strategy, pitch-scorer. All are git repos under `github.com/brhecht/`. Note: hc-strategy is a private repo (Brian only, no Nico access).
 
 ## Commands
 
