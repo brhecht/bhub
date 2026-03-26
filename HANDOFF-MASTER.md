@@ -162,7 +162,7 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 
 ## B Things (Personal Task Manager)
 **Status:** Active, fully functional
-**Last updated:** March 16, 2026
+**Last updated:** March 18, 2026
 **Location:** things-app/
 **Live URL:** https://things-app-gamma.vercel.app
 **Key context:**
@@ -174,6 +174,7 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 - **NoteThread messaging** — iMessage-style threaded chat on each task with @mention notifications via Slack DM. Notification toast feedback. Error handling separates message-save failures (restore draft) from metadata/notification failures (non-fatal, fire-and-forget).
 - **Star feature** — optimistic local update in Zustand store, immediate persist from modal, starred items sort to top of project group via `sortWeight`. Kanban re-sort is intentional behavior.
 - **Assign to Nico** — button in TaskModal, POSTs to `handoff-notify` API, deep link to card, `→N` badge on board
+- **Smart title fallback (March 18)** — content→things sync now uses a `cardTitle()` function with fallback chain: card title → archiveData title + type label → type label alone → "(untitled content)"
 - Git push from Cowork uses `/tmp/things-build` clone (HEAD.lock workaround on mounted folder)
 
 **Shared resources:** Firebase project `b-things` shared with Content Calendar, B Resources, and Brain Inbox. AppSwitcher component shared across B Suite apps. Brain Inbox `handoff-notify` API used for Assign to Nico and NoteThread notifications.
@@ -264,15 +265,18 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 ---
 
 ## B People
-**Status:** Active, functional CRM/contacts tool
-**Last updated:** March 14, 2026
+**Status:** Active — v1 functional with Today's 3 nudge engine, shifting from contact directory to relationship nudge tool
+**Last updated:** March 23, 2026
 **Location:** b-people/
 **Live URL:** https://b-people.vercel.app
 **Key context:**
-- Contact/people management tool with notes per contact and activity feed
-- Firebase project: `b-people-759e5` (own project, not shared with b-things)
-- Firestore collections: `contacts`, `contacts/{id}/notes`, `feed_items`
-- Updated March 14: Firebase config migrated from hardcoded credentials to `VITE_FIREBASE_*` env vars (matching all other repos). `.env` file created locally, `.env.example` committed for new device setup. All 6 `VITE_FIREBASE_*` vars added to Vercel production via API. ✅ DONE
+- Personal relationship management tool — shifting from "contact directory with cadence timers" to relationship nudge engine
+- **Today's 3 (March 23):** Daily rotation algorithm surfaces 3 contacts worth reaching out to. Date-seeded PRNG, group-weighted, time-since-last-touch biased. Replaced dashboard tab. Vercel cron at 9 AM ET creates B Things task via add-task API.
+- Google Contacts photo sync via People API (contacts.readonly scope)
+- Click-to-edit name/title/company in contact detail. Inline group management in contacts table.
+- Firebase project: `b-people-759e5` (own project, not shared with b-things). Zustand + Firestore lite SDK.
+- `getBestEmail()` smart email picker filters non-email values from emails array (bug fix March 23)
+- v2 roadmap: Gmail auto-ingest, calendar signals, LinkedIn monitoring
 
 ---
 
