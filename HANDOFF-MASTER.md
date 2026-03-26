@@ -1,6 +1,6 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: March 23, 2026 ~evening ET*
+*Updated: March 26, 2026 ~morning ET*
 *Source: Most recent handoff from each project*
 
 ---
@@ -139,22 +139,22 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 ---
 
 ## HC Funnel (Marketing Funnel)
-**Status:** Fully deployed — quiz live, action plan email pipeline complete with AI audit layer
-**Last updated:** March 23, 2026
+**Status:** Launch-ready — all ad creative final, primary text locked, waiting on Nico to swap copy in Meta Ads Manager
+**Last updated:** March 26, 2026
 **Location:** hc-funnel/
-**Live URL:** https://hc-funnel.vercel.app
+**Live URL:** https://hc-funnel.vercel.app (also https://quiz.humbleconviction.com)
 **Key context:**
 - Complete rewrite (March 15): 8 scenario-based questions (not self-assessment) across 4 dimensions (Clarity, Investor Fluency, Self-Awareness, Persuasion Instincts)
 - Scoring engine: per-question best=2/next=1/weak=0, raw totals for tier assignment, display scores as X/5 with dot visualization
 - 3 tiers: Lost in the Noise (raw 0-3) / The Pieces Are There (raw 4-9) / So Close It Hurts (raw 10+). Validated via Monte Carlo simulation (10K runs).
 - Results page: calculating pause animation → tier badge → scorecard → email gate CTA → personalized AI action plan email
-- **Action plan email pipeline (March 23):** `api/action-plan.js` — Claude Sonnet generates personalized email → 3-layer self-eval audit (recipient simulation, course flow, parity check) → branded HTML formatting → Resend delivery. Course Mention Architecture enforces seed→intro→callback→silence flow. Contrast closer guardrails ensure logical coherence.
-- New design system: navy/orange palette, Inter font, mobile-first (80%+ Meta ad traffic)
-- GA4 tracking, Meta Pixel audited
-- LAUNCH_STATUS env var controls pre-launch vs post-launch PS copy (no code change needed at launch)
+- **Action plan email pipeline (March 23):** `api/action-plan.js` — Claude Sonnet generates personalized email → 3-layer self-eval audit → branded HTML → Resend delivery
+- **Ad creative (March 24-26):** 3 concepts × 2 formats built in Canva. Primary text completely rewritten March 25-26 in line-by-line editorial session with Brian. All copy locked. Canonical brief: `ads/AD-CREATIVE-BRIEF-V3-FINAL.md`
+- **Meta launch plan:** $150/day across 3 creatives, 7-day learning phase lockdown, day 14 pulse check. Documented in `ads/META-LAUNCH-PLAN.md`
+- Meta Pixel wired (4 events). GA4 env var still not set. LAUNCH_STATUS env var still not set.
 - Firestore `leads` collection captures quiz answers, scores, tier, waitlist flag
 - Kit (ConvertKit) integration with server-side proxy; Resend for action plan delivery
-- Next priorities: email drip copy (emails 2-5), Kit automation, Meta ad campaign, results@humbleconviction.com routing
+- **Next step:** Nico swaps primary text in Meta Ads Manager → Brian adds credit card → launch
 
 **Shared resources:** Firebase project `eddy-tracker-82486` (shared with eddy and b-marketing). Kit account under Humble Conviction. Anthropic API + Resend API keys in Vercel env vars.
 
