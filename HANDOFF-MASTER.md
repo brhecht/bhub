@@ -1,6 +1,6 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: March 29, 2026 ~morning ET*
+*Updated: March 29, 2026 ~afternoon ET*
 *Source: Most recent handoff from each project*
 
 ---
@@ -248,21 +248,25 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 ---
 
 ## B Resources (Knowledge & Assets Hub)
-**Status:** Active — Library and Vault functional with full CRUD, GroupKanban, CollapsibleComments. Slack bot installed but not receiving events (needs reinstall).
-**Last updated:** March 26, 2026
+**Status:** Active — major UX overhaul March 29. Modal is now the single editing surface (inline-edit title, group, tags, notes, messages). Side panel preview for rendered content. 9 bugs fixed, 12 improvements shipped.
+**Last updated:** March 29, 2026
 **Location:** b-resources/
 **Live URL:** https://b-resources.vercel.app
 **GitHub:** https://github.com/brhecht/b-resources
 **Key context:**
 - Standalone React app for Library (documents/frameworks/playbooks), Vault (brand assets/templates), and Groups (kanban-style boards)
+- **March 29 overhaul:** Card click → modal with everything editable inline (title, group, tags, notes, messages). No separate edit mode. Modeled after B Things. Side panel preview via 👁 button for rendered document content.
+- Kanban cards now show: displayTitle (dominant), filename (secondary), colored tag pills with inline editing, pin 📌 toggle (always visible), AI summary hover tooltip, relative timestamps, download ⬇ link, preview 👁 button
+- `api/fetch-content.js` — Vercel serverless proxy for CORS bypass on Firebase Storage URLs
+- `EditableTitle` component for click-to-edit titles in modals. `InlineNotes` for persistent notes. `CollapsibleMessages` for iMessage-style threading.
+- `displayTitle()` helper in multiple files — strips extensions, replaces hyphens/underscores, title-cases
+- GroupKanban has its own `renderItemCard()` that bypasses ResourceCard — card changes must be made there directly
 - Full CRUD on Library and Vault with CollapsibleComments (Firestore sub-collections), @mention notifications via Slack/Brain Inbox
-- GroupKanban vertical layout committed and deployed
 - Slack bot pipeline set up (app `A0APJCW2DLZ`) but **not receiving events** — needs Brian to reinstall at https://api.slack.com/apps/A0APJCW2DLZ/install-on-team
-- ⚠️ **Nico's session incorrectly moved master Firestore rules into this repo** — b-resources should NOT deploy Firestore rules. The `firestore` section was removed from `firebase.json` on March 14 for exactly this reason. Rules deployer TBD (migrating to dedicated infra repo; see Infrastructure Backlog). The `firestore.rules` file in this repo contains stale/incorrect rules and should not be used.
-- `firebase.json`: Only `storage` remains. Do NOT add `firestore` back.
-- Vercel serverless functions: `api/slack-events.js` (event handler), `api/slack-inbox-reminder.js` (daily 9 AM cron)
-- **Known issues:** Slack bot not receiving events (needs Brian to reinstall app). Per-app HANDOFF.md contains incorrect instructions (tells future sessions to deploy rules from here — must be corrected).
-- **Next steps:** Fix HANDOFF.md instructions, re-test Slack bot after reinstall, test CollapsibleComments on prod, run seed script, mobile responsive testing
+- ⚠️ **DO NOT deploy Firestore rules from this repo.** The `firestore.rules` file contains stale/incorrect rules. `firebase.json` only has `storage`. Canonical rules deployer is brain-inbox.
+- Vercel serverless functions: `api/slack-events.js`, `api/slack-inbox-reminder.js`, `api/fetch-content.js`
+- **Known issues:** Slack bot not receiving events (needs reinstall). Architecture issues identified (separate discussion). Brian QAing March 29 deploy.
+- **Next steps:** QA live site, address any issues from March 29 deploy, re-test Slack bot after reinstall, test CollapsibleMessages on prod, run seed script, mobile responsive testing
 
 **Shared resources:** Firebase project `b-things` (Storage only — no Firestore deploy capability).
 
