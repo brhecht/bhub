@@ -80,9 +80,37 @@ All repos live under `~/Developer/B-Suite/` (local, NOT iCloud). All are git rep
 
 ### "handoff here"
 
-This is the session bootstrap. It has three jobs: (1) sync the master to ground truth, (2) load context for the app the user wants to work on, (3) clean up legacy files.
+This is the session bootstrap. It has four jobs: (1) run the infrastructure preflight, (2) sync the master to ground truth, (3) load context for the app the user wants to work on, and (4) clean up legacy files.
 
 **The user does NOT need to specify which app.** They can say "handoff here" and then start talking about what they want to do, or they can say "handoff here b-people" explicitly. Either works. If they don't specify, show them a quick status summary from the master and ask what they want to work on. If they mention something that maps to an app (via the keyword table above), load that app's handoff automatically.
+
+#### Step 0: Infrastructure Bootstrap (BLOCKING — run first, show progress)
+
+Before doing anything else — before reading the master, before loading app context, before presenting any status — execute the Session Bootstrap Protocol defined in `HANDOFF-MASTER.md` (the "Session Bootstrap Protocol" section, steps 0-5). Display progress to the user as a visible checklist, updating each line as it completes:
+
+```
+**Session Bootstrap**
+✅ Mount path verified — /mnt/Developer/B-Suite/
+✅ Git credentials configured
+✅ File lock check — clean
+✅ Device: iMac
+⏳ npm install check...
+⬜ Skill version check
+```
+
+The steps are (read the master for full details on each):
+0. **Mount Path** — verify B-Suite is accessible at the expected mount point
+1. **Git Auto-Config** — read `.git-token`, configure git credentials in the VM
+2. **File Lock Check** — scan for EDEADLK errors on `.md` files
+3. **Device Detection** — identify which machine this is from the Devices section
+4. **npm Install Check** — if the session will involve building, verify `node_modules` exists
+5. **Skill Version Check** — read `skills-manifest.json`, compare hashes against installed skills, present install links for any mismatches
+
+This is a blocking gate. Do not proceed to Step 1 until all 6 bootstrap steps are green or explicitly acknowledged as failed/skipped. If any step fails, tell the user what failed and why before moving on.
+
+The reason this matters: skipping the bootstrap means working with stale skills, wrong git config, undetected file locks, or unknown device paths. Any one of those can silently corrupt a session. The bootstrap exists to catch problems before they compound — treat it like a preflight checklist, not an optional warmup.
+
+The actual step definitions live in `HANDOFF-MASTER.md` so they can be amended in one place. This skill enforces that they run — it doesn't redefine them.
 
 #### Step 1: Pull bhub and read the master
 
