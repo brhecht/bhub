@@ -258,12 +258,13 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 - Full CRUD on Library and Vault with CollapsibleComments (Firestore sub-collections), @mention notifications via Slack/Brain Inbox
 - GroupKanban vertical layout committed and deployed
 - Slack bot pipeline set up (app `A0APJCW2DLZ`) but **not receiving events** — needs Brian to reinstall at https://api.slack.com/apps/A0APJCW2DLZ/install-on-team
-- `firestore.rules` in this repo is the **MASTER ruleset** for all `b-things` apps (B Things, Brain Inbox, Content Calendar, B Resources, Eddy, B People). Deploy only from here.
-- `firebase.json`: `firestore` section removed March 14. Only `storage` remains for this app's deploy scope.
+- ⚠️ **Nico's session incorrectly moved master Firestore rules into this repo** — b-resources should NOT deploy Firestore rules. The `firestore` section was removed from `firebase.json` on March 14 for exactly this reason. Rules deployer TBD (migrating to dedicated infra repo; see Infrastructure Backlog). The `firestore.rules` file in this repo contains stale/incorrect rules and should not be used.
+- `firebase.json`: Only `storage` remains. Do NOT add `firestore` back.
 - Vercel serverless functions: `api/slack-events.js` (event handler), `api/slack-inbox-reminder.js` (daily 9 AM cron)
-- **Next steps:** Re-test Slack bot after reinstall, test CollapsibleComments on prod, run seed script, mobile responsive testing
+- **Known issues:** Slack bot not receiving events (needs Brian to reinstall app). Per-app HANDOFF.md contains incorrect instructions (tells future sessions to deploy rules from here — must be corrected).
+- **Next steps:** Fix HANDOFF.md instructions, re-test Slack bot after reinstall, test CollapsibleComments on prod, run seed script, mobile responsive testing
 
-**Shared resources:** Firebase project `b-things` (Firestore + Storage). Master Firestore rules deployed from this repo.
+**Shared resources:** Firebase project `b-things` (Storage only — no Firestore deploy capability).
 
 ---
 
