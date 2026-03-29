@@ -1,6 +1,6 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: March 26, 2026 ~morning ET*
+*Updated: March 29, 2026 ~morning ET*
 *Source: Most recent handoff from each project*
 
 ---
@@ -248,19 +248,22 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 ---
 
 ## B Resources (Knowledge & Assets Hub)
-**Status:** Just scaffolded — sub-menu and coming-soon pages only, no DB functionality
-**Last updated:** March 14, 2026
+**Status:** Active — Library and Vault functional with full CRUD, GroupKanban, CollapsibleComments. Slack bot installed but not receiving events (needs reinstall).
+**Last updated:** March 26, 2026
 **Location:** b-resources/
 **Live URL:** https://b-resources.vercel.app
 **GitHub:** https://github.com/brhecht/b-resources
 **Key context:**
-- Standalone React app for Library (frameworks/playbooks) and Vault (brand assets/templates)
-- Both sections are "coming soon" — no Firestore usage yet
-- Config-driven ComingSoon component renders both Library and Vault pages
-- Uses `b-things` Firebase project for Storage rules only
-- `firebase.json` updated March 14: `firestore` section removed. Only `storage` remains. This prevents b-resources from ever overwriting shared Firestore rules.
+- Standalone React app for Library (documents/frameworks/playbooks), Vault (brand assets/templates), and Groups (kanban-style boards)
+- Full CRUD on Library and Vault with CollapsibleComments (Firestore sub-collections), @mention notifications via Slack/Brain Inbox
+- GroupKanban vertical layout committed and deployed
+- Slack bot pipeline set up (app `A0APJCW2DLZ`) but **not receiving events** — needs Brian to reinstall at https://api.slack.com/apps/A0APJCW2DLZ/install-on-team
+- `firestore.rules` in this repo is the **MASTER ruleset** for all `b-things` apps (B Things, Brain Inbox, Content Calendar, B Resources, Eddy, B People). Deploy only from here.
+- `firebase.json`: `firestore` section removed March 14. Only `storage` remains for this app's deploy scope.
+- Vercel serverless functions: `api/slack-events.js` (event handler), `api/slack-inbox-reminder.js` (daily 9 AM cron)
+- **Next steps:** Re-test Slack bot after reinstall, test CollapsibleComments on prod, run seed script, mobile responsive testing
 
-**Shared resources:** Firebase project `b-things` (Storage only, no Firestore deploy capability).
+**Shared resources:** Firebase project `b-things` (Firestore + Storage). Master Firestore rules deployed from this repo.
 
 ---
 
