@@ -30,6 +30,12 @@
       "hash": "f2610e427952b6c5c3a744d6ddf90bfd",
       "updated": "2026-03-23",
       "changelog": "Initial release — HC strategic brain with operating plan, expert research, quarterly review protocol"
+    },
+    "pm": {
+      "version": "1.0.0",
+      "hash": "66e5e213a262f82e5241b689e8d96ebd",
+      "updated": "2026-03-29",
+      "changelog": "Initial release — product manager skill. Discovery interview → brief with acceptance criteria → implementation plan → build enforcement with soft gates and check-ins → delivery verification. Includes B-Suite UX Standards reference doc."
     }
   },
   "devices": {
