@@ -119,6 +119,30 @@ npm run build && git add -A && git commit -m "descriptive message" && git pull -
 
 After the user confirms the push succeeded (or Claude runs it with permission), the deploy will be live in ~60 seconds.
 
+### Stamp-on-push (handoff continuity)
+
+**On every meaningful push** (feature shipped, bug fixed, approach changed — NOT debug iterations or trivial fixes), append a lightweight context stamp to the app's HANDOFF.md before committing. This is the primary handoff continuity mechanism. It captures what git commits alone can't: known issues, intent, and next steps.
+
+**The stamp goes in `## Session Log` at the bottom of HANDOFF.md:**
+
+```markdown
+### [date] — [brief description]
+- **What shipped:** [1-2 lines]
+- **Known issues:** [anything broken or degraded, or "None"]
+- **Next:** [what to do next, or "Continuing"]
+```
+
+**Rules:**
+- 3-5 lines max. This is a breadcrumb, not a handoff rewrite.
+- Include the stamp in the same commit as the code change. Not a separate commit.
+- If `## Session Log` doesn't exist in HANDOFF.md, create it at the bottom.
+- If there's no HANDOFF.md at all, don't create one just for a stamp.
+- Don't stamp on debug iterations, dependency updates, or config tweaks.
+
+**Why this matters:** If the user walks away and the next session runs `bsync.sh`, the stamps give that session both the *what* (from git log) and the *why/what's next* (from stamps). Without stamps, bsync can only reconstruct code changes — not intent.
+
+See the handoff skill for the full stamp-on-push protocol.
+
 ### Post-deploy verification (MANDATORY)
 This is not optional. After every deploy, Claude must verify the change is live. Do not skip this. Do not "offer" to do it. Just do it.
 
