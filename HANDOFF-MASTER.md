@@ -1,6 +1,6 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: March 29, 2026 ~afternoon ET*
+*Updated: March 30, 2026 ~afternoon ET*
 *Source: Most recent handoff from each project*
 
 ---
@@ -69,13 +69,13 @@ Claude must handle all of the following automatically — the user should never 
 
 This is non-negotiable automation. The user should experience "we updated the skill" and "it's synced everywhere" as one seamless action, not two separate tasks.
 
-**Tracked skills:** handoff, dev-deploy, comms, expert (see `skills-manifest.json` for current versions and per-device hashes)
+**Tracked skills:** handoff, dev-deploy, comms, expert, hc-strategy, pm (see `skills-manifest.json` for current versions and per-device hashes)
 
 **Devices with skills installed:**
-- MacBook Pro: ✅ all four (March 17, 2026) — hashes recorded in manifest
-- iMac: ✅ handoff, dev-deploy, comms (March 16, 2026); expert pending install
-- MacBook Air: ⬜ pending
-- Mac Mini: ⬜ pending
+- MacBook Pro: ✅ all six installed — handoff + dev-deploy stale (need v3.0.0 / v1.2.0), pm not yet installed. Last synced March 23.
+- iMac: ✅ handoff, dev-deploy, comms, expert, hc-strategy — handoff + dev-deploy stale, pm not yet installed. Last synced March 28.
+- MacBook Air: ✅ comms, expert, hc-strategy installed this session — handoff + dev-deploy stale (installed but old hashes), pm provided as install link. Last synced March 29-30.
+- Mac Mini: ⬜ never set up for skills
 
 ---
 
@@ -215,17 +215,23 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 
 ---
 
-## B Hub (Suite Homepage & App Switcher)
-**Status:** Live — homepage portal linking to all B-Suite apps
-**Last updated:** March 5, 2026
+## B Hub (Suite Homepage, App Switcher & Infrastructure)
+**Status:** Live — homepage portal + central infrastructure repo (skills, bsync, master handoff)
+**Last updated:** March 30, 2026
 **Location:** bhub/
 **Live URL:** https://b-hub-liard.vercel.app
 **GitHub:** https://github.com/brhecht/bhub
 **Key context:**
 - Static HTML homepage with card grid linking to all B-Suite apps
 - 8 app cards: Eddy, Things, Content, People, Nico, BPIs, Marketing, Resources
-- B Marketing and B Resources cards link to their standalone React apps
 - Auto-deploys from GitHub main branch via Vercel
+- **Infrastructure home:** All Cowork skills (source in `skills/src/`, bundles in `skills/*.skill`), `skills-manifest.json` for cross-device version tracking, `bsync.sh` v2 bootstrap script, and this HANDOFF-MASTER.md
+- **bsync.sh v2 (March 29-30):** Single-command bootstrap — pulls all 11 repos, cross-checks handoff freshness against git history, verifies skill hashes, outputs structured JSON. EPERM fallback to /tmp clones. Three modes: full, --pull-only (LaunchAgent), --status (offline).
+- **PM skill v1.0.0 (March 30):** Product manager skill for Brian↔Nico workflow. Five phases: Discovery → Brief (PM-BRIEF-<app>.md with acceptance criteria, decision map) → Plan → Build (soft gates, check-ins, 24hr auto-escalate) → Delivery. Includes B-Suite UX Standards reference doc (14 categories). Email memo sent to Nico.
+- **Handoff skill v3.0.0 (March 29):** Replaced manual bootstrap with bsync. Added stamp-on-push protocol. Three-layer resilience: bsync (belt), stamps (belt+), handoff-away (suspenders).
+- **Dev-deploy skill v1.2.0 (March 29):** Added stamp-on-push to deploy chain.
+- **Skills tracked:** handoff (v3.0.0), dev-deploy (v1.2.0), comms (v1.0.0), expert (v1.0.0), hc-strategy (v1.0.0), pm (v1.0.0)
+- **Pending skill installs:** MacBook Air needs handoff v3.0.0 + dev-deploy v1.2.0. MacBook Pro and iMac have stale hashes for both. Mac Mini never set up.
 
 **Shared resources:** Design system reference used by hc-funnel, b-marketing, b-resources.
 
@@ -402,6 +408,8 @@ Brian uses four machines. B-Suite folder location: `~/Developer/B-Suite/` on all
 - **GitHub PAT renewal** — Classic PAT (`cowork`, `repo` scope) saved to `.git-token` in B-Suite root. Expires ~June 2026. When it expires, generate a new one at github.com/settings/tokens (classic), `repo` scope, and update `.git-token`.
 - **Implement `dmOnly` flag in handoff-notify.js** — The comms skill DM channel currently also writes to Brain Inbox and posts to the Slack channel when DMing Nico. Needs a code change to `brain-inbox/api/handoff-notify.js` to skip Firestore write and DM directly when `dmOnly: true`. Brian DM path already works correctly.
 - **Intel replatform** — B Content's Intel module needs replatforming (known, scope TBD).
+- **bsync LaunchAgent setup** — `com.bsuite.bsync.plist` exists but hasn't been installed on any Mac yet. Runs bsync --pull-only in background to keep repos fresh.
+- **priority-startup-intel + create-content skills** — not yet tracked in skills-manifest.json. Consider adding for cross-device consistency.
 
 ---
 
