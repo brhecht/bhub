@@ -1,6 +1,6 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: March 30, 2026 ~afternoon ET*
+*Updated: March 31, 2026 ~afternoon ET*
 *Source: Most recent handoff from each project*
 
 ---
@@ -302,8 +302,8 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 ---
 
 ## HC Website (humbleconviction.com)
-**Status:** Live — functional but layout width needs fixing
-**Last updated:** March 11, 2026
+**Status:** Live — functional but layout width needs fixing. Next.js bumped to 16.2.1 (security, March 31).
+**Last updated:** March 31, 2026
 **Location:** hc-website/
 **Live URL:** https://humbleconviction.com
 **GitHub:** https://github.com/brhecht/hc-website
@@ -396,7 +396,7 @@ Brian uses four machines. B-Suite folder location: `~/Developer/B-Suite/` on all
 | b-people | ✅ | |
 | b-marketing | ✅ | |
 | b-resources | ✅ | |
-| hc-website | ✅ | Next.js 16.1.6, builds clean in Cowork |
+| hc-website | ✅ | Next.js 16.2.1 (bumped March 31 security audit), builds clean in Cowork |
 | things-app | ❌ Cowork / ✅ Mac | PostCSS/Tailwind filesystem error in Cowork VM — builds fine on Mac. Retry Cowork next session, use terminal handoff for now |
 
 ---
@@ -410,6 +410,24 @@ Brian uses four machines. B-Suite folder location: `~/Developer/B-Suite/` on all
 - **Intel replatform** — B Content's Intel module needs replatforming (known, scope TBD).
 - **bsync LaunchAgent setup** — `com.bsuite.bsync.plist` exists but hasn't been installed on any Mac yet. Runs bsync --pull-only in background to keep repos fresh.
 - **priority-startup-intel + create-content skills** — not yet tracked in skills-manifest.json. Consider adding for cross-device consistency.
+
+---
+
+## Security Audit (March 31, 2026)
+
+Full npm supply chain audit across all 9 B-Suite repos with package.json.
+
+**Supply chain attack check (axios 1.14.1 / plain-crypto-js):** All repos clean. No axios dependency anywhere (gaxios in Firebase SDK is unrelated). No plain-crypto-js found in any lockfile or node_modules.
+
+**Fixes applied:**
+1. ✅ **hc-website** — Next.js 16.1.6 → 16.2.1. Fixed 5 moderate vulns: HTTP request smuggling, CSRF bypass (null origin), unbounded disk cache growth, postponed resume DoS, dev HMR websocket CSRF. Build verified clean.
+2. ✅ **things-app** — npm audit fix patched node-forge (signature forgery, cert chain bypass, DoS). 11 → 8 low remaining (deep transitive, require breaking changes).
+3. ✅ **brain-inbox** — npm audit fix patched node-forge + fast-xml-parser (entity expansion bypass). 11 → 8 low remaining.
+4. ✅ **content-calendar** — npm audit fix patched node-forge + fast-xml-parser. 10 → 8 low remaining.
+5. ✅ **b-people** — Firebase SDK bumped 10.8.0 → 12.11.0 to patch undici vulns in @firebase/functions and @firebase/storage. 21 → 8 low remaining.
+6. ✅ **b-marketing, b-resources, eddy, hc-funnel** — 0 vulnerabilities, no action needed.
+
+**Remaining (8 low across 4 repos):** All are deep transitive deps (protobufjs prototype pollution) inside Firebase/Google Cloud SDK. Require major version bumps of upstream packages to resolve. Low real-world risk — these are serialization libs not exposed to user input in B-Suite's usage pattern. Monitor for upstream fixes.
 
 ---
 
