@@ -51,7 +51,7 @@ REPOS=(
 SKIP_HANDOFF_CHECK="pitch-scorer b-marketing"
 
 # Skills tracked in manifest
-TRACKED_SKILLS="handoff dev-deploy comms expert hc-strategy pm"
+TRACKED_SKILLS="handoff dev-deploy comms expert hc-strategy pm create-content"
 
 MODE="${1:-full}"
 

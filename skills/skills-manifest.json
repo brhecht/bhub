@@ -36,6 +36,12 @@
       "hash": "66e5e213a262f82e5241b689e8d96ebd",
       "updated": "2026-03-29",
       "changelog": "Initial release — product manager skill. Discovery interview → brief with acceptance criteria → implementation plan → build enforcement with soft gates and check-ins → delivery verification. Includes B-Suite UX Standards reference doc."
+    },
+    "create-content": {
+      "version": "1.0.0",
+      "hash": "5bb0f0afd26d24c1a74a02a7064e969c",
+      "updated": "2026-03-31",
+      "changelog": "Initial git-tracked release — newsletter co-writing partner with voice DNA, style guide, newsletter patterns, LinkedIn patterns, and core teachings reference files. Promoted from local-only Cowork skill."
     }
   },
   "devices": {
