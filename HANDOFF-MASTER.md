@@ -1,6 +1,6 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: March 31, 2026 ~afternoon ET*
+*Updated: April 3, 2026 — TNB pivot: tnb-strategy repo + skill created, hc-strategy archived*
 *Source: Most recent handoff from each project*
 
 ---
@@ -97,28 +97,42 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 
 ---
 
-## HC Strategy (Business Strategy & Operating Plan)
-**Status:** Active — strategic framework v2 established March 24, entering execution phase Q1 2026
-**Last updated:** March 24, 2026
-**Location:** hc-strategy/ — private git repo at github.com/brhecht/hc-strategy (restricted access, Brian only)
-**Skill:** `hc-strategy.skill` in bhub/skills/ — install on each device to enable "HC strategy check-in" and "quarterly review" triggers
+## The New Builder (TNB) — Strategy & Business Context
+**Status:** Active — scaffolded April 3, 2026. Strategy docs being written this weekend.
+**Last updated:** April 3, 2026
+**Location:** tnb-strategy/ — private git repo at github.com/brhecht/tnb-strategy (restricted access, Brian only)
+**Skill:** `tnb-strategy.skill` in bhub/skills/ — install on each device to enable "TNB strategy check-in" and "quarterly review" triggers
 **Key context:**
-- Complete strategic brain for Humble Conviction as a business (positioning, product, distribution, revenue model)
-- Three-layer positioning: narrow wedge (founder communication), broad delivery (full-stack founder guidance), AI as brand accelerant (not product)
-- Expert services business using creator economy tools — relationships drive revenue, content amplifies
-- Four revenue streams sequenced: (1) Coaching (launchpad, not permanent backbone), (2) Async courses (SLO model — category, not single product, growing toward catalog), (3) Intensive/cohort (2-3 day format first, not 8 weeks), (4) Workshops (opportunistic)
-- Distribution: LinkedIn (#1) → Email/newsletter → Meta ads + quiz funnel (SLO) → Podcast (networking strategy with content as byproduct) → Monthly live session → Direct outreach
-- Podcast is a network activation tool: audio-first, weekly, 30-min remote via Riverside. Three-layer flywheel (existing network → podcasters → reciprocal guest appearances)
-- 8-quarter operating plan targeting $250K annualized by month 24 (~$400K projected with good execution)
-- Five rounds of expert research (v1-v5) with probability-weighted scenarios. Expected 24-mo revenue ~$298K. 55-60% probability of $250K annualized.
-- Quarterly review protocol defined — compare actuals to plan across 9 dimensions
-- Brian working full-time-plus (40-50+ hrs/week). Execution psychology is the binding constraint — strategy designed around energy patterns (podcast solves outreach avoidance)
+- The New Builder is a rebrand/pivot from Humble Conviction. AI as DNA, not accelerant. Full-stack founder engagement at the intersection of startups and AI.
+- Target audience: "The New Builder" — capital-light, lab-mindset, DIY-technical, solopreneur-friendly founders building in the AI era
+- The goal: become the person founders think of first when they realize AI has changed everything about how they need to build
+- Four exposure outlets: LinkedIn (discovery), Podcast (relationships), YouTube (companion + clips), Newsletter (owned asset)
+- Four revenue streams: War Room ($500/seat, 5 people × 4 weeks — core business engine), Personal Coaching ($5K/10-pack, War Room converts), Video Courses ($99-199, evergreen), Live Events (New Builder Happy Hour, Brian on stage)
+- War Room serves four functions: coaching funnel, alumni network, monthly AMA, live market research
+- Key principle: "Hearing Brian is the #1 sales tool" — podcast, YouTube, live events, War Room all put his live delivery in front of people
+- Active legacy: HC quiz funnel + Meta ads running, coaching clients ongoing, Eddy course storyboarded. These continue during transition, not disrupted.
+- TNB-the-company encompasses all revenue. TNB-the-brand is specifically AI-native founder development. Circles converge over time.
 
 **Key files:**
-- `STRATEGY-CONTEXT.md` — the strategic brain (read first)
-- `operating-plan.md` — 8-quarter plan with revenue projections
-- `expert-analysis-v3.md` — full integrated expert research (~1,250 lines)
-- `archive/` — earlier expert analysis versions (v1, v2)
+- `STRATEGY-CONTEXT.md` — the strategic brain (read first) — skeleton, being written April 2026
+- `operating-plan.md` — operating plan with revenue projections — skeleton, being written April 2026
+- `HANDOFF.md` — session continuity
+
+---
+
+## HC Strategy (ARCHIVED — Superseded by TNB Strategy)
+**Status:** Archived — superseded by tnb-strategy as of April 3, 2026. Retained for reference (expert research, probability models).
+**Last updated:** March 24, 2026 (final)
+**Location:** hc-strategy/ — private git repo at github.com/brhecht/hc-strategy
+**Key context:**
+- Five rounds of expert research (v1-v5) with probability-weighted scenarios — analytical frameworks still valid for reference
+- HC positioning, product architecture, and operating plan are superseded by TNB
+- Do not update these docs further. Git history preserved.
+
+**Reference files (read-only):**
+- `expert-analysis-v5.md` — comprehensive expert research with probability weighting, market comparables, SLO analysis
+- `STRATEGY-CONTEXT.md` — the old HC strategic brain (March 24, 2026)
+- `operating-plan.md` — the old 8-quarter HC plan
 
 ---
 
@@ -230,7 +244,7 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 - **PM skill v1.0.0 (March 30):** Product manager skill for Brian↔Nico workflow. Five phases: Discovery → Brief (PM-BRIEF-<app>.md with acceptance criteria, decision map) → Plan → Build (soft gates, check-ins, 24hr auto-escalate) → Delivery. Includes B-Suite UX Standards reference doc (14 categories). Email memo sent to Nico.
 - **Handoff skill v3.0.0 (March 29):** Replaced manual bootstrap with bsync. Added stamp-on-push protocol. Three-layer resilience: bsync (belt), stamps (belt+), handoff-away (suspenders).
 - **Dev-deploy skill v1.2.0 (March 29):** Added stamp-on-push to deploy chain.
-- **Skills tracked:** handoff (v3.0.0), dev-deploy (v1.2.0), comms (v1.0.0), expert (v1.0.0), hc-strategy (v1.0.0), pm (v1.0.0)
+- **Skills tracked:** handoff (v3.1.0), dev-deploy (v1.2.0), comms (v1.0.0), expert (v1.0.0), hc-strategy (v1.0.0, archived), tnb-strategy (v1.0.0, new), pm (v1.0.0)
 - **Pending skill installs:** MacBook Air needs handoff v3.0.0 + dev-deploy v1.2.0. MacBook Pro and iMac have stale hashes for both. Mac Mini never set up.
 
 **Shared resources:** Design system reference used by hc-funnel, b-marketing, b-resources.

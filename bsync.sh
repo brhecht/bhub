@@ -44,6 +44,7 @@ REPOS=(
   "eddy:brhecht/eddy-tracker"
   "hc-funnel:brhecht/hc-funnel"
   "hc-strategy:brhecht/hc-strategy"
+  "tnb-strategy:brhecht/tnb-strategy"
   "pitch-scorer:brhecht/pitch-scorer"
 )
 

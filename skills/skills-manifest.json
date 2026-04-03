@@ -8,10 +8,10 @@
       "changelog": "Initial versioned release — moved to git-tracked skills in bhub"
     },
     "handoff": {
-      "version": "3.0.0",
-      "hash": "5d838caefe57ebe00d4659f7810f5ac9",
-      "updated": "2026-03-29",
-      "changelog": "bsync v2 integration: replaced multi-step manual bootstrap with single bsync.sh command. Added stamp-on-push protocol for lightweight handoff continuity on every meaningful push. Master now auto-generated from per-app handoffs. Three-layer resilience: bsync (belt), stamps (belt+), handoff-away (suspenders)."
+      "version": "3.1.0",
+      "hash": "5313370db3c3f42787630a90aec5795b",
+      "updated": "2026-04-03",
+      "changelog": "Added tnb-strategy to repo registry. Marked hc-strategy as archived (superseded by tnb-strategy). The New Builder pivot."
     },
     "dev-deploy": {
       "version": "1.2.0",
@@ -29,7 +29,15 @@
       "version": "1.0.0",
       "hash": "f2610e427952b6c5c3a744d6ddf90bfd",
       "updated": "2026-03-23",
-      "changelog": "Initial release — HC strategic brain with operating plan, expert research, quarterly review protocol"
+      "changelog": "Initial release — HC strategic brain with operating plan, expert research, quarterly review protocol",
+      "status": "archived",
+      "archived_note": "Superseded by tnb-strategy as of April 3, 2026. Repo remains for reference but no longer actively maintained."
+    },
+    "tnb-strategy": {
+      "version": "1.0.0",
+      "hash": "dec2ee1296e51f099cc55652ba45f974",
+      "updated": "2026-04-03",
+      "changelog": "Initial release — The New Builder strategic brain. Replaces hc-strategy. TNB positioning, War Room product architecture, transition plan from HC."
     },
     "pm": {
       "version": "1.0.0",
@@ -51,6 +59,7 @@
       "dev-deploy": "5d71d7b07a2de8b32ad43c166e69e618",
       "expert": "a45799e0f7da28bb590ce9f5b8d3f550",
       "hc-strategy": "f2610e427952b6c5c3a744d6ddf90bfd",
+      "tnb-strategy": "not_installed",
       "last_synced": "2026-03-23"
     },
     "iMac": {
@@ -59,6 +68,7 @@
       "dev-deploy": "f740133eaa30dab26e4548a30713e7cd",
       "expert": "a45799e0f7da28bb590ce9f5b8d3f550",
       "hc-strategy": "f2610e427952b6c5c3a744d6ddf90bfd",
+      "tnb-strategy": "not_installed",
       "last_synced": "2026-03-28"
     },
     "MacBook Air": {
@@ -67,6 +77,7 @@
       "dev-deploy": "853cb97d6e415c972ea7ebe72e358c9b",
       "expert": "a45799e0f7da28bb590ce9f5b8d3f550",
       "hc-strategy": "c224d6294aec2cf696a1a654a5d22d86",
+      "tnb-strategy": "not_installed",
       "last_synced": "2026-03-29"
     },
     "Mac Mini": {
@@ -75,6 +86,7 @@
       "dev-deploy": "unknown",
       "expert": "unknown",
       "hc-strategy": "not_installed",
+      "tnb-strategy": "not_installed",
       "last_synced": "never"
     }
   }

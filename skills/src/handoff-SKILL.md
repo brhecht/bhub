@@ -33,7 +33,8 @@ All repos live under `~/Developer/B-Suite/` (local, NOT iCloud). All are git rep
 | bhub | brhecht/bhub | hub, b hub, suite, master |
 | eddy | brhecht/eddy-tracker | eddy, tracker, course launch, gantt |
 | hc-funnel | brhecht/hc-funnel | funnel, quiz, ads, meta ads, landing page, pitch assessment |
-| hc-strategy | brhecht/hc-strategy | hc strategy, operating plan, revenue model (private — Brian only) |
+| hc-strategy | brhecht/hc-strategy | hc strategy (archived — superseded by tnb-strategy) |
+| tnb-strategy | brhecht/tnb-strategy | tnb, the new builder, tnb strategy, new builder strategy, war room (private — Brian only) |
 | pitch-scorer | brhecht/pitch-scorer | pitch scorer (archived) |
 
 ## B-Suite Device Setup Protocol
