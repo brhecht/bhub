@@ -80,6 +80,53 @@ At the start of every Cowork session that involves code changes or deploys, Clau
 
 **This means the deploy flow is now fully autonomous in Cowork mode.** No terminal handoff needed for `git push`. The user's only checkpoint is confirming "ship it" before Claude pushes.
 
+## Git Operations: /tmp Clone First (MANDATORY)
+
+**Never perform git write operations (commit, push, pull, rebase) on the mounted drive.** The mounted B-Suite folder has persistent EPERM issues — lock files, pack file errors, HEAD.lock failures. These are a fundamental limitation of how Cowork mounts the filesystem, not something that can be fixed per-session.
+
+**The rule is simple:**
+- **Reads:** Use the mounted drive. Reading files, checking git status, browsing code — all fine on the mounted path.
+- **Writes (code edits):** Use the mounted drive via Edit/Write tools. File edits work. HMR picks them up if a dev server is running.
+- **Git operations (commit, push, pull):** ALWAYS use a /tmp clone. No exceptions. No "try mounted first, fall back to /tmp." Go straight to /tmp.
+
+**The /tmp clone pattern:**
+
+```bash
+# Clone fresh (or reuse if already cloned this session)
+REPO="app-name"
+TMP_REPO="/tmp/bsync-work/$REPO"
+if [ ! -d "$TMP_REPO" ]; then
+  git clone https://github.com/brhecht/$REPO.git "$TMP_REPO"
+fi
+
+# Sync any file changes from mounted drive to /tmp clone
+cd "$TMP_REPO" && git pull
+rsync -av --exclude='.git' --exclude='node_modules' \
+  /path/to/mounted/$REPO/ "$TMP_REPO/"
+
+# Commit and push from /tmp
+cd "$TMP_REPO" && git add -A && git commit -m "message" && git push
+```
+
+**Shortcut:** If bsync already cloned the repo to `/tmp/bsync-work/<repo>/` at session start, reuse that clone. Don't re-clone.
+
+**Why this is mandatory, not a preference:** The mounted drive fails on git writes roughly 70% of the time. Every failure wastes 30-60 seconds of retrying, produces confusing error output, and sometimes leaves lock files that affect the next session. Going straight to /tmp is faster even when the mounted drive would have worked.
+
+**Post-push sync:** After pushing from /tmp, the mounted drive's working tree is now behind. This is fine — the next `git pull` (from /tmp or from the user's Mac) will catch up. Don't try to pull on the mounted drive to sync it.
+
+## Known Sandbox Limitations (Don't Fight These)
+
+These are Cowork sandbox constraints that cannot be fixed. Don't waste time retrying — use the documented workarounds.
+
+| Blocked | Workaround |
+|---------|------------|
+| **Firestore direct access** (gRPC blocked by proxy) | Can't query Firestore from sandbox. Use Vercel API endpoints if the domain is allowlisted, or read from local data files/exports. |
+| **GitHub API** (api.github.com blocked by proxy) | Can't create repos, manage issues, or use gh CLI. Give user a one-liner to run on their Mac. |
+| **Custom Vercel domains** (*.vercel.app blocked by proxy) | Can't fetch from live app APIs. Build data export scripts that write to repo files instead. |
+| **Firebase CLI deploy** | Use git push + Vercel auto-deploy instead. If Firebase deploy is truly needed, give user a one-liner. |
+| **Mounted drive git writes** | Use /tmp clone pattern (see above). |
+| **Skill files** (read-only once installed) | Edit source in bhub /tmp clone, rebuild .skill bundle, present to user for install. |
+
 ## Deploy Flow
 
 ### Autonomous build loop (Cowork mode)

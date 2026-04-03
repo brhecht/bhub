@@ -387,10 +387,22 @@ When adding a new user: update `content-calendar/src/users.js`, `brain-inbox/api
 
 Brian uses four machines. B-Suite folder location: `~/Developer/B-Suite/` on all devices (migrated from Desktop on March 14, 2026).
 
-- **MacBook Pro** — primary dev machine. B-Suite path: `~/Developer/B-Suite/`. Skills: ✅ all three installed.
-- **iMac (BRH iMac 2019)** — B-Suite path: `~/Developer/B-Suite/`. Fresh clone from GitHub March 16, 2026. Skills: handoff ✅, dev-deploy ✅, comms ✅. Note: username is BRHPro. **No Node.js installed** — use Firebase console for rules deploy.
-- **MacBook Air** — path: `~/Developer/B-Suite/` (confirm on first session)
-- **Mac Mini** — path: `~/Developer/B-Suite/` (confirm on first session)
+- **MacBook Pro** — primary dev machine. B-Suite path: `~/Developer/B-Suite/`. Lock-file cron: ✅ installed April 3, 2026.
+- **iMac (BRH iMac 2019)** — B-Suite path: `~/Developer/B-Suite/`. Fresh clone from GitHub March 16, 2026. Note: username is BRHPro. **No Node.js installed** — use Firebase console for rules deploy. Lock-file cron: ⬜ not installed.
+- **MacBook Air** — path: `~/Developer/B-Suite/` (confirm on first session). Lock-file cron: ⬜ not installed.
+- **Mac Mini** — path: `~/Developer/B-Suite/` (confirm on first session). Lock-file cron: ⬜ not installed.
+
+### Lock-File Cron (Per-Device Setup)
+
+Cowork sessions leave stale `.git/index.lock` files when they time out mid-operation. These block all git operations on subsequent sessions. A cron job cleans them automatically.
+
+**Bootstrap check:** At session start, if the master handoff shows this device's cron as ⬜, prompt the user to install it:
+
+```bash
+(crontab -l 2>/dev/null; echo '*/30 * * * * find ~/Developer/B-Suite -name "index.lock" -mmin +5 -delete 2>/dev/null') | crontab -
+```
+
+After user confirms, update the device's status in this section to ✅ and push the master.
 
 ---
 
