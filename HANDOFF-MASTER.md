@@ -231,7 +231,7 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 
 ## B Hub (Suite Homepage, App Switcher & Infrastructure)
 **Status:** Live — homepage portal + central infrastructure repo (skills, bsync, master handoff)
-**Last updated:** March 30, 2026
+**Last updated:** April 3, 2026
 **Location:** bhub/
 **Live URL:** https://b-hub-liard.vercel.app
 **GitHub:** https://github.com/brhecht/bhub
@@ -242,10 +242,11 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 - **Infrastructure home:** All Cowork skills (source in `skills/src/`, bundles in `skills/*.skill`), `skills-manifest.json` for cross-device version tracking, `bsync.sh` v2 bootstrap script, and this HANDOFF-MASTER.md
 - **bsync.sh v2 (March 29-30):** Single-command bootstrap — pulls all 11 repos, cross-checks handoff freshness against git history, verifies skill hashes, outputs structured JSON. EPERM fallback to /tmp clones. Three modes: full, --pull-only (LaunchAgent), --status (offline).
 - **PM skill v1.0.0 (March 30):** Product manager skill for Brian↔Nico workflow. Five phases: Discovery → Brief (PM-BRIEF-<app>.md with acceptance criteria, decision map) → Plan → Build (soft gates, check-ins, 24hr auto-escalate) → Delivery. Includes B-Suite UX Standards reference doc (14 categories). Email memo sent to Nico.
-- **Handoff skill v3.0.0 (March 29):** Replaced manual bootstrap with bsync. Added stamp-on-push protocol. Three-layer resilience: bsync (belt), stamps (belt+), handoff-away (suspenders).
-- **Dev-deploy skill v1.2.0 (March 29):** Added stamp-on-push to deploy chain.
-- **Skills tracked:** handoff (v3.1.0), dev-deploy (v1.2.0), comms (v1.0.0), expert (v1.0.0), hc-strategy (v1.0.0, archived), tnb-strategy (v1.0.0, new), pm (v1.0.0)
-- **Pending skill installs:** MacBook Air needs handoff v3.0.0 + dev-deploy v1.2.0. MacBook Pro and iMac have stale hashes for both. Mac Mini never set up.
+- **Handoff skill v3.1.0 (April 3):** Added tnb-strategy to repo registry. Marked hc-strategy as archived.
+- **Dev-deploy skill v1.3.0 (April 3):** Mandatory /tmp clone for all git writes. Added Known Sandbox Limitations table (Firestore, GitHub API, Vercel domains all blocked — documented workarounds). Lock-file cron setup added to master handoff.
+- **TNB Strategy skill v1.0.0 (April 3):** New skill for The New Builder strategic brain. Replaces hc-strategy.
+- **Skills tracked:** handoff (v3.1.0), dev-deploy (v1.3.0), comms (v1.0.0), expert (v1.0.0), hc-strategy (v1.0.0, archived), tnb-strategy (v1.0.0), pm (v1.0.0)
+- **Pending skill installs:** All devices need handoff v3.1.0, dev-deploy v1.3.0, and tnb-strategy v1.0.0. MacBook Pro has tnb-strategy + handoff + dev-deploy installed this session.
 
 **Shared resources:** Design system reference used by hc-funnel, b-marketing, b-resources.
 
