@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: "Project handoff skill for maintaining continuity across devices and sessions. Triggers on \"handoff away\" (write or amend a single HANDOFF.md file in the project folder) or \"handoff here\" (find and read the HANDOFF.md file and load full project context). Use this skill whenever the user says \"handoff away\", \"handoff here\", or references switching devices, picking up where they left off, or syncing project state. Also triggers when the user starts a session and mentions any B-Suite app by name — treat that as an implicit \"handoff here\" for that app."
+description: "MANDATORY SESSION BOOTSTRAP for all B-Suite work. This skill MUST be the first thing invoked — before reading code, before making edits, before any other skill — whenever the user references ANY B-Suite app by name, URL, screenshot, or description (B Content, B Things, B People, B Eddy, B Marketing, B Resources, hc-funnel, content-calendar, things-app, brain-inbox, etc.). Any B-Suite app reference is an implicit 'handoff here' — run bsync, check skill versions, read the master handoff, then load the app's handoff. Also triggers explicitly on 'handoff away', 'handoff here', or references to switching devices or syncing project state. This is the session prerequisite that ensures context, skill currency, and continuity. Do not skip it. Do not defer it. Do not do 'just one quick fix' first."
 ---
 
 # Handoff Skill

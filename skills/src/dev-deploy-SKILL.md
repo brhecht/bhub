@@ -7,6 +7,25 @@ description: |
 
 # Dev-Deploy Workflow
 
+## ⛔ PREREQUISITE — RUN BEFORE WRITING ANY CODE
+
+Before reading further, before touching any file, before any code work: execute the B-Suite bootstrap. This is not optional and not deferrable. Do it now, in this order:
+
+1. **Load the handoff skill** — invoke the `handoff` skill immediately.
+2. **Run bsync.sh** — `BSUITE_DIR="<mounted-bsuite-path>" bash <bhub-path>/bsync.sh`. This pulls all repos, checks handoff freshness, and verifies skill versions.
+3. **Check skill versions** — if bsync reports ANY skill with `"match": false`, present the install link and tell the user. This is a **blocking gate** — do not proceed until skills are current or the user explicitly acknowledges.
+4. **Read HANDOFF-MASTER.md** from bhub.
+5. **Read the app's HANDOFF.md** for whichever app the user is working on.
+6. **Then and only then** — start working on code.
+
+This sequence exists because skipping it means working without context: stale skill protocols, missed changes from other sessions, unknown bugs. The bootstrap takes 30 seconds. Skipping it has cost entire sessions of wasted work.
+
+**How to detect that this applies:** If the user references any B-Suite app — by name (B Content, B Things, B People, etc.), by URL (*.vercel.app), by screenshot, by repo name, or by describing a problem with one of these apps — this prerequisite is triggered. The user does NOT need to say "handoff here." Any B-Suite app reference is an implicit bootstrap trigger.
+
+**Do not rationalize skipping this.** "The user seems urgent" is not a reason. "I can see the bug in the screenshot" is not a reason. "I'll do it after this quick fix" is not a reason. Run the bootstrap first. Every time. No exceptions.
+
+---
+
 This skill defines the protocol for how Claude works on web app codebases. The goal: Claude does the heavy lifting on code, the user does minimal terminal interaction, and deployments are smooth single-step operations.
 
 ## Core Philosophy
