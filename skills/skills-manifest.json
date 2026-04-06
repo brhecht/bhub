@@ -9,15 +9,15 @@
     },
     "handoff": {
       "version": "3.2.0",
-      "hash": "a880241530c194fa565e98a2c9cd7b86",
-      "updated": "2026-04-04",
-      "changelog": "Rewrote description to be an unambiguous mandatory session prerequisite. Any B-Suite app reference now triggers bootstrap — not just explicit 'handoff here'. Description uses imperative language to prevent skipping."
+      "hash": "20907dbab90f1e4b05e61da7a44328e5",
+      "updated": "2026-04-06",
+      "changelog": "Fix manifest hash to match actual source. Content unchanged from v3.2.0 release."
     },
     "dev-deploy": {
       "version": "1.4.0",
-      "hash": "4aed3baef0b08220e4f699fd538720f9",
-      "updated": "2026-04-04",
-      "changelog": "Added PREREQUISITE gate at top of skill body. Before any code work: run bsync, check skill versions, read master handoff, read app handoff. Explicitly prohibits rationalizing skipping the bootstrap."
+      "hash": "7a32ac6622d746c53bf17958c9acfbe9",
+      "updated": "2026-04-06",
+      "changelog": "Fix manifest hash to match actual source. Content unchanged from v1.4.0 release."
     },
     "expert": {
       "version": "1.0.0",
@@ -55,12 +55,13 @@
   "devices": {
     "MacBook Pro": {
       "comms": "a07eb9d2cd41056f82c593736af00760",
-      "handoff": "83cf818e0a7732b11e111af806ffdeff",
-      "dev-deploy": "5d71d7b07a2de8b32ad43c166e69e618",
+      "handoff": "20907dbab90f1e4b05e61da7a44328e5",
+      "dev-deploy": "7a32ac6622d746c53bf17958c9acfbe9",
       "expert": "a45799e0f7da28bb590ce9f5b8d3f550",
       "hc-strategy": "f2610e427952b6c5c3a744d6ddf90bfd",
-      "tnb-strategy": "not_installed",
-      "last_synced": "2026-03-23"
+      "tnb-strategy": "dec2ee1296e51f099cc55652ba45f974",
+      "create-content": "540346b5b5c8b9f3d28560dcfab9fb96",
+      "last_synced": "2026-04-06"
     },
     "iMac": {
       "comms": "a07eb9d2cd41056f82c593736af00760",
