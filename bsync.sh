@@ -1,5 +1,5 @@
 #!/bin/bash
-# bsync v2 — B-Suite session bootstrap & reconciliation
+# bsync v2.1 — B-Suite session bootstrap & reconciliation
 # Pulls all repos, cross-checks handoffs against git history, reconciles skills, rebuilds master.
 # Claude executes this at session start, reads the JSON output, acts on findings.
 # Also runs on Mac via LaunchAgent (--pull-only) or manually.
@@ -15,7 +15,9 @@ set -uo pipefail
 # Detect environment: Cowork VM vs local Mac
 if [[ -d "/sessions" ]]; then
   BSUITE_DIR="${BSUITE_DIR:-$(find /sessions -maxdepth 3 -name 'B-Suite' -type d 2>/dev/null | head -1)}"
-  WORK_DIR="/tmp/bsync-work"
+  # Use session-unique work dir to avoid stale /tmp dirs from previous sessions
+  SESSION_ID=$(echo "$BSUITE_DIR" | grep -o '/sessions/[^/]*' | cut -d'/' -f3)
+  WORK_DIR="/tmp/bsync-${SESSION_ID:-$$}"
   ENV="cowork"
 else
   BSUITE_DIR="${BSUITE_DIR:-$HOME/Developer/B-Suite}"
@@ -94,42 +96,27 @@ pull_repos() {
     local detail=""
     local path="$repo_dir"
 
-    if [[ -d "$repo_dir/.git" ]]; then
-      # Try to remove stale locks — if EPERM, go straight to /tmp clone
-      rm -f "$repo_dir/.git/index.lock" "$repo_dir/.git/HEAD.lock" "$repo_dir/.git/ORIG_HEAD.lock" 2>/dev/null
-      local has_locks="false"
-      [[ -f "$repo_dir/.git/index.lock" ]] && has_locks="true"
-
-      if [[ "$has_locks" == "true" ]]; then
-        # Mounted drive won't let us remove locks — clone to /tmp
-        rm -rf "$WORK_DIR/$folder"
-        if git clone "https://github.com/${github}.git" "$WORK_DIR/$folder" 2>/dev/null; then
-          status="cloned_to_tmp"
-          path="$WORK_DIR/$folder"
-        else
-          status="failed"
-          detail="Lock files undeletable (EPERM) and clone failed"
-        fi
+    if [[ "$ENV" == "cowork" ]]; then
+      # Cowork sandbox: mounted drive is read-only. Always clone fresh to /tmp.
+      # This is fast (shallow clone) and avoids all EPERM issues.
+      local tmp_dir="$WORK_DIR/$folder"
+      if git clone --depth 1 "https://github.com/${github}.git" "$tmp_dir" 2>/dev/null; then
+        status="ok"
+        path="$tmp_dir"
       else
-        local output
-        output=$(cd "$repo_dir" && git fetch origin 2>&1 && git reset --hard origin/main 2>&1) && status="ok" || {
-          if echo "$output" | grep -qi "permission\|eperm\|unable to unlink\|lock"; then
-            rm -rf "$WORK_DIR/$folder"
-            if git clone "https://github.com/${github}.git" "$WORK_DIR/$folder" 2>/dev/null; then
-              status="cloned_to_tmp"
-              path="$WORK_DIR/$folder"
-            else
-              status="failed"
-              detail=$(echo "$output" | head -3)
-            fi
-          else
-            status="failed"
-            detail=$(echo "$output" | head -3)
-          fi
-        }
+        status="failed"
+        detail="Clone to $WORK_DIR failed"
       fi
+    elif [[ -d "$repo_dir/.git" ]]; then
+      # Local Mac: pull directly on the repo
+      rm -f "$repo_dir/.git/index.lock" "$repo_dir/.git/HEAD.lock" "$repo_dir/.git/ORIG_HEAD.lock" 2>/dev/null
+      local output
+      output=$(cd "$repo_dir" && git fetch origin 2>&1 && git reset --hard origin/main 2>&1) && status="ok" || {
+        status="failed"
+        detail=$(echo "$output" | head -3)
+      }
     else
-      rm -rf "$WORK_DIR/$folder"
+      # Repo doesn't exist locally — clone it
       if git clone "https://github.com/${github}.git" "$WORK_DIR/$folder" 2>/dev/null; then
         status="cloned_to_tmp"
         path="$WORK_DIR/$folder"
@@ -250,7 +237,6 @@ print(m.get('skills',{}).get('$skill',{}).get('version','unknown'))
     local installed_hash="not_found"
     local skill_path=""
     for search_dir in \
-      "/sessions/beautiful-charming-davinci/mnt/.claude/skills/$skill" \
       "/sessions/"*"/mnt/.claude/skills/$skill" \
       "$HOME/.claude/skills/$skill"; do
       if [[ -f "$search_dir/SKILL.md" ]]; then
@@ -303,7 +289,7 @@ fi
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.0.0",
+  "bsync_version": "2.1.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
