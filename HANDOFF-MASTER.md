@@ -1,6 +1,6 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: April 3, 2026 — TNB pivot: tnb-strategy repo + skill created, hc-strategy archived*
+*Updated: April 6, 2026 — TNB execution: decisions locked, first podcast ep booked, launch plan rewritten, Substack decision, manifest fix*
 *Source: Most recent handoff from each project*
 
 ---
@@ -98,24 +98,28 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 ---
 
 ## The New Builder (TNB) — Strategy & Business Context
-**Status:** Active — scaffolded April 3, 2026. Strategy docs being written this weekend.
-**Last updated:** April 3, 2026
+**Status:** Active — in execution. Week 1 of launch plan. First podcast episode recording Tue April 7.
+**Last updated:** April 6, 2026
 **Location:** tnb-strategy/ — private git repo at github.com/brhecht/tnb-strategy (restricted access, Brian only)
 **Skill:** `tnb-strategy.skill` in bhub/skills/ — install on each device to enable "TNB strategy check-in" and "quarterly review" triggers
 **Key context:**
 - The New Builder is a rebrand/pivot from Humble Conviction. AI as DNA, not accelerant. Full-stack founder engagement at the intersection of startups and AI.
 - Target audience: "The New Builder" — capital-light, lab-mindset, DIY-technical, solopreneur-friendly founders building in the AI era
-- The goal: become the person founders think of first when they realize AI has changed everything about how they need to build
-- Four exposure outlets: LinkedIn (discovery), Podcast (relationships), YouTube (companion + clips), Newsletter (owned asset)
-- Four revenue streams: War Room ($500/seat, 5 people × 4 weeks — core business engine), Personal Coaching ($5K/10-pack, War Room converts), Video Courses ($99-199, evergreen), Live Events (New Builder Happy Hour, Brian on stage)
-- War Room serves four functions: coaching funnel, alumni network, monthly AMA, live market research
-- Key principle: "Hearing Brian is the #1 sales tool" — podcast, YouTube, live events, War Room all put his live delivery in front of people
-- Active legacy: HC quiz funnel + Meta ads running, coaching clients ongoing, Eddy course storyboarded. These continue during transition, not disrupted.
+- **Podcast tagline (locked):** "The New Builder — conversations with founders building in the AI era."
+- **First episode:** Scott Werner, Tue April 7 noon on Riverside. Brian hosts solo (no producer needed). Goes up on current HC YouTube — no rebrand needed yet.
+- **Newsletter moving to Substack** (decided April 6). thenewbuilder parked, activating. Beehiiv stays for HC content during transition.
+- **YouTube rebrand NOT done yet** — Brian will do it himself, probably next week. Not a blocker.
+- Four exposure outlets: LinkedIn (discovery), Podcast (relationships), YouTube (companion + clips), Newsletter (Substack — owned asset)
+- Four revenue streams: War Room ($500/seat, 5 people × 4 weeks — core business engine), Personal Coaching ($5K/10-pack, War Room converts), Video Courses ($99-199, evergreen), Live Events (MVHH, Brian on stage)
+- MVHH Wednesday April 8 — recruiting ground for podcast guests, newsletter contributors, War Room beta participants
+- Active legacy: HC quiz funnel + Meta ads running (non-zero but not yet significant results), coaching clients ongoing, Eddy course storyboarded. These continue during transition, not disrupted.
 - TNB-the-company encompasses all revenue. TNB-the-brand is specifically AI-native founder development. Circles converge over time.
+- Nico briefed April 6 via email + Slack DM with full task list (episode edit, distribution, Google Form, Substack setup).
 
 **Key files:**
-- `STRATEGY-CONTEXT.md` — the strategic brain (read first) — skeleton, being written April 2026
-- `operating-plan.md` — operating plan with revenue projections — skeleton, being written April 2026
+- `STRATEGY-CONTEXT.md` — the strategic brain (read first) — fully written, updated April 6
+- `operating-plan.md` — skeleton, deferred until War Room betas provide real data
+- `LAUNCH-PLAN.md` — full operational checklist in action categories (No Friction / Assign Nico / Short-Term / Open Questions / Post-Rebrand / Decisions Locked / Nico Instructions)
 - `HANDOFF.md` — session continuity
 
 ---
@@ -231,7 +235,7 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 
 ## B Hub (Suite Homepage, App Switcher & Infrastructure)
 **Status:** Live — homepage portal + central infrastructure repo (skills, bsync, master handoff)
-**Last updated:** April 3, 2026
+**Last updated:** April 6, 2026
 **Location:** bhub/
 **Live URL:** https://b-hub-liard.vercel.app
 **GitHub:** https://github.com/brhecht/bhub
@@ -241,11 +245,12 @@ The b-things Firebase project uses a single shared `firestore.rules` file that l
 - Auto-deploys from GitHub main branch via Vercel
 - **Infrastructure home:** All Cowork skills (source in `skills/src/`, bundles in `skills/*.skill`), `skills-manifest.json` for cross-device version tracking, `bsync.sh` v2 bootstrap script, and this HANDOFF-MASTER.md
 - **bsync.sh v2 (March 29-30):** Single-command bootstrap — pulls all 11 repos, cross-checks handoff freshness against git history, verifies skill hashes, outputs structured JSON. EPERM fallback to /tmp clones. Three modes: full, --pull-only (LaunchAgent), --status (offline).
-- **PM skill v1.0.0 (March 30):** Product manager skill for Brian↔Nico workflow. Five phases: Discovery → Brief (PM-BRIEF-<app>.md with acceptance criteria, decision map) → Plan → Build (soft gates, check-ins, 24hr auto-escalate) → Delivery. Includes B-Suite UX Standards reference doc (14 categories). Email memo sent to Nico.
-- **Handoff skill v3.1.0 (April 3):** Added tnb-strategy to repo registry. Marked hc-strategy as archived.
-- **Dev-deploy skill v1.3.0 (April 3):** Mandatory /tmp clone for all git writes. Added Known Sandbox Limitations table (Firestore, GitHub API, Vercel domains all blocked — documented workarounds). Lock-file cron setup added to master handoff.
+- **PM skill v1.0.0 (March 30):** Product manager skill for Brian↔Nico workflow.
+- **Handoff skill v3.2.0 (April 4):** Rewritten as mandatory session prerequisite. Any B-Suite app reference triggers bootstrap.
+- **Dev-deploy skill v1.4.0 (April 4):** Added prerequisite gate before code work.
 - **TNB Strategy skill v1.0.0 (April 3):** New skill for The New Builder strategic brain. Replaces hc-strategy.
-- **Skills tracked:** handoff (v3.1.0), dev-deploy (v1.3.0), comms (v1.0.0), expert (v1.0.0), hc-strategy (v1.0.0, archived), tnb-strategy (v1.0.0), pm (v1.0.0)
+- **Skills manifest fix (April 6):** Corrected handoff and dev-deploy hashes in skills-manifest.json — were misaligned between source and manifest. MacBook Pro device entry updated.
+- **Skills tracked:** handoff (v3.2.0), dev-deploy (v1.4.0), comms (v1.0.0), expert (v1.0.0), hc-strategy (v1.0.0, archived), tnb-strategy (v1.0.0), pm (v1.0.0), create-content (v1.0.0)
 - **Pending skill installs:** All devices need handoff v3.1.0, dev-deploy v1.3.0, and tnb-strategy v1.0.0. MacBook Pro has tnb-strategy + handoff + dev-deploy installed this session.
 
 **Shared resources:** Design system reference used by hc-funnel, b-marketing, b-resources.
