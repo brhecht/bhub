@@ -11,6 +11,12 @@
 
 ---
 
+## Session End Rule
+
+**No session ends without all modified B-Suite files committed and pushed to GitHub.** The mounted drive is not persistent between sessions — if it's not in git, it's gone. This applies even if the user doesn't explicitly say "handoff away." If a session is ending (user says goodbye, switches devices, or context is running low), push all uncommitted work before responding. This is non-negotiable.
+
+---
+
 ## Session Bootstrap Protocol
 
 **Claude must execute these steps automatically on every "handoff here" — no user prompting required.**
