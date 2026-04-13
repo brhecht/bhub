@@ -1,8 +1,10 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: April 11, 2026*
+*Updated: April 13, 2026*
 *Source: Most recent handoff from each project*
 
+> **April 12-13, 2026 — TNB positioning locked + homepage built.** All TNB positioning language locked in standalone `tnb-strategy/POSITIONING-LANGUAGE.md` (tagline, one-liners, cocktail party, written version, style rules, brand architecture). TNB homepage (thenewbuilder.html) built as self-contained HTML: light/warm palette, terracotta accent, Trebuchet MS, split hero with Brian action photo, all locked copy. Design iteration in progress, not yet deployed. Source strategy docs archived in tnb-strategy/source-docs/. Email to Nico drafted with positioning package. See `tnb-strategy/POSITIONING-LANGUAGE.md` and `tnb-strategy/HANDOFF.md`.
+>
 > **April 11, 2026 — Eddy killed + TNB strategy check-in.** Eddy unit economics evaluated: profitability highly unrealistic at any price point. Recommendation: finish Week 2 checkpoint April 14, shut down paid ads, keep quiz as free organic tool, do not record the course. Full analysis: `hc-funnel/research/eddy-unit-economics-april-2026.md`. TNB Phase 1 in progress: podcast ep 1 dropping April 14 (Scott Werner/Sublayer), MVHH 2.0 done (~30 founders), LinkedIn rhythm strong. War Room format shifted to one-shot group tests starting ~April 21. Strategy docs updated with Week 1 actuals and revised 5-week timeline. See `tnb-strategy/STRATEGY-CONTEXT.md`.
 >
 > **March 20, 2026 — HC Funnel pre-launch.** Action plan email pipeline fully wired: quiz → email capture → Firestore + Kit + Claude-generated personalized action plan via Resend. Meta Pixel installed. Ad launch target: week of March 23. Kit nurture drip postponed (no course yet). All B-Suite repos now at `~/Developer/B-Suite/` on MacBook Pro (moved from Desktop March 12). Full Nico spec committed: `hc-funnel/NICO-SPEC-ACTION-PLAN-LAUNCH.md`.
@@ -189,6 +191,29 @@ If the session will involve building an app, check if `node_modules` exists in t
 **Status:** Archived / abandoned — only a README and eslint config remain locally
 **Location:** pitch-scorer/
 **Key context:** Was a Jules-generated React prototype (Landing → Assessment → Results). Decided to build from scratch instead (became hc-funnel). GitHub repo should be archived when gh CLI auth is resolved.
+
+---
+
+## TNB Strategy (The New Builder)
+**Status:** Active. Positioning language locked. Homepage in design iteration.
+**Last updated:** April 13, 2026
+**Location:** tnb-strategy/ (private repo, Brian only)
+**GitHub:** brhecht/tnb-strategy (private)
+**Key context:**
+- Strategic brain for The New Builder. Contains positioning, product architecture, revenue model, operating plan, launch plan, and business context.
+- **POSITIONING-LANGUAGE.md** is the canonical source for all TNB copy. Locked April 12, 2026. Reference this from any content/design work.
+- STRATEGY-CONTEXT.md is the full strategic brain (positioning refs, target audience, business model, 4 exposure outlets, 4 revenue streams, transition plan).
+- TNB homepage (thenewbuilder.html) built April 12-13, actively iterating. Not yet deployed to thenewbuilder.ai.
+- Source docs (March 2026 strategy memo + deck) archived in source-docs/ with usage protocol README.
+
+**Not shared with Nico.** Brian-only context. Nico receives relevant decisions via email/DM, not repo access.
+
+---
+
+## HC Strategy (Archived)
+**Status:** Archived. Superseded by tnb-strategy.
+**Location:** hc-strategy/
+**Key context:** Legacy strategic brain for Humble Conviction. Expert research docs are still valuable reference material. Operational details are outdated.
 
 ---
 
