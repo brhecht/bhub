@@ -1,8 +1,10 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: April 13, 2026*
+*Updated: April 14, 2026*
 *Source: Most recent handoff from each project*
 
+> **April 14, 2026 — B Content UX overhaul + direct email + B Hub cleanup.** Rich text editing on all Content Calendar body fields, Enter-to-save+close keyboard shortcut (with ⌘+Enter), mobile responsive CardModal, Ghost + Hold views with shared StatusListView, dateless card warning. ⌘+Enter and button Enter prevention ported to B Things. B Hub: renamed B Eddy → B Projects, swapped card positions, trimmed app switcher to 4 apps. Brain-inbox: new `api/send-email.js` endpoint for direct Gmail sends via SMTP (Nodemailer). Comms skill updated to send emails directly instead of creating drafts. Dev-deploy skill updated with Claude in Chrome mandate and mobile-responsive coding rules.
+>
 > **April 12-13, 2026 — TNB positioning locked + homepage built.** All TNB positioning language locked in standalone `tnb-strategy/POSITIONING-LANGUAGE.md` (tagline, one-liners, cocktail party, written version, style rules, brand architecture). TNB homepage (thenewbuilder.html) built as self-contained HTML: light/warm palette, terracotta accent, Trebuchet MS, split hero with Brian action photo, all locked copy. Design iteration in progress, not yet deployed. Source strategy docs archived in tnb-strategy/source-docs/. Email to Nico drafted with positioning package. See `tnb-strategy/POSITIONING-LANGUAGE.md` and `tnb-strategy/HANDOFF.md`.
 >
 > **April 11, 2026 — Eddy killed + TNB strategy check-in.** Eddy unit economics evaluated: profitability highly unrealistic at any price point. Recommendation: finish Week 2 checkpoint April 14, shut down paid ads, keep quiz as free organic tool, do not record the course. Full analysis: `hc-funnel/research/eddy-unit-economics-april-2026.md`. TNB Phase 1 in progress: podcast ep 1 dropping April 14 (Scott Werner/Sublayer), MVHH 2.0 done (~30 founders), LinkedIn rhythm strong. War Room format shifted to one-shot group tests starting ~April 21. Strategy docs updated with Week 1 actuals and revised 5-week timeline. See `tnb-strategy/STRATEGY-CONTEXT.md`.
@@ -81,7 +83,7 @@ If the session will involve building an app, check if `node_modules` exists in t
 
 ## B Things (Personal Task Manager)
 **Status:** Active, fully functional, two-way messaging live
-**Last updated:** March 9, 2026
+**Last updated:** April 14, 2026
 **Location:** things-app/
 **Live URL:** https://things-app-gamma.vercel.app
 **Key context:**
@@ -98,30 +100,35 @@ If the session will involve building an app, check if `node_modules` exists in t
 ---
 
 ## Content Calendar
-**Status:** Active, fully functional
-**Last updated:** March 7, 2026
+**Status:** Active, fully functional — major UX overhaul April 14
+**Last updated:** April 14, 2026
 **Location:** content-calendar/
 **Live URL:** https://content-calendar-nine.vercel.app/
 **Key context:**
 - Manages content across YouTube Videos, YouTube Shorts, LinkedIn, Beehiiv newsletters
 - 11-stage pipeline from Ghost → Published with auto-archiving
 - Vercel serverless proxies for Beehiiv and YouTube APIs
-- **NoteThread chat system** (added March 7): iMessage-style threaded messaging on each card, replacing the old plain-text notes field. Messages stored in `contentCards/{cardId}/messages` subcollection. Bi-directional @mention notifications via Slack DM + Brain Inbox. Unread indicators on cards. User registry in `src/users.js`. Legacy notes auto-migrate as first message.
-- **handoff-notify endpoint** (brain-inbox) updated to route notifications to any user by email — not just Nico. Resolves Firebase UID at runtime via Admin Auth.
+- **Rich text editing** on all platform body fields (B/I/link toolbar, contentEditable). Copy buttons strip HTML for clean paste.
+- **Enter-to-save+close** keyboard shortcut with text field guard. ⌘+Enter secondary shortcut. Button Enter prevention on dropdowns.
+- **Ghost + Hold views** — sidebar views for parking cards. Shared StatusListView component with search, platform filter, two-step hover-delete.
+- **Mobile responsive CardModal** — full-screen on mobile, proper padding/scroll.
+- **Dateless card warning** — yellow banner for non-ghost/non-hold cards missing a date.
+- NoteThread chat system, Beehiiv + YouTube auto-match, Agenda calendar view.
 
 **Shared resources:** Firebase project `b-things`. AppSwitcher component.
 
 ---
 
 ## Brain Inbox (B Nico)
-**Status:** Active, functional — also serves as B Suite notification router
-**Last updated:** March 9, 2026
+**Status:** Active, functional — B Suite notification router + email sender
+**Last updated:** April 14, 2026
 **Location:** brain-inbox/
 **Live URL:** https://brain-inbox-six.vercel.app
 **GitHub:** https://github.com/brhecht/brain-inbox
 **Key context:**
 - Nico's triage inbox — captures Slack @mentions and DMs, converts to tasks
 - **Notification router for all B Suite two-way messaging** — `handoff-notify.js` routes per-recipient (Nico → Brain Inbox Slack channel, Brian → Slack DM)
+- **Direct email send** — `send-email.js` sends email via Gmail SMTP (Nodemailer + App Password). Used by comms skill. Any recipient address works. Env var: `GMAIL_APP_PASSWORD`.
 - **Slack → B Things task creation** — `nico-slack.js` with `--notes` flag creates tasks in Brian's B Things (project "from-nico") with NoteThread first message
 - Slack Bot API integration via Vercel serverless function
 - **Also hosts all Firebase Cloud Functions for `b-things`** — `functions/index.js` contains both the Brain Inbox Slack trigger AND the Content → Things sync trigger. Tech debt: should be extracted to dedicated repo.
@@ -131,16 +138,16 @@ If the session will involve building an app, check if `node_modules` exists in t
 ---
 
 ## B Hub (Suite Homepage & App Switcher)
-**Status:** Live — homepage portal linking to all B-Suite apps
-**Last updated:** March 5, 2026
+**Status:** Live — homepage portal linking to active B-Suite apps
+**Last updated:** April 14, 2026
 **Location:** bhub/
 **Live URL:** https://b-hub-liard.vercel.app
 **GitHub:** https://github.com/brhecht/bhub
 **Key context:**
-- Static HTML homepage with card grid linking to all B-Suite apps
-- 8 app cards: Eddy, Things, Content, People, Nico, BPIs, Marketing, Resources
-- B Marketing and B Resources cards link to their standalone React apps
+- Static HTML homepage with card grid: B Things (top-left), B Projects (top-right, formerly B Eddy), B Content (bottom-left), B People (bottom-right)
+- App switcher nav bar + mobile dropdown: same 4 apps only (B Marketing and HC Funnel removed April 14)
 - Auto-deploys from GitHub main branch via Vercel
+- Also contains bsync.sh (bootstrap script) and HANDOFF-MASTER.md
 
 **Shared resources:** Design system reference used by hc-funnel, b-marketing, b-resources.
 
@@ -237,7 +244,7 @@ If the session will involve building an app, check if `node_modules` exists in t
 | App | Live URL | GitHub |
 |-----|----------|--------|
 | B Hub | https://b-hub-liard.vercel.app | brhecht/bhub |
-| B Eddy | https://eddy-tracker.vercel.app | brhecht/eddy |
+| B Projects (fka B Eddy) | https://eddy-tracker.vercel.app | brhecht/eddy |
 | B Things | https://things-app-gamma.vercel.app | brhecht/things-app |
 | B Content | https://content-calendar-nine.vercel.app | brhecht/content-calendar |
 | B People | https://b-people.vercel.app | brhecht/b-people |
