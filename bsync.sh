@@ -47,11 +47,13 @@ REPOS=(
   "hc-funnel:brhecht/hc-funnel"
   "hc-strategy:brhecht/hc-strategy"
   "tnb-strategy:brhecht/tnb-strategy"
+  "hc-website:brhecht/hc-website"
+  "tnb-website:brhecht/tnb-website"
   "pitch-scorer:brhecht/pitch-scorer"
 )
 
 # Skip deep handoff check on dormant/archived repos
-SKIP_HANDOFF_CHECK="pitch-scorer b-marketing"
+SKIP_HANDOFF_CHECK="pitch-scorer b-marketing hc-strategy"
 
 # Skills tracked in manifest
 TRACKED_SKILLS="handoff dev-deploy comms expert hc-strategy pm create-content"

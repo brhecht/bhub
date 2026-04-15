@@ -1,11 +1,13 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: April 14, 2026*
+*Updated: April 15, 2026*
 *Source: Most recent handoff from each project*
 
 > **April 14, 2026 — B Content UX overhaul + direct email + B Hub cleanup.** Rich text editing on all Content Calendar body fields, Enter-to-save+close keyboard shortcut (with ⌘+Enter), mobile responsive CardModal, Ghost + Hold views with shared StatusListView, dateless card warning. ⌘+Enter and button Enter prevention ported to B Things. B Hub: renamed B Eddy → B Projects, swapped card positions, trimmed app switcher to 4 apps. Brain-inbox: new `api/send-email.js` endpoint for direct Gmail sends via SMTP (Nodemailer). Comms skill updated to send emails directly instead of creating drafts. Dev-deploy skill updated with Claude in Chrome mandate and mobile-responsive coding rules.
 >
-> **April 12-13, 2026 — TNB positioning locked + homepage built.** All TNB positioning language locked in standalone `tnb-strategy/POSITIONING-LANGUAGE.md` (tagline, one-liners, cocktail party, written version, style rules, brand architecture). TNB homepage (thenewbuilder.html) built as self-contained HTML: light/warm palette, terracotta accent, Trebuchet MS, split hero with Brian action photo, all locked copy. Design iteration in progress, not yet deployed. Source strategy docs archived in tnb-strategy/source-docs/. Email to Nico drafted with positioning package. See `tnb-strategy/POSITIONING-LANGUAGE.md` and `tnb-strategy/HANDOFF.md`.
+> **April 15, 2026 — TNB website design approved + repo architecture cleaned up.** TNB homepage fully designed with Brian: hero (photo left, tagline right), story section, "Builders Figuring it Out. Together." 3x2 product grid (Podcast, YouTube, Newsletter, War Room, Meetups, Curated Events), YouTube embed, newsletter subscribe, bio. TNB website separated into its own repo (`brhecht/tnb-website`, to be created) from the `tnb-coming-soon` branch of `hc-website`. hc-website documented with HANDOFF.md for first time. Both repos added to bsync and master handoff. Nico brief packaged for implementation. bsync.sh updated to v2.1 with both new repos.
+>
+> **April 12-13, 2026 — TNB positioning locked.** All TNB positioning language locked in standalone `tnb-strategy/POSITIONING-LANGUAGE.md` (tagline, one-liners, cocktail party, written version, style rules, brand architecture). Source strategy docs archived in tnb-strategy/source-docs/. See `tnb-strategy/POSITIONING-LANGUAGE.md`.
 >
 > **April 11, 2026 — Eddy killed + TNB strategy check-in.** Eddy unit economics evaluated: profitability highly unrealistic at any price point. Recommendation: finish Week 2 checkpoint April 14, shut down paid ads, keep quiz as free organic tool, do not record the course. Full analysis: `hc-funnel/research/eddy-unit-economics-april-2026.md`. TNB Phase 1 in progress: podcast ep 1 dropping April 14 (Scott Werner/Sublayer), MVHH 2.0 done (~30 founders), LinkedIn rhythm strong. War Room format shifted to one-shot group tests starting ~April 21. Strategy docs updated with Week 1 actuals and revised 5-week timeline. See `tnb-strategy/STRATEGY-CONTEXT.md`.
 >
@@ -194,6 +196,36 @@ If the session will involve building an app, check if `node_modules` exists in t
 
 ---
 
+## HC Website (humbleconviction.com)
+**Status:** Live but not actively developed. Will become Brian's personal homepage over time.
+**Last updated:** April 15, 2026
+**Location:** hc-website/
+**Live URL:** humbleconviction.com
+**GitHub:** brhecht/hc-website
+**Key context:**
+- Next.js app. HC homepage with "What's Your Founder Story?" hero, YouTube embed, bio, email capture.
+- **Branches:** `main` (live HC site), `nico/website-redesign` (HC redesign prototype, not deployed to prod), `tnb-coming-soon` (DEPRECATED, TNB moved to own repo).
+- `tnb-coming-soon` branch should be deleted once `tnb-website` repo is live on Vercel.
+- No active development planned. Transitions to Brian's personal page when ready.
+
+---
+
+## TNB Website (thenewbuilder.ai)
+**Status:** Homepage design approved April 15. Ready for Nico to implement. Repo not yet created on GitHub.
+**Last updated:** April 15, 2026
+**Location:** tnb-website/ (repo to be created)
+**Live URL:** thenewbuilder.ai (currently pointing to hc-website tnb-coming-soon branch; needs reconnection)
+**GitHub:** brhecht/tnb-website (to be created)
+**Key context:**
+- The New Builder public homepage. Next.js app, Vercel hosting, Beehiiv email capture.
+- Homepage sections: Nav with TNB wordmark, hero (Brian photo left + tagline right), "Why I'm building this" story, "Builders Figuring it Out. Together." 3x2 product grid (Podcast, YouTube, Newsletter, War Room, Meetups, Curated Events), latest YouTube episode embed, newsletter subscribe form, About Brian bio.
+- All copy sourced from `tnb-strategy/POSITIONING-LANGUAGE.md`.
+- Previously lived as `tnb-coming-soon` branch of `hc-website`. Separated into own repo April 15.
+- Static HTML preview of approved design exists in working files. Nico brief packaged.
+- See `tnb-website/HANDOFF.md` for full implementation details and card copy.
+
+---
+
 ## Pitch Scorer
 **Status:** Archived / abandoned — only a README and eslint config remain locally
 **Location:** pitch-scorer/
@@ -202,16 +234,16 @@ If the session will involve building an app, check if `node_modules` exists in t
 ---
 
 ## TNB Strategy (The New Builder)
-**Status:** Active. Positioning language locked. Homepage in design iteration.
-**Last updated:** April 13, 2026
+**Status:** Active. Positioning language locked. Homepage design approved, ready for implementation.
+**Last updated:** April 15, 2026
 **Location:** tnb-strategy/ (private repo, Brian only)
 **GitHub:** brhecht/tnb-strategy (private)
 **Key context:**
 - Strategic brain for The New Builder. Contains positioning, product architecture, revenue model, operating plan, launch plan, and business context.
 - **POSITIONING-LANGUAGE.md** is the canonical source for all TNB copy. Locked April 12, 2026. Reference this from any content/design work.
 - STRATEGY-CONTEXT.md is the full strategic brain (positioning refs, target audience, business model, 4 exposure outlets, 4 revenue streams, transition plan).
-- TNB homepage (thenewbuilder.html) built April 12-13, actively iterating. Not yet deployed to thenewbuilder.ai.
 - Source docs (March 2026 strategy memo + deck) archived in source-docs/ with usage protocol README.
+- TNB Insider Intro Deck (April 13) in Google Drive: the current 12-slide strategy deck with the 4+4 model grid.
 
 **Not shared with Nico.** Brian-only context. Nico receives relevant decisions via email/DM, not repo access.
 
@@ -236,6 +268,8 @@ If the session will involve building an app, check if `node_modules` exists in t
 - **bhub** links to **b-marketing** (standalone app) and **b-resources** (standalone app) as sub-hubs
 - **b-marketing** links out to **hc-funnel** for the quiz; will eventually embed or route to more marketing tools
 - **b-resources** will use **b-things** Firebase project for Library/Vault data storage
+- **tnb-website** email capture wires to Beehiiv (same account as HC newsletter). All copy sourced from **tnb-strategy/POSITIONING-LANGUAGE.md**.
+- **hc-website** `tnb-coming-soon` branch is deprecated; **tnb-website** is the replacement. Delete branch after tnb-website is live.
 - **gh CLI auth** is resolved — repos can now be archived
 
 ---
@@ -253,6 +287,8 @@ If the session will involve building an app, check if `node_modules` exists in t
 | B Marketing | https://b-marketing.vercel.app | brhecht/b-marketing |
 | B Resources | https://b-resources.vercel.app | brhecht/b-resources |
 | HC Funnel | https://quiz.humbleconviction.com | brhecht/hc-funnel |
+| HC Website | humbleconviction.com | brhecht/hc-website |
+| TNB Website | thenewbuilder.ai | brhecht/tnb-website (to be created) |
 | Pitch Scorer | https://pitch-scorer.vercel.app | brhecht/pitch-scorer (archive) |
 
 ---
