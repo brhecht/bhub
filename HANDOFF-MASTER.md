@@ -211,18 +211,20 @@ If the session will involve building an app, check if `node_modules` exists in t
 ---
 
 ## TNB Website (thenewbuilder.ai)
-**Status:** Homepage design approved April 15. Ready for Nico to implement. Repo not yet created on GitHub.
+**Status:** LIVE. Deployed April 15, 2026.
 **Last updated:** April 15, 2026
-**Location:** tnb-website/ (repo to be created)
-**Live URL:** thenewbuilder.ai (currently pointing to hc-website tnb-coming-soon branch; needs reconnection)
-**GitHub:** brhecht/tnb-website (to be created)
+**Location:** tnb-website/
+**Live URL:** thenewbuilder.ai
+**GitHub:** nmejiawork/tnb-website (transfer to brhecht pending)
+**Vercel project:** brian-hechts-projects/thenewbuilder
 **Key context:**
-- The New Builder public homepage. Next.js app, Vercel hosting, Beehiiv email capture.
+- The New Builder public homepage. Next.js 16.2.1, Tailwind 4, Vercel hosting, Beehiiv email capture.
 - Homepage sections: Nav with TNB wordmark, hero (Brian photo left + tagline right), "Why I'm building this" story, "Builders Figuring it Out. Together." 3x2 product grid (Podcast, YouTube, Newsletter, War Room, Meetups, Curated Events), latest YouTube episode embed, newsletter subscribe form, About Brian bio.
 - All copy sourced from `tnb-strategy/POSITIONING-LANGUAGE.md`.
-- Previously lived as `tnb-coming-soon` branch of `hc-website`. Separated into own repo April 15.
-- Static HTML preview of approved design exists in working files. Nico brief packaged.
-- See `tnb-website/HANDOFF.md` for full implementation details and card copy.
+- Previously lived as `tnb-coming-soon` branch of `hc-website`. Separated into own repo April 15. That branch is now deleted.
+- Deployed via Vercel CLI (no GitHub auto-deploy yet — pending repo transfer + Nico added as collaborator).
+- **Pending:** Beehiiv env vars (`BEEHIIV_API_KEY`, `BEEHIIV_PUBLICATION_ID`) — subscribe form non-functional until added.
+- See `tnb-website/HANDOFF.md` for full implementation details.
 
 ---
 
@@ -288,7 +290,7 @@ If the session will involve building an app, check if `node_modules` exists in t
 | B Resources | https://b-resources.vercel.app | brhecht/b-resources |
 | HC Funnel | https://quiz.humbleconviction.com | brhecht/hc-funnel |
 | HC Website | humbleconviction.com | brhecht/hc-website |
-| TNB Website | thenewbuilder.ai | brhecht/tnb-website (to be created) |
+| TNB Website | thenewbuilder.ai | nmejiawork/tnb-website (transfer to brhecht pending) |
 | Pitch Scorer | https://pitch-scorer.vercel.app | brhecht/pitch-scorer (archive) |
 
 ---
