@@ -311,9 +311,10 @@ When adding a new user: update `content-calendar/src/users.js`, `brain-inbox/api
 
 ## Devices
 
-Brian uses three machines. B-Suite folder location may vary by device — confirm path on first use if not listed.
+Brian uses four machines. B-Suite folder location may vary by device — confirm path on first use if not listed.
 
 - **MacBook Pro** — primary dev machine. B-Suite path: `~/Developer/B-Suite/` *(freshly cloned March 20, 2026 — replaced B-Suite-Clean which no longer exists)*
+- **iMac** — B-Suite path: `~/Developer/B-Suite/` *(added to master April 17, 2026 — previously tracked in skills-manifest.json only)*
 - **MacBook Air** — B-Suite path: `~/Desktop/B-Suite/` (healthy, unaffected by iCloud issue)
 - **Mac Mini** — B-Suite path: `~/Desktop/B-Suite/` (healthy, unaffected by iCloud issue)
 
