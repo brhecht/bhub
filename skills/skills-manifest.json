@@ -2,10 +2,10 @@
   "_comment": "Tracks skill versions across devices. Hash is MD5 of SKILL.md source. Bootstrap protocol (bsync.sh) compares this against installed versions.",
   "skills": {
     "comms": {
-      "version": "1.1.0",
-      "hash": "2e46b55e605c6fd9facfa9b9f665c7c7",
+      "version": "1.2.0",
+      "hash": "bfac0f7909d451c2e101986abdd745ef",
       "updated": "2026-04-17",
-      "changelog": "Email channel tolerates Gmail MCP tool rename (gmail_create_draft → create_draft). Uses ToolSearch fallback if expected tool name doesn't resolve. Prevents silent draft-creation failures when MCP schema shifts."
+      "changelog": "Added real auto-send for Email channel via Gmail Apps Script + hidden HTML marker. Skill now defaults to send mode (email delivered in ~5 min); draft-only mode is opt-in via explicit 'draft' keyword. Apps Script source at bhub/apps-script/claude-auto-send.gs — one-time deployment in Gmail required."
     },
     "handoff": {
       "version": "3.2.0",

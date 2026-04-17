@@ -48,19 +48,56 @@ Nico:
 
 ## Channel: Email
 
-Use the Gmail MCP's draft-creation tool to create a draft in the **current user's** Gmail. The tool name may vary by MCP version — at the time of writing it is exposed as `create_draft` (previously `gmail_create_draft`). If the expected name doesn't resolve, use `ToolSearch` with `select:` or a keyword query (e.g., `gmail draft`) to find the currently registered tool on the Gmail MCP and call that. The user reviews and sends manually — this is a Gmail limitation, not a bug.
+The Gmail MCP only exposes draft creation (not direct send), but the comms infrastructure includes a **Gmail Apps Script auto-sender** that watches for drafts containing a specific marker and sends them automatically. So "email mode" in this skill has two sub-modes:
 
-**Routing based on sender:**
+1. **Send mode (default)** — email is delivered within ~5 min, no manual send step required
+2. **Draft-only mode** — email sits in Drafts for the user to review and send manually
+
+### Default: Send mode
+
+Use the Gmail MCP's draft-creation tool to create a draft in the **current user's** Gmail, and include the auto-send marker in the HTML body.
+
+**Tool name:** The draft-creation tool is currently exposed as `create_draft` (previously `gmail_create_draft`). If the expected name doesn't resolve, use `ToolSearch` with `select:` or a keyword query (e.g., `gmail draft`) to find the currently registered tool.
+
+**The marker:** Include this exact string as an HTML comment at the very top of your `htmlBody`:
+
+```
+<!--CLAUDE-AUTO-SEND-V1-->
+```
+
+Example `htmlBody`:
+```html
+<!--CLAUDE-AUTO-SEND-V1-->
+<html><body>
+<p>Hey Nico,</p>
+...
+</body></html>
+```
+
+The marker is invisible in the delivered email. The Apps Script (deployed in Brian's Gmail, runs every 5 minutes) detects the marker, sends the draft, and moves it to Sent. See `bhub/apps-script/claude-auto-send.gs` for the script and deployment instructions.
+
+After creating the draft, tell the user: "Sent to [name] — will deliver within ~5 minutes via auto-send pipeline."
+
+### Draft-only mode (opt-in)
+
+Use this when the user explicitly says "draft" or "prepare an email for me to send" — anything signaling they want to review before it ships. In this mode:
+
+- Create the draft **without** the marker
+- Tell the user: "Draft created in Gmail — review and hit send when ready."
+
+Signals for draft-only mode: "draft an email...", "prepare a draft...", "write an email I can review...", "let me see before sending".
+
+### Routing based on sender
 
 - **Brian sending to Nico:** Draft in Brian's Gmail → To: nico@humbleconviction.com
 - **Nico sending to Brian:** Draft in Nico's Gmail → To: brhnyc1970@gmail.com
-- **Self-send:** Draft to sender's own email (useful for notes-to-self)
+- **Self-send:** Draft to sender's own email (useful for notes-to-self, cross-device references, instructions to pull up later)
 
-Note: The Gmail MCP tool drafts in whichever Gmail account is connected to the current user's Cowork session. Each user must have Gmail connected in their own Cowork setup.
+Note: The Gmail MCP tool drafts in whichever Gmail account is connected to the current user's Cowork session. Each user must have Gmail connected in their own Cowork setup. The Apps Script auto-sender is currently deployed in Brian's Gmail only — Nico's drafts won't auto-send until/unless the script is deployed in his account too.
+
+### Tone
 
 Write the email in a professional but casual tone matching Brian and Nico's working relationship. No corporate fluff. Clear, direct, actionable.
-
-After creating the draft, tell the user: "Draft created in Gmail — review and hit send when ready."
 
 ## Channel: DM (Slack Direct Message)
 
@@ -205,7 +242,6 @@ Each user needs the following in their Cowork session for full functionality:
 
 ## What This Skill Does NOT Do
 
-- Does not send email directly (Gmail creates drafts only — user must hit send)
 - Does not create B Things tasks (that's the `--notes` Slack flow, separate system)
 - Does not handle group messages or Slack channels
 - Does not handle recipients outside Brian and Nico (extend the contact registry to add more)
