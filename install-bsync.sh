@@ -17,11 +17,11 @@ set -e
 echo "=== Installing bsync hourly auto-pull ==="
 echo ""
 
-# --- Self-locate B-Suite ---
-# This script lives inside bhub/, which lives inside B-Suite/
+# --- Self-locate bhub and bsync.sh ---
+# This script lives inside bhub/, alongside bsync.sh
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BSUITE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-BSYNC_SH="$BSUITE_DIR/bsync.sh"
+BSYNC_SH="$SCRIPT_DIR/bsync.sh"
 
 if [[ ! -f "$BSYNC_SH" ]]; then
   echo "❌ Can't find bsync.sh at: $BSYNC_SH"
@@ -29,7 +29,8 @@ if [[ ! -f "$BSYNC_SH" ]]; then
   exit 1
 fi
 
-echo "Detected B-Suite location: $BSUITE_DIR"
+echo "Detected bhub location:     $SCRIPT_DIR"
+echo "Detected B-Suite location:  $BSUITE_DIR"
 echo "Detected bsync script:      $BSYNC_SH"
 echo ""
 
