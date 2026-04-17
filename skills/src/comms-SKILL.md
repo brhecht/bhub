@@ -48,7 +48,7 @@ Nico:
 
 ## Channel: Email
 
-Use the Gmail MCP tool `gmail_create_draft` to create a draft in the **current user's** Gmail. The user reviews and sends manually — this is a Gmail limitation, not a bug.
+Use the Gmail MCP's draft-creation tool to create a draft in the **current user's** Gmail. The tool name may vary by MCP version — at the time of writing it is exposed as `create_draft` (previously `gmail_create_draft`). If the expected name doesn't resolve, use `ToolSearch` with `select:` or a keyword query (e.g., `gmail draft`) to find the currently registered tool on the Gmail MCP and call that. The user reviews and sends manually — this is a Gmail limitation, not a bug.
 
 **Routing based on sender:**
 

@@ -2,10 +2,10 @@
   "_comment": "Tracks skill versions across devices. Hash is MD5 of SKILL.md source. Bootstrap protocol (bsync.sh) compares this against installed versions.",
   "skills": {
     "comms": {
-      "version": "1.0.0",
-      "hash": "a07eb9d2cd41056f82c593736af00760",
-      "updated": "2026-03-16",
-      "changelog": "Initial versioned release — moved to git-tracked skills in bhub"
+      "version": "1.1.0",
+      "hash": "2e46b55e605c6fd9facfa9b9f665c7c7",
+      "updated": "2026-04-17",
+      "changelog": "Email channel tolerates Gmail MCP tool rename (gmail_create_draft → create_draft). Uses ToolSearch fallback if expected tool name doesn't resolve. Prevents silent draft-creation failures when MCP schema shifts."
     },
     "handoff": {
       "version": "3.2.0",
@@ -50,6 +50,12 @@
       "hash": "5bb0f0afd26d24c1a74a02a7064e969c",
       "updated": "2026-03-31",
       "changelog": "Initial git-tracked release — newsletter co-writing partner with voice DNA, style guide, newsletter patterns, LinkedIn patterns, and core teachings reference files. Promoted from local-only Cowork skill."
+    },
+    "priority-startup-intel": {
+      "version": "1.0.0",
+      "hash": "80ff4f7e5b50e9f1203eaa8212e42c24",
+      "updated": "2026-04-17",
+      "changelog": "First manifest entry. Added Delivery Failure Protocol: if Gmail draft creation fails, agent saves fallback HTML, pings Brain Inbox via handoff-notify API, and surfaces failure explicitly instead of silent save. Clarified Gmail MCP tool name guidance (create_draft, with ToolSearch fallback) to survive MCP upgrades."
     }
   },
   "devices": {

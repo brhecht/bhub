@@ -213,7 +213,25 @@ TODAY'S INSPIRATION
 
 ## Delivery
 
-Use the Gmail MCP to create and send the email draft to brhnyc1970@gmail.com. The email should be content-type text/html.
+Use the Gmail MCP to create a draft email to brhnyc1970@gmail.com. The email should be content-type text/html. A Google Apps Script running in Brian's Gmail auto-sends any draft matching the "Priority Startup Intel" subject pattern, so a successful draft creation = delivered email.
+
+**Gmail MCP tool name:** The draft-creation tool is currently exposed as `create_draft` (previously `gmail_create_draft`). If the expected name doesn't resolve, use `ToolSearch` with a keyword query like `gmail draft` to find the currently registered tool — do not fail silently on a tool-name mismatch.
+
+## Delivery Failure Protocol
+
+If draft creation fails (tool not found, auth error, server error) after one retry with the correct tool name, do not silently save an HTML file and exit. Execute this failure sequence in order:
+
+1. **Save fallback HTML** to `/Users/BRHPro/Developer/Priority-Startup-Intel-YYYY-MM-DD.html` so the content is not lost.
+2. **Notify Brian via Brain Inbox ping** using the `handoff-notify` API. The scheduled task runs headless so Chrome tools are not available — use a direct Bash `curl` or `node fetch` from the VM. The Cowork scheduled-task VM has outbound network access:
+   ```bash
+   curl -s -X POST https://brain-inbox-six.vercel.app/api/handoff-notify \
+     -H "Content-Type: text/plain" \
+     -d '{"project":"Priority Startup Intel","summary":"⚠️ Morning briefing FAILED to send — draft creation error. Fallback HTML saved at /Users/BRHPro/Developer/Priority-Startup-Intel-YYYY-MM-DD.html. Error: <error message>","recipient":"brhnyc1970@gmail.com","recipientSlackId":"U096WPV71KK"}'
+   ```
+3. **If the Brain Inbox ping also fails**, write a `FAILURE.md` next to the HTML file with the error, timestamp, and what was attempted — so the next session (or the daily-reach-out health check) can surface it.
+4. **Always** include a terse, actionable error summary in the session's final assistant message — state what failed, where the HTML landed, whether the Brain Inbox ping went through, and what Brian needs to do (e.g., "reconnect Gmail MCP" or "manually send the draft"). No euphemisms.
+
+The goal: Brian should learn about a delivery failure within minutes of 7am, not by noticing an absent email hours later.
 
 ## Calibration Notes
 
@@ -240,5 +258,6 @@ When Brian gives feedback on a briefing, update this skill file with the calibra
 5. Run web search sweep (Stream 3)
 6. Deduplicate, apply the Brian Lens, and rank by significance
 7. Format the briefing email
-8. Send via Gmail
+8. Create Gmail draft (Apps Script auto-sends it) — see Delivery section for tool name guidance
 9. If any errors occurred (e.g., Gmail access failed, no newsletters found), note it at the bottom of the email so Brian knows the coverage may be incomplete
+10. If draft creation fails, execute the Delivery Failure Protocol — save fallback HTML, ping Brain Inbox, and flag the failure clearly in the final output
