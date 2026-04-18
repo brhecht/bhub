@@ -1,0 +1,266 @@
+{
+  "bhealth_version": "1.0.0",
+  "timestamp": "2026-04-18T16:42:19Z",
+  "device": "MacMini",
+  "hostname": "Mac",
+  "computer_name": "Mac mini",
+  "os_version": "26.3.1",
+  "bsuite_path": "/Users/BRHPro/Developer/B-Suite",
+  "git_auth_ok": true,
+  "bsync_loaded": true,
+  "bsync_last_run": "2026-04-18 12:12:53",
+  "repos": [
+    {
+      "repo": "things-app",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-04",
+      "action": "none"
+    },
+    {
+      "repo": "brain-inbox",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-14",
+      "action": "none"
+    },
+    {
+      "repo": "content-calendar",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-14",
+      "action": "none"
+    },
+    {
+      "repo": "b-marketing",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-16",
+      "action": "none"
+    },
+    {
+      "repo": "b-people",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-04",
+      "action": "none"
+    },
+    {
+      "repo": "b-resources",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-02",
+      "action": "none"
+    },
+    {
+      "repo": "bhub",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-18",
+      "action": "none"
+    },
+    {
+      "repo": "eddy",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-23",
+      "action": "none"
+    },
+    {
+      "repo": "hc-funnel",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-12",
+      "action": "none"
+    },
+    {
+      "repo": "hc-strategy",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-24",
+      "action": "none"
+    },
+    {
+      "repo": "tnb-strategy",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-15",
+      "action": "none"
+    },
+    {
+      "repo": "hc-website",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-15",
+      "action": "none"
+    },
+    {
+      "repo": "tnb-website",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-16",
+      "action": "none"
+    },
+    {
+      "repo": "pitch-scorer",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-12",
+      "action": "none"
+    }
+  ],
+  "skills": [
+    {
+      "skill": "comms",
+      "installed_hash": "not_installed",
+      "expected_hash": "bfac0f7909d451c2e101986abdd745ef",
+      "match": false
+    },
+    {
+      "skill": "handoff",
+      "installed_hash": "not_installed",
+      "expected_hash": "ff8021af3b5166bc56a47462c19b7121",
+      "match": false
+    },
+    {
+      "skill": "dev-deploy",
+      "installed_hash": "not_installed",
+      "expected_hash": "09ce042b74e88212ec9ad952d8d52b41",
+      "match": false
+    },
+    {
+      "skill": "expert",
+      "installed_hash": "not_installed",
+      "expected_hash": "a45799e0f7da28bb590ce9f5b8d3f550",
+      "match": false
+    },
+    {
+      "skill": "hc-strategy",
+      "installed_hash": "not_installed",
+      "expected_hash": "c224d6294aec2cf696a1a654a5d22d86",
+      "match": false
+    },
+    {
+      "skill": "tnb-strategy",
+      "installed_hash": "not_installed",
+      "expected_hash": "dec2ee1296e51f099cc55652ba45f974",
+      "match": false
+    },
+    {
+      "skill": "pm",
+      "installed_hash": "not_installed",
+      "expected_hash": "66e5e213a262f82e5241b689e8d96ebd",
+      "match": false
+    },
+    {
+      "skill": "create-content",
+      "installed_hash": "not_installed",
+      "expected_hash": "5bb0f0afd26d24c1a74a02a7064e969c",
+      "match": false
+    },
+    {
+      "skill": "priority-startup-intel",
+      "installed_hash": "not_installed",
+      "expected_hash": "80ff4f7e5b50e9f1203eaa8212e42c24",
+      "match": false
+    }
+  ],
+  "tools": [
+    {
+      "tool": "node",
+      "installed": true,
+      "version": "v22.22.0"
+    },
+    {
+      "tool": "npm",
+      "installed": true,
+      "version": "10.9.4"
+    },
+    {
+      "tool": "gh",
+      "installed": true,
+      "version": "gh version 2.87.2 (2026-02-20)"
+    },
+    {
+      "tool": "vercel",
+      "installed": true,
+      "version": "50.22.1"
+    },
+    {
+      "tool": "git",
+      "installed": true,
+      "version": "git version 2.50.1 (Apple Git-155)"
+    }
+  ],
+  "actions": [
+    "Opened 9 skill install dialogs"
+  ],
+  "flags": [
+    "Skill comms not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/comms.skill)",
+    "Skill handoff not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/handoff.skill)",
+    "Skill dev-deploy not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/dev-deploy.skill)",
+    "Skill expert not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/expert.skill)",
+    "Skill hc-strategy not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/hc-strategy.skill)",
+    "Skill tnb-strategy not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/tnb-strategy.skill)",
+    "Skill pm not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/pm.skill)",
+    "Skill create-content not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/create-content.skill)",
+    "Skill priority-startup-intel not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/priority-startup-intel.skill)",
+    "MacMini not in master handoff \u2014 add it manually or via handoff away"
+  ]
+}
