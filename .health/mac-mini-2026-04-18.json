@@ -1,6 +1,6 @@
 {
   "bhealth_version": "1.0.0",
-  "timestamp": "2026-04-18T16:30:26Z",
+  "timestamp": "2026-04-18T16:54:42Z",
   "device": "Mac Mini",
   "hostname": "Mac",
   "computer_name": "Mac mini",
@@ -13,67 +13,67 @@
     {
       "repo": "things-app",
       "branch": "main",
-      "status": "dirty",
+      "status": "clean",
       "ahead": 0,
-      "behind": 14,
-      "dirty": 7,
-      "untracked": 5,
-      "last_commit": "2026-03-14",
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-04",
       "action": "none"
     },
     {
       "repo": "brain-inbox",
       "branch": "main",
-      "status": "dirty",
+      "status": "clean",
       "ahead": 0,
-      "behind": 10,
-      "dirty": 4,
+      "behind": 0,
+      "dirty": 0,
       "untracked": 0,
-      "last_commit": "2026-03-14",
+      "last_commit": "2026-04-14",
       "action": "none"
     },
     {
       "repo": "content-calendar",
       "branch": "main",
-      "status": "dirty",
+      "status": "clean",
       "ahead": 0,
-      "behind": 17,
-      "dirty": 6,
-      "untracked": 7,
-      "last_commit": "2026-03-12",
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-14",
       "action": "none"
     },
     {
       "repo": "b-marketing",
       "branch": "main",
-      "status": "dirty",
+      "status": "clean",
       "ahead": 0,
-      "behind": 1,
+      "behind": 0,
       "dirty": 0,
-      "untracked": 1,
-      "last_commit": "2026-03-12",
+      "untracked": 0,
+      "last_commit": "2026-03-16",
       "action": "none"
     },
     {
       "repo": "b-people",
       "branch": "main",
-      "status": "dirty",
+      "status": "clean",
       "ahead": 0,
-      "behind": 13,
-      "dirty": 9,
-      "untracked": 23,
-      "last_commit": "2026-03-22",
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-04",
       "action": "none"
     },
     {
       "repo": "b-resources",
       "branch": "main",
-      "status": "dirty",
+      "status": "clean",
       "ahead": 0,
-      "behind": 42,
-      "dirty": 1,
-      "untracked": 23,
-      "last_commit": "2026-03-14",
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-02",
       "action": "none"
     },
     {
@@ -90,59 +90,77 @@
     {
       "repo": "eddy",
       "branch": "main",
-      "status": "dirty",
-      "ahead": 1,
-      "behind": 5,
-      "dirty": 3,
-      "untracked": 2,
-      "last_commit": "2026-03-19",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-23",
       "action": "none"
     },
     {
       "repo": "hc-funnel",
       "branch": "main",
-      "status": "dirty",
+      "status": "clean",
       "ahead": 0,
-      "behind": 17,
+      "behind": 0,
       "dirty": 0,
-      "untracked": 17,
-      "last_commit": "2026-03-24",
+      "untracked": 0,
+      "last_commit": "2026-04-12",
       "action": "none"
     },
     {
       "repo": "hc-strategy",
-      "status": "missing",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-24",
       "action": "none"
     },
     {
       "repo": "tnb-strategy",
-      "status": "missing",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-15",
       "action": "none"
     },
     {
       "repo": "hc-website",
       "branch": "main",
-      "status": "pulled",
+      "status": "clean",
       "ahead": 0,
-      "behind": 7,
+      "behind": 0,
       "dirty": 0,
       "untracked": 0,
-      "last_commit": "2026-03-11",
-      "action": "pulled_7"
+      "last_commit": "2026-04-15",
+      "action": "none"
     },
     {
       "repo": "tnb-website",
-      "status": "missing",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-16",
       "action": "none"
     },
     {
       "repo": "pitch-scorer",
       "branch": "main",
-      "status": "dirty",
+      "status": "clean",
       "ahead": 0,
       "behind": 0,
       "dirty": 0,
-      "untracked": 1,
+      "untracked": 0,
       "last_commit": "2026-03-12",
       "action": "none"
     }
@@ -150,57 +168,57 @@
   "skills": [
     {
       "skill": "comms",
-      "installed_hash": "not_installed",
+      "installer_present": true,
       "expected_hash": "bfac0f7909d451c2e101986abdd745ef",
-      "match": false
+      "verified_via": "cowork_bsync"
     },
     {
       "skill": "handoff",
-      "installed_hash": "not_installed",
+      "installer_present": true,
       "expected_hash": "ff8021af3b5166bc56a47462c19b7121",
-      "match": false
+      "verified_via": "cowork_bsync"
     },
     {
       "skill": "dev-deploy",
-      "installed_hash": "not_installed",
+      "installer_present": true,
       "expected_hash": "09ce042b74e88212ec9ad952d8d52b41",
-      "match": false
+      "verified_via": "cowork_bsync"
     },
     {
       "skill": "expert",
-      "installed_hash": "not_installed",
+      "installer_present": true,
       "expected_hash": "a45799e0f7da28bb590ce9f5b8d3f550",
-      "match": false
+      "verified_via": "cowork_bsync"
     },
     {
       "skill": "hc-strategy",
-      "installed_hash": "not_installed",
+      "installer_present": true,
       "expected_hash": "c224d6294aec2cf696a1a654a5d22d86",
-      "match": false
+      "verified_via": "cowork_bsync"
     },
     {
       "skill": "tnb-strategy",
-      "installed_hash": "not_installed",
+      "installer_present": true,
       "expected_hash": "dec2ee1296e51f099cc55652ba45f974",
-      "match": false
+      "verified_via": "cowork_bsync"
     },
     {
       "skill": "pm",
-      "installed_hash": "not_installed",
+      "installer_present": true,
       "expected_hash": "66e5e213a262f82e5241b689e8d96ebd",
-      "match": false
+      "verified_via": "cowork_bsync"
     },
     {
       "skill": "create-content",
-      "installed_hash": "not_installed",
+      "installer_present": true,
       "expected_hash": "5bb0f0afd26d24c1a74a02a7064e969c",
-      "match": false
+      "verified_via": "cowork_bsync"
     },
     {
       "skill": "priority-startup-intel",
-      "installed_hash": "not_installed",
+      "installer_present": true,
       "expected_hash": "80ff4f7e5b50e9f1203eaa8212e42c24",
-      "match": false
+      "verified_via": "cowork_bsync"
     }
   ],
   "tools": [
@@ -230,32 +248,6 @@
       "version": "git version 2.50.1 (Apple Git-155)"
     }
   ],
-  "actions": [
-    "Pulled 7 commits into hc-website",
-    "Opened 9 skill install dialogs",
-    "Fixed master handoff path for Mac Mini \u2192 \\~/Developer/B-Suite"
-  ],
-  "flags": [
-    "things-app has uncommitted work (7 modified, 5 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/things-app && git status",
-    "brain-inbox has uncommitted work (4 modified, 0 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/brain-inbox && git status",
-    "content-calendar has uncommitted work (6 modified, 7 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/content-calendar && git status",
-    "b-marketing has uncommitted work (0 modified, 1 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/b-marketing && git status",
-    "b-people has uncommitted work (9 modified, 23 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/b-people && git status",
-    "b-resources has uncommitted work (1 modified, 23 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/b-resources && git status",
-    "eddy has uncommitted work (3 modified, 2 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/eddy && git status",
-    "hc-funnel has uncommitted work (0 modified, 17 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/hc-funnel && git status",
-    "hc-strategy missing \u2014 clone with: cd /Users/BRHPro/Developer/B-Suite && git clone https://github.com/brhecht/hc-strategy.git hc-strategy",
-    "tnb-strategy missing \u2014 clone with: cd /Users/BRHPro/Developer/B-Suite && git clone https://github.com/brhecht/tnb-strategy.git tnb-strategy",
-    "tnb-website missing \u2014 clone with: cd /Users/BRHPro/Developer/B-Suite && git clone https://github.com/brhecht/tnb-website.git tnb-website",
-    "pitch-scorer has uncommitted work (0 modified, 1 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/pitch-scorer && git status",
-    "Skill comms not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/comms.skill)",
-    "Skill handoff not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/handoff.skill)",
-    "Skill dev-deploy not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/dev-deploy.skill)",
-    "Skill expert not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/expert.skill)",
-    "Skill hc-strategy not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/hc-strategy.skill)",
-    "Skill tnb-strategy not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/tnb-strategy.skill)",
-    "Skill pm not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/pm.skill)",
-    "Skill create-content not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/create-content.skill)",
-    "Skill priority-startup-intel not installed \u2014 install dialog opened (or click: /Users/BRHPro/Developer/B-Suite/bhub/skills/priority-startup-intel.skill)"
-  ]
+  "actions": [],
+  "flags": []
 }
