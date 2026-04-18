@@ -1,6 +1,6 @@
 {
   "bhealth_version": "1.0.0",
-  "timestamp": "2026-04-18T17:12:37Z",
+  "timestamp": "2026-04-18T17:18:49Z",
   "device": "MacBook Air",
   "hostname": "MacBookAir",
   "computer_name": "BRH Macbook Air 2026",
@@ -24,24 +24,24 @@
     {
       "repo": "brain-inbox",
       "branch": "main",
-      "status": "pulled",
+      "status": "clean",
       "ahead": 0,
-      "behind": 2,
+      "behind": 0,
       "dirty": 0,
       "untracked": 0,
-      "last_commit": "2026-03-31",
-      "action": "pulled_2"
+      "last_commit": "2026-04-14",
+      "action": "none"
     },
     {
       "repo": "content-calendar",
       "branch": "main",
-      "status": "pulled",
+      "status": "clean",
       "ahead": 0,
-      "behind": 6,
+      "behind": 0,
       "dirty": 0,
       "untracked": 0,
-      "last_commit": "2026-04-04",
-      "action": "pulled_6"
+      "last_commit": "2026-04-14",
+      "action": "none"
     },
     {
       "repo": "b-marketing",
@@ -68,22 +68,22 @@
     {
       "repo": "b-resources",
       "branch": "main",
-      "status": "dirty",
+      "status": "clean",
       "ahead": 0,
-      "behind": 13,
+      "behind": 0,
       "dirty": 0,
-      "untracked": 1,
-      "last_commit": "2026-03-29",
+      "untracked": 0,
+      "last_commit": "2026-04-02",
       "action": "none"
     },
     {
       "repo": "bhub",
       "branch": "main",
-      "status": "dirty",
+      "status": "clean",
       "ahead": 0,
       "behind": 0,
       "dirty": 0,
-      "untracked": 1,
+      "untracked": 0,
       "last_commit": "2026-04-18",
       "action": "none"
     },
@@ -101,32 +101,56 @@
     {
       "repo": "hc-funnel",
       "branch": "main",
-      "status": "pulled",
+      "status": "clean",
       "ahead": 0,
-      "behind": 3,
+      "behind": 0,
       "dirty": 0,
       "untracked": 0,
-      "last_commit": "2026-04-07",
-      "action": "pulled_3"
+      "last_commit": "2026-04-12",
+      "action": "none"
     },
     {
       "repo": "hc-strategy",
-      "status": "missing",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-24",
       "action": "none"
     },
     {
       "repo": "tnb-strategy",
-      "status": "missing",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-15",
       "action": "none"
     },
     {
       "repo": "hc-website",
-      "status": "missing",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-15",
       "action": "none"
     },
     {
       "repo": "tnb-website",
-      "status": "missing",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-16",
       "action": "none"
     },
     {
@@ -220,19 +244,8 @@
       "version": "git version 2.50.1 (Apple Git-155)"
     }
   ],
-  "actions": [
-    "Pulled 2 commits into brain-inbox",
-    "Pulled 6 commits into content-calendar",
-    "Pulled 3 commits into hc-funnel",
-    "Fixed master handoff path for MacBook Air \u2192 \\~/Developer/B-Suite"
-  ],
+  "actions": [],
   "flags": [
-    "b-resources has uncommitted work (0 modified, 1 untracked) \u2014 review with: cd /Users/BRHair/Developer/B-Suite/b-resources && git status",
-    "bhub has uncommitted work (0 modified, 1 untracked) \u2014 review with: cd /Users/BRHair/Developer/B-Suite/bhub && git status",
-    "hc-strategy missing \u2014 clone with: cd /Users/BRHair/Developer/B-Suite && git clone https://github.com/brhecht/hc-strategy.git hc-strategy",
-    "tnb-strategy missing \u2014 clone with: cd /Users/BRHair/Developer/B-Suite && git clone https://github.com/brhecht/tnb-strategy.git tnb-strategy",
-    "hc-website missing \u2014 clone with: cd /Users/BRHair/Developer/B-Suite && git clone https://github.com/brhecht/hc-website.git hc-website",
-    "tnb-website missing \u2014 clone with: cd /Users/BRHair/Developer/B-Suite && git clone https://github.com/brhecht/tnb-website.git tnb-website",
     "Missing node \u2014 install via: brew install node",
     "Missing npm \u2014 install via: brew install node",
     "Missing gh CLI \u2014 install via: brew install gh && gh auth login",
