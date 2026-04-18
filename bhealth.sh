@@ -87,7 +87,8 @@ identify_device() {
   if [[ -n "${BHEALTH_DEVICE:-}" ]]; then
     DEVICE_NAME="$BHEALTH_DEVICE"
   elif [[ -f "$DEVICE_FILE" ]]; then
-    DEVICE_NAME="$(cat "$DEVICE_FILE" | tr -d '[:space:]' | head -c 40)"
+    # Read one line, preserving internal spaces — only strip trailing newline
+    IFS= read -r DEVICE_NAME < "$DEVICE_FILE" || DEVICE_NAME=""
   else
     # First run — ask
     say "${INFO} First bhealth run on this Mac. Which one is this?"
@@ -283,12 +284,11 @@ for s in m.get('skills', {}).keys():
     print(s)
 ")
 
-  local total=0 match=0 drift=0 missing=0
-  local drifted_skills=()
+  local total=0 source_ok=0 source_missing=0
 
   for skill in $skills_list; do
     total=$((total + 1))
-    local expected_hash installed_hash skill_md install_file
+    local expected_hash install_file
 
     expected_hash=$(python3 -c "
 import json
@@ -297,48 +297,25 @@ with open('$MANIFEST') as f:
 print(m.get('skills',{}).get('$skill',{}).get('hash','unknown'))
 ")
 
-    # Check installed location — ~/.claude/skills/$skill/SKILL.md
-    skill_md="$HOME/.claude/skills/$skill/SKILL.md"
     install_file="$SCRIPT_DIR/skills/${skill}.skill"
 
-    if [[ ! -f "$skill_md" ]]; then
-      installed_hash="not_installed"
-      missing=$((missing + 1))
-      say "${WARN} ${skill}: not installed"
-      if [[ -f "$install_file" ]]; then
-        drifted_skills+=("$install_file")
-        REPORT_FLAGS+=("Skill $skill not installed — install dialog opened (or click: $install_file)")
-      fi
+    # Verify the .skill source installer file exists in bhub
+    if [[ -f "$install_file" ]]; then
+      source_ok=$((source_ok + 1))
+      say "${OK} ${skill}: installer present (bhub/skills/${skill}.skill)"
+      REPORT_SKILLS+=("{\"skill\":\"$skill\",\"installer_present\":true,\"expected_hash\":\"$expected_hash\",\"verified_via\":\"cowork_bsync\"}")
     else
-      installed_hash=$(md5 -q "$skill_md" 2>/dev/null || md5sum "$skill_md" 2>/dev/null | awk '{print $1}')
-      if [[ "$installed_hash" == "$expected_hash" ]]; then
-        match=$((match + 1))
-        say "${OK} ${skill}: current"
-      else
-        drift=$((drift + 1))
-        say "${WARN} ${skill}: drifted (installed ${installed_hash:0:8}, expected ${expected_hash:0:8})"
-        if [[ -f "$install_file" ]]; then
-          drifted_skills+=("$install_file")
-          REPORT_FLAGS+=("Skill $skill drifted — install dialog opened (or click: $install_file)")
-        fi
-      fi
+      source_missing=$((source_missing + 1))
+      say "${WARN} ${skill}: installer missing from bhub/skills/"
+      REPORT_FLAGS+=("Skill installer missing: $install_file — bhub repo incomplete?")
+      REPORT_SKILLS+=("{\"skill\":\"$skill\",\"installer_present\":false,\"expected_hash\":\"$expected_hash\"}")
     fi
-
-    REPORT_SKILLS+=("{\"skill\":\"$skill\",\"installed_hash\":\"$installed_hash\",\"expected_hash\":\"$expected_hash\",\"match\":$([[ "$installed_hash" == "$expected_hash" ]] && echo true || echo false)}")
   done
 
-  # Tier 2: launch install dialogs for drifted skills
-  if [[ ${#drifted_skills[@]} -gt 0 && "$MODE" != "--dry-run" ]]; then
-    say ""
-    say "${INFO} Opening ${#drifted_skills[@]} skill installer(s). Click 'Install' on each prompt."
-    for f in "${drifted_skills[@]}"; do
-      open "$f" 2>/dev/null || say "${WARN} Could not open $f automatically"
-    done
-    REPORT_ACTIONS+=("Opened ${#drifted_skills[@]} skill install dialogs")
-  fi
-
   say ""
-  say "${INFO} Summary: ${total} skills — ${match} current, ${drift} drifted, ${missing} not-installed"
+  say "${INFO} Summary: ${total} skills — ${source_ok} installers in bhub, ${source_missing} missing"
+  say "${INFO} Install status on this Mac is verified via Cowork at session start (bsync), not by bhealth."
+  say "${INFO} Open Claude desktop → Customize → Skills to see what's installed locally."
 }
 
 # ============================================================================
