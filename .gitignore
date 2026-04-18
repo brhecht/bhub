@@ -5,3 +5,5 @@ com.bsuite.bsync.plist
 
 # Backup files
 *.bak
+.DS_Store
+.bhealth-device
