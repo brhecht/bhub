@@ -5,13 +5,13 @@
       "version": "1.2.0",
       "hash": "bfac0f7909d451c2e101986abdd745ef",
       "updated": "2026-04-17",
-      "changelog": "Added real auto-send for Email channel via Gmail Apps Script + hidden HTML marker. Skill now defaults to send mode (email delivered in ~5 min); draft-only mode is opt-in via explicit 'draft' keyword. Apps Script source at bhub/apps-script/claude-auto-send.gs — one-time deployment in Gmail required."
+      "changelog": "Added real auto-send for Email channel via Gmail Apps Script + hidden HTML marker. Skill now defaults to send mode (email delivered in ~5 min); draft-only mode is opt-in via explicit 'draft' keyword. Apps Script source at bhub/apps-script/claude-auto-send.gs \u2014 one-time deployment in Gmail required."
     },
     "handoff": {
       "version": "3.3.0",
       "hash": "ff8021af3b5166bc56a47462c19b7121",
       "updated": "2026-04-17",
-      "changelog": "Added explicit parallelism rule to 'handoff here' — Steps 3 & 4 (read master + app HANDOFF + strategy docs) must fire as a single parallel tool batch, not sequentially. Reduces bootstrap dead time."
+      "changelog": "Added explicit parallelism rule to 'handoff here' \u2014 Steps 3 & 4 (read master + app HANDOFF + strategy docs) must fire as a single parallel tool batch, not sequentially. Reduces bootstrap dead time."
     },
     "dev-deploy": {
       "version": "1.5.0",
@@ -23,13 +23,13 @@
       "version": "1.0.0",
       "hash": "a45799e0f7da28bb590ce9f5b8d3f550",
       "updated": "2026-03-17",
-      "changelog": "Added Consequence Check & Red Team layer — auto-triggers adversarial audit on high-stakes recommendations via 3-lens evaluation (direct downside, coherence risk, unforeseeable surface area)"
+      "changelog": "Added Consequence Check & Red Team layer \u2014 auto-triggers adversarial audit on high-stakes recommendations via 3-lens evaluation (direct downside, coherence risk, unforeseeable surface area)"
     },
     "hc-strategy": {
       "version": "1.0.0",
       "hash": "c224d6294aec2cf696a1a654a5d22d86",
       "updated": "2026-03-23",
-      "changelog": "Initial release — HC strategic brain with operating plan, expert research, quarterly review protocol. Hash corrected April 9 to match actual source.",
+      "changelog": "Initial release \u2014 HC strategic brain with operating plan, expert research, quarterly review protocol. Hash corrected April 9 to match actual source.",
       "status": "archived",
       "archived_note": "Superseded by tnb-strategy as of April 3, 2026. Repo remains for reference but no longer actively maintained."
     },
@@ -37,19 +37,19 @@
       "version": "1.0.0",
       "hash": "dec2ee1296e51f099cc55652ba45f974",
       "updated": "2026-04-03",
-      "changelog": "Initial release — The New Builder strategic brain. Replaces hc-strategy. TNB positioning, War Room product architecture, transition plan from HC."
+      "changelog": "Initial release \u2014 The New Builder strategic brain. Replaces hc-strategy. TNB positioning, War Room product architecture, transition plan from HC."
     },
     "pm": {
       "version": "1.0.0",
       "hash": "66e5e213a262f82e5241b689e8d96ebd",
       "updated": "2026-03-29",
-      "changelog": "Initial release — product manager skill. Discovery interview → brief with acceptance criteria → implementation plan → build enforcement with soft gates and check-ins → delivery verification. Includes B-Suite UX Standards reference doc."
+      "changelog": "Initial release \u2014 product manager skill. Discovery interview \u2192 brief with acceptance criteria \u2192 implementation plan \u2192 build enforcement with soft gates and check-ins \u2192 delivery verification. Includes B-Suite UX Standards reference doc."
     },
     "create-content": {
       "version": "1.0.0",
       "hash": "5bb0f0afd26d24c1a74a02a7064e969c",
       "updated": "2026-03-31",
-      "changelog": "Initial git-tracked release — newsletter co-writing partner with voice DNA, style guide, newsletter patterns, LinkedIn patterns, and core teachings reference files. Promoted from local-only Cowork skill."
+      "changelog": "Initial git-tracked release \u2014 newsletter co-writing partner with voice DNA, style guide, newsletter patterns, LinkedIn patterns, and core teachings reference files. Promoted from local-only Cowork skill."
     },
     "priority-startup-intel": {
       "version": "1.0.0",
@@ -88,13 +88,17 @@
       "last_synced": "2026-03-29"
     },
     "Mac Mini": {
-      "comms": "unknown",
-      "handoff": "unknown",
-      "dev-deploy": "unknown",
-      "expert": "unknown",
+      "comms": "not_installed",
+      "handoff": "not_installed",
+      "dev-deploy": "not_installed",
+      "expert": "not_installed",
       "hc-strategy": "not_installed",
       "tnb-strategy": "not_installed",
-      "last_synced": "never"
+      "last_synced": "2026-04-18",
+      "pm": "not_installed",
+      "create-content": "not_installed",
+      "priority-startup-intel": "not_installed",
+      "bhealth_version": "1.0.0"
     }
   }
 }
