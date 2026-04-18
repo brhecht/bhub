@@ -276,6 +276,48 @@ If the session will involve building an app, check if `node_modules` exists in t
 
 ---
 
+## bhealth — Fleet Audit Playbook
+
+`bhealth.sh` (in bhub root) is the fleet audit tool. It runs on each Mac locally and audits that Mac's B-Suite state. bsync keeps repos synced hourly; bhealth catches what bsync can't self-heal.
+
+**When to run:**
+- Weekly (the `weekly-fleet-audit-check` scheduled task creates a B Things reminder Monday mornings with staleness per device)
+- When something feels off — sync failures, missing repos, skill drift suspicion
+- After setting up a new device
+
+**How to run (on any Mac):**
+```bash
+cd ~/Developer/B-Suite/bhub && git pull && bash bhealth.sh
+```
+First run on a device prompts for which Mac (Mini / iMac / Pro / Air). Subsequent runs auto-detect via `.bhealth-device` file.
+
+**Output:** JSON report committed to `bhub/.health/{device-slug}-{YYYY-MM-DD}.json` — so any Cowork session can pull the latest bhub and read the audit result from GitHub.
+
+**Auto-heal tiers (what bhealth fixes by itself):**
+- Tier 1 (silent): clean fast-forwards on behind-clean repos, pushes on ahead-clean repos, bsync agent reinstall if missing, master handoff path correction
+- Tier 2 (clickthrough): opens `.skill` installer dialogs for drifted skills
+- Tier 3 (flag, don't touch): dirty working trees, uncommitted work, missing .git-token, missing toolchain — these require human judgment
+
+**Claude's role when Brian pastes "I ran bhealth, help me triage":**
+1. Pull latest bhub from GitHub. Read `bhub/.health/{device-slug}-{most-recent-date}.json`.
+2. Classify each flag as **ghost drift** vs **real WIP**:
+   - **Ghost drift signals:** Mac's last commit is weeks old + repo is significantly behind origin + the "modified" files' content is identical to origin's current version. This happens when bsync reset worked but left working-tree noise, or local files got touched by iCloud/editors. Brian doesn't code by hand — he codes via Cowork → GitHub. So local Mac modifications are almost always ghost drift.
+   - **Real WIP signals:** Mac's last local commit is recent + the dirty files contain actual changes not yet on origin. Rare in Brian's workflow but possible.
+3. For ghost drift: safe cleanup is `git stash push -u -m "{device}-ghost-drift-{date}"` followed by `git reset --hard origin/main` per repo. Stash preserves everything in case. Script template:
+   ```bash
+   cd ~/Developer/B-Suite && for r in {repos-to-clean}; do echo "=== $r ==="; cd ~/Developer/B-Suite/$r && git stash push -u -m "ghost-drift-{date}" 2>&1 | tail -2 && git reset --hard origin/main 2>&1 | tail -1; done
+   ```
+4. For missing repos: clone command using `.git-token`:
+   ```bash
+   cd ~/Developer/B-Suite && TOKEN=$(cat .git-token) && for r in {missing-repos}; do git clone "https://brhecht:${TOKEN}@github.com/brhecht/${r}.git"; done
+   ```
+5. For skill drift on Mac: defer to user (Claude desktop Skills panel is the source of truth; bhealth's filesystem check on Mac is intentionally skipped — it's unreliable).
+6. After cleanup, have Brian re-run bhealth to verify zero flags.
+
+**Known gotcha:** running `git` commands from Cowork against the mounted Mac filesystem (`/sessions/.../mnt/Developer/B-Suite/{repo}/`) creates `.git/index.lock` files that the Linux sandbox can't clean. This blocks subsequent git ops on the Mac. Fix: `find ~/Developer/B-Suite -name "index.lock" -path "*/.git/*" -delete`. Avoid running git on the mount from Cowork unless necessary.
+
+---
+
 ## Notification Routing Rules
 
 **Brain Inbox is Nico's domain.** Brian owns the code and has access to the Slack channel, but Brain Inbox is not a destination for Brian's personal notifications, reminders, or self-scheduled tasks. Route Brian-destined items elsewhere.
@@ -331,12 +373,16 @@ When adding a new user: update `content-calendar/src/users.js`, `brain-inbox/api
 
 ## Devices
 
-Brian uses four machines. B-Suite folder location may vary by device — confirm path on first use if not listed.
+Brian uses four machines. All on `~/Developer/B-Suite/` as of April 18, 2026. Desktop/B-Suite is deprecated everywhere (iCloud sync risk).
 
-- **MacBook Pro** — primary dev machine. B-Suite path: `\~/Developer/B-Suite` *(freshly cloned March 20, 2026 — replaced B-Suite-Clean which no longer exists)*
-- **iMac** — B-Suite path: `~/Developer/B-Suite/` *(added to master April 17, 2026 — previously tracked in skills-manifest.json only)*
-- **MacBook Air** — B-Suite path: `\~/Developer/B-Suite` (healthy, unaffected by iCloud issue)
-- **Mac Mini** — B-Suite path: `\~/Developer/B-Suite` (healthy, unaffected by iCloud issue)
+**Device roles (Brian's actual workflow, NYC-based):**
+
+- **Mac Mini** — primary dev at home. Big screen. Where real work happens. B-Suite path: `~/Developer/B-Suite/`
+- **iMac** — primary dev at office. Big screen. Where real work happens. B-Suite path: `~/Developer/B-Suite/`
+- **MacBook Pro** — travel companion. Always with Brian; sits beside the primary in both locations. Full dev toolchain. B-Suite path: `~/Developer/B-Suite/`
+- **MacBook Air** — light travel only (airplane, coffee shop, reading). Infrequent use. Minimal toolchain by design — Pro is the real travel dev machine. B-Suite path: `~/Developer/B-Suite/`
+
+**The master was corrected on April 18, 2026** — prior versions listed Pro as "primary dev machine," which was wrong. Mini + iMac are the primaries; Pro is the always-carry bridge between them.
 
 ---
 

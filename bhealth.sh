@@ -445,9 +445,11 @@ import os, re
 path = os.environ["MASTER_FILE"]
 name = os.environ["DEV_NAME"]
 new_path = os.environ["NEW_PATH"]
+# Strip any accidental backslash-escaping — we always want clean `~/...` in output
+new_path = new_path.replace('\\~', '~').replace('\\', '')
 with open(path) as f:
     content = f.read()
-pattern = re.compile(r'^(\s*-\s*\*\*' + re.escape(name) + r'\*\*[^\n]*?)`~/[^`]+`([^\n]*)$', re.MULTILINE)
+pattern = re.compile(r'^(\s*-\s*\*\*' + re.escape(name) + r'\*\*[^\n]*?)`\\?~/[^`]+`([^\n]*)$', re.MULTILINE)
 replacement = r'\1`' + new_path + r'`\2'
 new = pattern.sub(replacement, content, count=1)
 if new != content:

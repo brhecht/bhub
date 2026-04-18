@@ -106,19 +106,6 @@
       "create-content": "unknown",
       "priority-startup-intel": "unknown",
       "bhealth_version": "1.0.0"
-    },
-    "MacMini": {
-      "comms": "not_installed",
-      "handoff": "not_installed",
-      "dev-deploy": "not_installed",
-      "expert": "not_installed",
-      "hc-strategy": "not_installed",
-      "tnb-strategy": "not_installed",
-      "pm": "not_installed",
-      "create-content": "not_installed",
-      "priority-startup-intel": "not_installed",
-      "last_synced": "2026-04-18",
-      "bhealth_version": "1.0.0"
     }
   }
 }
