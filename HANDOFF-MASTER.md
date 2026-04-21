@@ -1,8 +1,10 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: April 21, 2026*
+*Updated: April 21, 2026 (mid-session sync)*
 *Source: Most recent handoff from each project*
 
+> **April 21, 2026 (pm) — Recap scope rule added.** New "Status Recap Rules" section below: Claude status recaps stay in the tech/Cowork lane only. Business to-dos (War Room, podcast, content) live in B Things, not in handoff recaps. Also deleted orphaned `PM-BRIEF-hc-website.md` from Developer root (pre-TNB-pivot spec, superseded).
+>
 > **April 21, 2026 — Mid-week status sync.** Newsletter platform decision: **switching from Beehiiv to Substack next week.** TNB website Beehiiv env vars are NOT being added — subscribe form stays inert until the Substack swap. Live traffic to thenewbuilder.ai is effectively zero right now; Nico is catching any strays via a Google Form. **Podcast:** Ep 1 (Scott Werner) shipped Apr 14; Ep 2 (Davida Ginter) recorded, drops Apr 22. **War Room one-shot group tests:** picking participants deferred to week of Apr 27 (was Apr 21). **bhealth:** iMac audit still pending — encountering "workspace setup" issues that need to be unblocked before bhealth can run there. Mini, Pro, Air all clean.
 >
 > **April 18, 2026 — Fleet audit infrastructure + cross-device cleanup.** Built `bhealth.sh` (in bhub) — per-Mac fleet audit with three-tier healing (auto-heal / launch-and-prompt / flag). Parallelized `bsync.sh` to v2.2 (14 repos cloned concurrently, ~40% faster handoff-here). Audited Mac Mini, MacBook Pro, MacBook Air — all fleet-ready after cleaning ~5 weeks of ghost drift (local working-tree state left behind from pre-migration). Added two new master handoff sections: **Notification Routing Rules** (Brain Inbox is Nico's domain — Brian's reminders → B Things) and **bhealth — Fleet Audit Playbook** (workflow for any Claude session to triage future audits). Corrected device roles: Mini/iMac are primaries (home/office), MacBook Pro is the always-carry travel companion, Air is light travel only. Scheduled `weekly-fleet-audit-check` (Mondays 8am ET) that posts staleness summary to B Things. iMac audit pending next office visit.
@@ -319,6 +321,18 @@ First run on a device prompts for which Mac (Mini / iMac / Pro / Air). Subsequen
 6. After cleanup, have Brian re-run bhealth to verify zero flags.
 
 **Known gotcha:** running `git` commands from Cowork against the mounted Mac filesystem (`/sessions/.../mnt/Developer/B-Suite/{repo}/`) creates `.git/index.lock` files that the Linux sandbox can't clean. This blocks subsequent git ops on the Mac. Fix: `find ~/Developer/B-Suite -name "index.lock" -path "*/.git/*" -delete`. Avoid running git on the mount from Cowork unless necessary.
+
+---
+
+## Status Recap Rules (for Claude)
+
+When Brian says "handoff here" or asks "where do things stand," recaps must stay in the **tech/Cowork lane**:
+
+- **Include:** code state, deploy status, env vars pending, infra issues, git/repo oddities, skill drift, bhealth flags, anything actionable inside Claude Cowork or the tech stack.
+- **Exclude:** business to-dos (War Room scheduling, podcast episode cadence, content calendar pacing, strategic deadlines). Those belong in **B Things**, not in Claude status summaries. Brian tracks business work himself — the recap is a tech bridge, not a business dashboard.
+- **Gray area:** if a business event has a tech dependency (e.g., "Substack migration next week" implies a code swap on tnb-website), mention the tech dependency, not the business event.
+
+When in doubt, ask: "is this something Claude/Nico needs to DO in code, or is this something Brian needs to DO as a founder?" Only the former belongs in a recap.
 
 ---
 
