@@ -54,6 +54,7 @@ REPOS=(
   "hc-website:brhecht/hc-website"
   "tnb-website:brhecht/tnb-website"
   "pitch-scorer:brhecht/pitch-scorer"
+  "builder-bot:brhecht/builder-bot"
 )
 
 # Skip deep handoff check on dormant/archived repos

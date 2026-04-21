@@ -1,8 +1,10 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: April 18, 2026*
+*Updated: April 21, 2026*
 *Source: Most recent handoff from each project*
 
+> **April 21, 2026 — Builder Bot briefed and approved.** New standalone repo `brhecht/builder-bot` created. PM brief approved for daily Slack recap bot for The New Builder community workspace. Posts weekday 9:30am ET to #daily-recap-bot. Reads #introduce-yourself, #share-and-discuss, #what-im-building, #general. Claude-curated editorial summaries, cumulative lookback per channel via Vercel KV, carry-forward intro logic. Nico notified via Brain Inbox + env vars DMed. See `builder-bot/PM-BRIEF-builder-bot.md`.
+>
 > **April 18, 2026 — Fleet audit infrastructure + cross-device cleanup.** Built `bhealth.sh` (in bhub) — per-Mac fleet audit with three-tier healing (auto-heal / launch-and-prompt / flag). Parallelized `bsync.sh` to v2.2 (14 repos cloned concurrently, ~40% faster handoff-here). Audited Mac Mini, MacBook Pro, MacBook Air — all fleet-ready after cleaning ~5 weeks of ghost drift (local working-tree state left behind from pre-migration). Added two new master handoff sections: **Notification Routing Rules** (Brain Inbox is Nico's domain — Brian's reminders → B Things) and **bhealth — Fleet Audit Playbook** (workflow for any Claude session to triage future audits). Corrected device roles: Mini/iMac are primaries (home/office), MacBook Pro is the always-carry travel companion, Air is light travel only. Scheduled `weekly-fleet-audit-check` (Mondays 8am ET) that posts staleness summary to B Things. iMac audit pending next office visit.
 >
 > **April 14, 2026 — B Content UX overhaul + direct email + B Hub cleanup.** Rich text editing on all Content Calendar body fields, Enter-to-save+close keyboard shortcut (with ⌘+Enter), mobile responsive CardModal, Ghost + Hold views with shared StatusListView, dateless card warning. ⌘+Enter and button Enter prevention ported to B Things. B Hub: renamed B Eddy → B Projects, swapped card positions, trimmed app switcher to 4 apps. Brain-inbox: new `api/send-email.js` endpoint for direct Gmail sends via SMTP (Nodemailer). Comms skill updated to send emails directly instead of creating drafts. Dev-deploy skill updated with Claude in Chrome mandate and mobile-responsive coding rules.
@@ -227,6 +229,28 @@ If the session will involve building an app, check if `node_modules` exists in t
 - Deployed via Vercel CLI (no GitHub auto-deploy yet — pending repo transfer + Nico added as collaborator).
 - **Pending:** Beehiiv env vars (`BEEHIIV_API_KEY`, `BEEHIIV_PUBLICATION_ID`) — subscribe form non-functional until added.
 - See `tnb-website/HANDOFF.md` for full implementation details.
+
+---
+
+## Builder Bot (TNB Slack Recap)
+**Status:** PM brief approved — ready for Nico to build
+**Last updated:** April 21, 2026
+**Location:** builder-bot/
+**Live URL:** Not yet deployed
+**GitHub:** brhecht/builder-bot
+**Key context:**
+- Daily weekday Slack recap bot for The New Builder community workspace
+- Posts at 9:30am ET to #daily-recap-bot (channel ID: C0AUS1Q7917) as "Builder Bot"
+- Reads: #introduce-yourself (new members), #share-and-discuss, #what-im-building, #general
+- Cumulative lookback per channel via Vercel KV — not a fixed 24h window
+- Carry-forward intro logic: intros only post alongside conversation content
+- Claude makes holistic editorial calls on relevance — no reply-count formula
+- Fetches linked URLs for substantive summaries, graceful fallback chain
+- Skip logic: fewer than 2 meaningful conversation items + no pending intros = no post
+- Fully standalone — no shared Firestore, no brain-inbox dependency
+- See `PM-BRIEF-builder-bot.md` in repo for full spec, prompt, and milestones
+
+**Shared resources:** Anthropic API (same key as hc-funnel). Vercel KV (new, standalone).
 
 ---
 
