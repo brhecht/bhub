@@ -1,8 +1,10 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: April 18, 2026*
+*Updated: April 21, 2026*
 *Source: Most recent handoff from each project*
 
+> **April 21, 2026 — Mid-week status sync.** Newsletter platform decision: **switching from Beehiiv to Substack next week.** TNB website Beehiiv env vars are NOT being added — subscribe form stays inert until the Substack swap. Live traffic to thenewbuilder.ai is effectively zero right now; Nico is catching any strays via a Google Form. **Podcast:** Ep 1 (Scott Werner) shipped Apr 14; Ep 2 (Davida Ginter) recorded, drops Apr 22. **War Room one-shot group tests:** picking participants deferred to week of Apr 27 (was Apr 21). **bhealth:** iMac audit still pending — encountering "workspace setup" issues that need to be unblocked before bhealth can run there. Mini, Pro, Air all clean.
+>
 > **April 18, 2026 — Fleet audit infrastructure + cross-device cleanup.** Built `bhealth.sh` (in bhub) — per-Mac fleet audit with three-tier healing (auto-heal / launch-and-prompt / flag). Parallelized `bsync.sh` to v2.2 (14 repos cloned concurrently, ~40% faster handoff-here). Audited Mac Mini, MacBook Pro, MacBook Air — all fleet-ready after cleaning ~5 weeks of ghost drift (local working-tree state left behind from pre-migration). Added two new master handoff sections: **Notification Routing Rules** (Brain Inbox is Nico's domain — Brian's reminders → B Things) and **bhealth — Fleet Audit Playbook** (workflow for any Claude session to triage future audits). Corrected device roles: Mini/iMac are primaries (home/office), MacBook Pro is the always-carry travel companion, Air is light travel only. Scheduled `weekly-fleet-audit-check` (Mondays 8am ET) that posts staleness summary to B Things. iMac audit pending next office visit.
 >
 > **April 14, 2026 — B Content UX overhaul + direct email + B Hub cleanup.** Rich text editing on all Content Calendar body fields, Enter-to-save+close keyboard shortcut (with ⌘+Enter), mobile responsive CardModal, Ghost + Hold views with shared StatusListView, dateless card warning. ⌘+Enter and button Enter prevention ported to B Things. B Hub: renamed B Eddy → B Projects, swapped card positions, trimmed app switcher to 4 apps. Brain-inbox: new `api/send-email.js` endpoint for direct Gmail sends via SMTP (Nodemailer). Comms skill updated to send emails directly instead of creating drafts. Dev-deploy skill updated with Claude in Chrome mandate and mobile-responsive coding rules.
@@ -213,19 +215,19 @@ If the session will involve building an app, check if `node_modules` exists in t
 ---
 
 ## TNB Website (thenewbuilder.ai)
-**Status:** LIVE. Deployed April 15, 2026.
-**Last updated:** April 15, 2026
+**Status:** LIVE but low-traffic. Deployed April 15, 2026.
+**Last updated:** April 21, 2026
 **Location:** tnb-website/
 **Live URL:** thenewbuilder.ai
 **GitHub:** nmejiawork/tnb-website (transfer to brhecht pending)
 **Vercel project:** brian-hechts-projects/thenewbuilder
 **Key context:**
-- The New Builder public homepage. Next.js 16.2.1, Tailwind 4, Vercel hosting, Beehiiv email capture.
+- The New Builder public homepage. Next.js 16.2.1, Tailwind 4, Vercel hosting.
 - Homepage sections: Nav with TNB wordmark, hero (Brian photo left + tagline right), "Why I'm building this" story, "Builders Figuring it Out. Together." 3x2 product grid (Podcast, YouTube, Newsletter, War Room, Meetups, Curated Events), latest YouTube episode embed, newsletter subscribe form, About Brian bio.
 - All copy sourced from `tnb-strategy/POSITIONING-LANGUAGE.md`.
 - Previously lived as `tnb-coming-soon` branch of `hc-website`. Separated into own repo April 15. That branch is now deleted.
 - Deployed via Vercel CLI (no GitHub auto-deploy yet — pending repo transfer + Nico added as collaborator).
-- **Pending:** Beehiiv env vars (`BEEHIIV_API_KEY`, `BEEHIIV_PUBLICATION_ID`) — subscribe form non-functional until added.
+- **Newsletter platform pivot (Apr 21):** switching from Beehiiv → Substack the week of Apr 27. Beehiiv env vars intentionally NOT added. Subscribe form is inert until Substack swap ships. Nico is catching strays via a Google Form in the interim. Effectively zero traffic to the site right now, so the inert form is acceptable for this window.
 - See `tnb-website/HANDOFF.md` for full implementation details.
 
 ---
