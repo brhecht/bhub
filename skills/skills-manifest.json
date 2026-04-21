@@ -73,13 +73,17 @@
       "bhealth_version": "1.0.0"
     },
     "iMac": {
-      "comms": "a07eb9d2cd41056f82c593736af00760",
-      "handoff": "b03792c3fb42f152fae274b74e454381",
-      "dev-deploy": "f740133eaa30dab26e4548a30713e7cd",
-      "expert": "a45799e0f7da28bb590ce9f5b8d3f550",
-      "hc-strategy": "f2610e427952b6c5c3a744d6ddf90bfd",
-      "tnb-strategy": "not_installed",
-      "last_synced": "2026-03-28"
+      "comms": "unknown",
+      "handoff": "unknown",
+      "dev-deploy": "unknown",
+      "expert": "unknown",
+      "hc-strategy": "unknown",
+      "tnb-strategy": "unknown",
+      "last_synced": "2026-04-21",
+      "pm": "unknown",
+      "create-content": "unknown",
+      "priority-startup-intel": "unknown",
+      "bhealth_version": "1.0.0"
     },
     "MacBook Air": {
       "comms": "unknown",

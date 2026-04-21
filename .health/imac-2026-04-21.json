@@ -1,0 +1,249 @@
+{
+  "bhealth_version": "1.0.0",
+  "timestamp": "2026-04-21T19:16:42Z",
+  "device": "iMac",
+  "hostname": "BRH-iMac-2019",
+  "computer_name": "BRH iMac 2019",
+  "os_version": "15.7.5",
+  "bsuite_path": "/Users/BRHPro/Developer/B-Suite",
+  "git_auth_ok": true,
+  "bsync_loaded": true,
+  "bsync_last_run": "2026-04-21 15:15:10",
+  "repos": [
+    {
+      "repo": "things-app",
+      "branch": "main",
+      "status": "dirty",
+      "ahead": 1,
+      "behind": 8,
+      "dirty": 1,
+      "untracked": 0,
+      "last_commit": "2026-03-18",
+      "action": "none"
+    },
+    {
+      "repo": "brain-inbox",
+      "branch": "main",
+      "status": "dirty",
+      "ahead": 0,
+      "behind": 5,
+      "dirty": 1,
+      "untracked": 1,
+      "last_commit": "2026-03-18",
+      "action": "none"
+    },
+    {
+      "repo": "content-calendar",
+      "branch": "main",
+      "status": "dirty",
+      "ahead": 0,
+      "behind": 17,
+      "dirty": 2,
+      "untracked": 7,
+      "last_commit": "2026-03-12",
+      "action": "none"
+    },
+    {
+      "repo": "b-marketing",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-16",
+      "action": "none"
+    },
+    {
+      "repo": "b-people",
+      "branch": "main",
+      "status": "dirty",
+      "ahead": 0,
+      "behind": 14,
+      "dirty": 0,
+      "untracked": 6,
+      "last_commit": "2026-03-12",
+      "action": "none"
+    },
+    {
+      "repo": "b-resources",
+      "branch": "main",
+      "status": "dirty",
+      "ahead": 0,
+      "behind": 42,
+      "dirty": 0,
+      "untracked": 22,
+      "last_commit": "2026-03-14",
+      "action": "none"
+    },
+    {
+      "repo": "bhub",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-21",
+      "action": "none"
+    },
+    {
+      "repo": "eddy",
+      "branch": "main",
+      "status": "dirty",
+      "ahead": 0,
+      "behind": 4,
+      "dirty": 1,
+      "untracked": 0,
+      "last_commit": "2026-03-16",
+      "action": "none"
+    },
+    {
+      "repo": "hc-funnel",
+      "branch": "main",
+      "status": "dirty",
+      "ahead": 0,
+      "behind": 72,
+      "dirty": 1,
+      "untracked": 20,
+      "last_commit": "2026-03-16",
+      "action": "none"
+    },
+    {
+      "repo": "hc-strategy",
+      "status": "missing",
+      "action": "none"
+    },
+    {
+      "repo": "tnb-strategy",
+      "status": "missing",
+      "action": "none"
+    },
+    {
+      "repo": "hc-website",
+      "branch": "main",
+      "status": "dirty",
+      "ahead": 0,
+      "behind": 7,
+      "dirty": 0,
+      "untracked": 2,
+      "last_commit": "2026-03-11",
+      "action": "none"
+    },
+    {
+      "repo": "tnb-website",
+      "status": "missing",
+      "action": "none"
+    },
+    {
+      "repo": "pitch-scorer",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-12",
+      "action": "none"
+    }
+  ],
+  "skills": [
+    {
+      "skill": "comms",
+      "installer_present": true,
+      "expected_hash": "bfac0f7909d451c2e101986abdd745ef",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "handoff",
+      "installer_present": true,
+      "expected_hash": "ff8021af3b5166bc56a47462c19b7121",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "dev-deploy",
+      "installer_present": true,
+      "expected_hash": "09ce042b74e88212ec9ad952d8d52b41",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "expert",
+      "installer_present": true,
+      "expected_hash": "a45799e0f7da28bb590ce9f5b8d3f550",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "hc-strategy",
+      "installer_present": true,
+      "expected_hash": "c224d6294aec2cf696a1a654a5d22d86",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "tnb-strategy",
+      "installer_present": true,
+      "expected_hash": "dec2ee1296e51f099cc55652ba45f974",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "pm",
+      "installer_present": true,
+      "expected_hash": "66e5e213a262f82e5241b689e8d96ebd",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "create-content",
+      "installer_present": true,
+      "expected_hash": "5bb0f0afd26d24c1a74a02a7064e969c",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "priority-startup-intel",
+      "installer_present": true,
+      "expected_hash": "80ff4f7e5b50e9f1203eaa8212e42c24",
+      "verified_via": "cowork_bsync"
+    }
+  ],
+  "tools": [
+    {
+      "tool": "node",
+      "installed": false
+    },
+    {
+      "tool": "npm",
+      "installed": false
+    },
+    {
+      "tool": "gh",
+      "installed": false
+    },
+    {
+      "tool": "vercel",
+      "installed": false
+    },
+    {
+      "tool": "git",
+      "installed": true,
+      "version": "git version 2.39.5 (Apple Git-154)"
+    }
+  ],
+  "actions": [
+    "Fixed master handoff path for iMac \u2192 \\~/Developer/B-Suite"
+  ],
+  "flags": [
+    "things-app has uncommitted work (1 modified, 0 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/things-app && git status",
+    "brain-inbox has uncommitted work (1 modified, 1 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/brain-inbox && git status",
+    "content-calendar has uncommitted work (2 modified, 7 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/content-calendar && git status",
+    "b-people has uncommitted work (0 modified, 6 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/b-people && git status",
+    "b-resources has uncommitted work (0 modified, 22 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/b-resources && git status",
+    "eddy has uncommitted work (1 modified, 0 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/eddy && git status",
+    "hc-funnel has uncommitted work (1 modified, 20 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/hc-funnel && git status",
+    "hc-strategy missing \u2014 clone with: cd /Users/BRHPro/Developer/B-Suite && git clone https://github.com/brhecht/hc-strategy.git hc-strategy",
+    "tnb-strategy missing \u2014 clone with: cd /Users/BRHPro/Developer/B-Suite && git clone https://github.com/brhecht/tnb-strategy.git tnb-strategy",
+    "hc-website has uncommitted work (0 modified, 2 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/hc-website && git status",
+    "tnb-website missing \u2014 clone with: cd /Users/BRHPro/Developer/B-Suite && git clone https://github.com/brhecht/tnb-website.git tnb-website",
+    "Missing node \u2014 install via: brew install node",
+    "Missing npm \u2014 install via: brew install node",
+    "Missing gh CLI \u2014 install via: brew install gh && gh auth login",
+    "Missing vercel CLI \u2014 install via: npm i -g vercel"
+  ]
+}
