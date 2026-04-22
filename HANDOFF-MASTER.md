@@ -1,8 +1,10 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: April 21, 2026 (mid-session sync)*
+*Updated: April 22, 2026*
 *Source: Most recent handoff from each project*
 
+> **April 22, 2026 — B Hub rebranded + TNB announcement newsletter drafted.** B Hub homepage copy updated: all "Humble Conviction" references replaced with "The New Builder" (topbar, hero subtext, BPIs card, footer). Hero subtext now reads "powering The New Builder. From content planning to project management." Deployed and verified live at b-hub-liard.vercel.app. TNB announcement newsletter (HC → TNB pivot) fully drafted in `tnb-strategy/NEWSLETTER-ANNOUNCEMENT-DRAFT.md` — ~610 words, pending Brian's final review before publish to Beehiiv/Substack.
+>
 > **April 21, 2026 — Builder Bot briefed and approved.** New standalone repo `brhecht/builder-bot` created. PM brief approved for daily Slack recap bot for The New Builder community workspace. Posts weekday 9:30am ET to #daily-recap-bot. Reads #introduce-yourself, #share-and-discuss, #what-im-building, #general. Claude-curated editorial summaries, cumulative lookback per channel via Vercel KV, carry-forward intro logic. Nico notified via Brain Inbox + env vars DMed. See `builder-bot/PM-BRIEF-builder-bot.md`.
 >
 > **April 21, 2026 (pm) — Recap scope rule added.** New "Status Recap Rules" section below: Claude status recaps stay in the tech/Cowork lane only. Business to-dos (War Room, podcast, content) live in B Things, not in handoff recaps. Also deleted orphaned `PM-BRIEF-hc-website.md` from Developer root (pre-TNB-pivot spec, superseded).
@@ -266,8 +268,8 @@ If the session will involve building an app, check if `node_modules` exists in t
 ---
 
 ## TNB Strategy (The New Builder)
-**Status:** Active. Positioning language locked. Homepage design approved, ready for implementation.
-**Last updated:** April 15, 2026
+**Status:** Active. Announcement newsletter drafted April 22, pending publish. Podcast live (2 eps). War Room one-shots underway.
+**Last updated:** April 22, 2026
 **Location:** tnb-strategy/ (private repo, Brian only)
 **GitHub:** brhecht/tnb-strategy (private)
 **Key context:**

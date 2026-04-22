@@ -1,6 +1,6 @@
 # bhub — Handoff
 
-*Last updated: April 18, 2026 ~1:45 PM ET*
+*Last updated: April 22, 2026*
 
 **Project:** bhub
 **Repository:** github.com/brhecht/bhub
