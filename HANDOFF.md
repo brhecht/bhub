@@ -171,6 +171,11 @@ Large session. Built the full fleet audit capability and cleaned 5+ weeks of acc
 - **Known issues:** Cowork+Mac mount lock-file trap (documented). iMac audit pending.
 - **Next:** iMac audit on next office visit. Re-review Monday morning when the scheduled task fires.
 
+### 2026-04-22 — Rebrand B Hub copy: Humble Conviction → The New Builder
+- **What shipped:** 4 text swaps in index.html: topbar subtitle, hero subtext (new copy: "powering The New Builder. From content planning to project management."), BPIs card desc, footer span.
+- **Known issues:** None.
+- **Next:** None planned.
+
 ### 2026-04-14 — B Eddy → B Projects rename, app switcher trim
 - **What shipped:** Card renames, position swap, app switcher reduced to 4 apps.
 - **Known issues:** None.
