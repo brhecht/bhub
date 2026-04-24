@@ -45,7 +45,7 @@ Brian is a seasoned founder. He doesn't need basics explained. Match his directn
 - Mobile behavior ("80% of HC Funnel traffic is mobile — does this need to work on phone?")
 - Existing patterns ("B Things already does something similar with star/sort — should this match?")
 
-**Reference the UX Standards.** Read `references/ux-standards.md` before the interview. Many questions Brian would otherwise need to answer ("should escape close it?") are already decided by existing B-Suite patterns. Don't ask about things the standards already cover — just confirm: "Standard modal behavior applies here, right?"
+**Reference the UX Standards (canonical, cross-device).** Before the interview, read the canonical standards at `~/Developer/B-Suite/bhub/UX-STANDARDS.md` (source of truth — updated cross-device via git). Only fall back to the skill-bundled snapshot at `references/ux-standards.md` if the bhub copy isn't available on this device. Many questions Brian would otherwise need to answer ("should escape close it?") are already decided by existing B-Suite patterns. Don't ask about things the standards already cover — just confirm: "Standard modal behavior applies here, right?" If Brian asks for something that conflicts with the standards, flag the conflict before writing the brief — the standards bind unless Brian explicitly approves a deviation.
 
 ### When to stop asking
 
@@ -88,11 +88,15 @@ Once discovery is complete, Claude writes a **Product Brief** and saves it as `P
 - [Adjacent features to defer]
 
 ## UX Standards
-[Reference which B-Suite standards apply. E.g.:]
-- Standard modal behavior (escape, click-outside, two-step delete)
-- Toast notifications on all CRUD operations
-- Mobile responsive (breakpoint 768px)
-- [Any project-specific UX decisions that override or extend the standards]
+**Canonical reference:** `bhub/UX-STANDARDS.md` (always cite this path in the brief so Nico's session loads the right doc).
+
+[List which sections of the standards apply. E.g.:]
+- Modals & Panels (standard escape / click-outside / two-step delete / swipe-to-dismiss)
+- Toasts & Notifications (CRUD feedback on all writes)
+- Responsive & Mobile (breakpoint 768px via `useIsMobile()`)
+- Keyboard Shortcuts (Cmd+Enter save, Escape close, Cmd+Z undo)
+
+**Deviations from the standards:** [If any. Each deviation must state what, why, and that Brian approved it. If this list is non-empty and Brian hasn't explicitly approved the deviation, the brief is NOT ready for APPROVED status.]
 
 ## Risk Assessment
 **Complexity:** Low | Medium | High
@@ -176,7 +180,7 @@ Once the brief is approved, Claude generates an **Implementation Plan** — a st
 - **Each step is self-contained.** It should be possible to verify each step works before moving to the next.
 - **File paths are explicit.** "Modify `src/components/SidePanel.jsx`" not "update the side panel component."
 - **Behavioral specs, not implementation suggestions.** Tell Nico what it should DO, not how to code it. Claude-in-Cowork will handle the implementation details.
-- **UX standards are referenced, not re-specified.** "Standard modal behavior applies" — Nico's Cowork session has the UX standards loaded.
+- **UX standards are referenced, not re-specified.** Point Nico at `bhub/UX-STANDARDS.md` (canonical, cross-device via git) rather than restating the patterns. His Cowork session pulls bhub on every "handoff here," so the standards are always current. Only call out the *sections* that apply (e.g., "Modals & Panels + Keyboard Shortcuts apply") and any approved deviations from the brief's UX Standards block.
 
 ---
 
@@ -252,6 +256,9 @@ Claude updates the brief, marks the changes, re-generates affected plan steps, a
 
 ### Nico discovers something unexpected during build
 If it's a technical blocker (API doesn't work, Firestore rules prevent it), Claude routes to Brian with context and a recommendation. If it's a design question not covered by the brief or UX standards, Claude routes to Brian. Nico never guesses on ambiguous questions.
+
+### A new UX pattern emerges that isn't in the standards
+Don't let it land silently. If the build introduces a pattern the UX standards don't cover (e.g., a new kind of empty state, a new keyboard shortcut, a new messaging interaction), the brief must note it in the "Deviations from the standards" block AND the standards themselves must be updated. Workflow: Claude drafts a PR-style update to `bhub/UX-STANDARDS.md`, commits to bhub, and notes it in the delivery report. This keeps the canonical doc honest — otherwise every feature quietly invents its own conventions and "the standards" become a lie.
 
 ### Multiple active briefs
 Each brief is per-app (`PM-BRIEF-<app>.md`). If Brian has briefs for b-resources AND b-people, they're independent files. When Nico loads an app, Claude only surfaces the brief for that app.

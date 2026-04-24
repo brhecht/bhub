@@ -40,10 +40,10 @@
       "changelog": "Initial release \u2014 The New Builder strategic brain. Replaces hc-strategy. TNB positioning, War Room product architecture, transition plan from HC."
     },
     "pm": {
-      "version": "1.0.0",
-      "hash": "66e5e213a262f82e5241b689e8d96ebd",
-      "updated": "2026-03-29",
-      "changelog": "Initial release \u2014 product manager skill. Discovery interview \u2192 brief with acceptance criteria \u2192 implementation plan \u2192 build enforcement with soft gates and check-ins \u2192 delivery verification. Includes B-Suite UX Standards reference doc."
+      "version": "1.1.0",
+      "hash": "65da81d0037ad8a2d4629c88b6974096",
+      "updated": "2026-04-24",
+      "changelog": "UX Standards binding \u2014 canonical reference is now `bhub/UX-STANDARDS.md` (cross-device via git), not the skill-bundled copy. Briefs must cite the bhub path and list a `Deviations from the standards` block; unreviewed deviations block APPROVED status. New edge case: if a build introduces a pattern the standards don't cover, the standards doc must be updated (not silently invented). The bundled `references/ux-standards.md` is now a fallback pointer."
     },
     "create-content": {
       "version": "1.0.0",
