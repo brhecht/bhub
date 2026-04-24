@@ -1,8 +1,10 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: April 22, 2026*
+*Updated: April 24, 2026*
 *Source: Most recent handoff from each project*
 
+> **April 24, 2026 — UX Standards doc moved into bhub.** Canonical B-Suite UX reference (modals, toasts, inline edit, DnD, nav, responsive, design system, keyboard shortcuts, data patterns, messaging) is now at `bhub/UX-STANDARDS.md` with an HTML viewer at `bhub/ux-standards-view.html`. Previously lived loose at `Developer/ux-standards-review.html` (deleted). PM briefs reference this doc as the source of truth for cross-app UX — deviations require Brian's approval. See "Cross-Project Dependencies" and "UX Standards" sections below.
+>
 > **April 22, 2026 — B Hub rebranded + TNB announcement newsletter drafted.** B Hub homepage copy updated: all "Humble Conviction" references replaced with "The New Builder" (topbar, hero subtext, BPIs card, footer). Hero subtext now reads "powering The New Builder. From content planning to project management." Deployed and verified live at b-hub-liard.vercel.app. TNB announcement newsletter (HC → TNB pivot) fully drafted in `tnb-strategy/NEWSLETTER-ANNOUNCEMENT-DRAFT.md` — ~610 words, pending Brian's final review before publish to Beehiiv/Substack.
 >
 > **April 21, 2026 — Builder Bot briefed and approved.** New standalone repo `brhecht/builder-bot` created. PM brief approved for daily Slack recap bot for The New Builder community workspace. Posts weekday 9:30am ET to #daily-recap-bot. Reads #introduce-yourself, #share-and-discuss, #what-im-building, #general. Claude-curated editorial summaries, cumulative lookback per channel via Vercel KV, carry-forward intro logic. Nico notified via Brain Inbox + env vars DMed. See `builder-bot/PM-BRIEF-builder-bot.md`.
@@ -305,6 +307,15 @@ If the session will involve building an app, check if `node_modules` exists in t
 - **tnb-website** email capture wires to Beehiiv (same account as HC newsletter). All copy sourced from **tnb-strategy/POSITIONING-LANGUAGE.md**.
 - **hc-website** `tnb-coming-soon` branch is deprecated; **tnb-website** is the replacement. Delete branch after tnb-website is live.
 - **gh CLI auth** is resolved — repos can now be archived
+- **B-Suite UX Standards** — canonical source for cross-app UX patterns (modals, toasts, inline edit, DnD, nav, responsive, design system, keyboard shortcuts, data patterns, messaging). Lives at `bhub/UX-STANDARDS.md` (source of truth) with HTML viewer at `bhub/ux-standards-view.html`. **PM briefs must reference this doc** — deviations require Brian's approval.
+
+---
+
+## UX Standards
+
+`bhub/UX-STANDARDS.md` is the canonical cross-app UX reference. Any PM brief that specs a modal, toast, inline editor, drag-and-drop, keyboard shortcut, auth flow, or messaging component must cite it. If a new pattern emerges that doesn't fit the existing standards, update this doc first (via PR-style commit to bhub), then build against the updated standard.
+
+The HTML viewer (`ux-standards-view.html`) is useful for visual review but is generated from the MD — always edit the MD and regenerate the HTML if layout changes are needed.
 
 ---
 

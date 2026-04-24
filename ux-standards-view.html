@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B-Suite UX Standards</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #F8F9FC; color: #1A2332; line-height: 1.6; padding: 40px 20px; }
+  .container { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; color: #1A2332; }
+  .subtitle { font-size: 14px; color: #6B7A99; margin-bottom: 40px; }
+  h2 { font-size: 20px; font-weight: 600; margin-top: 40px; margin-bottom: 16px; color: #1A2332; padding-bottom: 8px; border-bottom: 2px solid #E2E8F0; }
+  h3 { font-size: 15px; font-weight: 600; margin-top: 20px; margin-bottom: 8px; color: #4A5568; }
+  ul { padding-left: 0; list-style: none; margin-bottom: 16px; }
+  li { position: relative; padding: 8px 0 8px 24px; font-size: 14px; border-bottom: 1px solid #F0F2F5; }
+  li:last-child { border-bottom: none; }
+  li::before { content: ''; position: absolute; left: 0; top: 16px; width: 8px; height: 8px; background: #7B8FA8; border-radius: 50%; }
+  strong { color: #1A2332; font-weight: 600; }
+  code { background: #EDF2F7; padding: 2px 6px; border-radius: 4px; font-size: 13px; font-family: 'SF Mono', 'Fira Code', monospace; color: #E8845A; }
+  .section-card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .color-swatch { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 4px; border: 1px solid rgba(0,0,0,0.1); }
+  .nav { position: fixed; top: 20px; right: 20px; background: white; border-radius: 12px; padding: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); max-height: 90vh; overflow-y: auto; width: 200px; font-size: 12px; }
+  .nav a { display: block; padding: 4px 0; color: #6B7A99; text-decoration: none; }
+  .nav a:hover { color: #1A2332; }
+  @media (max-width: 1000px) { .nav { display: none; } }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <strong style="font-size: 11px; text-transform: uppercase; color: #7B8FA8; letter-spacing: 0.5px;">Sections</strong>
+  <a href="#modals">Modals & Panels</a>
+  <a href="#toasts">Toasts & Notifications</a>
+  <a href="#inline">Inline Editing</a>
+  <a href="#dnd">Drag-and-Drop</a>
+  <a href="#nav">Navigation</a>
+  <a href="#responsive">Responsive & Mobile</a>
+  <a href="#design">Design System</a>
+  <a href="#loading">Loading States</a>
+  <a href="#errors">Error Handling</a>
+  <a href="#auth">Authentication</a>
+  <a href="#keyboard">Keyboard Shortcuts</a>
+  <a href="#data">Data Patterns</a>
+  <a href="#messaging">Messaging & Collab</a>
+</nav>
+
+<div class="container">
+
+<h1>B-Suite UX Standards</h1>
+<p class="subtitle">Established patterns across all B-Suite apps. Referenced by PM briefs — deviations require Brian's approval.<br>Last updated: March 29, 2026</p>
+
+<div class="section-card" id="modals">
+<h2>Modals & Panels</h2>
+<ul>
+  <li><strong>Escape to close</strong> — all modals, side panels, search overlays. No exceptions.</li>
+  <li><strong>Click-outside to close</strong> — backdrop click closes modals (<code>e.target === e.currentTarget</code> pattern).</li>
+  <li><strong>Two-step delete</strong> — first click shows "Confirm Delete" state, second click executes. Never one-click delete.</li>
+  <li><strong>Mobile swipe-down to close</strong> — modals support touch drag-to-dismiss (120px threshold). Uses <code>passive: false</code> for preventDefault.</li>
+  <li><strong>Modal as single editing surface</strong> — modals contain all editable fields inline (title, tags, notes, messages). No separate "edit mode" or "edit page."</li>
+  <li><strong>Cmd+Enter to save</strong> from within a modal (if not in a textarea that needs Enter for newlines).</li>
+  <li><strong>Cmd+Backspace to delete</strong> from within a modal.</li>
+</ul>
+</div>
+
+<div class="section-card" id="toasts">
+<h2>Toasts & Notifications</h2>
+<ul>
+  <li><strong>react-hot-toast</strong> — bottom-right position, 2.5s default duration.</li>
+  <li><strong>Style:</strong> Plus Jakarta Sans, 13px, 10px border-radius, 10px/16px padding.</li>
+  <li><strong>Success:</strong> <span class="color-swatch" style="background:#10B981"></span> green icon (#10B981). <strong>Error:</strong> <span class="color-swatch" style="background:#EF4444"></span> red icon (#EF4444).</li>
+  <li><strong>CRUD feedback</strong> — every create, update, delete shows a toast confirming the action.</li>
+  <li><strong>Notification feedback</strong> — "Notified [Name]" or "Failed to notify [Name]" with 3s auto-clear.</li>
+  <li><strong>Non-fatal failures</strong> — metadata/notification failures show toast but don't block the user action. Only data-save failures restore state.</li>
+</ul>
+</div>
+
+<div class="section-card" id="inline">
+<h2>Inline Editing</h2>
+<ul>
+  <li><strong>Click-to-edit</strong> — fields become editable on click. No separate edit button.</li>
+  <li><strong>Save on blur or Enter.</strong> Cancel on Escape.</li>
+  <li><strong>Auto-expanding textarea</strong> — adjusts height based on scrollHeight.</li>
+  <li><strong>Visual states:</strong> dashed border when empty/placeholder, solid background when filled.</li>
+  <li><strong>Helper text:</strong> "Click outside to save · Esc to cancel" shown in edit mode.</li>
+</ul>
+</div>
+
+<div class="section-card" id="dnd">
+<h2>Drag-and-Drop</h2>
+<ul>
+  <li><strong>Native HTML5 DnD</strong> — <code>draggable</code> attribute, <code>dataTransfer.setData('text/plain', id)</code>.</li>
+  <li><strong>Optimistic update</strong> — status change happens immediately on drop.</li>
+  <li><strong>Mobile alternative:</strong> swipe gestures (damped at 0.6x, 60px snap threshold, 80px reveal width).</li>
+</ul>
+</div>
+
+<div class="section-card" id="nav">
+<h2>Navigation</h2>
+<ul>
+  <li><strong>App Switcher bar</strong> — fixed top bar, z-9999, dark bg (<span class="color-swatch" style="background:#1E1E1E"></span> #1E1E1E). Color-coded pills per app.</li>
+  <li><strong>Sidebar overlay</strong> — always overlay (never static), even on desktop. Toggle via hamburger. Backdrop: semi-transparent black.</li>
+  <li><strong>Deep linking</strong> — URL params (<code>?task=ID</code>) open modals on page load. Clean URL with <code>replaceState</code> after opening.</li>
+  <li><strong>Mobile bottom nav</strong> — tab bar with FAB for quick-add. Replaces sidebar on mobile.</li>
+</ul>
+</div>
+
+<div class="section-card" id="responsive">
+<h2>Responsive & Mobile</h2>
+<ul>
+  <li><strong>Breakpoint:</strong> <code>window.innerWidth < 768</code> via <code>useIsMobile()</code> hook.</li>
+  <li><strong>Separate mobile components</strong> — MobileAgendaView, MobileBottomNav, MobileQuickAdd.</li>
+  <li><strong>Touch targets:</strong> minimum 44px.</li>
+  <li><strong>touchAction: 'manipulation'</strong> on mobile containers.</li>
+  <li><strong>Safe area:</strong> <code>pt-[env(safe-area-inset-top)]</code> for notch awareness.</li>
+  <li><strong>Grid scaling:</strong> <code>grid-cols-1</code> → <code>sm:grid-cols-2</code> or <code>sm:grid-cols-3</code> at breakpoints.</li>
+</ul>
+</div>
+
+<div class="section-card" id="design">
+<h2>Design System</h2>
+<h3>Typography</h3>
+<ul>
+  <li><strong>Primary font:</strong> Plus Jakarta Sans (Google Fonts) — default for most apps.</li>
+  <li><strong>Alternatives:</strong> Inter (B People UI), Lora (B People brand/serif), DM Sans.</li>
+  <li><strong>Card radius:</strong> 12px across all apps.</li>
+  <li><strong>Shadows:</strong> subtle (<code>0 1px 3px rgba(0,0,0,0.06)</code>) to medium (<code>0 4px 16px rgba(0,0,0,0.08)</code>).</li>
+</ul>
+<h3>Colors</h3>
+<ul>
+  <li><strong>Priority:</strong> <span class="color-swatch" style="background:#EF4444"></span> Urgent #EF4444 · <span class="color-swatch" style="background:#F59E0B"></span> Important #F59E0B · <span class="color-swatch" style="background:#10B981"></span> Whenever #10B981</li>
+  <li><strong>Surface hierarchy:</strong> white → <span class="color-swatch" style="background:#FAFAFB"></span> #FAFAFB → <span class="color-swatch" style="background:#F5F5F7"></span> #F5F5F7 background.</li>
+  <li><strong>Border:</strong> <span class="color-swatch" style="background:#E8E8ED"></span> #E8E8ED default.</li>
+  <li><strong>Error states:</strong> <code>bg-red-50 border-red-200 text-red-700</code>.</li>
+</ul>
+</div>
+
+<div class="section-card" id="loading">
+<h2>Loading States</h2>
+<ul>
+  <li><strong>Skeleton loading</strong> — <code>animate-pulse</code> placeholders matching card shapes with border and padding.</li>
+  <li><strong>Spinner</strong> — <code>animate-spin</code> circular border (48px, blue-600).</li>
+  <li><strong>Full-screen loader</strong> on initial auth/data load. Prevents interaction until ready.</li>
+  <li><strong>Two-phase auth:</strong> <code>authLoading</code> resolves first, then data subscriptions fire.</li>
+</ul>
+</div>
+
+<div class="section-card" id="errors">
+<h2>Error Handling</h2>
+<ul>
+  <li><strong>React ErrorBoundary</strong> — class component wrapping entire app. Shows "Something broke" with reload button.</li>
+  <li><strong>Try/catch on all Firestore writes</strong> — toast on failure, never silent.</li>
+  <li><strong>Graceful degradation:</strong> separate message-save failures (restore draft) from metadata failures (fire-and-forget, toast only).</li>
+  <li><strong>Auth errors:</strong> red box (<code>bg-red-50 border-red-200</code>) with error message text.</li>
+</ul>
+</div>
+
+<div class="section-card" id="auth">
+<h2>Authentication</h2>
+<ul>
+  <li><strong>Google Sign-In</strong> — Firebase Auth, popup-based.</li>
+  <li><strong>Allowlisted emails</strong> — <code>ALLOWED_EMAILS</code> array in store.js. Only listed emails can sign in.</li>
+  <li><strong>Owner/Viewer model</strong> — owner UID in appConfig. Both get full read-write access (as of March 16, 2026).</li>
+  <li><strong>Auth state in Zustand</strong> — <code>{ user, authLoading, isViewer, dataUid }</code>.</li>
+  <li><strong>First-run seeding</strong> — demo data created on first sign-in if collections are empty.</li>
+</ul>
+</div>
+
+<div class="section-card" id="keyboard">
+<h2>Keyboard Shortcuts</h2>
+<ul>
+  <li><strong>Cmd/Ctrl+K</strong> — open search modal.</li>
+  <li><strong>Cmd/Ctrl+Z</strong> — undo last delete (pops from undo stack).</li>
+  <li><strong>Escape</strong> — close any modal, panel, search overlay, cancel inline edit.</li>
+  <li><strong>Enter</strong> — save inline edit (unless in textarea).</li>
+  <li><strong>Cmd/Ctrl+Enter</strong> — save modal form.</li>
+  <li><strong>Cmd/Ctrl+Backspace</strong> — delete from within modal.</li>
+  <li><strong>Cross-platform:</strong> always <code>(e.metaKey || e.ctrlKey)</code>.</li>
+</ul>
+</div>
+
+<div class="section-card" id="data">
+<h2>Data Patterns</h2>
+<ul>
+  <li><strong>Zustand single store</strong> — all state in one store. Firebase <code>onSnapshot</code> feeds directly in.</li>
+  <li><strong>Optimistic updates</strong> — update Zustand immediately, Firestore write async. Snapshot listener reconciles.</li>
+  <li><strong>Undo stack</strong> — full snapshots of deleted items. Cmd+Z restores.</li>
+  <li><strong>Real-time subscriptions</strong> — <code>onSnapshot</code> for all collections. Unsubscribe on signOut.</li>
+  <li><strong>Namespaced collections</strong> — Brian: <code>tasks</code>, <code>projects</code>. Nico: <code>nicoTasks</code>, <code>nicoProjects</code>.</li>
+  <li><strong>Shared Firebase projects:</strong> <code>b-things</code> (Things/Content/Brain Inbox/B Resources). <code>eddy-tracker-82486</code> (Eddy/HC Funnel/B Marketing). <code>b-people-759e5</code> (standalone).</li>
+</ul>
+</div>
+
+<div class="section-card" id="messaging">
+<h2>Messaging & Collaboration</h2>
+<ul>
+  <li><strong>NoteThread</strong> — iMessage-style threaded chat on tasks/cards. Messages in Firestore subcollection.</li>
+  <li><strong>@mention notifications</strong> — Slack DM + Brain Inbox via <code>handoff-notify</code> endpoint.</li>
+  <li><strong>Unread indicators</strong> — visual badge on cards with unread messages.</li>
+  <li><strong>CollapsibleMessages</strong> — expandable message thread in modals.</li>
+  <li><strong>User registry</strong> — centralized in <code>content-calendar/src/users.js</code> and <code>brain-inbox/api/handoff-notify.js</code>.</li>
+</ul>
+</div>
+
+</div>
+</body>
+</html>
