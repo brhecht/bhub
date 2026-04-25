@@ -88,19 +88,19 @@ This is the session bootstrap. One command does everything.
 
 **The user does NOT need to specify which app.** They can say "handoff here" and then start talking about what they want to do, or they can say "handoff here b-people" explicitly. Either works.
 
-#### Step 1: Run bsync
+#### Step 1: Run bsync — ALWAYS from a fresh `/tmp/` clone
+
+**Do not run the mount's `bsync.sh`.** A device that hasn't successfully launchd-pulled in a while will have a stale `bsync.sh` on the mount, which means missing features (e.g., `sync_mount_to_origin`, lock-warning suppression). Always pull a fresh bhub to `/tmp/` first and run from there:
 
 ```bash
-BSUITE_DIR="<mounted-bsuite-path>" bash <bhub-path>/bsync.sh
+rm -rf /tmp/bhub-bootstrap 2>/dev/null
+git clone --depth 1 https://github.com/brhecht/bhub.git /tmp/bhub-bootstrap 2>/dev/null
+BSUITE_DIR="<mounted-bsuite-path>" bash /tmp/bhub-bootstrap/bsync.sh
 ```
 
-If bsync.sh isn't available locally (e.g., bhub not cloned on this device), clone bhub to `/tmp/` first:
-```bash
-git clone https://github.com/brhecht/bhub.git /tmp/bhub 2>/dev/null
-BSUITE_DIR="<mounted-bsuite-path>" bash /tmp/bhub/bsync.sh
-```
+This guarantees every session — on every Mac, regardless of how long it's been since the last open — runs the latest bsync. Critical because bsync v2.5+'s `sync_mount_to_origin` is what brings stale mounts back in sync; if you run an old bsync that lacks it, the mount stays stale.
 
-bsync handles git credential setup, lock file detection, repo pulls (with automatic `/tmp/` fallback for EPERM issues), handoff freshness checks, and skill version verification. It outputs structured JSON.
+bsync handles git credential setup, lock file detection, repo pulls (parallel clones to `/tmp/` in Cowork), handoff freshness checks, and skill version verification. It outputs structured JSON.
 
 #### Step 2: Act on bsync results
 
