@@ -56,6 +56,12 @@
       "hash": "80ff4f7e5b50e9f1203eaa8212e42c24",
       "updated": "2026-04-17",
       "changelog": "First manifest entry. Added Delivery Failure Protocol: if Gmail draft creation fails, agent saves fallback HTML, pings Brain Inbox via handoff-notify API, and surfaces failure explicitly instead of silent save. Clarified Gmail MCP tool name guidance (create_draft, with ToolSearch fallback) to survive MCP upgrades."
+    },
+    "frontend-design": {
+      "version": "1.0.0",
+      "hash": "5c392562ec1cf5ffa6b9d2319375373f",
+      "updated": "2026-04-25",
+      "changelog": "Initial install \u2014 official anthropics/claude-code frontend-design skill. Forces design direction commitment before code, bans Inter/Roboto/Arial, eliminates AI-slop generic UI. Source: github.com/anthropics/claude-code/plugins/frontend-design"
     }
   },
   "devices": {
