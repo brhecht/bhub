@@ -1,5 +1,10 @@
 #!/bin/bash
-# bsync v2.4 — B-Suite session bootstrap & reconciliation
+# bsync v2.5 — B-Suite session bootstrap & reconciliation
+# v2.5: sync_mount_to_origin() — auto-fast-forward the mounted .git after Cowork
+#       pushes, so the Mac's working tree never shows phantom "modified" state
+#       from edits Cowork made directly on the mount. Eliminates the need to ever
+#       run `git pull` on the Mac terminal. Auto-runs at start of every Cowork
+#       bsync, also exposed as --sync-mount for explicit post-push invocation.
 # v2.4: Pre-flight clean_stale_locks() — scrub orphan .git/*.lock* files >5min old
 #       on Mac side every run (so launchd auto-pull also auto-cleans the FUSE-stuck
 #       orphans Cowork can't delete).
@@ -17,6 +22,8 @@
 #   bash bsync.sh                    # Full bootstrap (pulls + handoff check + skills check)
 #   bash bsync.sh --pull-only        # Just pull all repos (LaunchAgent mode)
 #   bash bsync.sh --status           # Report status without pulling (fast, offline)
+#   bash bsync.sh --sync-mount       # Cowork-only: fast-forward mounted .git to origin
+#                                    # after a push (so Mac sees clean state)
 
 set -uo pipefail
 
@@ -345,10 +352,73 @@ clean_stale_locks() {
   fi
 }
 
+# --- Mount sync (Cowork-only) ---
+# After Cowork pushes new commits to GitHub, the mounted .git directory on the
+# user's Mac stays at the OLD HEAD, while the working tree (which Cowork edited)
+# matches the NEW HEAD. Result: `git status` on Mac shows tracked files as
+# "modified", and `git pull` fails with "your local changes would be overwritten".
+#
+# Fix: after pushing, fast-forward the mount's local main ref + index to match
+# origin/main. We can't `git pull` on the mount (FUSE blocks unlink), but we CAN:
+#   1. `git fetch` (writes objects, no unlink needed)
+#   2. echo new SHA into .git/refs/heads/main (file write, no unlink)
+#   3. `git read-tree HEAD` (writes index, no working-tree touch)
+# For working-tree files that drifted (rare), we overwrite via `git show HEAD:f >f`
+# (write+truncate works on FUSE; rm doesn't).
+sync_mount_to_origin() {
+  [[ "$ENV" != "cowork" ]] && return
+  local synced=0 cleaned=0
+  for entry in "${REPOS[@]}"; do
+    local folder="${entry%%:*}"
+    local repo_dir="$BSUITE_DIR/$folder"
+    [[ ! -d "$repo_dir/.git" ]] && continue
+    cd "$repo_dir" 2>/dev/null || continue
+
+    [[ -f .git/index.lock ]] && mv .git/index.lock ".git/index.lock.cwk_$$" 2>/dev/null
+
+    local branch="main"
+    git show-ref --verify --quiet refs/remotes/origin/main 2>/dev/null || branch="master"
+
+    git fetch origin "$branch" --quiet 2>/dev/null
+
+    local new_sha cur_sha
+    new_sha=$(git rev-parse "origin/$branch" 2>/dev/null)
+    cur_sha=$(git rev-parse HEAD 2>/dev/null)
+    [[ -z "$new_sha" ]] && continue
+
+    if [[ "$cur_sha" != "$new_sha" ]]; then
+      echo "$new_sha" > ".git/refs/heads/$branch"
+      synced=$((synced + 1))
+    fi
+
+    [[ -f .git/index.lock ]] && mv .git/index.lock ".git/index.lock.cwk2_$$" 2>/dev/null
+    git read-tree HEAD 2>/dev/null
+
+    while IFS= read -r line; do
+      [[ -z "$line" ]] && continue
+      local code="${line:0:2}"
+      local file="${line:3}"
+      case "$code" in
+        " M"|"M "|" D"|"D ")
+          git show "HEAD:$file" > "$file" 2>/dev/null && cleaned=$((cleaned + 1))
+          ;;
+      esac
+    done < <(git status --porcelain 2>/dev/null | grep -v "^??")
+  done
+  [[ $synced -gt 0 || $cleaned -gt 0 ]] && log "sync_mount: $synced refs updated, $cleaned files reconciled"
+}
+
 # --- Main ---
 log "bsync v2 started (mode: $MODE, env: $ENV)"
 setup_git
 clean_stale_locks
+
+if [[ "$MODE" == "--sync-mount" ]]; then
+  sync_mount_to_origin
+  log "sync-mount complete"
+  echo '{"mode": "sync-mount", "status": "complete"}'
+  exit 0
+fi
 
 if [[ "$MODE" == "--pull-only" ]]; then
   pull_repos > /dev/null
@@ -357,10 +427,14 @@ if [[ "$MODE" == "--pull-only" ]]; then
   exit 0
 fi
 
+# In Cowork mode, auto-sync the mount at session start so any drift from prior
+# sessions is healed before we do anything else.
+sync_mount_to_origin
+
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.4.0",
+  "bsync_version": "2.5.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
