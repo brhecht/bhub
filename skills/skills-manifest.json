@@ -14,10 +14,10 @@
       "changelog": "Added explicit parallelism rule to 'handoff here' \u2014 Steps 3 & 4 (read master + app HANDOFF + strategy docs) must fire as a single parallel tool batch, not sequentially. Reduces bootstrap dead time."
     },
     "dev-deploy": {
-      "version": "1.5.0",
-      "hash": "09ce042b74e88212ec9ad952d8d52b41",
-      "updated": "2026-04-09",
-      "changelog": "Removed redundant bootstrap preamble (handoff skill already handles this). Fixed manifest hash to match actual installed content across all devices."
+      "version": "1.6.0",
+      "hash": "b4c2bfd6e75462ec51153e2374b21974",
+      "updated": "2026-04-25",
+      "changelog": "Mandate bash bsync.sh --sync-mount after every git push in Cowork. Eliminates phantom 'modified' state on the user's Mac that previously required terminal git pull. Pairs with bsync v2.5 sync_mount_to_origin()."
     },
     "expert": {
       "version": "1.0.0",

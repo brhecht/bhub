@@ -161,10 +161,26 @@ If the rebase has conflicts, resolve them (prefer the current changes unless the
 For projects deployed via git push (Vercel, Netlify, etc.):
 
 ```bash
-npm run build && git add -A && git commit -m "descriptive message" && git pull --rebase origin main && git push
+npm run build && git add -A && git commit -m "descriptive message" && git pull --rebase origin main && git push && bash $BSUITE_DIR/bhub/bsync.sh --sync-mount
 ```
 
 After the user confirms the push succeeded (or Claude runs it with permission), the deploy will be live in ~60 seconds.
+
+### Sync mount after every push (MANDATORY in Cowork)
+
+**Every `git push` from Cowork must be followed by `bash $BSUITE_DIR/bhub/bsync.sh --sync-mount`.** No exceptions.
+
+**Why this matters:** Cowork edits files directly on the FUSE-mounted drive (which IS the user's Mac filesystem — same physical bytes), but pushes from a `/tmp/` clone. After a push, GitHub has the new HEAD, and the working tree files on the mount match the new HEAD. But the mount's `.git/HEAD` still points to the OLD commit — because Cowork's push happened in `/tmp/`, not on the mount. Result: the user's Mac sees `git status` reporting tracked files as "modified" (working tree differs from local HEAD), and any `git pull` fails with "your local changes would be overwritten."
+
+This was the #1 source of "I have to open terminal" friction. **`--sync-mount` eliminates it permanently.** It does a FUSE-safe fast-forward of the mounted `.git`:
+1. `git fetch origin` (write-only, FUSE-safe)
+2. Update `.git/refs/heads/main` → origin/main SHA (file write, no unlink)
+3. `git read-tree HEAD` (writes index, doesn't touch working tree)
+4. For any drifted working-tree files: `git show HEAD:f > f` (write+truncate, FUSE-safe — `rm` and `git checkout` don't work on FUSE)
+
+**Never run `--sync-mount` BEFORE pushing local changes** — it will pull origin's version of any tracked file you've edited but not yet pushed, silently reverting your in-progress work. Always: edit → commit → pull --rebase → push → sync-mount, in that order. The bsync auto-call at session start is safe because session-start has no in-progress edits.
+
+**This responsibility is on Claude, not the user.** If a session forgets to call `--sync-mount` after a push, the user discovers it the next time they touch terminal — exactly what we're eliminating. Treat the post-push sync as part of the push, not an optional cleanup.
 
 ### Stamp-on-push (handoff continuity)
 
