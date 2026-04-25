@@ -1,5 +1,8 @@
 #!/bin/bash
-# bsync v2.3 — B-Suite session bootstrap & reconciliation
+# bsync v2.4 — B-Suite session bootstrap & reconciliation
+# v2.4: Pre-flight clean_stale_locks() — scrub orphan .git/*.lock* files >5min old
+#       on Mac side every run (so launchd auto-pull also auto-cleans the FUSE-stuck
+#       orphans Cowork can't delete).
 # v2.3: Suppress stale .git/index.lock warnings in Cowork mode (FUSE mount blocks
 #       rm of Mac-owned files, so stale locks pile up forever; only fresh locks matter).
 # Pulls all repos (in parallel), cross-checks handoffs against git history,
@@ -328,9 +331,24 @@ check_locks() {
   fi
 }
 
+# --- Pre-flight: scrub stale .git lock-file orphans (Mac-only) ---
+# Cowork's FUSE mount can't unlink Mac-owned files, so previous sessions leave
+# stale .git/index.lock (and orphan .lock.bak/.lock.old/etc. variants) behind.
+# Scrub anything >5 min old — well past any real concurrent git op (which
+# completes in seconds for these tiny repos).
+clean_stale_locks() {
+  if [[ "$ENV" == "local" ]]; then
+    local cleaned
+    cleaned=$(find "$BSUITE_DIR" -path "*/.git/*" -name "*.lock*" -type f -mmin +5 2>/dev/null | wc -l | xargs)
+    find "$BSUITE_DIR" -path "*/.git/*" -name "*.lock*" -type f -mmin +5 -delete 2>/dev/null || true
+    [[ "$cleaned" -gt 0 ]] && log "Scrubbed $cleaned stale lock orphan(s)"
+  fi
+}
+
 # --- Main ---
 log "bsync v2 started (mode: $MODE, env: $ENV)"
 setup_git
+clean_stale_locks
 
 if [[ "$MODE" == "--pull-only" ]]; then
   pull_repos > /dev/null
@@ -342,7 +360,7 @@ fi
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.3.0",
+  "bsync_version": "2.4.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
