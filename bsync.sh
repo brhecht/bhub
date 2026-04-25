@@ -1,12 +1,10 @@
 #!/bin/bash
 # bsync v2.2 — B-Suite session bootstrap & reconciliation
-# Pulls all repos (in parallel), cross-checks handoffs against git history,
-# reconciles skills, rebuilds master.
+# v2.2: Suppress stale lock-file warnings in Cowork mode (FUSE mount can't delete
+#       Mac-owned files, so stale locks pile up forever; only fresh locks matter).
+# Pulls all repos, cross-checks handoffs against git history, reconciles skills, rebuilds master.
 # Claude executes this at session start, reads the JSON output, acts on findings.
 # Also runs on Mac via LaunchAgent (--pull-only) or manually.
-#
-# v2.2 change: pull_repos now runs all 14 clones in parallel. Cuts handoff-here
-# time from ~23s to ~5s in Cowork.
 #
 # Usage:
 #   bash bsync.sh                    # Full bootstrap (pulls + handoff check + skills check)
@@ -54,7 +52,6 @@ REPOS=(
   "hc-website:brhecht/hc-website"
   "tnb-website:brhecht/tnb-website"
   "pitch-scorer:brhecht/pitch-scorer"
-  "builder-bot:brhecht/builder-bot"
 )
 
 # Skip deep handoff check on dormant/archived repos
@@ -90,88 +87,54 @@ setup_git() {
   log "Git credentials configured"
 }
 
-# --- Step 1: Pull all repos (in parallel) ---
-# Each repo is cloned/pulled in its own background subshell, writing a JSON
-# fragment to a temp file. After all finish, fragments are concatenated in
-# REPOS-array order so output is deterministic.
-
-# Clone/pull one repo and write JSON fragment to $3. Safe to run in parallel.
-pull_one_repo() {
-  local folder="$1"
-  local github="$2"
-  local out_file="$3"
-  local repo_dir="$BSUITE_DIR/$folder"
-  local status="skipped"
-  local detail=""
-  local path="$repo_dir"
-
-  if [[ "$ENV" == "cowork" ]]; then
-    # Cowork sandbox: always clone fresh to /tmp (shallow = fast)
-    local tmp_dir="$WORK_DIR/$folder"
-    # If the target dir exists from a previous bsync run this session, remove it
-    # so git clone doesn't fail with "already exists".
-    [[ -d "$tmp_dir" ]] && rm -rf "$tmp_dir"
-    if git clone --depth 1 "https://github.com/${github}.git" "$tmp_dir" 2>/dev/null; then
-      status="ok"
-      path="$tmp_dir"
-    else
-      status="failed"
-      detail="Clone to $WORK_DIR failed"
-    fi
-  elif [[ -d "$repo_dir/.git" ]]; then
-    # Local Mac: fetch + hard reset to origin/main
-    rm -f "$repo_dir/.git/index.lock" "$repo_dir/.git/HEAD.lock" "$repo_dir/.git/ORIG_HEAD.lock" 2>/dev/null
-    local output
-    output=$(cd "$repo_dir" && git fetch origin 2>&1 && git reset --hard origin/main 2>&1) && status="ok" || {
-      status="failed"
-      detail=$(echo "$output" | head -3)
-    }
-  else
-    # Repo doesn't exist locally — clone to /tmp
-    [[ -d "$WORK_DIR/$folder" ]] && rm -rf "$WORK_DIR/$folder"
-    if git clone "https://github.com/${github}.git" "$WORK_DIR/$folder" 2>/dev/null; then
-      status="cloned_to_tmp"
-      path="$WORK_DIR/$folder"
-    else
-      status="clone_failed"
-      detail="Not local, clone failed"
-    fi
-  fi
-
-  printf '    {"repo": "%s", "github": "%s", "status": "%s", "path": %s, "detail": %s}' \
-    "$folder" "$github" "$status" "$(json_escape "$path")" "$(json_escape "${detail:-}")" \
-    > "$out_file"
-}
-
+# --- Step 1: Pull all repos ---
+# For each repo: try git pull on mounted dir. If EPERM, clone to /tmp.
+# If repo doesn't exist locally at all, clone to /tmp.
 pull_repos() {
-  local frag_dir="$WORK_DIR/pull-fragments"
-  mkdir -p "$frag_dir"
-  rm -f "$frag_dir"/*.json 2>/dev/null
-
-  # Fan out: every repo clones in parallel
-  local pids=()
-  for entry in "${REPOS[@]}"; do
-    local folder="${entry%%:*}"
-    local github="${entry##*:}"
-    pull_one_repo "$folder" "$github" "$frag_dir/${folder}.json" &
-    pids+=($!)
-  done
-
-  # Wait for all background jobs to finish
-  for pid in "${pids[@]}"; do
-    wait "$pid" 2>/dev/null || true
-  done
-
-  # Emit fragments in REPOS order with comma separators
   local first="true"
   for entry in "${REPOS[@]}"; do
     local folder="${entry%%:*}"
-    local frag="$frag_dir/${folder}.json"
-    if [[ -f "$frag" ]]; then
-      [[ "$first" == "true" ]] && first="false" || echo ","
-      cat "$frag"
-      log "$folder: emitted"
+    local github="${entry##*:}"
+    local repo_dir="$BSUITE_DIR/$folder"
+    local status="skipped"
+    local detail=""
+    local path="$repo_dir"
+
+    if [[ "$ENV" == "cowork" ]]; then
+      # Cowork sandbox: mounted drive is read-only. Always clone fresh to /tmp.
+      # This is fast (shallow clone) and avoids all EPERM issues.
+      local tmp_dir="$WORK_DIR/$folder"
+      if git clone --depth 1 "https://github.com/${github}.git" "$tmp_dir" 2>/dev/null; then
+        status="ok"
+        path="$tmp_dir"
+      else
+        status="failed"
+        detail="Clone to $WORK_DIR failed"
+      fi
+    elif [[ -d "$repo_dir/.git" ]]; then
+      # Local Mac: pull directly on the repo
+      rm -f "$repo_dir/.git/index.lock" "$repo_dir/.git/HEAD.lock" "$repo_dir/.git/ORIG_HEAD.lock" 2>/dev/null
+      local output
+      output=$(cd "$repo_dir" && git fetch origin 2>&1 && git reset --hard origin/main 2>&1) && status="ok" || {
+        status="failed"
+        detail=$(echo "$output" | head -3)
+      }
+    else
+      # Repo doesn't exist locally — clone it
+      if git clone "https://github.com/${github}.git" "$WORK_DIR/$folder" 2>/dev/null; then
+        status="cloned_to_tmp"
+        path="$WORK_DIR/$folder"
+      else
+        status="clone_failed"
+        detail="Not local, clone failed"
+      fi
     fi
+
+    [[ "$first" == "true" ]] && first="false" || echo ","
+    printf '    {"repo": "%s", "github": "%s", "status": "%s", "path": %s, "detail": %s}' \
+      "$folder" "$github" "$status" "$(json_escape "$path")" "$(json_escape "${detail:-}")"
+
+    log "$folder: $status"
   done
 }
 
@@ -306,9 +269,19 @@ print(m.get('skills',{}).get('$skill',{}).get('version','unknown'))
 }
 
 # --- Step 4: Lock file check ---
+# In Cowork, the FUSE mount blocks `rm` from the Linux VM, so stale .git/index.lock
+# files (left over from previous Cowork sessions that died mid-git-op) accumulate
+# on the mount. They're irrelevant — bsync clones fresh to /tmp/ in Cowork mode and
+# never touches the mounted .git. Only report locks <60s old (indicating a real
+# live concurrent git op on the Mac side). On local Mac, report all locks since
+# they actually block git ops there.
 check_locks() {
   local locks
-  locks=$(find "$BSUITE_DIR" -name "index.lock" -path "*/.git/*" 2>/dev/null || true)
+  if [[ "$ENV" == "cowork" ]]; then
+    locks=$(find "$BSUITE_DIR" -name "index.lock" -path "*/.git/*" -mmin -1 2>/dev/null || true)
+  else
+    locks=$(find "$BSUITE_DIR" -name "index.lock" -path "*/.git/*" 2>/dev/null || true)
+  fi
   if [[ -n "$locks" ]]; then
     printf '"found": true, "files": %s' "$(json_escape "$locks")"
   else
