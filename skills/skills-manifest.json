@@ -14,10 +14,10 @@
       "changelog": "Step 1 now mandates fresh /tmp/ clone of bhub for bsync \u2014 never runs the mount's bsync.sh. Guarantees every session, on every Mac, runs latest bsync regardless of how long since last successful launchd-pull. Pairs with bsync v2.5 sync_mount_to_origin to make stale-mount-recovery automatic on any device."
     },
     "dev-deploy": {
-      "version": "1.6.0",
-      "hash": "b4c2bfd6e75462ec51153e2374b21974",
+      "version": "1.7.0",
+      "hash": "26a4401e0ee4b5ec276a7838a9f25f33",
       "updated": "2026-04-25",
-      "changelog": "Mandate bash bsync.sh --sync-mount after every git push in Cowork. Eliminates phantom 'modified' state on the user's Mac that previously required terminal git pull. Pairs with bsync v2.5 sync_mount_to_origin()."
+      "changelog": "Library Awareness (Context7) section added \u2014 Claude now auto-invokes the Context7 MCP server on any code work that touches a documented external library (Next.js, Tailwind, Firebase, Vercel KV, Resend, Beehiiv, etc.), pulling current docs into context before writing. Eliminates the stale-API class of bugs (canonical example: Apr 23 builder-bot KV env-var rename). User does not need to invoke 'use context7' manually."
     },
     "expert": {
       "version": "1.0.0",

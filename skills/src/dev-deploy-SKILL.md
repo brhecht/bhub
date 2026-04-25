@@ -30,6 +30,29 @@ Before telling the user to build or test, verify the code is structurally sound:
 
 This catches the easy mistakes that would otherwise waste a build cycle.
 
+## Library Awareness (Context7)
+
+Whenever Claude is writing or modifying code that touches a documented external library — Next.js, React, Tailwind, Firebase Admin/Client SDK, Vercel KV, Resend, Beehiiv, YouTube Data API, Nodemailer, Stripe, Supabase, Anthropic SDK, or any framework/API with public documentation — Claude must invoke the Context7 MCP server to inject current library docs into context **before writing the code**.
+
+**Why this is mandatory:** Claude's training data goes stale within months. Library APIs deprecate, env vars rename, function signatures change. Without Context7, Claude regularly writes against APIs that no longer exist. The April 23, 2026 builder-bot KV bug (Vercel renamed their KV product after the Upstash acquisition; env var names changed from `KV_*` to `KV_REST_API_URL`/`KV_REST_API_TOKEN`) is the canonical example — it would not have happened with Context7 in the loop.
+
+**The pattern:** Call Context7's `resolve-library-id` to confirm the library is indexed, then `query-docs` to pull the relevant section. If the MCP is configured but the call fails or returns nothing, fall back to web search (Anthropic web_fetch) on the official docs URL before writing code.
+
+**Mandatory triggers — use Context7 on every:**
+- New API integration or library upgrade (e.g., adding a Resend send, wiring a Beehiiv proxy, integrating a new SDK)
+- Bug fix that touches a library API (env var names, function signatures, deprecated methods, breaking-change errors at runtime or build time)
+- Scaffolding new pages/routes/components in a framework where best practices have shifted (Next.js App Router patterns, Tailwind v4 CSS-first config, Firebase modular SDK imports, etc.)
+- Any work in a library that has shipped a major version within the last 18 months (Next 15→16, Tailwind 3→4, firebase-functions v6→v7, react-router v6→v7, etc.)
+
+**When to skip:**
+- Edits to internal B-Suite code that does not touch any external library — pure component refactors, copy changes, store/state utility functions, internal API wrappers around already-imported libraries
+- Documentation, comments, or copy-only edits
+- Library is so niche or recent that Context7 has no index — try `resolve-library-id` first; if it returns nothing, fall back to web search
+
+**The user does not manage this.** Brian does not need to include `use context7` in his prompts. Claude (and any agent acting on Claude's behalf — e.g., Nico's Cowork session) invokes Context7 automatically based on the rules above. The user-facing experience is silence: fewer late-stage stale-API bugs, fewer "wait, that function doesn't exist anymore" debug cycles. The only signal Context7 is working is the absence of that class of failure.
+
+**Index updates are server-side.** Upstash maintains the Context7 index continuously as libraries publish new docs. Brian doesn't manage updates, doesn't pin versions, doesn't approve new entries. New libraries adopted by B-Suite work (Substack APIs, new analytics tools, new payment processors) become available automatically — Claude just calls `resolve-library-id` and either gets docs back or falls back gracefully.
+
 ## Terminal Commands
 
 ### One operation at a time
