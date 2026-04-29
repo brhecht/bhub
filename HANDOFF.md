@@ -1,6 +1,6 @@
 # bhub — Handoff
 
-*Last updated: April 22, 2026*
+*Last updated: April 29, 2026*
 
 **Project:** bhub
 **Repository:** github.com/brhecht/bhub
@@ -165,6 +165,11 @@ Large session. Built the full fleet audit capability and cleaned 5+ weeks of acc
 ---
 
 ## Session Log
+
+### 2026-04-29 — Skill versions bumped + master handoff updated for TNB content vault reorg
+- **What shipped:** create-content skill v1.0.0 → v1.1.0 (brand-aware loading: auto-loads tnb-strategy/brand/* when working on TNB content; promoted linkedin-patterns from "future use" to active reference; corrected stale YouTube-transcript-not-available guidance — they ARE in the Content Calendar API on `transcript` field; description rewritten to cover both HC legacy and TNB content). tnb-strategy skill v1.0.0 → v1.1.0 (paths updated for new tnb-strategy subdirectory structure: reads README.md first, then strategy/, brand/). Both .skill ZIP bundles regenerated, manifest hashes/versions/changelogs updated. HANDOFF-MASTER.md updated with new TNB Strategy section (subdir layout + brand/tnb-deck.md note + create-content brand-aware behavior) + top-of-master change log entry. Also pushed companion reorg in tnb-strategy repo.
+- **Known issues:** Skill drift will be flagged on every device (Mini, iMac, Pro, Air) until reinstall. One-time clickthrough on each. Brian's local Mac copy of tnb-strategy has a stale .git/index.lock (FUSE mount couldn't clean) + an orphan local commit (7e82088) from a manual push that hit the lock — Mac side cleanup needed via the documented one-line: `find ~/Developer/B-Suite -name "index.lock" -path "*/.git/*" -delete && cd ~/Developer/B-Suite/tnb-strategy && git fetch && git reset --hard origin/main`. Auto-resolves via bsync's stale-lock scrub on next launchd run if Brian doesn't want to terminal it.
+- **Next:** Brian reinstalls bumped skills on next handoff here per device. Brian (or auto-bsync) reconciles Mac tnb-strategy. No further work expected on this front until next TNB content session.
 
 ### 2026-04-18 — Fleet audit infrastructure + full fleet cleanup
 - **What shipped:** bhealth.sh v1.0, bsync.sh v2.2 (parallel), routing rules + bhealth playbook in master, weekly Monday scheduled task for B Things reminder. Mini/Pro/Air all audited clean.
