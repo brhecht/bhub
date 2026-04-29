@@ -1,7 +1,9 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: April 24, 2026*
+*Updated: April 29, 2026*
 *Source: Most recent handoff from each project*
+
+> **April 29, 2026 — TNB content vault reorganized + skills updated.** `tnb-strategy/` repo restructured into subdirectories (`strategy/`, `brand/`, `drafts/`, `ops/`) with new `README.md` index at root. New `brand/tnb-deck.md` is a markdown export of the April 13 Drive strategy deck — gives any session LLM-readable access to the canonical TNB articulation without needing Drive auth. `create-content` skill (v1.1.0) now brand-aware: when working on TNB content, auto-loads `brand/POSITIONING-LANGUAGE.md` + `brand/tnb-deck.md` alongside cross-brand voice DNA. Also fixed stale guidance — YouTube transcripts ARE available via Content Calendar API (`transcript` field on `yt-video`/`yt-short` cards). `tnb-strategy` skill (v1.1.0) updated with new paths. **Skill drift will be flagged on devices** until reinstalled. See "TNB Strategy" section below for full new structure.
 
 > **April 24, 2026 — UX Standards doc moved into bhub.** Canonical B-Suite UX reference (modals, toasts, inline edit, DnD, nav, responsive, design system, keyboard shortcuts, data patterns, messaging) is now at `bhub/UX-STANDARDS.md` with an HTML viewer at `bhub/ux-standards-view.html`. Previously lived loose at `Developer/ux-standards-review.html` (deleted). PM briefs reference this doc as the source of truth for cross-app UX — deviations require Brian's approval. See "Cross-Project Dependencies" and "UX Standards" sections below.
 >
@@ -270,16 +272,35 @@ If the session will involve building an app, check if `node_modules` exists in t
 ---
 
 ## TNB Strategy (The New Builder)
-**Status:** Active. Announcement newsletter drafted April 22, pending publish. Podcast live (2 eps). War Room one-shots underway.
-**Last updated:** April 22, 2026
+**Status:** Active. Announcement newsletter published Apr 24 (Beehiiv); first Substack issue Apr 30. Podcast live (2 eps + ep 3 Jeff Latz dropped Apr 29). War Room one-shots underway. **Repo reorganized April 29.**
+**Last updated:** April 29, 2026
 **Location:** tnb-strategy/ (private repo, Brian only)
 **GitHub:** brhecht/tnb-strategy (private)
+
+**Repo structure (reorganized Apr 29):**
+```
+tnb-strategy/
+├── README.md                     ← Vault index. Read first.
+├── HANDOFF.md                    ← Session continuity.
+├── strategy/
+│   ├── STRATEGY-CONTEXT.md       ← Strategic brain. Positioning, audience, product, transition plan.
+│   └── operating-plan.md         ← Revenue projections, growth channels, milestones.
+├── brand/
+│   ├── POSITIONING-LANGUAGE.md   ← CANONICAL TNB COPY. Locked Apr 12.
+│   └── tnb-deck.md               ← Markdown export of April 13 Drive deck. LLM-readable.
+├── drafts/
+│   └── NEWSLETTER-ANNOUNCEMENT-DRAFT.md
+├── ops/
+│   ├── LAUNCH-PLAN.md
+│   └── SUBSTACK-SETUP.md         ← Beehiiv→Substack migration setup pack
+└── source-docs/                  ← Archived March 2026 strategy memo + deck
+```
+
 **Key context:**
-- Strategic brain for The New Builder. Contains positioning, product architecture, revenue model, operating plan, launch plan, and business context.
-- **POSITIONING-LANGUAGE.md** is the canonical source for all TNB copy. Locked April 12, 2026. Reference this from any content/design work.
-- STRATEGY-CONTEXT.md is the full strategic brain (positioning refs, target audience, business model, 4 exposure outlets, 4 revenue streams, transition plan).
-- Source docs (March 2026 strategy memo + deck) archived in source-docs/ with usage protocol README.
-- TNB Insider Intro Deck (April 13) in Google Drive: the current 12-slide strategy deck with the 4+4 model grid.
+- All four positioning forms LOCKED April 12 (`brand/POSITIONING-LANGUAGE.md`): tagline, one-liners, cocktail party, written version. Reference from any content/design work — drift requires explicit positioning session.
+- `brand/tnb-deck.md` is the markdown text version of the Drive deck (`1zNvkcDtIpn4kwCnm3B9Njf4UmzhTxROaRd9JfRgfzNU`). Drive remains visual source of truth. When deck changes, re-export and overwrite — don't fork.
+- `create-content` skill auto-loads `brand/POSITIONING-LANGUAGE.md` + `brand/tnb-deck.md` when working on TNB content. Voice DNA (cross-brand) lives in the skill itself.
+- Newsletter platform pivot: Beehiiv → Substack. Last Beehiiv send was Apr 24 (announcement). First Substack send Apr 30. tnb-website subscribe form is still inert pending endpoint swap.
 
 **Not shared with Nico.** Brian-only context. Nico receives relevant decisions via email/DM, not repo access.
 

@@ -9,13 +9,26 @@ This skill gives Claude full context on The New Builder's strategic direction, o
 
 ## On Load
 
-Read these two files immediately, in parallel:
+The repo was reorganized April 29, 2026. Always start by reading `B-Suite/tnb-strategy/README.md` for the current vault index — this is the canonical "what's where" reference and may have evolved since this skill was last updated.
 
-1. `B-Suite/tnb-strategy/STRATEGY-CONTEXT.md` — the strategic brain. Contains Brian's profile, the TNB positioning (AI as DNA, full-stack founder engagement), target audience (The New Builder archetype), product architecture (War Room, coaching, courses, live events), distribution plan, revenue model, transition plan from HC, and quarterly review protocol.
+Then read these files in parallel:
 
-2. `B-Suite/tnb-strategy/operating-plan.md` — the operating plan with revenue projections by stream, growth channel activity, timeline, and milestone targets.
+1. `B-Suite/tnb-strategy/strategy/STRATEGY-CONTEXT.md` — the strategic brain. Contains Brian's profile, TNB positioning (AI as DNA, full-stack founder engagement), target audience (The New Builder archetype), product architecture (War Room, coaching, courses, live events), distribution plan, revenue model, transition plan from HC, and quarterly review protocol.
 
-Both files are in the mounted B-Suite folder. If B-Suite isn't mounted, ask the user to mount it.
+2. `B-Suite/tnb-strategy/strategy/operating-plan.md` — operating plan with revenue projections by stream, growth channel activity, timeline, and milestone targets.
+
+3. `B-Suite/tnb-strategy/brand/POSITIONING-LANGUAGE.md` — canonical positioning copy. Tagline, one-liners, cocktail party version, written version, response guidance, style rules. Locked April 12, 2026. Reference this from any content/design work.
+
+4. `B-Suite/tnb-strategy/brand/tnb-deck.md` — markdown export of the April 13 internal strategy deck. Contains the most considered articulation of the brand: thesis quote, "AI flipped the chess board" framing, 2x2 brand positioning matrix, "peers sharing notes > clever frameworks" principle, Legacy Founder vs. New Builder audience contrast, channel structure, War Room product architecture, and 90-day/6-month/12-month roadmap.
+
+If a session is specifically about strategy/business decisions and not content work, you can skip files 3 and 4. If it's about content/positioning/voice and not strategy, you can skip files 1 and 2. When in doubt, read all four — they're short.
+
+All files are in the mounted B-Suite folder. If B-Suite isn't mounted, ask the user to mount it.
+
+Also relevant in the same repo:
+- `drafts/` — in-progress content (newsletter drafts, etc.)
+- `ops/` — execution playbooks (LAUNCH-PLAN.md, SUBSTACK-SETUP.md)
+- `source-docs/` — archived March 2026 strategy memo + deck
 
 After reading, briefly confirm you've loaded context and ask what they want to work on — don't dump a summary unless asked.
 
@@ -67,13 +80,17 @@ After the review, update `operating-plan.md` with actuals and adjust projections
 
 ## Updating These Documents
 
-Both STRATEGY-CONTEXT.md and operating-plan.md are living documents. After any substantive strategy session:
+Both `strategy/STRATEGY-CONTEXT.md` and `strategy/operating-plan.md` are living documents. After any substantive strategy session:
 
-- Update STRATEGY-CONTEXT.md with new decisions, revised assumptions, or research findings
-- Update operating-plan.md with actuals and re-forecasted projections
+- Update `strategy/STRATEGY-CONTEXT.md` with new decisions, revised assumptions, or research findings
+- Update `strategy/operating-plan.md` with actuals and re-forecasted projections
 - Note the date and nature of the update at the top of each file
 
 Amend in place — don't create new versions. Git history preserves the timeline.
+
+`brand/tnb-deck.md` is a special case: it's a text export of the Drive deck. When the Drive deck changes, re-export and overwrite — don't fork. Drive ID: `1zNvkcDtIpn4kwCnm3B9Njf4UmzhTxROaRd9JfRgfzNU`.
+
+`brand/POSITIONING-LANGUAGE.md` is locked. Edits require an explicit positioning session, not a casual update.
 
 ## What NOT to Do
 

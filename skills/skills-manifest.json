@@ -34,10 +34,10 @@
       "archived_note": "Superseded by tnb-strategy as of April 3, 2026. Repo remains for reference but no longer actively maintained."
     },
     "tnb-strategy": {
-      "version": "1.0.0",
-      "hash": "dec2ee1296e51f099cc55652ba45f974",
-      "updated": "2026-04-03",
-      "changelog": "Initial release \u2014 The New Builder strategic brain. Replaces hc-strategy. TNB positioning, War Room product architecture, transition plan from HC."
+      "version": "1.1.0",
+      "hash": "1a74e1f53a57fb3ca21f92e7151a645d",
+      "updated": "2026-04-29",
+      "changelog": "Updated for repo reorganization (Apr 29 2026). Skill now reads README.md first for canonical vault index, then loads strategy/STRATEGY-CONTEXT.md, strategy/operating-plan.md, brand/POSITIONING-LANGUAGE.md, and brand/tnb-deck.md (markdown export of April 13 Drive deck). Path updates throughout. Drafts/ and ops/ subdirectories noted but not auto-loaded."
     },
     "pm": {
       "version": "1.1.0",
@@ -46,10 +46,10 @@
       "changelog": "UX Standards binding \u2014 canonical reference is now `bhub/UX-STANDARDS.md` (cross-device via git), not the skill-bundled copy. Briefs must cite the bhub path and list a `Deviations from the standards` block; unreviewed deviations block APPROVED status. New edge case: if a build introduces a pattern the standards don't cover, the standards doc must be updated (not silently invented). The bundled `references/ux-standards.md` is now a fallback pointer."
     },
     "create-content": {
-      "version": "1.0.0",
-      "hash": "5bb0f0afd26d24c1a74a02a7064e969c",
-      "updated": "2026-03-31",
-      "changelog": "Initial git-tracked release \u2014 newsletter co-writing partner with voice DNA, style guide, newsletter patterns, LinkedIn patterns, and core teachings reference files. Promoted from local-only Cowork skill."
+      "version": "1.1.0",
+      "hash": "5a2454106e6a22fe3222357b44ab744e",
+      "updated": "2026-04-29",
+      "changelog": "Brand-aware loading: when working on TNB content, auto-loads tnb-strategy/brand/POSITIONING-LANGUAGE.md and brand/tnb-deck.md alongside cross-brand voice DNA. linkedin-patterns.md promoted from \"future use\" to active reference. Fixed stale guidance about YouTube transcripts (they ARE available via Content Calendar API in the transcript field). Description updated to cover both HC legacy and TNB content. brian-core-teachings.md flagged as HC-flavored."
     },
     "priority-startup-intel": {
       "version": "1.0.0",

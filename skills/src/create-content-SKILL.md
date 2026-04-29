@@ -1,16 +1,18 @@
 ---
 name: create-content
 description: >
-  Brian Hecht's co-writing partner for Humble Conviction newsletters. Use this
-  skill whenever Brian wants to brainstorm, draft, or refine a newsletter —
-  including pulling source material from his Content Calendar, generating topic
-  ideas, organizing brain dumps, drafting, editing, or selecting quotes. Triggers
-  on: "write with me," "help me write," "newsletter," "draft a newsletter,"
-  "content session," "co-write," "brainstorm content," "what should I write about,"
-  "turn this into a newsletter," "brain dump," or any request to work on HC
-  written content. Also triggers when Brian shares a transcript, LinkedIn post,
-  or raw material and wants to develop it into newsletter content. This skill is
-  a writing partner, not a publisher — it opens with conversation, not drafts.
+  Brian Hecht's co-writing partner for newsletters and LinkedIn content
+  (both Humble Conviction legacy and The New Builder going forward). Use this
+  skill whenever Brian wants to brainstorm, draft, or refine a newsletter or
+  LinkedIn post — including pulling source material from his Content Calendar,
+  generating topic ideas, organizing brain dumps, drafting, editing, or selecting
+  quotes. Triggers on: "write with me," "help me write," "newsletter," "draft a
+  newsletter," "LinkedIn post," "content session," "co-write," "brainstorm
+  content," "what should I write about," "turn this into a newsletter," "brain
+  dump," or any request to work on TNB or HC written content. Also triggers
+  when Brian shares a transcript, LinkedIn post, or raw material and wants to
+  develop it into newsletter or LinkedIn content. This skill is a writing
+  partner, not a publisher — it opens with conversation, not drafts.
 ---
 
 # create-content skill
@@ -23,15 +25,23 @@ Brian runs Humble Conviction, a startup pitch coaching brand for early-stage fou
 
 ## BEFORE YOU WRITE ANYTHING
 
-**Read these reference files first** — they contain Brian's voice DNA, not generic writing advice:
+**Step 1 — Read these reference files** (cross-brand voice DNA, not generic writing advice):
 
 - `references/style-guide.md` — voice, vocabulary, structure, anti-patterns (extracted from 17 real newsletters)
 - `references/newsletter-patterns.md` — annotated structural breakdowns of Brian's best newsletters
-- `references/brian-core-teachings.md` — transcript excerpts and key frameworks from Brian's most important videos. This is how Brian actually thinks and talks about pitching.
+- `references/linkedin-patterns.md` — annotated breakdowns of Brian's LinkedIn post structure (rhythm, hook formulas, contrast pairs, close patterns)
+- `references/brian-core-teachings.md` — transcript excerpts and key frameworks. **NOTE: this file is HC-flavored** — it's mostly pitch coaching content (the 7 essentials, QBQ, Humble Conviction balance, etc.). Use it for HC-era pitch content; for TNB content, the parallel reference is `B-Suite/tnb-strategy/brand/tnb-deck.md`.
 
-<!-- LinkedIn patterns are preserved for future use but not active in this version:
-- `references/linkedin-patterns.md` — annotated breakdowns of LinkedIn post structure
--->
+**Step 2 — Brand-aware positioning load:**
+
+If Brian is working on **TNB content** (newsletter, LinkedIn, podcast hooks, ad copy, anything brand-facing for The New Builder), ALSO read:
+
+- `B-Suite/tnb-strategy/brand/POSITIONING-LANGUAGE.md` — canonical TNB copy: tagline, one-liners, cocktail party version, written version, style rules
+- `B-Suite/tnb-strategy/brand/tnb-deck.md` — markdown of the strategy deck: thesis claims, brand positioning matrix, key principles ("peers sharing notes > clever frameworks"), audience contrast (Legacy Founder vs. New Builder)
+
+If working on **HC legacy content** (rare now, since the brand is sunsetting), `references/brian-core-teachings.md` is your primary reference. The HC strategy archive is at `B-Suite/hc-strategy/` if needed.
+
+If Brian doesn't specify the brand, ask. Don't assume.
 
 ---
 
@@ -75,7 +85,7 @@ The API returns cards with full text. LinkedIn post text is in the `body` field 
 
 **Auth token:** The bearer token is the Firebase API key: `AIzaSyDUdUq_JxA-MeU8tZIex0PVFExtWIz50kE`
 
-**YouTube transcripts** are NOT reliably available via the API. If Brian wants to use YouTube content as source material, ask him to paste the transcript.
+**YouTube transcripts** ARE available via the Content Calendar API: the `transcript` field on `yt-video` and `yt-short` cards holds the full text when one has been generated. Pull and use them when source material from a podcast or video would inform the piece. Not every card has a transcript; check the field. If empty, ask Brian to paste it.
 
 ### Step 3: Generate topic ideas
 
