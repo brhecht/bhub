@@ -1,8 +1,10 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: April 29, 2026*
+*Updated: April 30, 2026*
 *Source: Most recent handoff from each project*
 
+> **April 30, 2026 — TNB favicon shipped.** Replaced default Next.js favicon on thenewbuilder.ai with `src/app/icon.svg` — 5x5 orange grid mark, two-shade checkerboard (#EE7C2A / #B0431F), 30x30 viewBox. Old `favicon.ico` removed. Live and verified. Note: SVG is a recreation from a screenshot Brian shared — backlogged to swap with canonical source asset when available. Also updated tnb-website master entry: GitHub repo transfer complete (now `brhecht/tnb-website`, auto-deploys from main).
+>
 > **April 29, 2026 — TNB content vault reorganized + skills updated.** `tnb-strategy/` repo restructured into subdirectories (`strategy/`, `brand/`, `drafts/`, `ops/`) with new `README.md` index at root. New `brand/tnb-deck.md` is a markdown export of the April 13 Drive strategy deck — gives any session LLM-readable access to the canonical TNB articulation without needing Drive auth. `create-content` skill (v1.1.0) now brand-aware: when working on TNB content, auto-loads `brand/POSITIONING-LANGUAGE.md` + `brand/tnb-deck.md` alongside cross-brand voice DNA. Also fixed stale guidance — YouTube transcripts ARE available via Content Calendar API (`transcript` field on `yt-video`/`yt-short` cards). `tnb-strategy` skill (v1.1.0) updated with new paths. **Skill drift will be flagged on devices** until reinstalled. See "TNB Strategy" section below for full new structure.
 
 > **April 24, 2026 — UX Standards doc moved into bhub.** Canonical B-Suite UX reference (modals, toasts, inline edit, DnD, nav, responsive, design system, keyboard shortcuts, data patterns, messaging) is now at `bhub/UX-STANDARDS.md` with an HTML viewer at `bhub/ux-standards-view.html`. Previously lived loose at `Developer/ux-standards-review.html` (deleted). PM briefs reference this doc as the source of truth for cross-app UX — deviations require Brian's approval. See "Cross-Project Dependencies" and "UX Standards" sections below.
@@ -226,18 +228,18 @@ If the session will involve building an app, check if `node_modules` exists in t
 
 ## TNB Website (thenewbuilder.ai)
 **Status:** LIVE but low-traffic. Deployed April 15, 2026.
-**Last updated:** April 21, 2026
+**Last updated:** April 30, 2026
 **Location:** tnb-website/
 **Live URL:** thenewbuilder.ai
-**GitHub:** nmejiawork/tnb-website (transfer to brhecht pending)
+**GitHub:** brhecht/tnb-website (auto-deploys from main via Vercel)
 **Vercel project:** brian-hechts-projects/thenewbuilder
 **Key context:**
 - The New Builder public homepage. Next.js 16.2.1, Tailwind 4, Vercel hosting.
 - Homepage sections: Nav with TNB wordmark, hero (Brian photo left + tagline right), "Why I'm building this" story, "Builders Figuring it Out. Together." 3x2 product grid (Podcast, YouTube, Newsletter, War Room, Meetups, Curated Events), latest YouTube episode embed, newsletter subscribe form, About Brian bio.
 - All copy sourced from `tnb-strategy/POSITIONING-LANGUAGE.md`.
 - Previously lived as `tnb-coming-soon` branch of `hc-website`. Separated into own repo April 15. That branch is now deleted.
-- Deployed via Vercel CLI (no GitHub auto-deploy yet — pending repo transfer + Nico added as collaborator).
-- **Newsletter platform pivot (Apr 21):** switching from Beehiiv → Substack the week of Apr 27. Beehiiv env vars intentionally NOT added. Subscribe form is inert until Substack swap ships. Nico is catching strays via a Google Form in the interim. Effectively zero traffic to the site right now, so the inert form is acceptable for this window.
+- **Favicon (Apr 30):** TNB orange grid mark at `src/app/icon.svg` — 5x5 checkerboard, #EE7C2A / #B0431F, replaces Next.js default. Recreation from a screenshot — replace with canonical source asset when available.
+- **Newsletter platform pivot (Apr 21):** switched from Beehiiv → Substack. Subscribe section now embeds `thenewbuilder.substack.com/embed`. Beehiiv env vars in Vercel are stale and can be removed.
 - See `tnb-website/HANDOFF.md` for full implementation details.
 
 ---
