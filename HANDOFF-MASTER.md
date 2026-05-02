@@ -1,8 +1,10 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: May 2, 2026 (post-topic-depth)*
+*Updated: May 2, 2026 (post-topic-depth + search-on-detail + Suggest)*
 *Source: Most recent handoff from each project*
 
+> **May 2, 2026 (PM-late) — TNB Glossary: search-on-detail-page + Suggest a term feature shipped.** Added two reader-feedback / discoverability upgrades on top of the 287-term steady state. (1) `SearchAutocomplete` component — 240px input with magnifier icon at the top of every per-term page, with live dropdown of matches (term + alias) and full keyboard nav. (2) `SuggestPanel` component — "+ Suggest a term" pill button at the right edge of the controls row on both the index and per-term pages; click reveals an inline form (Term required, Why? optional). Submissions hit a new `/api/suggest-term` route that forwards to brain-inbox `/api/send-email`. **Recipient:** initial spec was `admin@thenewbuilder.ai` but that didn't deliver (no mailbox/forwarding on the .ai domain yet) — flipped to `brhnyc1970@gmail.com` (To) + `nico@humbleconviction.com` (CC). Single-line flip-back if admin@ ever gets configured. Approval flow: email lands → Brian/Nico decide → in any future Claude session say *"add X to glossary"* → Claude appends to `scripts/manual-terms.txt`, pushes, next weekly cron picks it up. No admin dashboard. Verified end-to-end.
+>
 > **May 2, 2026 (PM) — TNB Glossary topic-depth × 7 complete. Final corpus: 287 terms.** Brian added $25 Anthropic credits and all 7 topic-depth passes ran successfully (Roles & Org +22, Business Models +22, Infrastructure +23, Patterns & Practices +22, AI Models & Capabilities +22, Agents & Automation +21, Builder Tools +20). Total topic-depth additions: +152. Self-audit removed `agent-loop` duplicate (`agentic-loop` already had "agent loop" as alias). Distribution now balanced — all 7 topics in the 25-54 range, no anemic buckets. Voice consistent. Glossary is in a strong steady state; weekly cron will maintain it from here. ~$5-7 in Anthropic credits spent. Anthropic API key rotation still recommended.
 >
 > **May 2, 2026 (AM) — TNB Glossary corpus expanded 42 → 136 + multi-mode cron infrastructure.** Added 4 new workflow modes to glossary cron: `manual` (file-based deterministic queue at `scripts/manual-terms.txt`), `gap-audit` (adversarial completeness check), `topic-depth` (per-topic forcing function), `source-scan` (deterministic source-aggregator polling — GitHub Trending, HN, Product Hunt, AI publication coverage). Refactored `weekly` mode to use multi-vector discovery prompt. Source-scan added 42 terms (Cursor, Windsurf, Zed, Claude Code, MCP servers, Ollama, etc.); gap-audit added 52 (Claude Skills, Claude Artifacts, NotebookLM, Custom GPTs, Project Astra/Mariner, Llama 4, Devin, Aider, etc.); manual fill added OpenClaw; self-audit removed `moe` duplicate. Per-term page UX iterated: prominent "← Back to glossary" at top of article, clickable topic chip in meta strip filters the index.
@@ -233,8 +235,8 @@ If the session will involve building an app, check if `node_modules` exists in t
 ---
 
 ## TNB Website (thenewbuilder.ai)
-**Status:** LIVE. Glossary feature fully populated with 287 terms across all 7 topics.
-**Last updated:** May 2, 2026 (post-topic-depth)
+**Status:** LIVE. Glossary feature fully populated (287 terms across all 7 topics) with reader-feedback loop (Suggest a term) and on-page autocomplete search.
+**Last updated:** May 2, 2026 (post-topic-depth + search-on-detail + Suggest)
 **Location:** tnb-website/
 **Live URL:** thenewbuilder.ai (homepage), thenewbuilder.ai/glossary (glossary)
 **GitHub:** brhecht/tnb-website (auto-deploys from main via Vercel)
@@ -246,6 +248,8 @@ If the session will involve building an app, check if `node_modules` exists in t
 - **Favicon (Apr 30):** TNB orange grid mark at `src/app/icon.svg`.
 - **Newsletter platform pivot (Apr 21):** Beehiiv → Substack embed at `thenewbuilder.substack.com/embed`.
 - **Dynamic Glossary (May 1-2):** 287 terms live. SSG `/glossary` index + `/glossary/[slug]` per-term pages with glossary-term auto-linking + sitemap. Multi-mode GitHub Actions cron with weekly schedule (Mon 13:00 UTC). 6 dispatchable modes: bootstrap, weekly, manual, gap-audit, topic-depth, source-scan. Web-search grounded via Anthropic. Spec at `tnb-website/BUILD-SPEC.md`. Failure pings brain-inbox. Manual queue at `scripts/manual-terms.txt`.
+- **Reader-feedback loop (May 2 PM-late):** "Suggest a term" pill button on index + per-term pages → inline form → `POST /api/suggest-term` → forwards to brain-inbox `/api/send-email` → lands in Brian gmail (To) + Nico (CC). Components: `src/app/glossary/_components/SuggestPanel.tsx`, `src/app/glossary/_components/SearchAutocomplete.tsx`, `src/app/api/suggest-term/route.ts`. Approval flow is human-in-the-loop: Brian/Nico → Claude → `manual-terms.txt` → next weekly cron. Single-line flip in route.ts to switch recipient back to admin@thenewbuilder.ai if/when configured.
+- **On-page autocomplete (May 2 PM-late):** `SearchAutocomplete` component on per-term pages — 240px input + dropdown of matches (term + alias) + keyboard nav. Same data array used by index search.
 - **Topic distribution (May 2):** Agents & Automation 54, Builder Tools 53, AI Models & Capabilities 48, Patterns & Practices 45, Infrastructure 37, Roles & Org 26, Business Models 25.
 - **GitHub Secrets on tnb-website:** `ANTHROPIC_API_KEY` (required for cron). Optional: `HANDOFF_SECRET` for brain-inbox notify auth.
 - **Anthropic API key rotation pending** — exposed in chat during May 1 setup.
