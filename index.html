@@ -161,8 +161,31 @@
     }
 
     .card-nico {
-      background: linear-gradient(155deg, #F2D16B 0%, #8FB8E0 45%, #E8A0A0 100%);
+      /* Iron Nico palette: deep navy + Stark gold halo + arc-reactor cyan glow */
+      background:
+        radial-gradient(circle at 78% 22%, rgba(232, 185, 71, 0.42) 0%, transparent 45%),
+        radial-gradient(circle at 18% 82%, rgba(79, 195, 247, 0.28) 0%, transparent 50%),
+        linear-gradient(155deg, #1B1B3A 0%, #2D2A6F 45%, #11151F 100%);
+      color: #F1F5F9;
     }
+    /* Ensure all text inside card-nico is light against the dark base */
+    .card-nico .card-label,
+    .card-nico .card-name,
+    .card-nico .card-desc {
+      color: #F1F5F9;
+    }
+    .card-nico .card-desc { color: rgba(241, 245, 249, 0.78); }
+    .card-nico .card-label { color: rgba(232, 185, 71, 0.95); letter-spacing: 0.08em; }
+    .card-nico .card-arrow { color: rgba(232, 185, 71, 0.85); }
+    .card-nico:hover {
+      box-shadow:
+        0 18px 40px -12px rgba(212, 164, 55, 0.45),
+        0 8px 24px rgba(0, 0, 0, 0.30),
+        0 0 0 1px rgba(232, 185, 71, 0.35);
+    }
+    /* Override decorative circles for nico — make them gold-tinted */
+    .card-nico::before { background: rgba(232, 185, 71, 0.18); }
+    .card-nico::after  { background: rgba(79, 195, 247, 0.15); }
 
     .card-bpis {
       background: linear-gradient(155deg, #5BA4E8 0%, #7AB8F0 40%, #A0D0F5 100%);
@@ -235,7 +258,33 @@
     }
 
     .card-nico .card-icon {
-      background: rgba(40, 80, 140, 0.45);
+      /* Arc-reactor styling — gold ring, cyan glow, brain emblem inside */
+      background: radial-gradient(circle at center, #1E88E5 0%, #0A4A8E 60%, #11151F 100%);
+      box-shadow:
+        0 0 0 2px rgba(232, 185, 71, 0.85),
+        0 0 18px rgba(79, 195, 247, 0.55),
+        inset 0 0 12px rgba(79, 195, 247, 0.35);
+      color: #4FC3F7;
+      animation: nicoArcPulse 3.2s ease-in-out infinite;
+    }
+    .card-nico .card-icon svg {
+      width: 30px;
+      height: 30px;
+      filter: drop-shadow(0 0 4px rgba(79, 195, 247, 0.7));
+    }
+    @keyframes nicoArcPulse {
+      0%, 100% {
+        box-shadow:
+          0 0 0 2px rgba(232, 185, 71, 0.85),
+          0 0 18px rgba(79, 195, 247, 0.55),
+          inset 0 0 12px rgba(79, 195, 247, 0.35);
+      }
+      50% {
+        box-shadow:
+          0 0 0 2px rgba(232, 185, 71, 1),
+          0 0 28px rgba(79, 195, 247, 0.85),
+          inset 0 0 18px rgba(79, 195, 247, 0.55);
+      }
     }
 
     .card-bpis .card-icon {
@@ -477,7 +526,16 @@
       </a>
 
       <a class="card card-nico" href="https://brain-inbox-six.vercel.app" target="_blank" rel="noopener">
-        <div class="card-icon">N</div>
+        <div class="card-icon" aria-label="Brain — Arc Reactor">
+          <!-- Brain SVG (Lucide-style stroked) sitting inside the arc reactor frame -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9.5 2A2.5 2.5 0 0 0 7 4.5v15A2.5 2.5 0 0 0 9.5 22h.5v-2.5a1.5 1.5 0 0 1 0-3V14a1.5 1.5 0 0 1 0-3v-2a1.5 1.5 0 0 1 0-3V4.5A2.5 2.5 0 0 0 9.5 2z" />
+            <path d="M14.5 2A2.5 2.5 0 0 1 17 4.5v15a2.5 2.5 0 0 1-2.5 2.5H14v-2.5a1.5 1.5 0 0 0 0-3V14a1.5 1.5 0 0 0 0-3v-2a1.5 1.5 0 0 0 0-3V4.5A2.5 2.5 0 0 1 14.5 2z" />
+            <path d="M10 8h4" />
+            <path d="M10 13h4" />
+            <path d="M10 18h4" />
+          </svg>
+        </div>
         <div class="card-label">Brain Inbox</div>
         <div class="card-name">B Nico</div>
         <div class="card-desc">Nico's brain inbox &mdash; capture, triage, and convert messages into tasks</div>
