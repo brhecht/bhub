@@ -259,8 +259,7 @@ If the session will involve building an app, check if `node_modules` exists in t
 - **SEO structured data (May 2 evening):** JSON-LD on every glossary page. Per-term: `DefinedTerm` (with `inDefinedTermSet`, `alternateName` from aliases, `isRelatedTo`) + `BreadcrumbList`. Index: `DefinedTermSet` listing all 287 terms with URLs + `BreadcrumbList`. Plus Twitter card metadata, canonical URLs (prevents dupe-content from `?topic=...`, `?level=intro`), OG `article:published/modified_time` from `dateAdded`, keywords from aliases. Eligible for Google definition rich results and knowledge panel ingestion.
 - **Topic distribution (May 2):** Agents & Automation 54, Builder Tools 53, AI Models & Capabilities 48, Patterns & Practices 45, Infrastructure 37, Roles & Org 26, Business Models 25.
 - **GitHub Secrets on tnb-website:** `ANTHROPIC_API_KEY` (required for cron). Optional: `HANDOFF_SECRET` for brain-inbox notify auth.
-- **Anthropic API key rotation pending** — exposed in chat during May 1 setup.
-- See `tnb-website/HANDOFF.md` for full implementation details + spec decisions.
+- See `tnb-website/HANDOFF.md` for full implementation details + spec decisions. (Beehiiv env vars and Anthropic API key rotation removed from pending — Substack migration complete; key rotation is Brian's to handle directly.)
 
 ---
 
