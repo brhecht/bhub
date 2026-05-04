@@ -7,3 +7,6 @@ com.bsuite.bsync.plist
 *.bak
 .DS_Store
 .bhealth-device
+
+# Versioned skill bundle archives (canonical install file is unversioned)
+skills/*-v*.skill
