@@ -1,8 +1,12 @@
 # HANDOFF MASTER — B Suite
 *Auto-generated: March 4, 2026 ~12:30 PM ET*
-*Updated: May 2, 2026 (evening — retag + mobile + SEO complete)*
+*Updated: May 3, 2026 (PM — TNB native subscribe form)*
 *Source: Most recent handoff from each project*
 
+> **May 3, 2026 (PM) — TNB Website: Substack iframe replaced with native subscribe form.** The Stay-in-the-loop section's `<iframe src="https://thenewbuilder.substack.com/embed">` was rendering as empty space on the live site (ad-blockers strip substack.com iframes; the default embed is also visually anemic — 480x320 white box on a white page). Replaced with a branded native form (`src/app/_components/SubscribeForm.tsx`) that proxies through `/api/subscribe` to Substack's open `/api/v1/free` endpoint. **No API key, no Beehiiv, no backend wiring** — Substack accepts unauthed POSTs from any origin (same trick Lenny's, Stratechery, Pirate Wires use). `/api/subscribe` rewrote from the legacy Beehiiv proxy. Three-state form (idle/submitting/success/error). Verified end-to-end on both local and live: empty email → 400, valid format → 200 `{success:true}`. Brian to spot-check the visual + that confirmation emails actually land. Beehiiv env vars in Vercel are now dead weight (safe to delete, no rush).
+>
+> **May 3, 2026 — TNB Website: Latest Episode YouTube embed now skips Shorts.** `/api/latest-video` was returning the first video from the channel RSS without filtering, which could be a Short. Fix: iterate IDs and HEAD-check `youtube.com/shorts/{id}` with `redirect: follow`; if the URL still resolves to `/shorts/`, skip it. First long-form video wins. No homepage code changes; cache stays at 1h.
+>
 > **May 2, 2026 (evening) — TNB Glossary: mobile fixes + SEO structured data shipped. Final session for the day.** Two parallel passes on top of the new familiarity tiers. (1) **Mobile fix**: homepage and per-term page nav at <768px were hiding *all* nav links (no hamburger fallback) so mobile users had no path to /glossary. Added `nav-link-primary` (Glossary, stays visible) + `nav-link-secondary` (YT/LinkedIn/Contact, hidden on mobile, still in footer). Glossary controls restructured at <600px to stack into 3 clean rows (search / sort+pill grouped via `display: contents` trick / Suggest); per-term article controls also stack. (2) **SEO** — pure metadata, no body copy changes. JSON-LD structured data on every page: `DefinedTerm` per term page (with `inDefinedTermSet`, `alternateName` from aliases, `isRelatedTo`), `BreadcrumbList`, `DefinedTermSet` on the index listing all 287 terms with URLs. Twitter card metadata, canonical URLs, OG `article:published/modified_time` from `dateAdded`, keywords from aliases. Highest-leverage SEO addition: tells Google "this page IS a definition" — eligible for definition rich results and knowledge panel ingestion.
 >
 > **May 2, 2026 (PM-late, second pass) — TNB Glossary: familiarity recalibration. 287 terms re-tagged with thirds-anchored Beginner/Builder/Engineer rubric.** Original cron's familiarity bar was builder-anchored ("Common = most builders know it") — produced 87 Common terms, half engineer-flavored (cursor, function-calling, model-weights, ai-engineer). The "Hide expert-only" toggle was filtering wrong layer. Built `scripts/glossary-retag.mjs` + workflow for two-step propose/apply recalibration. First pass with "mainstream press" rubric gave only 15 Common — too thin. Second pass with "what would a curious non-tech reader encounter in AI-moment discourse?" rubric gave 126 Common — overshot. Manual cleanup demoted 20 obvious miscalls (token, temperature, weights, transformer, rlhf, etc.) for **final 106 / 140 / 41** distribution. **Toggle behavior changed**: "Hide expert-only" now hides Builder + Engineer tiers (not just Specialist) → toggle on shows 106 Beginner-tier terms. **Search universalized**: filter only governs browse; search hits all 287 regardless. Cron prompt updated with same v2 rubric so future weekly terms tag automatically. ~$2 in Anthropic credits.
@@ -239,18 +243,19 @@ If the session will involve building an app, check if `node_modules` exists in t
 ---
 
 ## TNB Website (thenewbuilder.ai)
-**Status:** LIVE. Glossary feature fully populated (287 terms, three familiarity tiers 106/140/41) with reader-feedback loop (Suggest a term), on-page autocomplete search, mobile-friendly responsive layout, and full SEO structured data.
-**Last updated:** May 2, 2026 (evening — retag + mobile + SEO complete)
+**Status:** LIVE. Glossary feature fully populated (287 terms, three familiarity tiers 106/140/41) with reader-feedback loop, on-page autocomplete search, mobile-friendly responsive layout, full SEO structured data. Native subscribe form live (no iframe, no API keys).
+**Last updated:** May 3, 2026 (PM — native subscribe form)
 **Location:** tnb-website/
 **Live URL:** thenewbuilder.ai (homepage), thenewbuilder.ai/glossary (glossary)
 **GitHub:** brhecht/tnb-website (auto-deploys from main via Vercel)
 **Vercel project:** brian-hechts-projects/thenewbuilder
 **Key context:**
 - The New Builder public homepage + glossary. Next.js 16.2.1, Tailwind 4, Vercel hosting.
-- Homepage sections: Nav with TNB wordmark + Glossary link, hero, "Why I'm building this" story, 3x2 product grid, glossary CTA band, latest YouTube episode embed, Substack subscribe embed, About Brian bio.
+- Homepage sections: Nav with TNB wordmark + Glossary link, hero, "Why I'm building this" story, 3x2 product grid, glossary CTA band, latest YouTube episode embed (Shorts filtered out), native Substack subscribe form, About Brian bio.
 - All copy sourced from `tnb-strategy/POSITIONING-LANGUAGE.md`.
 - **Favicon (Apr 30):** TNB orange grid mark at `src/app/icon.svg`.
-- **Newsletter platform pivot (Apr 21):** Beehiiv → Substack embed at `thenewbuilder.substack.com/embed`.
+- **Newsletter pivot history:** Apr 21 Beehiiv → Substack iframe embed. May 3 iframe → native subscribe form (`src/app/_components/SubscribeForm.tsx` + `/api/subscribe` proxy → Substack `/api/v1/free`). No API key required. Substack's open endpoint accepts unauthed POSTs.
+- **Latest Episode (May 3):** `/api/latest-video` filters out YouTube Shorts; only long-form videos qualify for the homepage embed.
 - **Dynamic Glossary (May 1-2):** 287 terms live. SSG `/glossary` index + `/glossary/[slug]` per-term pages with glossary-term auto-linking + sitemap. Multi-mode GitHub Actions cron with weekly schedule (Mon 13:00 UTC). 6 dispatchable modes: bootstrap, weekly, manual, gap-audit, topic-depth, source-scan. Web-search grounded via Anthropic. Spec at `tnb-website/BUILD-SPEC.md`. Failure pings brain-inbox. Manual queue at `scripts/manual-terms.txt`.
 - **Reader-feedback loop (May 2 PM-late):** "Suggest a term" pill button on index + per-term pages → inline form → `POST /api/suggest-term` → forwards to brain-inbox `/api/send-email` → lands in Brian gmail (To) + Nico (CC). Components: `src/app/glossary/_components/SuggestPanel.tsx`, `src/app/glossary/_components/SearchAutocomplete.tsx`, `src/app/api/suggest-term/route.ts`. Approval flow is human-in-the-loop: Brian/Nico → Claude → `manual-terms.txt` → next weekly cron. Single-line flip in route.ts to switch recipient back to admin@thenewbuilder.ai if/when configured.
 - **On-page autocomplete (May 2 PM-late):** `SearchAutocomplete` component on per-term pages — 240px input + dropdown of matches (term + alias) + keyboard nav. Same data array used by index search.
