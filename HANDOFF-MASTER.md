@@ -479,7 +479,7 @@ Brian uses four machines. All on `~/Developer/B-Suite/` as of April 18, 2026. De
 
 **Device roles (Brian's actual workflow, NYC-based):**
 
-- **Mac Mini** — primary dev at home. Big screen. Where real work happens. B-Suite path: `~/Developer/B-Suite/`
+- **Mac Mini** — primary dev at home. Big screen. Where real work happens. B-Suite path: `~/Developer/B-Suite`
 - **iMac** — primary dev at office. Big screen. Where real work happens. B-Suite path: `~/Developer/B-Suite`
 - **MacBook Pro** — travel companion. Always with Brian; sits beside the primary in both locations. Full dev toolchain. B-Suite path: `~/Developer/B-Suite/`
 - **MacBook Air** — light travel only (airplane, coffee shop, reading). Infrequent use. Minimal toolchain by design — Pro is the real travel dev machine. B-Suite path: `~/Developer/B-Suite/`

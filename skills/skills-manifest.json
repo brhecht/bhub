@@ -55,7 +55,7 @@
       "version": "1.1.0",
       "hash": "284b82ee11e6154465f8efbc1bffb78b",
       "updated": "2026-04-30",
-      "changelog": "Major editorial recalibration after Brian feedback that briefings drifted toward mega-cap + Series-D-heavy content. HARD rules added: (1) Mega-cap cap — Anthropic/OpenAI/MAANG capped at 1 item per briefing, Ecosystem Signal section only, never in lede; Anthropic/OpenAI valuation news automatically excluded. (2) Stage sweet spot reset to pre-seed through Series B/C; Series D+ becomes table stakes requiring a non-obvious angle. (3) Lede Rule — only when 2+ private items share a thesis; never to summarize mega-cap or generic 'heavy deal flow' framing. (4) Item ordering by EDGE not deal size. (5) Stream 2 mandatory — query 8+ VC firm domains + Carta/Walker + YC blog before drafting; ≥60% of items must be Stream 2 or Series C-or-earlier. (6) Item length cap — 2–3 sentences max per item; 10–14 items per day; trade length for count. (7) Pre-flight checklist added to execution flow. (8) CVC framing rule for out-of-scope theses (robotics, AVs, hardware) reframed around in-scope angle."
+      "changelog": "Major editorial recalibration after Brian feedback that briefings drifted toward mega-cap + Series-D-heavy content. HARD rules added: (1) Mega-cap cap \u2014 Anthropic/OpenAI/MAANG capped at 1 item per briefing, Ecosystem Signal section only, never in lede; Anthropic/OpenAI valuation news automatically excluded. (2) Stage sweet spot reset to pre-seed through Series B/C; Series D+ becomes table stakes requiring a non-obvious angle. (3) Lede Rule \u2014 only when 2+ private items share a thesis; never to summarize mega-cap or generic 'heavy deal flow' framing. (4) Item ordering by EDGE not deal size. (5) Stream 2 mandatory \u2014 query 8+ VC firm domains + Carta/Walker + YC blog before drafting; \u226560% of items must be Stream 2 or Series C-or-earlier. (6) Item length cap \u2014 2\u20133 sentences max per item; 10\u201314 items per day; trade length for count. (7) Pre-flight checklist added to execution flow. (8) CVC framing rule for out-of-scope theses (robotics, AVs, hardware) reframed around in-scope angle."
     },
     "frontend-design": {
       "version": "1.0.0",
@@ -111,11 +111,12 @@
       "expert": "unknown",
       "hc-strategy": "unknown",
       "tnb-strategy": "unknown",
-      "last_synced": "2026-04-18",
+      "last_synced": "2026-05-04",
       "pm": "unknown",
       "create-content": "unknown",
       "priority-startup-intel": "unknown",
-      "bhealth_version": "1.0.0"
+      "bhealth_version": "1.0.0",
+      "frontend-design": "unknown"
     }
   }
 }
