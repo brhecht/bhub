@@ -60,6 +60,11 @@ cat > "$PLIST_PATH" <<EOF
         <string>$BSYNC_SH</string>
         <string>--pull-only</string>
     </array>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>BSUITE_DIR</key>
+        <string>$BSUITE_DIR</string>
+    </dict>
     <key>RunAtLoad</key>
     <true/>
     <key>StartInterval</key>

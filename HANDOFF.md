@@ -1,6 +1,6 @@
 # bhub — Handoff
 
-*Last updated: April 29, 2026*
+*Last updated: May 5, 2026 — bsync fleet silent-failure fix*
 
 **Project:** bhub
 **Repository:** github.com/brhecht/bhub
@@ -165,6 +165,13 @@ Large session. Built the full fleet audit capability and cleaned 5+ weeks of acc
 ---
 
 ## Session Log
+
+### 2026-05-05 — Fleet-wide bsync silent-failure fix (broken plist root cause)
+- **What shipped:** Two-part fix to bsync auto-pull infrastructure. (1) `bsync.sh` line 39: hardcoded Mac fallback path was `$HOME/Developer/clients/hc/B-Suite` (pre-March-12 location) — changed to `$HOME/Developer/B-Suite`. (2) `install-bsync.sh`: launchd plist now writes `EnvironmentVariables` with explicit `BSUITE_DIR` so the agent never falls through to the script's default. Belt-and-suspenders.
+- **Root cause discovered:** Pro's `.bsync-stderr.log` showed every hourly run failing with "No such file or directory" against `Developer/clients/hc/B-Suite/.bsync-log`. Pro's `.bsync-log` had ZERO Mac-side entries since at least April 30 — every successful run was `env: cowork`. The launchd plist install-bsync.sh writes did not export `BSUITE_DIR`, so when the agent fired bsync.sh on the Mac, it hit the line-39 fallback to a path that hadn't existed since the March 12 migration. Result: the "hourly auto-pull" was a no-op on this Pro for weeks. No drift was being self-healed — which is why `handoff here` today found 290 deletions in tnb-website (entire glossary), 26 in brain-inbox, 1 in hc-website.
+- **Today's drift cleanup:** brain-inbox 26 deletions restored, tnb-website ~290 deletions restored, hc-website 1 deletion restored, bhub orphan `.health/macmini-2026-04-18.json` removed (slug-rename leftover from before the `mac-mini` standardization).
+- **Known issues:** iMac and Air still have the broken plist + stale fallback. They'll auto-fix on next session there once they pull this commit and re-run `install-bsync.sh`. Mini should also re-run install-bsync.sh next time on it to pick up the EnvironmentVariables addition (current Mini plist relies on whatever ambient BSUITE_DIR it had — works today but no guarantee).
+- **Next:** Verify next Pro bsync tick writes a Mac entry to `.bsync-log` and stderr is clean. Run fresh bhealth on Pro to baseline. Same drill on iMac/Air on next office/travel session. Consider adding a bhealth check that flags "zero Mac-side bsync entries in last 7 days" as Tier-3.
 
 ### 2026-04-29 — Skill versions bumped + master handoff updated for TNB content vault reorg
 - **What shipped:** create-content skill v1.0.0 → v1.1.0 (brand-aware loading: auto-loads tnb-strategy/brand/* when working on TNB content; promoted linkedin-patterns from "future use" to active reference; corrected stale YouTube-transcript-not-available guidance — they ARE in the Content Calendar API on `transcript` field; description rewritten to cover both HC legacy and TNB content). tnb-strategy skill v1.0.0 → v1.1.0 (paths updated for new tnb-strategy subdirectory structure: reads README.md first, then strategy/, brand/). Both .skill ZIP bundles regenerated, manifest hashes/versions/changelogs updated. HANDOFF-MASTER.md updated with new TNB Strategy section (subdir layout + brand/tnb-deck.md note + create-content brand-aware behavior) + top-of-master change log entry. Also pushed companion reorg in tnb-strategy repo.

@@ -36,7 +36,7 @@ if [[ -d "/sessions" ]]; then
   WORK_DIR="/tmp/bsync-${SESSION_ID:-$$}"
   ENV="cowork"
 else
-  BSUITE_DIR="${BSUITE_DIR:-$HOME/Developer/clients/hc/B-Suite}"
+  BSUITE_DIR="${BSUITE_DIR:-$HOME/Developer/B-Suite}"
   WORK_DIR="/tmp/bsync-work"
   ENV="local"
 fi
