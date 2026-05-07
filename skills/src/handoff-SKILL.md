@@ -101,9 +101,9 @@ rm -rf /tmp/bhub-bootstrap 2>/dev/null
 git clone --depth 1 https://github.com/brhecht/bhub.git /tmp/bhub-bootstrap 2>/dev/null
 ```
 
-**Step 1.2: Read the master**
+**Step 1.2: Read the lean master**
 
-Read `HANDOFF-MASTER.md` from `/tmp/bhub-bootstrap/`. This gives you cross-app context, recent activity, and shared-infra rules.
+Read `HANDOFF-MASTER.md` from `/tmp/bhub-bootstrap/`. This is a **lean cross-app reference** (~17KB): apps index, dependencies, UX/comms rules, device registry, fleet ops. Do NOT read `HANDOFF-HISTORY.md` here — it's a chronological journal (~17KB of past changes) and is only relevant if the user asks about something old or you need to reconstruct context for a recent change. Per-app deep status lives in each repo's own `HANDOFF.md` (read on demand in Phase 2).
 
 **Step 1.3: Determine target app**
 

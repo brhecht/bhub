@@ -8,10 +8,10 @@
       "changelog": "Added real auto-send for Email channel via Gmail Apps Script + hidden HTML marker. Skill now defaults to send mode (email delivered in ~5 min); draft-only mode is opt-in via explicit 'draft' keyword. Apps Script source at bhub/apps-script/claude-auto-send.gs \u2014 one-time deployment in Gmail required."
     },
     "handoff": {
-      "version": "3.5.0",
-      "hash": "69d2c6fa93f01046b2fd97b7b1aae37d",
+      "version": "3.6.0",
+      "hash": "155ee1f27d1ca8cd725fa7590cdc8319",
       "updated": "2026-05-07",
-      "changelog": "Two-phase lazy bootstrap. Phase 1: clone bhub, read master, determine target app (no bsync). Phase 2: scoped bsync via `bsync.sh --app=X` only when work begins. Cuts typical bootstrap from ~45s to ~10-15s. Pairs with bsync v2.6's --app= flag and skipped-when-scoped sync_mount_to_origin."
+      "changelog": "Master handoff split into HANDOFF-MASTER.md (lean ~17KB cross-app reference) and HANDOFF-HISTORY.md (~17KB chronological journal). Bootstrap reads master only \u2014 HISTORY is on-demand. Combined with v3.5.0's lazy bootstrap and bsync v2.6's --app= flag, a typical handoff here goes from ~2-5min total to 30-60s."
     },
     "dev-deploy": {
       "version": "1.7.0",
