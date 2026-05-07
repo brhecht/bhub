@@ -199,6 +199,18 @@ Used in both newsletters and LinkedIn posts. Often structured as parallel lines 
 
 ---
 
+### Construction anti-patterns
+
+- **The negation-pivot kicker.** A two-line setup-punchline where line 2 negates or inverts line 1 to deliver an aphoristic flip. This is one of the most reliable AI-writing tells. The setup telegraphs that a punchline is coming, and the punchline lands on cue. Sounds clever. Reads engineered. Common shapes:
+  - "X didn't [happen]. Y did."
+  - "X has [changed]. Y hasn't."
+  - "It's not [X]. It's [Y]."
+  - Single-sentence variants ("not a UI, but a layer that…") have the same problem at compressed scale.
+
+  Brian's contrast pairs work when both halves are concrete observations of the same thing ("You can vibe the product. You can't vibe the why."), not when they're abstractions forced into parallel for kicker effect. When in doubt, fold the contrast into a single sentence with a comma-but, or just make the claim and let it earn its weight.
+
+---
+
 ## 10. QUOTE SELECTION GUIDE
 
 Every piece ends with a quote. Brian picks quotes that:

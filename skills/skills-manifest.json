@@ -46,10 +46,10 @@
       "changelog": "UX Standards binding \u2014 canonical reference is now `bhub/UX-STANDARDS.md` (cross-device via git), not the skill-bundled copy. Briefs must cite the bhub path and list a `Deviations from the standards` block; unreviewed deviations block APPROVED status. New edge case: if a build introduces a pattern the standards don't cover, the standards doc must be updated (not silently invented). The bundled `references/ux-standards.md` is now a fallback pointer."
     },
     "create-content": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "hash": "5a2454106e6a22fe3222357b44ab744e",
-      "updated": "2026-04-29",
-      "changelog": "Brand-aware loading: when working on TNB content, auto-loads tnb-strategy/brand/POSITIONING-LANGUAGE.md and brand/tnb-deck.md alongside cross-brand voice DNA. linkedin-patterns.md promoted from \"future use\" to active reference. Fixed stale guidance about YouTube transcripts (they ARE available via Content Calendar API in the transcript field). Description updated to cover both HC legacy and TNB content. brian-core-teachings.md flagged as HC-flavored."
+      "updated": "2026-05-07",
+      "changelog": "Added negation-pivot kicker anti-pattern to style-guide.md (Section 9, Construction anti-patterns). Catches the AI-writing tell where line 2 negates or inverts line 1 to deliver an aphoristic flip ('X has changed. Y hasn't.', 'It's not X. It's Y.', etc.). Brian flagged this as one of the most reliable AI tells in his Davida/Jeff podcast newsletter session."
     },
     "priority-startup-intel": {
       "version": "1.1.0",
