@@ -84,58 +84,83 @@ Check the master handoff in bhub (`HANDOFF-MASTER.md`) for the current list. If 
 
 ### "handoff here"
 
-This is the session bootstrap. One command does everything.
+This is the session bootstrap. The protocol is **two-phase, lazy by design**: first get the user oriented, then bsync only what they're actually going to touch. This cuts a typical "handoff here" from ~45s of network work down to ~10-15s.
 
-**The user does NOT need to specify which app.** They can say "handoff here" and then start talking about what they want to do, or they can say "handoff here b-people" explicitly. Either works.
+**The user does NOT need to specify which app.** They can say "handoff here" and start talking about what they want to do, or say "handoff here b-people" explicitly. Either works.
 
-#### Step 1: Run bsync — ALWAYS from a fresh `/tmp/` clone
+---
 
-**Do not run the mount's `bsync.sh`.** A device that hasn't successfully launchd-pulled in a while will have a stale `bsync.sh` on the mount, which means missing features (e.g., `sync_mount_to_origin`, lock-warning suppression). Always pull a fresh bhub to `/tmp/` first and run from there:
+#### Phase 1 — Light bootstrap (always)
+
+**Step 1.1: Pull a fresh bhub to `/tmp/`**
+
+Always pull bhub from GitHub fresh — never trust the mount's copy. The mount may be stale.
 
 ```bash
 rm -rf /tmp/bhub-bootstrap 2>/dev/null
 git clone --depth 1 https://github.com/brhecht/bhub.git /tmp/bhub-bootstrap 2>/dev/null
-BSUITE_DIR="<mounted-bsuite-path>" bash /tmp/bhub-bootstrap/bsync.sh
 ```
 
-This guarantees every session — on every Mac, regardless of how long it's been since the last open — runs the latest bsync. Critical because bsync v2.5+'s `sync_mount_to_origin` is what brings stale mounts back in sync; if you run an old bsync that lacks it, the mount stays stale.
+**Step 1.2: Read the master**
 
-bsync handles git credential setup, lock file detection, repo pulls (parallel clones to `/tmp/` in Cowork), handoff freshness checks, and skill version verification. It outputs structured JSON.
+Read `HANDOFF-MASTER.md` from `/tmp/bhub-bootstrap/`. This gives you cross-app context, recent activity, and shared-infra rules.
 
-#### Step 2: Act on bsync results
+**Step 1.3: Determine target app**
 
-**Repos:** Check that all repos pulled successfully. If any show `"status": "failed"`, clone them to `/tmp/` yourself — do NOT ask the user to do this. If any show `"status": "cloned_to_tmp"`, note their `/tmp/` path — use that for reads/writes instead of the mounted path.
+Either the user named it ("handoff here b-people") or their message implies it ("the funnel is broken" → hc-funnel). If neither, ask: "What do you want to work on?"
+
+For sessions that touch multiple apps, you can pass a comma-separated list to bsync. For pure-conversation sessions (strategy, content brainstorm with no code touch), you can skip Phase 2 entirely and proceed without bsync — but you must still complete Step 2 below if you end up writing code.
+
+---
+
+#### Phase 2 — Scoped bsync (when work begins)
+
+**Step 2.1: Run bsync scoped to the target app(s)**
+
+```bash
+BSUITE_DIR="<mounted-bsuite-path>" bash /tmp/bhub-bootstrap/bsync.sh --app=<app1>,<app2>
+```
+
+This pulls only bhub + the listed app(s), checks all skills, and skips the mount-sync step. Typical wall time: 8-15 seconds vs 30-45 for the full sync.
+
+If the user's session genuinely needs the full fleet (e.g., audit, fleet-wide refactor), omit `--app=` to run the full sync.
+
+**Step 2.2: Act on bsync results**
+
+**Repos:** Confirm all listed repos show `"status": "ok"`. If any show `"status": "failed"`, clone them to `/tmp/` yourself — do NOT ask the user.
 
 **Locks:** If `"found": true`, report the locked files. The user needs to clean them on their Mac (bsync can't fix EPERM locks on mounted drives).
 
 **Handoffs — stale detection:** For each entry where `"stale": true`:
-- If `commits_since_handoff > 0`: the handoff is behind the code. Read the `recent_commits` field — these are the commit messages since the handoff was last written. Use them to understand what changed. If the user is going to work on this app, read the full HANDOFF.md (it's still useful as a base), then layer the commit history on top.
-- If `handoff_exists` is `false`: this repo has never had a HANDOFF.md, or its handoff info lives only in the master. If the user works on it, write one at session end.
-- **Do NOT auto-rewrite stale handoffs at bootstrap.** Just note which are stale. Handoffs get updated at push time (stamps) or via explicit "handoff away." Auto-rewriting at bootstrap wastes tokens on apps the user may not touch this session.
+- If `commits_since_handoff > 0`: the handoff is behind the code. Read the `recent_commits` field — these are the commit messages since the handoff was last written. Use them to understand what changed. Read the full HANDOFF.md as a base, then layer the commit history on top.
+- If `handoff_exists` is `false`: write one at session end.
+- **Do NOT auto-rewrite stale handoffs at bootstrap.** Stamp-on-push and explicit handoff-away cover this.
 
 **Skills:** For each entry where `"match": false`:
 - Present the install link: `[Install <skill>.skill](computer://<install_path>)`
 - Tell the user: "**<skill> is outdated (v<version>).** Click to install, then restart the session."
-- **This is a blocking gate.** Do not proceed to work until skills are current or the user explicitly acknowledges the mismatch.
+- **This is a blocking gate.** Do not proceed until skills are current or the user explicitly acknowledges the mismatch.
 
-#### Step 3: Read the master
+**Step 2.3: Load app context**
 
-Read `HANDOFF-MASTER.md` from bhub (use the path bsync reported — could be mounted or `/tmp/`). This gives you the cross-app index.
-
-#### Step 4: Load app context
-
-Once you know which app the user wants (from their message or by asking):
-
-1. Find the repo path from bsync results
+1. Find the repo path from bsync results (the `/tmp/bsync-*/` clone)
 2. Read the app's `HANDOFF.md`
-3. If bsync flagged it as stale, also read the `recent_commits` to understand what changed since the handoff
-4. If the app's skill references additional docs (e.g., hc-strategy references `STRATEGY-CONTEXT.md` and `operating-plan.md`), read those too. If they're not on the local drive, clone the repo to `/tmp/` yourself — do NOT ask the user to clone repos.
-5. Internalize cross-app context from the master (shared infra, deploy safety, user registry)
-6. Respond with a brief status summary and ask: **"What do you want to work on?"**
+3. If the app's skill references additional docs (e.g., tnb-strategy references `strategy/STRATEGY-CONTEXT.md`), read those too
+4. Respond with a brief status summary and ask **"What do you want to work on?"** — unless the user already told you, in which case start the work
 
-#### Step 5: Clean up legacy files
+**Step 2.4: Clean up legacy files**
 
-If the app's repo has legacy date-stamped handoff files (e.g., `HANDOFF-BPeople-2026-03-14.md`) alongside a proper `HANDOFF.md`, delete the dated copies and commit.
+If the app's repo has legacy date-stamped handoff files alongside a proper `HANDOFF.md`, delete the dated copies and commit.
+
+---
+
+#### When to use full bsync (no `--app=`)
+
+- The user explicitly asks for a fleet status check
+- You're doing cross-app work (e.g., updating shared infra in bhub, propagating a UX standard)
+- The session is a fleet audit or skill refresh
+
+For everything else, prefer the scoped form.
 
 ---
 

@@ -192,3 +192,8 @@ Large session. Built the full fleet audit capability and cleaned 5+ weeks of acc
 - **What shipped:** Card renames, position swap, app switcher reduced to 4 apps.
 - **Known issues:** None.
 - **Next:** None planned.
+
+### 2026-05-07 — bsync v2.6 + handoff skill v3.5.0 (lazy bootstrap)
+- **What shipped:** bsync.sh gains `--app=name1,name2` flag for scoped clones — only pulls bhub + listed apps, skips full mount sync. Cuts a typical scoped bootstrap from ~32s (full) to ~15s. Handoff skill rewritten as two-phase lazy: Phase 1 clones bhub + reads master + determines target app (no bsync); Phase 2 runs `bsync.sh --app=X` only when work begins. `sync_mount_to_origin` is now scope-aware (syncs in-scope repos only — bhub always included so install paths stay current). Also fixed line-403 `git show > file` failure when parent dir is missing on the mount: now `mkdir -p $(dirname $f)` first. Eliminates the spurious "No such file or directory" stderr leakage in tnb-website during scoped runs. Manifest bumped: handoff skill 3.4.0 → 3.5.0.
+- **Known issues:** All devices will see handoff-skill mismatch on next `handoff here` and need a one-click reinstall. Cron's full-mode runs are unchanged — fleet-wide mount sync still happens hourly.
+- **Next:** Brian reinstalls handoff.skill on each Mac (Mini, iMac, Pro, Air, current Mac) on next handoff there. Measure end-to-end speedup in the next session.

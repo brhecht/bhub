@@ -8,10 +8,10 @@
       "changelog": "Added real auto-send for Email channel via Gmail Apps Script + hidden HTML marker. Skill now defaults to send mode (email delivered in ~5 min); draft-only mode is opt-in via explicit 'draft' keyword. Apps Script source at bhub/apps-script/claude-auto-send.gs \u2014 one-time deployment in Gmail required."
     },
     "handoff": {
-      "version": "3.4.0",
-      "hash": "0db15b621d271e1957db524c66d5ac48",
-      "updated": "2026-04-25",
-      "changelog": "Step 1 now mandates fresh /tmp/ clone of bhub for bsync \u2014 never runs the mount's bsync.sh. Guarantees every session, on every Mac, runs latest bsync regardless of how long since last successful launchd-pull. Pairs with bsync v2.5 sync_mount_to_origin to make stale-mount-recovery automatic on any device."
+      "version": "3.5.0",
+      "hash": "69d2c6fa93f01046b2fd97b7b1aae37d",
+      "updated": "2026-05-07",
+      "changelog": "Two-phase lazy bootstrap. Phase 1: clone bhub, read master, determine target app (no bsync). Phase 2: scoped bsync via `bsync.sh --app=X` only when work begins. Cuts typical bootstrap from ~45s to ~10-15s. Pairs with bsync v2.6's --app= flag and skipped-when-scoped sync_mount_to_origin."
     },
     "dev-deploy": {
       "version": "1.7.0",

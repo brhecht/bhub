@@ -1,5 +1,11 @@
 #!/bin/bash
-# bsync v2.5 — B-Suite session bootstrap & reconciliation
+# bsync v2.6 — B-Suite session bootstrap & reconciliation
+# v2.6: --app=name1,name2 flag scopes pull/handoff/mount-sync to listed apps
+#       (bhub always included). Cuts a typical session bootstrap from ~45s to
+#       ~8s by cloning 2 repos instead of 15. sync_mount_to_origin skipped in
+#       scoped mode (focused work doesn't need fleet-wide mount sync).
+#       Also fixes the spurious "No such file or directory" stderr leakage in
+#       sync_mount_to_origin's file-restore path (now mkdir -p before write).
 # v2.5: sync_mount_to_origin() — auto-fast-forward the mounted .git after Cowork
 #       pushes, so the Mac's working tree never shows phantom "modified" state
 #       from edits Cowork made directly on the mount. Eliminates the need to ever
@@ -20,6 +26,8 @@
 #
 # Usage:
 #   bash bsync.sh                    # Full bootstrap (pulls + handoff check + skills check)
+#   bash bsync.sh --app=name1,name2  # Scoped bootstrap — only pull bhub + listed apps.
+#                                    # Use for focused sessions; ~5x faster than full.
 #   bash bsync.sh --pull-only        # Just pull all repos (LaunchAgent mode)
 #   bash bsync.sh --status           # Report status without pulling (fast, offline)
 #   bash bsync.sh --sync-mount       # Cowork-only: fast-forward mounted .git to origin
@@ -75,7 +83,30 @@ SKIP_HANDOFF_CHECK="pitch-scorer b-marketing hc-strategy"
 # Skills tracked in manifest
 TRACKED_SKILLS="handoff dev-deploy comms expert hc-strategy pm create-content frontend-design"
 
-MODE="${1:-full}"
+# Argument parsing: positional MODE flag + optional --app=name1,name2 anywhere
+MODE="full"
+APPS=""
+for arg in "$@"; do
+  case "$arg" in
+    --app=*) APPS="${arg#--app=}" ;;
+    --pull-only|--status|--sync-mount) MODE="$arg" ;;
+    *) ;;
+  esac
+done
+# Build APPS_FILTER as a space-padded string for fast lookup; bhub always included.
+APPS_FILTER=""
+if [[ -n "$APPS" ]]; then
+  APPS_FILTER=" $(echo "$APPS" | tr ',' ' ') bhub "
+fi
+
+# is_app_in_scope folder
+# Returns 0 if folder should be processed, 1 otherwise.
+# When APPS_FILTER is empty, everything is in scope.
+is_app_in_scope() {
+  [[ -z "$APPS_FILTER" ]] && return 0
+  [[ "$APPS_FILTER" == *" $1 "* ]] && return 0
+  return 1
+}
 
 # --- Helpers ---
 mkdir -p "$WORK_DIR"
@@ -160,11 +191,12 @@ pull_repos() {
   mkdir -p "$frag_dir"
   rm -f "$frag_dir"/*.json 2>/dev/null
 
-  # Fan out: every repo clones in parallel
+  # Fan out: every in-scope repo clones in parallel (bhub always included)
   local pids=()
   for entry in "${REPOS[@]}"; do
     local folder="${entry%%:*}"
     local github="${entry##*:}"
+    is_app_in_scope "$folder" || continue
     pull_one_repo "$folder" "$github" "$frag_dir/${folder}.json" &
     pids+=($!)
   done
@@ -174,10 +206,13 @@ pull_repos() {
     wait "$pid" 2>/dev/null || true
   done
 
-  # Emit fragments in REPOS order with comma separators
+  # Emit fragments in REPOS order with comma separators.
+  # Out-of-scope repos never wrote a fragment, so the file-existence guard
+  # naturally filters them out.
   local first="true"
   for entry in "${REPOS[@]}"; do
     local folder="${entry%%:*}"
+    is_app_in_scope "$folder" || continue
     local frag="$frag_dir/${folder}.json"
     if [[ -f "$frag" ]]; then
       [[ "$first" == "true" ]] && first="false" || echo ","
@@ -200,6 +235,9 @@ check_handoffs() {
     if echo "$SKIP_HANDOFF_CHECK" | grep -qw "$folder"; then
       continue
     fi
+
+    # Skip out-of-scope repos when --app= filter is active
+    is_app_in_scope "$folder" || continue
 
     # Find the repo — prefer /tmp clone (guaranteed fresh), fall back to mounted
     local repo_path=""
@@ -367,9 +405,13 @@ clean_stale_locks() {
 # (write+truncate works on FUSE; rm doesn't).
 sync_mount_to_origin() {
   [[ "$ENV" != "cowork" ]] && return
+  # Scoped runs sync only in-scope repos on the mount (bhub always included
+  # so newly-pushed skill bundles + bsync.sh land on the mount immediately,
+  # and install-link computer:// paths point to current bundles).
   local synced=0 cleaned=0
   for entry in "${REPOS[@]}"; do
     local folder="${entry%%:*}"
+    is_app_in_scope "$folder" || continue
     local repo_dir="$BSUITE_DIR/$folder"
     [[ ! -d "$repo_dir/.git" ]] && continue
     cd "$repo_dir" 2>/dev/null || continue
@@ -400,6 +442,10 @@ sync_mount_to_origin() {
       local file="${line:3}"
       case "$code" in
         " M"|"M "|" D"|"D ")
+          # Parent dir may not exist on the mount when the upstream refactor
+          # added new subdirectories. Create it before redirecting, otherwise
+          # the shell errors out before git show even runs.
+          mkdir -p "$(dirname "$file")" 2>/dev/null
           git show "HEAD:$file" > "$file" 2>/dev/null && cleaned=$((cleaned + 1))
           ;;
       esac
@@ -409,7 +455,7 @@ sync_mount_to_origin() {
 }
 
 # --- Main ---
-log "bsync v2 started (mode: $MODE, env: $ENV)"
+log "bsync v2.6 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
 setup_git
 clean_stale_locks
 
@@ -434,7 +480,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.5.0",
+  "bsync_version": "2.6.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
