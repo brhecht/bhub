@@ -209,6 +209,17 @@ Used in both newsletters and LinkedIn posts. Often structured as parallel lines 
 
   Brian's contrast pairs work when both halves are concrete observations of the same thing ("You can vibe the product. You can't vibe the why."), not when they're abstractions forced into parallel for kicker effect. When in doubt, fold the contrast into a single sentence with a comma-but, or just make the claim and let it earn its weight.
 
+- **Magazine-piece framing.** Sentence-opening tells where Brian becomes a literary observer rather than a peer comparing notes. Common shapes:
+  - "X said something that's stayed with me."
+  - "What I keep turning over is this."
+  - "Dropped a line I've been replaying since."
+  - "The part that's stuck with me is…"
+  - "What hit me hardest was…"
+
+  These are the cadence of a thinkpiece writer doing distance. Brian's TNB voice is closer in than that. Replace with plainspoken framings: "Here's how she put it:" / "Here's the thing he said:" / "What I came out with:" Direct, conversational, no narrator-from-on-high register.
+
+- **Stock-phrase slop.** Recurring AI-generated abstract qualifiers that Brian flags on sight: "built something real," "the kind of thing that doesn't show up unless you've…," "doing the work," "putting in the reps," "skin in the game" stacked with "walking the talk." If you catch yourself reaching for one, swap in a concrete specific (what kind of work, what kind of inbound, what specifically showed up).
+
 ---
 
 ## 10. QUOTE SELECTION GUIDE

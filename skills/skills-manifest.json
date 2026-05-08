@@ -46,10 +46,10 @@
       "changelog": "UX Standards binding \u2014 canonical reference is now `bhub/UX-STANDARDS.md` (cross-device via git), not the skill-bundled copy. Briefs must cite the bhub path and list a `Deviations from the standards` block; unreviewed deviations block APPROVED status. New edge case: if a build introduces a pattern the standards don't cover, the standards doc must be updated (not silently invented). The bundled `references/ux-standards.md` is now a fallback pointer."
     },
     "create-content": {
-      "version": "1.2.0",
-      "hash": "5a2454106e6a22fe3222357b44ab744e",
-      "updated": "2026-05-07",
-      "changelog": "Added negation-pivot kicker anti-pattern to style-guide.md (Section 9, Construction anti-patterns). Catches the AI-writing tell where line 2 negates or inverts line 1 to deliver an aphoristic flip ('X has changed. Y hasn't.', 'It's not X. It's Y.', etc.). Brian flagged this as one of the most reliable AI tells in his Davida/Jeff podcast newsletter session."
+      "version": "1.3.0",
+      "hash": "1b7a8f494f69789652894817a9a2965f",
+      "updated": "2026-05-08",
+      "changelog": "Workflow refactor (Path A as explicit default, multi-section scaffolding rule, scope confirmation for Path B). Added pre-delivery checklist (negation-pivot, magazine-piece framing, stock-phrase slop, accuracy, verbatim test). New Step 1.5 (voice exemplar protocol). style-guide.md gains magazine-piece framing and stock-phrase slop entries under Construction anti-patterns. Driven by post-mortem on TNB Ep1-3 podcast newsletter session, where Path A drift to Path B compounded across segments."
     },
     "priority-startup-intel": {
       "version": "1.1.0",
