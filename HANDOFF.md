@@ -1,6 +1,6 @@
 # bhub — Handoff
 
-*Last updated: May 5, 2026 — bsync fleet silent-failure fix*
+*Last updated: May 8, 2026 — create-content skill v1.3.0 (workflow refactor)*
 
 **Project:** bhub
 **Repository:** github.com/brhecht/bhub
@@ -165,6 +165,13 @@ Large session. Built the full fleet audit capability and cleaned 5+ weeks of acc
 ---
 
 ## Session Log
+
+### 2026-05-08 — create-content skill v1.2.0 + v1.3.0 (anti-AI-tell rules + workflow refactor)
+- **What shipped:** Two consecutive bumps to `skills/src/create-content-SKILL.md` and `skills/src/create-content-references/style-guide.md`, with `.skill` repackaged and `skills-manifest.json` updated each time. v1.2.0 (commit `8ba2e80`) added the negation-pivot kicker anti-pattern to style-guide.md §9 (Construction anti-patterns). v1.3.0 (commit `3a729f3`) refactored the SKILL.md workflow contract: new Step 1.5 (voice exemplar pin), Step 4 reframed with Path A as explicit default + multi-section scaffolding rule + Path B scope confirmation, new PRE-DELIVERY CHECKLIST section with 5 checks (negation-pivot, magazine-piece framing, stock-phrase slop, accuracy, verbatim test). style-guide.md gained companion entries for magazine-piece framing and stock-phrase slop alongside negation-pivot.
+- **Why:** Mid-session post-mortem on the TNB Ep1-3 newsletter draft revealed that the skill's Path A default was getting silently escalated to Path B, with drift compounding across multi-section pieces. The fix is structural: lock scaffold first, draft only with explicit scope, run anti-AI-tell checks before any prose ships.
+- **Known issues:** All devices (Mini, iMac, Pro, Air, current Mac) will see create-content drift on next `handoff here` and need a one-click reinstall (going from 1.1.0 to 1.3.0). The v1.2.0 install file is also still in bhub history if someone wants the intermediate.
+- **Next:** Test the new workflow on the next content-creation session (Brian's Monday review/publish pass on the TNB newsletter draft is a natural first use). Watch specifically for whether the multi-section scaffolding rule prevents the Section-1-becomes-template-for-Section-2 drift that was the root pain point.
+
 
 ### 2026-05-05 — Fleet-wide bsync silent-failure fix (broken plist root cause)
 - **What shipped:** Two-part fix to bsync auto-pull infrastructure. (1) `bsync.sh` line 39: hardcoded Mac fallback path was `$HOME/Developer/clients/hc/B-Suite` (pre-March-12 location) — changed to `$HOME/Developer/B-Suite`. (2) `install-bsync.sh`: launchd plist now writes `EnvironmentVariables` with explicit `BSUITE_DIR` so the agent never falls through to the script's default. Belt-and-suspenders.
