@@ -1,6 +1,6 @@
 {
   "bhealth_version": "1.0.0",
-  "timestamp": "2026-05-25T20:12:46Z",
+  "timestamp": "2026-05-25T20:54:54Z",
   "device": "Mac Mini",
   "hostname": "Mac",
   "computer_name": "Mac mini",
@@ -13,11 +13,11 @@
     {
       "repo": "things-app",
       "branch": "main",
-      "status": "dirty",
+      "status": "clean",
       "ahead": 0,
       "behind": 0,
       "dirty": 0,
-      "untracked": 1,
+      "untracked": 0,
       "last_commit": "2026-05-25",
       "action": "none"
     },
@@ -68,21 +68,21 @@
     {
       "repo": "b-resources",
       "branch": "main",
-      "status": "dirty",
+      "status": "clean",
       "ahead": 0,
       "behind": 0,
       "dirty": 0,
-      "untracked": 1,
+      "untracked": 0,
       "last_commit": "2026-05-06",
       "action": "none"
     },
     {
       "repo": "bhub",
       "branch": "main",
-      "status": "clean",
+      "status": "dirty",
       "ahead": 0,
       "behind": 0,
-      "dirty": 0,
+      "dirty": 1,
       "untracked": 0,
       "last_commit": "2026-05-25",
       "action": "none"
@@ -258,7 +258,6 @@
     "Fixed master handoff path for Mac Mini \u2192 \\~/Developer/B-Suite"
   ],
   "flags": [
-    "things-app has uncommitted work (0 modified, 1 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/things-app && git status",
-    "b-resources has uncommitted work (0 modified, 1 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/b-resources && git status"
+    "bhub has uncommitted work (1 modified, 0 untracked) \u2014 review with: cd /Users/BRHPro/Developer/B-Suite/bhub && git status"
   ]
 }
