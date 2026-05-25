@@ -1,6 +1,6 @@
 # bhub — Handoff
 
-*Last updated: May 8, 2026 — create-content skill v1.3.0 (workflow refactor)*
+*Last updated: May 25, 2026 — bhealth set-and-forget scheduling (RunAtLoad + 6-day idempotence)*
 
 **Project:** bhub
 **Repository:** github.com/brhecht/bhub
@@ -17,8 +17,9 @@ bhub has two distinct roles, both of which must be preserved:
 
 2. **B-Suite fleet control repo.** Source of truth for cross-fleet infrastructure:
    - `bsync.sh` — cross-device pull automation (LaunchAgent on each Mac + session bootstrap in Cowork)
-   - `install-bsync.sh` — one-time installer for the bsync LaunchAgent
-   - `bhealth.sh` — fleet audit tool (runs on each Mac, writes JSON report to `.health/`, commits to GitHub)
+   - `install-bsync.sh` — one-time installer for the bsync hourly LaunchAgent
+   - `bhealth.sh` — fleet audit tool (runs on each Mac via launchd, writes JSON report to `.health/`, commits to GitHub). Has three modes: default/full (human-readable summary), `--quiet` (JSON-only), `--ensure-weekly` (idempotence-guarded for daily launchd firings).
+   - `install-bhealth.sh` — one-time installer for the bhealth LaunchAgent (RunAtLoad + daily 8am + `--ensure-weekly`)
    - `HANDOFF-MASTER.md` — cross-app index (auto-generated, never hand-edited)
    - `skills/` — canonical `.skill` installer files + `skills-manifest.json` (hash manifest for drift detection)
    - `.health/` — per-device bhealth reports, committed so any Cowork session can read fleet state
@@ -44,8 +45,9 @@ bhub/
 ├── styles.css                    # Homepage styles
 ├── vercel.json                   # Vercel config (static)
 ├── bsync.sh                      # Fleet sync — v2.2 (parallel clones)
-├── install-bsync.sh              # One-time LaunchAgent installer
-├── bhealth.sh                    # Fleet audit — v1.0
+├── install-bsync.sh              # One-time hourly LaunchAgent installer
+├── bhealth.sh                    # Fleet audit — v1.0 + --ensure-weekly mode (2026-05-25)
+├── install-bhealth.sh            # One-time bhealth LaunchAgent installer (RunAtLoad + daily 8am)
 ├── HANDOFF-MASTER.md             # Auto-generated cross-app index + routing rules
 ├── HANDOFF.md                    # This file
 ├── .gitignore                    # Includes .DS_Store + .bhealth-device
@@ -74,15 +76,45 @@ bhub/
 
 **Homepage:** Stable. No changes planned.
 
-**Fleet control:**
-- `bsync` v2.2 shipped today — parallelized repo clones, cut handoff-here time ~40%.
-- `bhealth` v1.0 shipped today — three-tier audit with safe auto-heal, launch-and-prompt for skill installs, flag-only for uncommitted work / expired tokens / missing toolchain.
-- All 3 accessible Macs (Mini, Pro, Air) audited April 18 → zero flags. iMac pending next office visit.
-- Weekly scheduled task (`weekly-fleet-audit-check`) runs Mondays 8:04 ET, posts staleness summary to B Things.
+**Fleet control (as of 2026-05-25):**
+- `bsync` v2.2 — parallelized hourly auto-pull, healthy on Mini/Pro/Air. iMac still has the broken pre-`a31e24a` plist (will be fixed on next office visit).
+- `bhealth` v1.0 + `--ensure-weekly` mode — three-tier audit with safe auto-heal, launch-and-prompt for skill installs, flag-only for uncommitted work / expired tokens / missing toolchain. The `--ensure-weekly` flag checks `$BSUITE_DIR/.bhealth-last-run-epoch` and exits silently if a successful run happened in the last 6 days.
+- `install-bhealth.sh` shipped 2026-05-25. Installs a `com.bsuite.bhealth` LaunchAgent with `RunAtLoad: true` + `StartCalendarInterval` daily at 8am. RunAtLoad fires bhealth on every login/boot; daily-at-8am catches always-on machines. Combined with the 6-day guard, runs happen the first time the Mac is online during any given week, regardless of whether it was off during a "scheduled" window.
+- `weekly-fleet-audit-check` scheduled task (in Cowork) runs Mondays 8:04 ET. Reads all four `.health/<device>-{date}.json` files, summarizes, posts a task to B Things under Infra. Auth key (`API_SECRET`) loaded from `~/Developer/B-Suite/things-app/.env.local` (gitignored). Loud-fails if the key is missing — no more silent skips. **NEW:** flags any device whose report is >8 days old as an **Infra alert** (separate line in the task summary) so silent rot surfaces.
+- **Fleet state:** Mini, MBP, Air all wired on the new schedule with fresh today-dated reports in `.health/`. iMac pending (see Planned Features).
 
 ---
 
 ## Recent Changes
+
+### 2026-05-25 — Fleet auto-audit pipeline (set-and-forget scheduling)
+
+Closed the loop on the autonomous fleet audit. Before this session, `bhealth.sh` existed but was manual — nobody had wired it to launchd, so the weekly reader was reading 3-5 week-old reports. Today:
+
+**What shipped in bhub:**
+- `install-bhealth.sh` (new file) — generates and installs a `com.bsuite.bhealth` LaunchAgent on the current Mac, modeled on `install-bsync.sh`. First attempt (commit `595abb3`) used a two-window `StartCalendarInterval` (Sun 23:00 + Mon 07:00); replaced same-day with the set-and-forget design below (commit `1a56fb7`).
+- `bhealth.sh` — added `--ensure-weekly` mode + 6-day idempotence guard. `commit_push` now sets `COMMIT_PUSH_OK`; new `update_weekly_marker` function writes `$BSUITE_DIR/.bhealth-last-run-epoch` only on successful commit+push (or no-op when remote is in sync). Persistent push failures intentionally leave the marker stale so daily firings retry — and the reader's >8 day Infra alert surfaces a stall.
+- Plist design: `RunAtLoad: true` + `StartCalendarInterval` daily at 8am + `PATH` env explicitly listing Homebrew prefixes (so tool detection sees node/npm/gh/vercel under launchd, which otherwise gets a minimal PATH). `--ensure-weekly` is the `ProgramArguments` last entry, so the work is gated by the guard.
+
+**What shipped in the Cowork scheduled task `weekly-fleet-audit-check`:**
+- Now loads `API_SECRET` from `~/Developer/B-Suite/things-app/.env.local` (extracted via `vercel env pull` earlier in the session). Previously the task had no key and was silently 401'ing on every post to `/api/add-task` — for how long is unclear.
+- Loud-fails on missing key (writes a fallback summary to `~/Developer/fleet-check-<date>.md` and surfaces the auth issue in chat) instead of silent skip.
+- Added Step 3 Infra alert logic: any device with a report >8 days old is flagged on a dedicated "Infra alerts" line in the B Things task notes, separate from routine repo/toolchain flags.
+- Live-verify step (3b) now uses `git --no-optional-locks status --short` to avoid the lock-file errors that Cowork's sandbox-mount git hits when bhealth's stale flags need cross-checking.
+
+**Fleet state changes:**
+- **Mac Mini:** new schedule installed + fresh report committed. Auto-healed the master handoff path (was `~/Desktop/B-Suite/` from a pre-March-12 entry, fixed to `~/Developer/B-Suite`). Two orphan files cleaned: `things-app/vite.config.js.timestamp-*.mjs` (Vite build crash artifact) and `b-resources/src/pages/Inbox.jsx` (10kb dead code from refactor `9b6a733 feat: per-section Inbox panel — replace unified inbox` — file was deleted from git but left on disk).
+- **MacBook Pro:** new schedule installed + fresh report committed. Master handoff path auto-healed. Two known flags surfaced for follow-up (not blocking, see Planned Features): `tnb-website` has 6 untracked files on `learn-prototype` branch (real WIP from a prior session), `content-calendar` has 1 untracked file on main.
+- **MacBook Air:** drift cleanup via `git reset --hard origin/main && git clean -fd` (had 5 modified + 2 untracked bhub files — all auto-generated artifacts from when bsync was broken weeks ago). bsync fix from `a31e24a` finally applied. New schedule installed + fresh report committed. 4 expected toolchain flags (no node/npm/gh/vercel — Air isn't a dev box).
+- **iMac:** still pending. Brian will run a single command tomorrow at the office; instructions emailed to him as the canonical reference (supersedes earlier iMac-only email).
+
+**Transient false-positive observed during the session:** Mini's bhealth flagged "PAT present but git push --dry-run failed (expired or revoked?)" on one run, then succeeded on the next manual run with no config change. Token was verified valid via direct GitHub API call. `check_git_auth` is a single shot with no retry — one transient HTTP hiccup misclassifies as auth-broken. Worth a `for i in 1 2 3; do ... && break; sleep 5; done` retry loop in `bhealth.sh` if this recurs.
+
+**Self-referential audit race observed:** When bhealth runs under launchd, the agent fires bhealth which writes a fresh `.health/<device>-<date>.json`. The `audit_repos` step then audits bhub and flags the working tree as "1 modified" — the just-written JSON. This shows up as a "needs attention" flag in the very report being written, then resolves on the next run. Cosmetic noise.
+
+**Process learning (also documented in 2026-05-25 second entry below):** Cowork sessions on different Macs can't copy-paste between each other. Multi-Mac install rollouts should be done via a single email at the start, not by priming each Mac's clipboard sequentially. Used this lesson to send Brian a superseding canonical-instructions email with one command per remaining Mac.
+
+---
 
 ### 2026-04-18 — Fleet audit infrastructure + Mini/Pro/Air cleanup
 
@@ -124,15 +156,20 @@ Large session. Built the full fleet audit capability and cleaned 5+ weeks of acc
 
 ## Known Bugs / Issues
 
-- **Cowork + mounted Mac filesystem = `.git/index.lock` trap.** If Cowork runs git commands directly against `/sessions/.../mnt/Developer/B-Suite/{repo}/`, the Linux sandbox creates lock files it can't clean. This blocks subsequent git ops on the Mac until Brian runs `find ~/Developer/B-Suite -name "index.lock" -path "*/.git/*" -delete`. Known workaround, documented in the bhealth playbook. Avoid running git on the mount from Cowork; use `/tmp/bsync-*/` clones instead.
+- **Cowork + mounted Mac filesystem = `.git/index.lock` trap.** If Cowork runs git commands directly against `/sessions/.../mnt/Developer/B-Suite/{repo}/`, the Linux sandbox creates lock files it can't clean (EPERM on the bind mount). This blocks subsequent git ops on the Mac until Brian runs `find ~/Developer/B-Suite -name "*.lock" -path "*/.git/*" -delete`. Documented in the bhealth playbook. Avoid running git on the mount from Cowork; use `/tmp/bsync-*/` clones instead.
+- **Cowork unstaged edits to bhub files can be silently reverted by bsync.** Observed 2026-05-25 during the handoff write — bsync's hourly launchd fire on the Mac ran `git pull --rebase` while Cowork had unstaged HANDOFF.md edits. Edits were lost (likely autostash-pop conflict that dropped the stash). Mitigation: when writing handoffs from Cowork against the mounted bhub, commit edits immediately rather than leaving them unstaged for long stretches.
 - **bsync `--pull-only` mode silently discards per-repo failures.** Output goes to `/dev/null` (LaunchAgent mode), so if a repo fails to pull, nobody notices until the next bhealth. Acceptable for now — bhealth catches it within a week.
+- **`bhealth check_git_auth` is single-shot with no retry.** Saw a transient false-positive on 2026-05-25 where push --dry-run failed once then succeeded immediately after. Token was valid. If this recurs on a scheduled launchd run, add a 3x retry with 5s backoff in `check_git_auth`.
+- **Self-referential bhub flag** in bhealth reports: when bhealth audits bhub, it sees its own just-written JSON as a modified working-tree file and flags "1 modified." Cosmetic; the next run is clean.
 
 ---
 
 ## Planned Features / Backlog
 
-- **iMac audit** — pending next office visit. Same playbook as Mini/Pro/Air.
-- **GitHub PAT renewal** — `.git-token` (classic PAT, `repo` scope) expires ~June 2026. Generate new one at github.com/settings/tokens (classic, repo scope), overwrite `.git-token` in B-Suite root on any one Mac; bsync will propagate via iCloud-free file (each Mac has its own copy — need to update each).
+- **iMac install** — pending next office visit. Brian has the one-liner emailed to him: `cd ~/Developer/B-Suite/bhub && find .git -name "*.lock" -type f -delete && git fetch origin && git reset --hard origin/main && git clean -fd && bash install-bsync.sh && bash install-bhealth.sh`. Drift-cleanup is necessary because iMac's pre-`a31e24a` broken bsync has accumulated stale local files for weeks (same pattern Air had).
+- **PAT auth retry in `bhealth.sh`** — `check_git_auth` had a transient false-positive 2026-05-25. If it happens again on a scheduled launchd run (visible in `.bhealth-stderr.log`), wrap the dry-run with a 3x retry + 5s backoff.
+- **MBP follow-ups** (not urgent): `tnb-website` has 6 untracked files on `learn-prototype` branch — real WIP from a prior session; commit or stash next time you're in that repo. `content-calendar` has 1 untracked file on main; smaller, also worth a glance.
+- **GitHub PAT renewal** — `.git-token` (classic PAT, `repo` scope) expires ~June 2026. Generate new one at github.com/settings/tokens (classic, repo scope), overwrite `.git-token` in B-Suite root on each Mac; bsync will propagate via iCloud-free file (each Mac has its own copy — need to update each).
 - **Cowork build status: things-app** — PostCSS/Tailwind filesystem error in Cowork VM (builds fine on Mac). Not retested since March. Low priority.
 - **Parallelize `check_handoffs` in bsync.sh** — currently still sequential. Diminishing returns but would save another ~5 seconds on handoff-here. Only tackle if it becomes the new bottleneck.
 
@@ -144,6 +181,7 @@ Large session. Built the full fleet audit capability and cleaned 5+ weeks of acc
 - **bhealth's skill-install check is disabled on local Mac.** Claude desktop on macOS stores skills in a location that filesystem-find can't reliably discover. Skill install status is verified two other ways: (1) bsync in Cowork reads `/sessions/*/mnt/.claude/skills/` which is reliable there, (2) Brian can see installed skills in Claude desktop → Customize → Skills panel. bhealth only verifies the `.skill` installer files exist in `bhub/skills/` (source of truth).
 - **bhealth's three tiers exist because blindly auto-healing dirty repos could lose real work.** Tier 1 (auto-heal) only acts on safe operations: pulling clean repos, reinstalling infrastructure, fixing docs. Tier 2 (launch-and-prompt) requires a click. Tier 3 (flag only) leaves judgment to the user. This is by design.
 - **Device name is a free-form string, not a hostname.** On first run, bhealth asks which of Brian's 4 Macs this is. Stored to `.bhealth-device` (gitignored, per-Mac). Why: `hostname -s` returns things like "MacBookPro" which is ambiguous across machines (all Macs can end up with similar hostnames). Human-readable labels ("Mac Mini", "MacBook Pro") are clearer and match how Brian talks about them.
+- **bhealth scheduling is "set-and-forget by design."** The original launchd plist used a two-window `StartCalendarInterval` (Sun 23:00 + Mon 07:00). That assumed Macs were merely *asleep* through one window (launchd does fire missed entries on wake). It did NOT cover Macs that are *powered off* through both windows — e.g. iMac fully shut down over a long weekend. The current design (RunAtLoad + daily 8am + `--ensure-weekly` guard) trades semantic precision ("Sunday night audit") for guaranteed delivery: whenever the Mac is online during any 6+ day gap, bhealth fires and the marker resets. If anyone ever wants to "fix" this back to Sunday-only scheduling, do not — read the 2026-05-25 session log first to understand the failure mode.
 
 ---
 
@@ -152,7 +190,16 @@ Large session. Built the full fleet audit capability and cleaned 5+ weeks of acc
 - **Vercel project:** b-hub-liard (brian-hechts-projects namespace)
 - **Deploy:** `git push origin main` → Vercel auto-deploys
 - **GitHub PAT:** stored at `~/Developer/B-Suite/.git-token` on each Mac (classic PAT, `repo` scope, expires ~June 2026)
-- **LaunchAgent:** `~/Library/LaunchAgents/com.bsuite.bsync.plist` (generated fresh on each Mac by `install-bsync.sh`)
+- **B Things API key (`API_SECRET`):** stored at `~/Developer/B-Suite/things-app/.env.local` on each Mac, gitignored. Pull from Vercel via `cd ~/Developer/B-Suite/things-app && vercel env pull .env.local` if missing. Used by the `weekly-fleet-audit-check` scheduled task to authenticate to `https://things-app-gamma.vercel.app/api/add-task`.
+- **LaunchAgents (per Mac):**
+  - `~/Library/LaunchAgents/com.bsuite.bsync.plist` — hourly auto-pull (generated fresh by `install-bsync.sh`)
+  - `~/Library/LaunchAgents/com.bsuite.bhealth.plist` — weekly auto-audit, RunAtLoad + daily 8am, `--ensure-weekly` mode (generated fresh by `install-bhealth.sh`)
+- **Marker files (per Mac, outside any git repo, BSUITE_DIR root):**
+  - `~/Developer/B-Suite/.git-token` — PAT
+  - `~/Developer/B-Suite/.bhealth-device` — human-readable device name
+  - `~/Developer/B-Suite/.bhealth-last-run-epoch` — Unix epoch of last successful bhealth run (drives `--ensure-weekly` guard)
+  - `~/Developer/B-Suite/.bsync-stdout.log` / `.bsync-stderr.log` — bsync launchd output
+  - `~/Developer/B-Suite/.bhealth-stdout.log` / `.bhealth-stderr.log` — bhealth launchd output
 - **Local B-Suite path (all 4 Macs):** `~/Developer/B-Suite/` — Desktop/B-Suite is deprecated everywhere
 
 ---
@@ -165,6 +212,12 @@ Large session. Built the full fleet audit capability and cleaned 5+ weeks of acc
 ---
 
 ## Session Log
+
+### 2026-05-25 — Fleet auto-audit pipeline closed (set-and-forget bhealth scheduling)
+- **What shipped:** New `install-bhealth.sh` in bhub (commits `595abb3` then `1a56fb7`). `bhealth.sh` gained `--ensure-weekly` mode with 6-day idempotence guard via `$BSUITE_DIR/.bhealth-last-run-epoch`. LaunchAgent design: `RunAtLoad: true` + `StartCalendarInterval` daily at 8am, replacing the original Sun 23:00 + Mon 07:00 two-window approach (which couldn't cover powered-off Macs). `weekly-fleet-audit-check` scheduled task updated: loads `API_SECRET` from `~/Developer/B-Suite/things-app/.env.local`, loud-fails on missing key, added Infra-alert line for >8-day-stale reports, uses `git --no-optional-locks` in live-verify step. Mini/MBP/Air all installed today with fresh `.health/<device>-2026-05-25.json` reports committed. Master handoff path auto-healed on all three (was `~/Desktop/B-Suite/` from a pre-March-12 entry). Cleaned two Mini orphan files: `things-app/vite.config.js.timestamp-*.mjs` (Vite crash artifact) and `b-resources/src/pages/Inbox.jsx` (dead code from commit `9b6a733`'s refactor). Air also got the long-pending bsync fix from `a31e24a`.
+- **Known issues:** iMac still pending — needs the office-visit one-liner. Observed one transient false-positive on `check_git_auth` (push --dry-run failed then immediately succeeded with same token); if it recurs on a scheduled launchd run, wrap with 3x retry. Self-referential "1 modified" flag on bhub when bhealth writes a fresh report and audits it in the same pass — cosmetic. Also: bsync's hourly auto-pull silently reverted unstaged bhub HANDOFF.md edits during this very session (autostash-pop conflict on the rebase); fix is to commit Cowork edits to bhub immediately rather than leaving them unstaged for any stretch.
+- **Next:** Brian runs the emailed iMac one-liner at the office. After that, fleet is fully autonomous. Next Monday's `weekly-fleet-audit-check` task in B Things will be the first end-to-end validation.
+
 
 ### 2026-05-08 — create-content skill v1.2.0 + v1.3.0 (anti-AI-tell rules + workflow refactor)
 - **What shipped:** Two consecutive bumps to `skills/src/create-content-SKILL.md` and `skills/src/create-content-references/style-guide.md`, with `.skill` repackaged and `skills-manifest.json` updated each time. v1.2.0 (commit `8ba2e80`) added the negation-pivot kicker anti-pattern to style-guide.md §9 (Construction anti-patterns). v1.3.0 (commit `3a729f3`) refactored the SKILL.md workflow contract: new Step 1.5 (voice exemplar pin), Step 4 reframed with Path A as explicit default + multi-section scaffolding rule + Path B scope confirmation, new PRE-DELIVERY CHECKLIST section with 5 checks (negation-pivot, magazine-piece framing, stock-phrase slop, accuracy, verbatim test). style-guide.md gained companion entries for magazine-piece framing and stock-phrase slop alongside negation-pivot.
