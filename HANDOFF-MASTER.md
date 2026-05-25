@@ -251,7 +251,7 @@ Brian uses three machines. B-Suite folder location may vary by device — confir
 
 - **MacBook Pro** — primary dev machine. B-Suite path: `~/Developer/B-Suite/` *(freshly cloned March 20, 2026 — replaced B-Suite-Clean which no longer exists)*
 - **MacBook Air** — B-Suite path: `~/Desktop/B-Suite/` (healthy, unaffected by iCloud issue)
-- **Mac Mini** — B-Suite path: `~/Desktop/B-Suite/` (healthy, unaffected by iCloud issue)
+- **Mac Mini** — B-Suite path: `~/Developer/B-Suite` (healthy, unaffected by iCloud issue)
 
 ---
 
