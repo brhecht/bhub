@@ -99,11 +99,12 @@
       "expert": "unknown",
       "hc-strategy": "unknown",
       "tnb-strategy": "unknown",
-      "last_synced": "2026-04-18",
+      "last_synced": "2026-05-25",
       "pm": "unknown",
       "create-content": "unknown",
       "priority-startup-intel": "unknown",
-      "bhealth_version": "1.0.0"
+      "bhealth_version": "1.0.0",
+      "frontend-design": "unknown"
     },
     "Mac Mini": {
       "comms": "unknown",
