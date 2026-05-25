@@ -3,14 +3,20 @@
 #
 # What it does:
 #   1. Figures out where B-Suite actually lives on THIS Mac (no hardcoded paths)
-#   2. Generates a LaunchAgent that runs bhealth.sh weekly (Sun 11pm + Mon 7am catch-up)
+#   2. Generates a LaunchAgent that runs bhealth.sh in --ensure-weekly mode:
+#      - RunAtLoad: fires on every login/boot (so opening a closed laptop or
+#        powering on a desktop triggers a check immediately)
+#      - StartCalendarInterval: also fires daily at 8:00 AM
 #   3. Installs it to ~/Library/LaunchAgents/ and loads it
 #   4. Verifies it's running
 #
-# The two-window schedule is intentional: macOS launchd fires the next eligible
-# StartCalendarInterval entry when the Mac wakes from sleep, so Mon 7am catches
-# Macs that were asleep Sunday night. The Monday reader scheduled task fires
-# 8:04 AM, so reports are fresh.
+# Why this schedule:
+#   bhealth's --ensure-weekly flag checks $BSUITE_DIR/.bhealth-last-run-epoch.
+#   If a successful run happened within the last 6 days, it exits silently.
+#   Otherwise it runs and updates the marker. So firing daily-plus-on-boot
+#   is cheap (most invocations are no-ops) and guarantees a fresh report
+#   lands in bhub the first time the Mac is online during any given week —
+#   even if the Mac was completely off through any specific scheduled time.
 #
 # Safe to re-run at any time — unloads any existing copy before installing fresh.
 #
@@ -77,7 +83,7 @@ cat > "$PLIST_PATH" <<EOF
     <array>
         <string>/bin/bash</string>
         <string>$BHEALTH_SH</string>
-        <string>--quiet</string>
+        <string>--ensure-weekly</string>
     </array>
     <key>EnvironmentVariables</key>
     <dict>
@@ -88,25 +94,15 @@ cat > "$PLIST_PATH" <<EOF
         <key>PATH</key>
         <string>/opt/homebrew/bin:/usr/local/bin:$HOME/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
     </dict>
+    <key>RunAtLoad</key>
+    <true/>
     <key>StartCalendarInterval</key>
-    <array>
-        <dict>
-            <key>Weekday</key>
-            <integer>0</integer>
-            <key>Hour</key>
-            <integer>23</integer>
-            <key>Minute</key>
-            <integer>0</integer>
-        </dict>
-        <dict>
-            <key>Weekday</key>
-            <integer>1</integer>
-            <key>Hour</key>
-            <integer>7</integer>
-            <key>Minute</key>
-            <integer>0</integer>
-        </dict>
-    </array>
+    <dict>
+        <key>Hour</key>
+        <integer>8</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
     <key>StandardOutPath</key>
     <string>$LOG_STDOUT</string>
     <key>StandardErrorPath</key>
@@ -126,15 +122,16 @@ if launchctl list 2>/dev/null | grep -q com.bsuite.bhealth; then
   echo ""
   echo "✅ bhealth is installed on this Mac."
   echo ""
-  echo "   Schedule:   Sunday 11:00 PM + Monday 7:00 AM (catch-up if Sun missed)"
+  echo "   Schedule:   On every login/boot + daily at 8:00 AM (--ensure-weekly mode)"
+  echo "               Runs only if > 6 days since last successful run, else exits silently."
   echo "   Reader:     Monday 8:04 AM (weekly-fleet-audit-check scheduled task)"
   echo "   Log output: $LOG_STDOUT"
   echo "   Log errors: $LOG_STDERR"
   echo ""
-  echo "   To kick off a test run right now (optional):"
-  echo "     launchctl start com.bsuite.bhealth"
-  echo "   Or run manually:"
+  echo "   To force a run right now (ignores the 6-day guard):"
   echo "     bash $BHEALTH_SH"
+  echo "   To trigger the agent itself (respects the guard):"
+  echo "     launchctl start com.bsuite.bhealth"
 else
   echo ""
   echo "⚠️  Install wrote the config but the LaunchAgent isn't loaded."

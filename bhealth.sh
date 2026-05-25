@@ -30,9 +30,31 @@ BSUITE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 MANIFEST="$SCRIPT_DIR/skills/skills-manifest.json"
 TOKEN_FILE="$BSUITE_DIR/.git-token"
 DEVICE_FILE="$BSUITE_DIR/.bhealth-device"
+LAST_RUN_FILE="$BSUITE_DIR/.bhealth-last-run-epoch"
 HEALTH_DIR="$SCRIPT_DIR/.health"
 TODAY="$(date '+%Y-%m-%d')"
 TIMESTAMP_UTC="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+
+# --ensure-weekly: idempotence guard for launchd-driven daily firings.
+# If a successful run happened in the last 6 days, exit silently. Otherwise
+# fall through into a normal --quiet run and let it complete + update the
+# marker. Manual runs (no flag or --quiet/--dry-run) ignore this guard and
+# always execute — but any successful run updates the marker, so a manual
+# run also satisfies the weekly requirement.
+SIX_DAYS=518400  # 6 * 86400
+if [[ "$MODE" == "--ensure-weekly" ]]; then
+  NOW_EPOCH="$(date +%s)"
+  if [[ -f "$LAST_RUN_FILE" ]]; then
+    LAST_EPOCH="$(cat "$LAST_RUN_FILE" 2>/dev/null || echo 0)"
+    AGE=$(( NOW_EPOCH - LAST_EPOCH ))
+    if [[ $AGE -lt $SIX_DAYS ]]; then
+      # Already ran successfully within the last 6 days. Nothing to do.
+      exit 0
+    fi
+  fi
+  # Stale or never-run — proceed silently as a launchd job.
+  MODE="--quiet"
+fi
 
 # Repo registry — single source of truth for fleet composition
 REPOS=(
@@ -580,6 +602,7 @@ PYEOF
 # ============================================================================
 
 commit_push() {
+  COMMIT_PUSH_OK="false"
   [[ "$MODE" == "--dry-run" ]] && return
   [[ "$GIT_AUTH_OK" != "true" ]] && { say "${WARN} Skipping commit — git auth not verified"; return; }
 
@@ -591,15 +614,26 @@ commit_push() {
   git add ".health/" "skills/skills-manifest.json" "HANDOFF-MASTER.md" 2>/dev/null
   if git diff --cached --quiet 2>/dev/null; then
     say "${INFO} No changes to commit"
+    # Nothing to commit means local + remote are consistent — counts as a
+    # successful run for the weekly idempotence marker.
+    COMMIT_PUSH_OK="true"
     return
   fi
 
   local msg="bhealth: ${DEVICE_NAME} audit ${TODAY} — ${#REPORT_ACTIONS[@]} auto-heals, ${#REPORT_FLAGS[@]} flags"
   if git commit -m "$msg" >/dev/null 2>&1 && git push origin main >/dev/null 2>&1; then
     say "${OK} Committed + pushed: $msg"
+    COMMIT_PUSH_OK="true"
   else
     say "${WARN} Commit or push failed — check git status"
   fi
+}
+
+# Update the weekly marker after a successful commit_push so the daily
+# launchd firing can skip until > 6 days have passed.
+update_weekly_marker() {
+  [[ "${COMMIT_PUSH_OK:-false}" == "true" ]] || return
+  date +%s > "$LAST_RUN_FILE" 2>/dev/null || true
 }
 
 # ============================================================================
@@ -647,4 +681,5 @@ check_tools
 check_master_handoff
 write_report
 commit_push
+update_weekly_marker
 final_summary
