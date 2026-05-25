@@ -86,8 +86,8 @@ If the session will involve building an app, check if `node_modules` exists in t
 ---
 
 ## B Things (Personal Task Manager)
-**Status:** Active, fully functional, two-way messaging live
-**Last updated:** March 9, 2026
+**Status:** Active, fully functional. Per-project viewer hiding live. Content sync removed.
+**Last updated:** May 25, 2026
 **Location:** things-app/
 **Live URL:** https://things-app-gamma.vercel.app
 **Key context:**
@@ -95,7 +95,9 @@ If the session will involve building an app, check if `node_modules` exists in t
 - **Two-way messaging** between Brian and Nico via NoteThread (iMessage-style chat on each task)
 - @brian → Slack DM to Brian. @nico → Brain Inbox Slack channel + Firestore
 - **Slack → task creation:** Nico sends `title --notes message` in Slack → creates task in "From Nico" project with NoteThread message
-- Viewer mode for Nico (can view tasks + send/receive messages)
+- Viewer mode for Nico (read-write — upgraded March 16)
+- **Per-project "Hide from Viewer" (May 25):** Owner can mark a project hidden; store filters projects + their tasks when `isViewer === true`. UI-only filter (Nico still has Firestore-level access — explicitly accepted trade-off). Hover-revealed eye toggle in sidebar; italic-gray + persistent eye-off on hidden projects in owner's view.
+- **Content Calendar → B Things daily sync REMOVED (May 25):** `vercel.json` cron and `api/content-today.js` deleted. Brian doesn't want auto-pushed content cards anymore. Previously-synced tasks remain as regular B Things tasks.
 - Notification proxy at `/api/notify` (replaced `/api/notify-nico`)
 - Firebase project: `b-things`
 
@@ -104,16 +106,18 @@ If the session will involve building an app, check if `node_modules` exists in t
 ---
 
 ## Content Calendar
-**Status:** Active, fully functional
-**Last updated:** March 7, 2026
+**Status:** Active, fully functional. Podcast content type live.
+**Last updated:** May 25, 2026
 **Location:** content-calendar/
 **Live URL:** https://content-calendar-nine.vercel.app/
 **Key context:**
-- Manages content across YouTube Videos, YouTube Shorts, LinkedIn, Beehiiv newsletters
-- 11-stage pipeline from Ghost → Published with auto-archiving
-- Vercel serverless proxies for Beehiiv and YouTube APIs
-- **NoteThread chat system** (added March 7): iMessage-style threaded messaging on each card, replacing the old plain-text notes field. Messages stored in `contentCards/{cardId}/messages` subcollection. Bi-directional @mention notifications via Slack DM + Brain Inbox. Unread indicators on cards. User registry in `src/users.js`. Legacy notes auto-migrate as first message.
-- **handoff-notify endpoint** (brain-inbox) updated to route notifications to any user by email — not just Nico. Resolves Firebase UID at runtime via Admin Auth.
+- **5 first-class content types:** YouTube Videos, YouTube Shorts, LinkedIn, Substack (slug `beehiiv` retained for data continuity), **Podcast** (added May 25 — violet, 🎙).
+- Podcast cards are multi-platform from day one: YouTube primary (with full yt-video field set), Audio for Apple+Spotify via Riverside RSS (separate title/description that default to YT but are independently editable + Riverside episode URL), structured Guests (name/title/LinkedIn URL, default 1 with +Add), Distribution checklist (YT/Apple/Spotify default + Add platform; YT auto-checks when card status hits Published).
+- **15-stage pipeline:** ghost → task → idea → reached-out → booked → recorded → draft → ready-to-edit → ready-to-review → ready-to-stage → staged → approved → scheduled → published. `on-hold` parked at end (May 25 reordering).
+- Auto-archive on publish; round-trip works in both directions.
+- Vercel serverless proxies for Beehiiv (archive enrichment) and YouTube APIs. Podcast cards do NOT auto-match (Brian doesn't track per-platform podcast performance).
+- **NoteThread chat system:** iMessage-style threaded messaging on each card. Messages stored in `contentCards/{cardId}/messages` subcollection. Bi-directional @mention notifications via Slack DM + Brain Inbox.
+- **Substack is canonical** for newsletter delivery; Beehiiv usage is archival reference only (historical cards retain the slug for data continuity, but every display label reads "Substack").
 
 **Shared resources:** Firebase project `b-things`. AppSwitcher component.
 
