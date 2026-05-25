@@ -13,9 +13,9 @@ This skill manages project continuity across devices and Cowork sessions. It use
 
 ## Architecture: What Lives Where
 
-- **`HANDOFF-MASTER.md`** lives in **bhub** repo root. Cross-session index summarizing every app's status. **Auto-generated** from per-app handoffs — never hand-edited.
-- **Per-app `HANDOFF.md`** files live in each repo's root. Full detail on one app.
-- **`bsync.sh`** lives in **bhub** repo root. The single bootstrap command.
+- **`HANDOFF-MASTER.md`** lives in the **private `bsuite-handoffs`** repo root. Cross-session index summarizing every app's status. **Auto-generated** from per-app handoffs — never hand-edited.
+- **Per-app `HANDOFF.md`** files live in **private `bsuite-handoffs/<app>/HANDOFF.md`**. They do NOT live inside individual app repos — that pattern leaked strategy/architecture from every public app repo until May 25, 2026 when everything was migrated to this dedicated private home.
+- **`bsync.sh`** lives in **bhub** repo root. The single bootstrap command. (Stays in bhub because it's deploy infrastructure, not strategy — safe even though bhub is public.)
 - **GitHub is the source of truth**, not the mounted drive.
 
 ## B-Suite Repo Registry
@@ -92,18 +92,25 @@ This is the session bootstrap. The protocol is **two-phase, lazy by design**: fi
 
 #### Phase 1 — Light bootstrap (always)
 
-**Step 1.1: Pull a fresh bhub to `/tmp/`**
+**Step 1.1: Pull a fresh `bhub` AND `bsuite-handoffs` to `/tmp/`**
 
-Always pull bhub from GitHub fresh — never trust the mount's copy. The mount may be stale.
+Always pull both from GitHub fresh — never trust the mount's copies. The mount may be stale. `bhub` carries `bsync.sh` (and is public); `bsuite-handoffs` carries `HANDOFF-MASTER.md` and every per-app `HANDOFF.md` (and is private).
 
 ```bash
-rm -rf /tmp/bhub-bootstrap 2>/dev/null
+rm -rf /tmp/bhub-bootstrap /tmp/bsuite-handoffs-bootstrap 2>/dev/null
 git clone --depth 1 https://github.com/brhecht/bhub.git /tmp/bhub-bootstrap 2>/dev/null
+# Use stored PAT for the private handoffs repo
+TOKEN=$(cat ~/.git-credentials 2>/dev/null | grep -oE 'brhecht:[^@]+@github\.com' | head -1 | cut -d: -f2 | cut -d@ -f1)
+git clone --depth 1 "https://brhecht:${TOKEN}@github.com/brhecht/bsuite-handoffs.git" /tmp/bsuite-handoffs-bootstrap 2>/dev/null
 ```
+
+If the PAT isn't yet configured in this session, run git auto-config (Step 1 of Session Bootstrap Protocol in the master) first, then retry the clone.
 
 **Step 1.2: Read the lean master**
 
-Read `HANDOFF-MASTER.md` from `/tmp/bhub-bootstrap/`. This is a **lean cross-app reference** (~17KB): apps index, dependencies, UX/comms rules, device registry, fleet ops. Do NOT read `HANDOFF-HISTORY.md` here — it's a chronological journal (~17KB of past changes) and is only relevant if the user asks about something old or you need to reconstruct context for a recent change. Per-app deep status lives in each repo's own `HANDOFF.md` (read on demand in Phase 2).
+Read `HANDOFF-MASTER.md` from `/tmp/bsuite-handoffs-bootstrap/`. This is a **lean cross-app reference** (~17KB): apps index, dependencies, UX/comms rules, device registry, fleet ops. Per-app deep status lives in `/tmp/bsuite-handoffs-bootstrap/<app>/HANDOFF.md` (read on demand in Phase 2).
+
+**Migration note:** Before May 25, 2026, `HANDOFF-MASTER.md` lived in `bhub` and per-app `HANDOFF.md` files lived inside each app's own repo. They were moved to the private `bsuite-handoffs` repo because every public app repo was leaking strategy/architecture content. If you ever see a stub HANDOFF in an app repo pointing here, that's the migration artifact — read the real file from `bsuite-handoffs`.
 
 **Step 1.3: Determine target app**
 
@@ -120,6 +127,8 @@ For sessions that touch multiple apps, you can pass a comma-separated list to bs
 ```bash
 BSUITE_DIR="<mounted-bsuite-path>" bash /tmp/bhub-bootstrap/bsync.sh --app=<app1>,<app2>
 ```
+
+(`bsync.sh` already knows about `bsuite-handoffs` — it will clone it alongside the scoped apps and read per-app HANDOFFs from there.)
 
 This pulls only bhub + the listed app(s), checks all skills, and skips the mount-sync step. Typical wall time: 8-15 seconds vs 30-45 for the full sync.
 
@@ -251,19 +260,20 @@ Things that need the user's input before proceeding.
 - If a section has nothing to report, write "None" — don't omit the section.
 - Always amend the existing `HANDOFF.md` in place. Never create date-stamped copies.
 - When amending, update the "Last updated" timestamp and revise all sections to reflect current state. Don't just append — the file should read as a clean, current snapshot. But preserve the Session Log section — stamps are historical.
-- After writing, commit and push the handoff file to git.
+- **Write to `bsuite-handoffs/<app>/HANDOFF.md`, NOT to the app repo.** As of May 25, 2026, every per-app handoff lives in the private `bsuite-handoffs` repo to prevent strategy/architecture leaks from public app repos.
+- After writing, commit and push the handoff file to `bsuite-handoffs` (not to the app repo).
 
 #### Multi-app sessions
 
-If you touched multiple repos during the session, hand off ALL of them. Track which repos you modified and update each one's HANDOFF.md.
+If you touched multiple repos during the session, hand off ALL of them. Track which repos you modified and update each one's HANDOFF.md inside `bsuite-handoffs/<app>/HANDOFF.md`.
 
 #### Master update (mandatory — part of every handoff away)
 
 After writing per-app handoffs, ALWAYS rebuild the master:
 
-1. Read `HANDOFF-MASTER.md` from bhub
+1. Read `HANDOFF-MASTER.md` from `bsuite-handoffs`
 2. For each app you're handing off: update its section with current status, date, and key context
-3. Commit and push bhub
+3. Commit and push `bsuite-handoffs`
 
 This is part of every "handoff away" — not a separate step. If the master update fails, tell the user explicitly.
 

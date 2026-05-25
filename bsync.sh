@@ -75,10 +75,11 @@ REPOS=(
   "tnb-website:brhecht/tnb-website"
   "pitch-scorer:brhecht/pitch-scorer"
   "builder-bot:brhecht/builder-bot"
+  "bsuite-handoffs:brhecht/bsuite-handoffs"
 )
 
-# Skip deep handoff check on dormant/archived repos
-SKIP_HANDOFF_CHECK="pitch-scorer b-marketing hc-strategy"
+# Skip deep handoff check on dormant/archived repos and on the handoffs repo itself
+SKIP_HANDOFF_CHECK="pitch-scorer b-marketing hc-strategy bsuite-handoffs"
 
 # Skills tracked in manifest
 TRACKED_SKILLS="handoff dev-deploy comms expert hc-strategy pm create-content frontend-design"
@@ -249,7 +250,17 @@ check_handoffs() {
       continue
     fi
 
-    local handoff_file="$repo_path/HANDOFF.md"
+    # HANDOFFs now live in a dedicated private repo (bsuite-handoffs)
+    # to avoid leaking strategy/architecture from any public app repo.
+    # See migration entry in bsuite-handoffs/HANDOFF-MASTER.md (May 25, 2026).
+    local handoffs_repo=""
+    if [[ -d "$WORK_DIR/bsuite-handoffs/.git" ]]; then
+      handoffs_repo="$WORK_DIR/bsuite-handoffs"
+    elif [[ -d "$BSUITE_DIR/bsuite-handoffs/.git" ]]; then
+      handoffs_repo="$BSUITE_DIR/bsuite-handoffs"
+    fi
+
+    local handoff_file="$handoffs_repo/$folder/HANDOFF.md"
     local handoff_exists="false"
     local handoff_date=""
     local handoff_commit_date=""
@@ -259,15 +270,20 @@ check_handoffs() {
     local recent_commits=""
     local stale="false"
 
-    if [[ -f "$handoff_file" ]]; then
+    if [[ -n "$handoffs_repo" && -f "$handoff_file" ]]; then
       handoff_exists="true"
       handoff_date=$(grep -i 'last updated' "$handoff_file" 2>/dev/null | head -1 | sed 's/.*[Ll]ast [Uu]pdated[: ]*//' | sed 's/\*.*//' | sed 's/~.*//' | xargs)
     fi
 
+    # Handoff commit date comes from the bsuite-handoffs repo
+    if [[ -n "$handoffs_repo" ]] && cd "$handoffs_repo" 2>/dev/null; then
+      handoff_commit_date=$(git log -1 --format="%ai" -- "$folder/HANDOFF.md" 2>/dev/null | cut -d' ' -f1)
+    fi
+
+    # App-code commit dates come from the app repo
     if cd "$repo_path" 2>/dev/null; then
       latest_commit_date=$(git log -1 --format="%ai" 2>/dev/null | cut -d' ' -f1)
       latest_commit_msg=$(git log -1 --format="%s" 2>/dev/null)
-      handoff_commit_date=$(git log -1 --format="%ai" -- HANDOFF.md 2>/dev/null | cut -d' ' -f1)
 
       if [[ -n "$handoff_commit_date" ]]; then
         commits_since_handoff=$(git log --oneline --after="$handoff_commit_date" 2>/dev/null | wc -l | xargs)
