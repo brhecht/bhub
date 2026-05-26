@@ -20,22 +20,31 @@ This skill manages project continuity across devices and Cowork sessions. It use
 
 ## B-Suite Repo Registry
 
-All repos live under `~/Developer/B-Suite/` (local, NOT iCloud). All are git repos under `github.com/brhecht/`.
+Most repos live under `~/Developer/B-Suite/` (local, NOT iCloud). All are git repos under `github.com/brhecht/`.
 
-| Repo folder | GitHub repo | App keywords (for auto-detection) |
-|-------------|------------|----------------------------------|
-| things-app | brhecht/things-app | things, tasks, kanban, task board |
-| brain-inbox | brhecht/brain-inbox | brain inbox, nico, b nico, nicoOS |
-| content-calendar | brhecht/content-calendar | content, calendar, content calendar, youtube, linkedin, beehiiv |
-| b-marketing | brhecht/b-marketing | marketing, b marketing |
-| b-people | brhecht/b-people | people, contacts, relationships, reach out, nudge, b people |
-| b-resources | brhecht/b-resources | resources, library, vault |
-| bhub | brhecht/bhub | hub, b hub, suite, master |
-| eddy | brhecht/eddy-tracker | eddy, tracker, course launch, gantt |
-| hc-funnel | brhecht/hc-funnel | funnel, quiz, ads, meta ads, landing page, pitch assessment |
-| hc-strategy | brhecht/hc-strategy | hc strategy (archived — superseded by tnb-strategy) |
-| tnb-strategy | brhecht/tnb-strategy | tnb, the new builder, tnb strategy, new builder strategy, war room (private — Brian only) |
-| pitch-scorer | brhecht/pitch-scorer | pitch scorer (archived) |
+A few "sibling" repos live alongside B-Suite directly under `~/Developer/` (not inside `B-Suite/`). They're enrolled in the same fleet audit — bsync pulls them, checks handoff freshness, and warns on drift — but they live one directory up to keep them visually separate from the core B-Suite product fleet.
+
+| Repo folder | GitHub repo | Location | App keywords (for auto-detection) |
+|-------------|------------|----------|----------------------------------|
+| things-app | brhecht/things-app | B-Suite | things, tasks, kanban, task board |
+| brain-inbox | brhecht/brain-inbox | B-Suite | brain inbox, nico, b nico, nicoOS |
+| content-calendar | brhecht/content-calendar | B-Suite | content, calendar, content calendar, youtube, linkedin, beehiiv |
+| b-marketing | brhecht/b-marketing | B-Suite | marketing, b marketing |
+| b-people | brhecht/b-people | B-Suite | people, contacts, relationships, reach out, nudge, b people |
+| b-resources | brhecht/b-resources | B-Suite | resources, library, vault |
+| bhub | brhecht/bhub | B-Suite | hub, b hub, suite, master |
+| eddy | brhecht/eddy-tracker | B-Suite | eddy, tracker, course launch, gantt |
+| hc-funnel | brhecht/hc-funnel | B-Suite | funnel, quiz, ads, meta ads, landing page, pitch assessment |
+| hc-strategy | brhecht/hc-strategy | B-Suite | hc strategy (archived — superseded by tnb-strategy) |
+| tnb-strategy | brhecht/tnb-strategy | B-Suite | tnb, the new builder, tnb strategy, new builder strategy, war room (private — Brian only) |
+| hc-website | brhecht/hc-website | B-Suite | hc website, humble conviction website |
+| tnb-website | brhecht/tnb-website | B-Suite | tnb website, the new builder website, thenewbuilder.ai |
+| pitch-scorer | brhecht/pitch-scorer | B-Suite | pitch scorer (archived) |
+| builder-bot | brhecht/builder-bot | B-Suite | builder bot |
+| bsuite-handoffs | brhecht/bsuite-handoffs | B-Suite | bsuite handoffs (central handoff store — May 25 migration) |
+| muscle-anatomy | brhecht/muscle-anatomy | ~/Developer (sibling) | muscle anatomy, anatomy reference, physical therapy reference |
+| saturn-v-anatomy | brhecht/saturn-v-anatomy | ~/Developer (sibling) | saturn v, saturn-v, saturn v anatomy, rocket anatomy |
+| B-Personal | brhecht/b-personal | ~/Developer (sibling) | b-personal, b personal |
 
 ## B-Suite Device Setup Protocol
 
@@ -54,7 +63,7 @@ Walk the user through these steps. They should not need to touch terminal except
 mkdir -p ~/Developer/B-Suite
 ```
 2. Go to github.com/settings/tokens → Generate new token (classic) → name "B-Suite Cowork" → check `repo` scope → set expiration (90 days recommended)
-3. Copy the token and paste this block in Terminal (replacing YOUR_TOKEN):
+3. Copy the token and paste this block in Terminal (replacing YOUR_TOKEN). Clones the B-Suite repos into `~/Developer/B-Suite/` and the sibling repos one level up under `~/Developer/`:
 ```bash
 cd ~/Developer/B-Suite && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/things-app.git && \
@@ -68,8 +77,17 @@ git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/b-resources.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/pitch-scorer.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/hc-funnel.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/hc-strategy.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/hc-website.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/tnb-website.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/tnb-strategy.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/builder-bot.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/bsuite-handoffs.git && \
 echo "YOUR_TOKEN" > .git-token && \
-echo "Done — all 11 repos cloned and token saved"
+cd ~/Developer && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/muscle-anatomy.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/saturn-v-anatomy.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/b-personal.git B-Personal && \
+echo "Done — all repos cloned (B-Suite fleet + 3 siblings) and token saved"
 ```
 4. Revoke the PAT at github.com/settings/tokens (token is saved in .git-token for Cowork to use)
 5. Mount `~/Developer/B-Suite` in Cowork

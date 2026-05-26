@@ -58,7 +58,9 @@ TOKEN_FILE="$BSUITE_DIR/.git-token"
 LOG_FILE="$BSUITE_DIR/.bsync-log"
 OUTPUT_FILE="$WORK_DIR/bsync-report.json"
 
-# Repo registry: folder:github-repo
+# Repo registry: folder:github-repo[:base-relative-to-BSUITE_DIR]
+# Default base is "." (repo lives at $BSUITE_DIR/$folder). Use ".." for sibling
+# repos that live alongside B-Suite under ~/Developer/ (not inside B-Suite/).
 REPOS=(
   "things-app:brhecht/things-app"
   "brain-inbox:brhecht/brain-inbox"
@@ -76,7 +78,52 @@ REPOS=(
   "pitch-scorer:brhecht/pitch-scorer"
   "builder-bot:brhecht/builder-bot"
   "bsuite-handoffs:brhecht/bsuite-handoffs"
+  # Sibling repos under ~/Developer/ (alongside B-Suite/, not inside it)
+  "muscle-anatomy:brhecht/muscle-anatomy:.."
+  "saturn-v-anatomy:brhecht/saturn-v-anatomy:.."
+  "B-Personal:brhecht/b-personal:.."
 )
+
+# Helper: resolve the local mount path for a repo entry.
+# Entry format: folder:github[:base_rel]. Default base_rel = "." (use $BSUITE_DIR
+# as-is); ".." places the repo alongside B-Suite under ~/Developer/.
+# Echoes the absolute path with .. resolved.
+repo_dir_for() {
+  local entry="$1"
+  local folder rest base_rel
+  folder="${entry%%:*}"
+  rest="${entry#*:}"           # strip folder
+  # github is always second field; we don't need it here
+  if [[ "$rest" == *:* ]]; then
+    base_rel="${rest##*:}"
+  else
+    base_rel="."
+  fi
+  if [[ "$base_rel" == "." ]]; then
+    echo "$BSUITE_DIR/$folder"
+  elif [[ "$base_rel" == ".." ]]; then
+    # Sibling repo under ~/Developer/ (alongside B-Suite, not inside it).
+    # On host, BSUITE_DIR=~/Developer/B-Suite so the sibling is at $(dirname BSUITE_DIR)/$folder.
+    # In Cowork, folders are mounted flat at /sessions/.../mnt/, so the sibling
+    # lives at $(dirname BSUITE_DIR)/Developer/$folder (when Developer is mounted).
+    local parent
+    parent="$(dirname "$BSUITE_DIR")"
+    if [[ -d "$parent/Developer/$folder/.git" ]]; then
+      echo "$parent/Developer/$folder"
+    else
+      echo "$parent/$folder"
+    fi
+  else
+    echo "$BSUITE_DIR/$base_rel/$folder"
+  fi
+}
+
+# Helper: extract github "owner/repo" from an entry (handles 2- or 3-field form).
+github_for() {
+  local entry="$1"
+  local rest="${entry#*:}"      # strip folder → "github[:base]"
+  echo "${rest%%:*}"
+}
 
 # Skip deep handoff check on dormant/archived repos and on the handoffs repo itself
 SKIP_HANDOFF_CHECK="pitch-scorer b-marketing hc-strategy bsuite-handoffs"
@@ -144,7 +191,7 @@ pull_one_repo() {
   local folder="$1"
   local github="$2"
   local out_file="$3"
-  local repo_dir="$BSUITE_DIR/$folder"
+  local repo_dir="$4"
   local status="skipped"
   local detail=""
   local path="$repo_dir"
@@ -196,9 +243,10 @@ pull_repos() {
   local pids=()
   for entry in "${REPOS[@]}"; do
     local folder="${entry%%:*}"
-    local github="${entry##*:}"
+    local github="$(github_for "$entry")"
+    local repo_dir="$(repo_dir_for "$entry")"
     is_app_in_scope "$folder" || continue
-    pull_one_repo "$folder" "$github" "$frag_dir/${folder}.json" &
+    pull_one_repo "$folder" "$github" "$frag_dir/${folder}.json" "$repo_dir" &
     pids+=($!)
   done
 
@@ -230,7 +278,7 @@ check_handoffs() {
   local first="true"
   for entry in "${REPOS[@]}"; do
     local folder="${entry%%:*}"
-    local github="${entry##*:}"
+    local github="$(github_for "$entry")"
 
     # Skip dormant repos
     if echo "$SKIP_HANDOFF_CHECK" | grep -qw "$folder"; then
@@ -244,8 +292,8 @@ check_handoffs() {
     local repo_path=""
     if [[ -d "$WORK_DIR/$folder/.git" ]]; then
       repo_path="$WORK_DIR/$folder"
-    elif [[ -d "$BSUITE_DIR/$folder/.git" ]]; then
-      repo_path="$BSUITE_DIR/$folder"
+    elif [[ -d "$(repo_dir_for "$entry")/.git" ]]; then
+      repo_path="$(repo_dir_for "$entry")"
     else
       continue
     fi
@@ -428,7 +476,7 @@ sync_mount_to_origin() {
   for entry in "${REPOS[@]}"; do
     local folder="${entry%%:*}"
     is_app_in_scope "$folder" || continue
-    local repo_dir="$BSUITE_DIR/$folder"
+    local repo_dir="$(repo_dir_for "$entry")"
     [[ ! -d "$repo_dir/.git" ]] && continue
     cd "$repo_dir" 2>/dev/null || continue
 
