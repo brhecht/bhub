@@ -18,6 +18,23 @@ This skill manages project continuity across devices and Cowork sessions. It use
 - **`bsync.sh`** lives in **bhub** repo root. The single bootstrap command. (Stays in bhub because it's deploy infrastructure, not strategy — safe even though bhub is public.)
 - **GitHub is the source of truth**, not the mounted drive.
 
+## Reading B-Suite App DATA from Cowork (canonical — do NOT reach Firestore directly)
+
+**Never query Firestore from the Cowork sandbox.** Two hard failures make it a dead end (confirmed June 8, 2026, after ~5 min of circling):
+1. `firebase-admin` uses gRPC; the channel handshake alone exceeds the **45s bash cap**, so every direct read times out.
+2. On-disk service-account keys (e.g. `B-Suite/b-things-service-account.json`) go **stale on rotation** — the live key only ever lives in Vercel env. A rotated key returns `Invalid JWT Signature`, so even the fast REST path can't auth.
+
+**Instead, read through the app's own Vercel backend over HTTPS.** The serverless functions already hold the live `FIREBASE_SERVICE_ACCOUNT` and authenticate with `API_SECRET` — one `curl`, sub-second, immune to key rotation forever.
+
+**B Things read endpoint** (`things-app/api/tasks.js`, shipped June 8, 2026):
+```bash
+KEY=$(cat "$BSUITE_DIR/.bthings-key")   # API_SECRET, stored once per device alongside .git-token
+curl -s -H "x-api-key: $KEY" \
+  "https://things-app-gamma.vercel.app/api/tasks?bucket=today&starred=1"
+# params: bucket, starred(1/0), completed(default 0=open), project, limit. Returns {ok,count,tasks:[...]}.
+```
+If `.bthings-key` is missing on a device, get `API_SECRET` from Vercel → things-app → Settings → Env Vars (or the iOS "B Thing" Shortcut's `x-api-key`) and write it to `B-Suite/.bthings-key` once. **When `API_SECRET` is rotated, update `.bthings-key` too** (add it to the rotation runbook). This same read-through-the-backend pattern is the template for every other B-Suite app.
+
 ## B-Suite Repo Registry
 
 Most repos live under `~/Developer/B-Suite/` (local, NOT iCloud). All are git repos under `github.com/brhecht/`.
@@ -117,12 +134,15 @@ Always pull both from GitHub fresh — never trust the mount's copies. The mount
 ```bash
 rm -rf /tmp/bhub-bootstrap /tmp/bsuite-handoffs-bootstrap 2>/dev/null
 git clone --depth 1 https://github.com/brhecht/bhub.git /tmp/bhub-bootstrap 2>/dev/null
-# Use stored PAT for the private handoffs repo
-TOKEN=$(cat ~/.git-credentials 2>/dev/null | grep -oE 'brhecht:[^@]+@github\.com' | head -1 | cut -d: -f2 | cut -d@ -f1)
+# Source the PAT from .git-token in the mount root — it is ALWAYS present at
+# bootstrap time. (~/.git-credentials is NOT populated until git auto-config runs
+# in Phase 2, so reading from it here fails the first clone — the May-2026 bug.)
+TOKEN=$(cat "$BSUITE_DIR/.git-token" 2>/dev/null | tr -d '\n')
+[ -z "$TOKEN" ] && TOKEN=$(cat ~/.git-credentials 2>/dev/null | grep -oE 'brhecht:[^@]+@github\.com' | head -1 | cut -d: -f2 | cut -d@ -f1)
 git clone --depth 1 "https://brhecht:${TOKEN}@github.com/brhecht/bsuite-handoffs.git" /tmp/bsuite-handoffs-bootstrap 2>/dev/null
 ```
 
-If the PAT isn't yet configured in this session, run git auto-config (Step 1 of Session Bootstrap Protocol in the master) first, then retry the clone.
+`$BSUITE_DIR` is the mounted B-Suite path (e.g. the Cowork mount). If the clone still fails, the PAT in `.git-token` is expired — generate a new classic PAT (`repo` scope) and overwrite `.git-token`.
 
 **Step 1.2: Read the lean master**
 
