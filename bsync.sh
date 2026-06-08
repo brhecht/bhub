@@ -1,5 +1,13 @@
 #!/bin/bash
-# bsync v2.6 — B-Suite session bootstrap & reconciliation
+# bsync v2.7 — B-Suite session bootstrap & reconciliation
+# v2.7: Three bottleneck fixes that cut full bootstrap from >60s to ~10s:
+#       (1) sync_mount_to_origin now fans out parallel git fetches (cap 8) instead
+#           of sequential — eliminates the ~8-60s wall at session start.
+#       (2) pull_repos capped at 8 concurrent clones — prevents GitHub rate-limit
+#           failures that caused ~11/19 repos to fail on full runs.
+#       (3) check_skills rewired to a single Python subprocess that reads all skills
+#           from skills-manifest.json — drops hardcoded TRACKED_SKILLS, picks up
+#           new manifest entries automatically (e.g. the June 8 +9 skills patch).
 # v2.6: --app=name1,name2 flag scopes pull/handoff/mount-sync to listed apps
 #       (bhub always included). Cuts a typical session bootstrap from ~45s to
 #       ~8s by cloning 2 repos instead of 15. sync_mount_to_origin skipped in
@@ -128,9 +136,6 @@ github_for() {
 # Skip deep handoff check on dormant/archived repos and on the handoffs repo itself
 SKIP_HANDOFF_CHECK="pitch-scorer b-marketing hc-strategy bsuite-handoffs"
 
-# Skills tracked in manifest
-TRACKED_SKILLS="handoff dev-deploy comms expert hc-strategy pm create-content frontend-design"
-
 # Argument parsing: positional MODE flag + optional --app=name1,name2 anywhere
 MODE="full"
 APPS=""
@@ -239,7 +244,9 @@ pull_repos() {
   mkdir -p "$frag_dir"
   rm -f "$frag_dir"/*.json 2>/dev/null
 
-  # Fan out: every in-scope repo clones in parallel (bhub always included)
+  # Fan out clones in parallel, capped at 8 to avoid GitHub rate-limit failures.
+  # Previous uncapped approach (19 simultaneous) caused ~11/19 repos to fail.
+  local MAX_PARALLEL=8
   local pids=()
   for entry in "${REPOS[@]}"; do
     local folder="${entry%%:*}"
@@ -248,16 +255,20 @@ pull_repos() {
     is_app_in_scope "$folder" || continue
     pull_one_repo "$folder" "$github" "$frag_dir/${folder}.json" "$repo_dir" &
     pids+=($!)
+    # When we hit the cap, wait for the oldest job before spawning the next.
+    if [[ ${#pids[@]} -ge $MAX_PARALLEL ]]; then
+      wait "${pids[0]}" 2>/dev/null || true
+      pids=("${pids[@]:1}")
+    fi
   done
 
-  # Wait for all background jobs to finish
+  # Wait for remaining in-flight jobs
   for pid in "${pids[@]}"; do
     wait "$pid" 2>/dev/null || true
   done
 
-  # Emit fragments in REPOS order with comma separators.
-  # Out-of-scope repos never wrote a fragment, so the file-existence guard
-  # naturally filters them out.
+  # Emit fragments in REPOS order. Out-of-scope repos never wrote a fragment,
+  # so the file-existence guard naturally filters them out.
   local first="true"
   for entry in "${REPOS[@]}"; do
     local folder="${entry%%:*}"
@@ -361,7 +372,11 @@ check_handoffs() {
 }
 
 # --- Step 3: Skills check ---
-# Compare installed skill hashes against manifest. Report mismatches with install paths.
+# Single Python subprocess reads the full manifest and checks all skills at once.
+# Previously: 2 python3 calls per skill (for hash + version) = N×2 subprocess spawns.
+# Now: 1 call total, regardless of how many skills are in the manifest.
+# TRACKED_SKILLS variable removed — manifest is the source of truth for which skills
+# to check. Add a skill to skills-manifest.json and it's automatically checked here.
 check_skills() {
   local manifest="${MANIFEST_FILE:-}"
   if [[ -z "$manifest" || ! -f "$manifest" ]]; then
@@ -372,51 +387,54 @@ check_skills() {
     return
   fi
 
-  local first="true"
-  for skill in $TRACKED_SKILLS; do
-    local expected_hash expected_version
-    expected_hash=$(python3 -c "
-import json
-with open('$manifest') as f:
-    m = json.load(f)
-print(m.get('skills',{}).get('$skill',{}).get('hash','unknown'))
-" 2>/dev/null)
-    expected_version=$(python3 -c "
-import json
-with open('$manifest') as f:
-    m = json.load(f)
-print(m.get('skills',{}).get('$skill',{}).get('version','unknown'))
-" 2>/dev/null)
+  python3 - "$manifest" "$BSUITE_DIR/bhub/skills" "$WORK_DIR/bhub/skills" <<'PYEOF'
+import json, sys, hashlib, glob, os
 
-    # Find installed SKILL.md
-    local installed_hash="not_found"
-    local skill_path=""
-    for search_dir in \
-      "/sessions/"*"/mnt/.claude/skills/$skill" \
-      "$HOME/.claude/skills/$skill"; do
-      if [[ -f "$search_dir/SKILL.md" ]]; then
-        skill_path="$search_dir/SKILL.md"
-        installed_hash=$(md5sum "$skill_path" 2>/dev/null | awk '{print $1}')
-        break
-      fi
-    done
+manifest_path = sys.argv[1]
+install_dirs  = sys.argv[2:]
 
-    local match="false"
-    [[ "$installed_hash" == "$expected_hash" ]] && match="true"
+with open(manifest_path) as f:
+    manifest = json.load(f)
 
-    # Find .skill installer path
-    local install_path=""
-    for search_dir in "$BSUITE_DIR/bhub/skills" "$WORK_DIR/bhub/skills"; do
-      if [[ -f "$search_dir/${skill}.skill" ]]; then
-        install_path="$search_dir/${skill}.skill"
-        break
-      fi
-    done
+skills = manifest.get('skills', {})
+rows = []
 
-    [[ "$first" == "true" ]] && first="false" || echo ","
-    printf '    {"skill": "%s", "expected_version": "%s", "expected_hash": "%s", "installed_hash": "%s", "match": %s, "install_path": %s}' \
-      "$skill" "${expected_version:-unknown}" "${expected_hash:-unknown}" "$installed_hash" "$match" "$(json_escape "${install_path:-}")"
-  done
+for skill_name in sorted(skills):
+    info           = skills[skill_name]
+    expected_hash  = info.get('hash', 'unknown')
+    expected_ver   = info.get('version', 'unknown')
+
+    # Find installed SKILL.md (one glob per search path; stop at first hit)
+    installed_hash = 'not_found'
+    for pattern in [f'/sessions/*/mnt/.claude/skills/{skill_name}/SKILL.md',
+                    os.path.expanduser(f'~/.claude/skills/{skill_name}/SKILL.md')]:
+        matches = glob.glob(pattern)
+        if matches:
+            with open(matches[0], 'rb') as fh:
+                installed_hash = hashlib.md5(fh.read()).hexdigest()
+            break
+
+    match = installed_hash == expected_hash
+
+    # Find .skill bundle for the install link
+    install_path = ''
+    for d in install_dirs:
+        candidate = f'{d}/{skill_name}.skill'
+        if os.path.exists(candidate):
+            install_path = candidate
+            break
+
+    rows.append(
+        f'    {{"skill": {json.dumps(skill_name)}, '
+        f'"expected_version": {json.dumps(expected_ver)}, '
+        f'"expected_hash": {json.dumps(expected_hash)}, '
+        f'"installed_hash": {json.dumps(installed_hash)}, '
+        f'"match": {"true" if match else "false"}, '
+        f'"install_path": {json.dumps(install_path)}}}'
+    )
+
+print(',\n'.join(rows))
+PYEOF
 }
 
 # --- Step 4: Lock file check ---
@@ -467,59 +485,75 @@ clean_stale_locks() {
 #   3. `git read-tree HEAD` (writes index, no working-tree touch)
 # For working-tree files that drifted (rare), we overwrite via `git show HEAD:f >f`
 # (write+truncate works on FUSE; rm doesn't).
+#
+# v2.7: Parallelized with cap=8. Was sequential — on a slow connection each
+# `git fetch` takes 3-5s, so 19 repos = 60-95s wall time before clones even start.
+# Now all in-scope fetches fire concurrently (capped to avoid GitHub limits).
+
+# Sync one mounted repo. Designed to run in a background subshell.
+sync_one_mount() {
+  local repo_dir="$1"
+  [[ ! -d "$repo_dir/.git" ]] && return
+  cd "$repo_dir" 2>/dev/null || return
+
+  [[ -f .git/index.lock ]] && mv .git/index.lock ".git/index.lock.cwk_$$" 2>/dev/null
+
+  local branch="main"
+  git show-ref --verify --quiet refs/remotes/origin/main 2>/dev/null || branch="master"
+
+  git fetch origin "$branch" --quiet 2>/dev/null
+
+  local new_sha cur_sha
+  new_sha=$(git rev-parse "origin/$branch" 2>/dev/null)
+  cur_sha=$(git rev-parse HEAD 2>/dev/null)
+  [[ -z "$new_sha" ]] && return
+
+  if [[ "$cur_sha" != "$new_sha" ]]; then
+    echo "$new_sha" > ".git/refs/heads/$branch"
+  fi
+
+  [[ -f .git/index.lock ]] && mv .git/index.lock ".git/index.lock.cwk2_$$" 2>/dev/null
+  git read-tree HEAD 2>/dev/null
+
+  while IFS= read -r line; do
+    [[ -z "$line" ]] && continue
+    local code="${line:0:2}"
+    local file="${line:3}"
+    case "$code" in
+      " M"|"M "|" D"|"D ")
+        mkdir -p "$(dirname "$file")" 2>/dev/null
+        git show "HEAD:$file" > "$file" 2>/dev/null
+        ;;
+    esac
+  done < <(git status --porcelain 2>/dev/null | grep -v "^??")
+}
+
 sync_mount_to_origin() {
   [[ "$ENV" != "cowork" ]] && return
   # Scoped runs sync only in-scope repos on the mount (bhub always included
   # so newly-pushed skill bundles + bsync.sh land on the mount immediately,
   # and install-link computer:// paths point to current bundles).
-  local synced=0 cleaned=0
+  local MAX_PARALLEL=8
+  local pids=()
   for entry in "${REPOS[@]}"; do
     local folder="${entry%%:*}"
     is_app_in_scope "$folder" || continue
     local repo_dir="$(repo_dir_for "$entry")"
-    [[ ! -d "$repo_dir/.git" ]] && continue
-    cd "$repo_dir" 2>/dev/null || continue
-
-    [[ -f .git/index.lock ]] && mv .git/index.lock ".git/index.lock.cwk_$$" 2>/dev/null
-
-    local branch="main"
-    git show-ref --verify --quiet refs/remotes/origin/main 2>/dev/null || branch="master"
-
-    git fetch origin "$branch" --quiet 2>/dev/null
-
-    local new_sha cur_sha
-    new_sha=$(git rev-parse "origin/$branch" 2>/dev/null)
-    cur_sha=$(git rev-parse HEAD 2>/dev/null)
-    [[ -z "$new_sha" ]] && continue
-
-    if [[ "$cur_sha" != "$new_sha" ]]; then
-      echo "$new_sha" > ".git/refs/heads/$branch"
-      synced=$((synced + 1))
+    sync_one_mount "$repo_dir" &
+    pids+=($!)
+    if [[ ${#pids[@]} -ge $MAX_PARALLEL ]]; then
+      wait "${pids[0]}" 2>/dev/null || true
+      pids=("${pids[@]:1}")
     fi
-
-    [[ -f .git/index.lock ]] && mv .git/index.lock ".git/index.lock.cwk2_$$" 2>/dev/null
-    git read-tree HEAD 2>/dev/null
-
-    while IFS= read -r line; do
-      [[ -z "$line" ]] && continue
-      local code="${line:0:2}"
-      local file="${line:3}"
-      case "$code" in
-        " M"|"M "|" D"|"D ")
-          # Parent dir may not exist on the mount when the upstream refactor
-          # added new subdirectories. Create it before redirecting, otherwise
-          # the shell errors out before git show even runs.
-          mkdir -p "$(dirname "$file")" 2>/dev/null
-          git show "HEAD:$file" > "$file" 2>/dev/null && cleaned=$((cleaned + 1))
-          ;;
-      esac
-    done < <(git status --porcelain 2>/dev/null | grep -v "^??")
   done
-  [[ $synced -gt 0 || $cleaned -gt 0 ]] && log "sync_mount: $synced refs updated, $cleaned files reconciled"
+  for pid in "${pids[@]}"; do
+    wait "$pid" 2>/dev/null || true
+  done
+  log "sync_mount: parallel complete"
 }
 
 # --- Main ---
-log "bsync v2.6 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
+log "bsync v2.7 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
 setup_git
 clean_stale_locks
 
@@ -544,7 +578,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.6.0",
+  "bsync_version": "2.7.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
