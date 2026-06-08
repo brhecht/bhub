@@ -7,11 +7,15 @@
       "updated": "2026-04-17",
       "changelog": "Added real auto-send for Email channel via Gmail Apps Script + hidden HTML marker. Skill now defaults to send mode (email delivered in ~5 min); draft-only mode is opt-in via explicit 'draft' keyword. Apps Script source at bhub/apps-script/claude-auto-send.gs \u2014 one-time deployment in Gmail required."
     },
-    "handoff": {
-      "version": "3.7.0",
-      "hash": "019ed6a20b8215f3992e5cd0a5539c30",
-      "updated": "2026-05-26",
-      "changelog": "Registry expanded to enroll sibling repos that live alongside B-Suite under ~/Developer/ (muscle-anatomy, saturn-v-anatomy, B-Personal). Closes the fleet-audit gap where local copies of those repos could drift behind GitHub without bsync ever flagging it. Registry table now includes a Location column. New Device Setup clones both B-Suite repos and the three siblings."
+    "consolidate-memory": {
+      "version": "1.0.0",
+      "hash": "2cfbe7ed256ae3377be92764f07ae26b"
+    },
+    "create-content": {
+      "version": "1.3.0",
+      "hash": "1b7a8f494f69789652894817a9a2965f",
+      "updated": "2026-05-08",
+      "changelog": "Workflow refactor (Path A as explicit default, multi-section scaffolding rule, scope confirmation for Path B). Added pre-delivery checklist (negation-pivot, magazine-piece framing, stock-phrase slop, accuracy, verbatim test). New Step 1.5 (voice exemplar protocol). style-guide.md gains magazine-piece framing and stock-phrase slop entries under Construction anti-patterns. Driven by post-mortem on TNB Ep1-3 podcast newsletter session, where Path A drift to Path B compounded across segments."
     },
     "dev-deploy": {
       "version": "1.7.0",
@@ -19,11 +23,31 @@
       "updated": "2026-04-25",
       "changelog": "Library Awareness (Context7) section added \u2014 Claude now auto-invokes the Context7 MCP server on any code work that touches a documented external library (Next.js, Tailwind, Firebase, Vercel KV, Resend, Beehiiv, etc.), pulling current docs into context before writing. Eliminates the stale-API class of bugs (canonical example: Apr 23 builder-bot KV env-var rename). User does not need to invoke 'use context7' manually."
     },
+    "docx": {
+      "version": "1.0.0",
+      "hash": "fc4dc313a102d42cd53ca142fa32a992"
+    },
     "expert": {
       "version": "1.0.0",
       "hash": "a45799e0f7da28bb590ce9f5b8d3f550",
       "updated": "2026-03-17",
       "changelog": "Added Consequence Check & Red Team layer \u2014 auto-triggers adversarial audit on high-stakes recommendations via 3-lens evaluation (direct downside, coherence risk, unforeseeable surface area)"
+    },
+    "frontend-design": {
+      "version": "1.0.0",
+      "hash": "5c392562ec1cf5ffa6b9d2319375373f",
+      "updated": "2026-04-25",
+      "changelog": "Initial install \u2014 official anthropics/claude-code frontend-design skill. Forces design direction commitment before code, bans Inter/Roboto/Arial, eliminates AI-slop generic UI. Source: github.com/anthropics/claude-code/plugins/frontend-design"
+    },
+    "grill-me": {
+      "version": "1.0.0",
+      "hash": "424449ce8e8a1895f9ea83a2fa7b3f93"
+    },
+    "handoff": {
+      "version": "3.7.0",
+      "hash": "019ed6a20b8215f3992e5cd0a5539c30",
+      "updated": "2026-05-26",
+      "changelog": "Registry expanded to enroll sibling repos that live alongside B-Suite under ~/Developer/ (muscle-anatomy, saturn-v-anatomy, B-Personal). Closes the fleet-audit gap where local copies of those repos could drift behind GitHub without bsync ever flagging it. Registry table now includes a Location column. New Device Setup clones both B-Suite repos and the three siblings."
     },
     "hc-strategy": {
       "version": "1.0.0",
@@ -33,11 +57,9 @@
       "status": "archived",
       "archived_note": "Superseded by tnb-strategy as of April 3, 2026. Repo remains for reference but no longer actively maintained."
     },
-    "tnb-strategy": {
-      "version": "1.1.0",
-      "hash": "1a74e1f53a57fb3ca21f92e7151a645d",
-      "updated": "2026-04-29",
-      "changelog": "Updated for repo reorganization (Apr 29 2026). Skill now reads README.md first for canonical vault index, then loads strategy/STRATEGY-CONTEXT.md, strategy/operating-plan.md, brand/POSITIONING-LANGUAGE.md, and brand/tnb-deck.md (markdown export of April 13 Drive deck). Path updates throughout. Drafts/ and ops/ subdirectories noted but not auto-loaded."
+    "pdf": {
+      "version": "1.0.0",
+      "hash": "1c07e7fc21a8ad77c257900350a61098"
     },
     "pm": {
       "version": "1.1.0",
@@ -45,11 +67,9 @@
       "updated": "2026-04-24",
       "changelog": "UX Standards binding \u2014 canonical reference is now `bhub/UX-STANDARDS.md` (cross-device via git), not the skill-bundled copy. Briefs must cite the bhub path and list a `Deviations from the standards` block; unreviewed deviations block APPROVED status. New edge case: if a build introduces a pattern the standards don't cover, the standards doc must be updated (not silently invented). The bundled `references/ux-standards.md` is now a fallback pointer."
     },
-    "create-content": {
-      "version": "1.3.0",
-      "hash": "1b7a8f494f69789652894817a9a2965f",
-      "updated": "2026-05-08",
-      "changelog": "Workflow refactor (Path A as explicit default, multi-section scaffolding rule, scope confirmation for Path B). Added pre-delivery checklist (negation-pivot, magazine-piece framing, stock-phrase slop, accuracy, verbatim test). New Step 1.5 (voice exemplar protocol). style-guide.md gains magazine-piece framing and stock-phrase slop entries under Construction anti-patterns. Driven by post-mortem on TNB Ep1-3 podcast newsletter session, where Path A drift to Path B compounded across segments."
+    "pptx": {
+      "version": "1.0.0",
+      "hash": "24895e8378922ad91f1edb152c1f1950"
     },
     "priority-startup-intel": {
       "version": "1.1.0",
@@ -57,11 +77,27 @@
       "updated": "2026-04-30",
       "changelog": "Major editorial recalibration after Brian feedback that briefings drifted toward mega-cap + Series-D-heavy content. HARD rules added: (1) Mega-cap cap \u2014 Anthropic/OpenAI/MAANG capped at 1 item per briefing, Ecosystem Signal section only, never in lede; Anthropic/OpenAI valuation news automatically excluded. (2) Stage sweet spot reset to pre-seed through Series B/C; Series D+ becomes table stakes requiring a non-obvious angle. (3) Lede Rule \u2014 only when 2+ private items share a thesis; never to summarize mega-cap or generic 'heavy deal flow' framing. (4) Item ordering by EDGE not deal size. (5) Stream 2 mandatory \u2014 query 8+ VC firm domains + Carta/Walker + YC blog before drafting; \u226560% of items must be Stream 2 or Series C-or-earlier. (6) Item length cap \u2014 2\u20133 sentences max per item; 10\u201314 items per day; trade length for count. (7) Pre-flight checklist added to execution flow. (8) CVC framing rule for out-of-scope theses (robotics, AVs, hardware) reframed around in-scope angle."
     },
-    "frontend-design": {
+    "schedule": {
       "version": "1.0.0",
-      "hash": "5c392562ec1cf5ffa6b9d2319375373f",
-      "updated": "2026-04-25",
-      "changelog": "Initial install \u2014 official anthropics/claude-code frontend-design skill. Forces design direction commitment before code, bans Inter/Roboto/Arial, eliminates AI-slop generic UI. Source: github.com/anthropics/claude-code/plugins/frontend-design"
+      "hash": "64dae64d633b94d01d1f88599a4e54f7"
+    },
+    "setup-cowork": {
+      "version": "1.0.0",
+      "hash": "52e0ce1addc7b95ac5c05308a09da9fe"
+    },
+    "skill-creator": {
+      "version": "1.0.0",
+      "hash": "a1277b9e97e7a84dbd80a984164ad373"
+    },
+    "tnb-strategy": {
+      "version": "1.1.0",
+      "hash": "1a74e1f53a57fb3ca21f92e7151a645d",
+      "updated": "2026-04-29",
+      "changelog": "Updated for repo reorganization (Apr 29 2026). Skill now reads README.md first for canonical vault index, then loads strategy/STRATEGY-CONTEXT.md, strategy/operating-plan.md, brand/POSITIONING-LANGUAGE.md, and brand/tnb-deck.md (markdown export of April 13 Drive deck). Path updates throughout. Drafts/ and ops/ subdirectories noted but not auto-loaded."
+    },
+    "xlsx": {
+      "version": "1.0.0",
+      "hash": "0f7b2727c38539ef072a15a6b4622327"
     }
   },
   "devices": {
@@ -114,7 +150,7 @@
       "expert": "unknown",
       "hc-strategy": "unknown",
       "tnb-strategy": "unknown",
-      "last_synced": "2026-06-08",
+      "last_synced": "2026-06-01",
       "pm": "unknown",
       "create-content": "unknown",
       "priority-startup-intel": "unknown",
