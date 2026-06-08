@@ -202,17 +202,22 @@ pull_one_repo() {
   local path="$repo_dir"
 
   if [[ "$ENV" == "cowork" ]]; then
-    # Cowork sandbox: always clone fresh to /tmp (shallow = fast)
+    # Cowork sandbox: always clone fresh to /tmp (shallow = fast).
+    # Exception: reuse the Phase 1 bhub clone if it exists — Phase 1 already
+    # cloned bhub to /tmp/bhub-bootstrap, so cloning it again here is pure waste.
     local tmp_dir="$WORK_DIR/$folder"
-    # If the target dir exists from a previous bsync run this session, remove it
-    # so git clone doesn't fail with "already exists".
-    [[ -d "$tmp_dir" ]] && rm -rf "$tmp_dir"
-    if git clone --depth 1 "https://github.com/${github}.git" "$tmp_dir" 2>/dev/null; then
+    if [[ "$folder" == "bhub" && -d "/tmp/bhub-bootstrap/.git" ]]; then
       status="ok"
-      path="$tmp_dir"
+      path="/tmp/bhub-bootstrap"
     else
-      status="failed"
-      detail="Clone to $WORK_DIR failed"
+      [[ -d "$tmp_dir" ]] && rm -rf "$tmp_dir"
+      if git clone --depth 1 "https://github.com/${github}.git" "$tmp_dir" 2>/dev/null; then
+        status="ok"
+        path="$tmp_dir"
+      else
+        status="failed"
+        detail="Clone to $WORK_DIR failed"
+      fi
     fi
   elif [[ -d "$repo_dir/.git" ]]; then
     # Local Mac: fetch + hard reset to origin/main
