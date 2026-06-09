@@ -128,13 +128,14 @@ End the inline output with: *"Reply `render 2,5,7` to turn picks into draft narr
 ### Steps
 1. For each picked number, pull full context — re-read the source message and its thread (`slack_read_thread`) for any quotes or detail you didn't capture in Phase 1.
 2. Produce a markdown draft with three parts:
-   - **Throughline (1 short paragraph):** the connective thread that ties the picks together — what this week's selections, taken together, say about where building / the TNB community is going. Light editorial spine, not a hot take.
-   - **Per pick (1–2 narrative paragraphs each):** clean, readable, reader-facing draft prose summarizing the item with enough substance to stand alone. Neutral-warm observer voice.
-   - **Angles to expand (2–3 bullets per pick or grouped):** concrete hooks Brian could develop into his own take — questions, tensions, contrarian readings, "the bigger pattern here is…" prompts. Where his personal opinion belongs, mark it `[Brian's take: …]` rather than inventing one.
+   - **Throughline (1 short paragraph, ≤3 lines):** the connective thread that ties the picks together — what this week's selections, taken together, say about where building / the TNB community is going. Light editorial spine, not a hot take.
+   - **Per pick — SCANNABLE, this is the whole point:** a bolded **headline** followed by **3–5 lines max** of plain summary. No fat paragraphs, no wall of text. If it can't be said in 5 lines, cut detail, don't add lines. Each pick must be skimmable in one glance.
+   - **Angles to expand (2–3 tight bullets per pick):** concrete hooks I could develop into a take — questions, tensions, contrarian readings, "the bigger pattern here is…" prompts. Where my personal opinion belongs, mark it `[my take: …]` rather than inventing one.
 
 ### Voice guardrails (critical)
-- **Do NOT imitate Brian's first-person voice or fabricate his opinions.** This is draft raw material, not a finished Brian piece.
-- Write in clean observer prose. Pull framing vocabulary from TNB positioning (relationship-led community, "the new builder," builders as the emerging role) but don't overreach or sloganeer.
+- **Write in my first person — refer to me as "I", not "Brian Hecht."** This is raw material for *my* newsletter, so it reads from my point of view (e.g. "I shipped a daily planner…", not "Brian Hecht shipped…"). For picks about other members' posts, narrate them as I'd reference them ("Jaron built…", "Chuck shared…") — I'm the narrator, they're the subjects.
+- **Still do NOT fabricate my opinions or take.** First person applies to *facts and framing*, not invented conclusions — any actual opinion stays in a `[my take: …]` placeholder for me to fill. This is draft raw material, not a finished piece.
+- Keep it tight and plain. Pull framing vocabulary from TNB positioning (relationship-led community, "the new builder," builders as the emerging role) but don't overreach or sloganeer.
 - **Plain-language first, jargon in parentheses (same rule as Phase 1).** Non-technical-but-AI-conversant audience. Lead with what a tool/feature does, then name it in parentheses on first reference — "a tool that finds secrets accidentally committed to a codebase (TruffleHog)," never "a TruffleHog scanner." This matters more in the narrative render than anywhere else.
 - **This is not `create-content`.** If Brian wants to develop a single pick into a full, voice-driven essay or LinkedIn post, that's a deliberate, separate hand-off to the `create-content` skill — say so and stop.
 
