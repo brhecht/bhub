@@ -3,7 +3,7 @@
   "skills": {
     "tnb-digest": {
       "version": "1.0.0",
-      "hash": "fd5882cd68e16573a6edd0bc10a059ea",
+      "hash": "dde94b8d7f5760b9d9dc1f252c500809",
       "updated": "2026-06-09",
       "changelog": "Initial release — TNB Slack Weekly Community Digest. Two-phase manual pipeline: Phase 1 reads 7 days across the 5 TNB community channels via the first-party Slack MCP, filters Builder Bot daily-recap posts + ops noise, and presents a categorized NUMBERED pickable digest inline in Cowork (plus emailed record + DM confirmation). Phase 2 ('render N,N,N') turns Brian's picks into raw narrative + expansion angles in a markdown draft (low-voice, not create-content). Private to Brian; read-only on Slack, never posts community-facing. Carries the daily-recap v2 naming/anti-editorializing rules (name every replier, no anonymous framing, neutral tone)."
     },

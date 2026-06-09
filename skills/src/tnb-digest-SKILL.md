@@ -96,6 +96,7 @@ N. **Headline** (#channel) — One- to two-sentence neutral summary. When citing
 - Always name post authors and repliers by Slack display name. **Never** write "one user noted," "a reply pushed it further," or any anonymous framing. If a replier's name can't be resolved, drop the reply sentence rather than write an anonymous one.
 - Neutral and factual. **Banned:** "says he's…," "claims to be…," "supposedly," "the kind of person who…" — never editorialize about authenticity, motive, or vibe.
 - Tight noun-verb prose. Cut adjectives that don't carry information.
+- **Plain-language first, jargon in parentheses.** The audience is AI-conversant but **non-technical**. Never lead with a technical product, tool, framework, CLI, or feature name on first reference. Describe what the thing *does*, then put the name in parentheses. Write "a tool that scans a whole codebase for accidentally committed passwords and API keys (TruffleHog)" — not "a TruffleHog scanner." Same for things like `/goal`, Antigravity, Codex, MCP, etc.: explain the function, name it second.
 
 **Permalink construction (no extra API call needed):**
 `https://the-new-builder.slack.com/archives/{CHANNEL_ID}/p{ts}` where `{ts}` is the message ts with the decimal point removed (e.g. ts `1780969615.908419` → `p1780969615908419`).
@@ -134,6 +135,7 @@ End the inline output with: *"Reply `render 2,5,7` to turn picks into draft narr
 ### Voice guardrails (critical)
 - **Do NOT imitate Brian's first-person voice or fabricate his opinions.** This is draft raw material, not a finished Brian piece.
 - Write in clean observer prose. Pull framing vocabulary from TNB positioning (relationship-led community, "the new builder," builders as the emerging role) but don't overreach or sloganeer.
+- **Plain-language first, jargon in parentheses (same rule as Phase 1).** Non-technical-but-AI-conversant audience. Lead with what a tool/feature does, then name it in parentheses on first reference — "a tool that finds secrets accidentally committed to a codebase (TruffleHog)," never "a TruffleHog scanner." This matters more in the narrative render than anywhere else.
 - **This is not `create-content`.** If Brian wants to develop a single pick into a full, voice-driven essay or LinkedIn post, that's a deliberate, separate hand-off to the `create-content` skill — say so and stop.
 
 ### Output
