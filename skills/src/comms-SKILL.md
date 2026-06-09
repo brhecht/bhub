@@ -48,33 +48,29 @@ Nico:
 
 ## Channel: Email
 
-The Gmail MCP only exposes draft creation (not direct send), but the comms infrastructure includes a **Gmail Apps Script auto-sender** that watches for drafts containing a specific marker and sends them automatically. So "email mode" in this skill has two sub-modes:
+The Gmail MCP only exposes draft creation (not direct send), but the comms infrastructure includes a **Gmail Apps Script auto-sender** that watches for drafts flagged with a specific token and sends them automatically. So "email mode" in this skill has two sub-modes:
 
 1. **Send mode (default)** — email is delivered within ~5 min, no manual send step required
 2. **Draft-only mode** — email sits in Drafts for the user to review and send manually
 
 ### Default: Send mode
 
-Use the Gmail MCP's draft-creation tool to create a draft in the **current user's** Gmail, and include the auto-send marker in the HTML body.
+Use the Gmail MCP's draft-creation tool to create a draft in the **current user's** Gmail, and flag it with the auto-send token in the **subject line**.
 
 **Tool name:** The draft-creation tool is currently exposed as `create_draft` (previously `gmail_create_draft`). If the expected name doesn't resolve, use `ToolSearch` with `select:` or a keyword query (e.g., `gmail draft`) to find the currently registered tool.
 
-**The marker:** Include this exact string as an HTML comment at the very top of your `htmlBody`:
+**The token:** Append this exact string to the END of the `subject`, after a single space:
 
 ```
-<!--CLAUDE-AUTO-SEND-V1-->
+[[CLAUDE-AUTO-SEND-V1]]
 ```
 
-Example `htmlBody`:
-```html
-<!--CLAUDE-AUTO-SEND-V1-->
-<html><body>
-<p>Hey Nico,</p>
-...
-</body></html>
+Example `subject`:
+```
+Weekly digest is ready [[CLAUDE-AUTO-SEND-V1]]
 ```
 
-The marker is invisible in the delivered email. The Apps Script (deployed in Brian's Gmail, runs every 5 minutes) detects the marker, sends the draft, and moves it to Sent. See `bhub/apps-script/claude-auto-send.gs` for the script and deployment instructions.
+**Why the subject, not the body (important — do NOT revert to a body marker):** Gmail strips HTML comments (`<!-- ... -->`) out of the body when it saves a draft, so the old body marker silently vanished and nothing ever auto-sent. The subject line is the one field Gmail never rewrites. The Apps Script (runs in Brian's Gmail every 5 minutes) finds the token in the subject, **strips it back out**, and sends — so the recipient's delivered subject is clean and the token is never visible. No marker in the `htmlBody` is needed anymore. See `bhub/apps-script/claude-auto-send.gs` for the script; note the live script must be pasted into Apps Script manually — editing the repo file alone does not update the running script.
 
 After creating the draft, tell the user: "Sent to [name] — will deliver within ~5 minutes via auto-send pipeline."
 
@@ -82,7 +78,7 @@ After creating the draft, tell the user: "Sent to [name] — will deliver within
 
 Use this when the user explicitly says "draft" or "prepare an email for me to send" — anything signaling they want to review before it ships. In this mode:
 
-- Create the draft **without** the marker
+- Create the draft **without** the subject token
 - Tell the user: "Draft created in Gmail — review and hit send when ready."
 
 Signals for draft-only mode: "draft an email...", "prepare a draft...", "write an email I can review...", "let me see before sending".

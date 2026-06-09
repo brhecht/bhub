@@ -19,7 +19,7 @@ This is a **two-phase, manually-triggered** pipeline. It is read-only on Slack a
 ## Prerequisites & Infrastructure
 
 - **Slack read access:** the first-party Slack connector (`mcp.slack.com`), connected to `the-new-builder` workspace. Tools: `slack_read_channel`, `slack_read_thread`, `slack_search_channels`, `slack_search_users`. If a tool isn't loaded, fetch it via ToolSearch. If Slack returns auth errors, tell Brian to reconnect the Slack connector — do not try to read Slack any other way.
-- **Email (record copy):** uses the `comms` skill's email pattern — create a Gmail draft in Brian's account with the auto-send marker `<!--CLAUDE-AUTO-SEND-V1-->` as the first line of the HTML body, To: `brhnyc1970@gmail.com`. It auto-sends within ~5 min.
+- **Email (record copy):** uses the `comms` skill's email pattern — create a Gmail draft in Brian's account, To: `brhnyc1970@gmail.com`, and flag it for auto-send by appending the token `[[CLAUDE-AUTO-SEND-V1]]` to the END of the subject line (NOT an HTML comment in the body — Gmail strips those). The Apps Script strips the token and sends within ~5 min.
 - **DM confirmation:** POST to `https://brain-inbox-six.vercel.app/api/handoff-notify` (Content-Type: `text/plain`, body JSON-stringified) with `{"project":"TNB Digest","summary":"<confirmation>","recipient":"brhnyc1970@gmail.com","recipientSlackId":"U096WPV71KK","dmOnly":true}`.
 
 ### Channel Registry (TNB community, `the-new-builder`)
@@ -108,7 +108,7 @@ Output the full numbered digest directly in the Cowork chat. This is the working
 ### Step 7 — Deliver the record copy (email + DM)
 
 By default, also:
-1. **Email:** create a Gmail draft (auto-send marker, To: brhnyc1970@gmail.com) containing the same numbered digest, subject `TNB Weekly Digest — {date range} · {X} recommended, {Y} to consider`. HTML, with working permalink anchors.
+1. **Email:** create a Gmail draft (To: brhnyc1970@gmail.com) containing the same numbered digest, subject `TNB Weekly Digest — {date range} · {X} recommended, {Y} to consider [[CLAUDE-AUTO-SEND-V1]]` (token at the end triggers auto-send and is stripped before delivery). HTML, with working permalink anchors.
 2. **DM:** send the confirmation via handoff-notify dmOnly: `"TNB digest ready — {X} recommended, {Y} to consider. Picks open in Cowork."`
 
 If Brian says "skip email" / "no email" on a run, suppress both and present inline only. (If he wants this to be the permanent default, update this step.)
