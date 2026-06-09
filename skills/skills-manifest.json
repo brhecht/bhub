@@ -1,6 +1,12 @@
 {
   "_comment": "Tracks skill versions across devices. Hash is MD5 of SKILL.md source. Bootstrap protocol (bsync.sh) compares this against installed versions.",
   "skills": {
+    "tnb-digest": {
+      "version": "1.0.0",
+      "hash": "fd5882cd68e16573a6edd0bc10a059ea",
+      "updated": "2026-06-09",
+      "changelog": "Initial release — TNB Slack Weekly Community Digest. Two-phase manual pipeline: Phase 1 reads 7 days across the 5 TNB community channels via the first-party Slack MCP, filters Builder Bot daily-recap posts + ops noise, and presents a categorized NUMBERED pickable digest inline in Cowork (plus emailed record + DM confirmation). Phase 2 ('render N,N,N') turns Brian's picks into raw narrative + expansion angles in a markdown draft (low-voice, not create-content). Private to Brian; read-only on Slack, never posts community-facing. Carries the daily-recap v2 naming/anti-editorializing rules (name every replier, no anonymous framing, neutral tone)."
+    },
     "comms": {
       "version": "1.2.0",
       "hash": "bfac0f7909d451c2e101986abdd745ef",
