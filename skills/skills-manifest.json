@@ -5,7 +5,7 @@
       "version": "1.0.0",
       "hash": "dde94b8d7f5760b9d9dc1f252c500809",
       "updated": "2026-06-09",
-      "changelog": "Initial release — TNB Slack Weekly Community Digest. Two-phase manual pipeline: Phase 1 reads 7 days across the 5 TNB community channels via the first-party Slack MCP, filters Builder Bot daily-recap posts + ops noise, and presents a categorized NUMBERED pickable digest inline in Cowork (plus emailed record + DM confirmation). Phase 2 ('render N,N,N') turns Brian's picks into raw narrative + expansion angles in a markdown draft (low-voice, not create-content). Private to Brian; read-only on Slack, never posts community-facing. Carries the daily-recap v2 naming/anti-editorializing rules (name every replier, no anonymous framing, neutral tone)."
+      "changelog": "Initial release \u2014 TNB Slack Weekly Community Digest. Two-phase manual pipeline: Phase 1 reads 7 days across the 5 TNB community channels via the first-party Slack MCP, filters Builder Bot daily-recap posts + ops noise, and presents a categorized NUMBERED pickable digest inline in Cowork (plus emailed record + DM confirmation). Phase 2 ('render N,N,N') turns Brian's picks into raw narrative + expansion angles in a markdown draft (low-voice, not create-content). Private to Brian; read-only on Slack, never posts community-facing. Carries the daily-recap v2 naming/anti-editorializing rules (name every replier, no anonymous framing, neutral tone)."
     },
     "comms": {
       "version": "1.2.0",
@@ -128,12 +128,22 @@
       "expert": "unknown",
       "hc-strategy": "unknown",
       "tnb-strategy": "unknown",
-      "last_synced": "2026-06-03",
+      "last_synced": "2026-06-10",
       "pm": "unknown",
       "create-content": "unknown",
       "priority-startup-intel": "unknown",
       "bhealth_version": "1.0.0",
-      "frontend-design": "unknown"
+      "frontend-design": "unknown",
+      "tnb-digest": "unknown",
+      "consolidate-memory": "unknown",
+      "docx": "unknown",
+      "grill-me": "unknown",
+      "pdf": "unknown",
+      "pptx": "unknown",
+      "schedule": "unknown",
+      "setup-cowork": "unknown",
+      "skill-creator": "unknown",
+      "xlsx": "unknown"
     },
     "MacBook Air": {
       "comms": "unknown",
