@@ -176,12 +176,22 @@
       "expert": "unknown",
       "hc-strategy": "unknown",
       "tnb-strategy": "unknown",
-      "last_synced": "2026-06-01",
+      "last_synced": "2026-06-15",
       "pm": "unknown",
       "create-content": "unknown",
       "priority-startup-intel": "unknown",
       "bhealth_version": "1.0.0",
-      "frontend-design": "unknown"
+      "frontend-design": "unknown",
+      "tnb-digest": "unknown",
+      "consolidate-memory": "unknown",
+      "docx": "unknown",
+      "grill-me": "unknown",
+      "pdf": "unknown",
+      "pptx": "unknown",
+      "schedule": "unknown",
+      "setup-cowork": "unknown",
+      "skill-creator": "unknown",
+      "xlsx": "unknown"
     }
   }
 }
