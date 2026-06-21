@@ -229,22 +229,42 @@ This was the #1 source of "I have to open terminal" friction. **`--sync-mount` e
 
 See the handoff skill for the full stamp-on-push protocol.
 
-### Post-deploy verification (MANDATORY)
-This is not optional. After every deploy, Claude must verify the change is live. Do not skip this. Do not "offer" to do it. Just do it.
+### Acceptance Verification Harness (MANDATORY — loop engineering)
 
-**The sequence:**
-1. Wait 60 seconds after git push completes (Vercel build + deploy lag)
-2. Use browser automation tools to navigate to the production URL
-3. Take a screenshot
-4. Verify the change is visually present and the page loads correctly
-5. Report the result to the user with the screenshot
+This is the heart of getting the user out of the babysitting loop. The user's old workflow was *prompt → review → correct → re-prompt*, with the user personally acting as the loop's verifier on every turn. This harness moves that verdict into the loop. **Claude does not return to the user with "I think it works" — Claude returns with either proof it works or a precise report of which behavior failed.** "It rendered" / "it loaded" / "returns 200" are NOT proof it works — that's the weak-check trap. Proof means an instrument exercised the actual behavior and returned ground truth.
 
-If the production URL shows an error or the change isn't visible:
-- Check the Vercel deployment status (navigate to vercel.com dashboard or use `vercel` CLI if available)
-- If the deploy is still building, wait and recheck
-- If the deploy failed, read the Vercel build logs and fix the issue
+**Division of labor (do not blur these):**
+- **Type A — correctness. Claude owns this, entirely.** Does it run, does it do what the user described, did the right thing happen in the data layer, does the UI reflect it. Claude must NEVER return asking the user to confirm correctness.
+- **Type B — intent & taste. The user owns this.** Does it look/feel right, and *was the spec itself what they actually wanted* (a correct execution of a wrong spec is still the user's call). This is the ONLY thing handed back.
 
-The reason this matters: the user's workflow used to end with "I pushed, I think it's live?" and then they'd discover a broken deploy hours later. Closing this loop automatically saves real time and catches deploy-specific issues (env vars, build config differences) that local builds miss.
+**The user's only input per build: plain-English behavioral assertions.** The user is not a developer and must NOT be asked for technical checks. At kickoff they describe what they'd *do and see as a user* to believe it works — e.g. *"After I click Archive, the task disappears from the board and is still gone after I refresh."* Claude translates each assertion into a named instrument. If the user didn't give assertions, Claude proposes 2–4 in plain English and confirms them before building.
+
+**Named instruments (the only valid sources of a passing verdict):**
+
+| Assertion type | Instrument (ground truth) |
+|---|---|
+| A control works (button/toggle/form) | Claude in Chrome **performs the action** on the live page — actually clicks/types, not "looks at" |
+| Element placement / appearance | **Screenshot read-back** — capture it and read the image |
+| Calls the API correctly | **Read network requests** in Chrome: request fired, right endpoint, expected status |
+| Data-layer effect (Firestore write/update) | **Curl through the app's backend** (the read-through-backend pattern, e.g. `.bthings-key`) and assert the **specific record's state** changed — not "Firestore looks fine" |
+| UI reflects the result | **Re-screenshot / re-read the DOM** after the action — assert the visible state changed |
+
+**The loop rule — assert, don't wait for errors.** Run until every assertion is provably TRUE via its instrument. **"No error appeared" is not a pass.** A dead button throws nothing; a 200 can carry wrong data. Each assertion passes only when its instrument exercises the real behavior and returns the expected ground truth.
+
+**Failure exit (no runaway).** Max **3** fix→re-test cycles per assertion. If an assertion still fails after 3, STOP. Do not keep grinding. Return to the user naming the exact assertion that failed and the evidence (the screenshot, the response value, the console error).
+
+**Anti-fake-green rules:**
+- Re-reading its own code is NOT verification (no ground truth). Only an instrument counts.
+- A check that could pass while the feature is broken is too weak — strengthen it to exercise the real behavior (assert response *content* and *state*, not status alone).
+- Never report "all green" without attaching the instrument evidence that proves it.
+
+**Return contract — Claude returns exactly one of two things:**
+1. **All assertions green:** "Done — [assertion → evidence for each]. Over to you for the taste call: [the Type B question, e.g. 'is 30 days right / does it need undo']."
+2. **Bailed after 3:** "Stopped on assertion N: [what's still failing + evidence]. Your call on how to proceed."
+
+**Pre-step (still mandatory):** before running assertions, confirm the deploy is live — wait ~60s after push, navigate to the production URL, confirm it loads. If it errors, check Vercel deploy status/logs and fix before asserting. A failed deploy is assertion-zero.
+
+The reason this matters: it converts the user from an every-turn reviewer into a two-endpoint operator — they specify behavioral assertions at the start and make the taste call at the end. Everything in between, including the correctness verdict, lives inside the loop.
 
 ### Build failures
 If the build fails:
