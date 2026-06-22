@@ -114,12 +114,16 @@ Once discovery is complete, Claude writes a **Product Brief** and saves it as `P
 - [CSS/styling tweaks within existing design system]
 - [Copy/label text that isn't user-facing marketing]
 - [Animation timing, spacing adjustments]
+- [**Implementation-method choices that have a clear, lower-risk option** — how to gate a route, where to put a check, which equivalent pattern/library to use. Nico picks and proceeds, *even when it feels "architectural,"* especially when he already has a recommendation. These never go to Brian. Brian is non-technical; a technical method is not his to adjudicate.]
 
-**Route to Brian (high-risk, irreversible, or behavioral):**
-- [Data model changes]
+**Route to Brian (only money, irreversible data, user-facing behavior, or access):**
+- [Data model changes that affect existing data]
 - [User-facing flow changes]
 - [Anything touching shared Firestore rules or cross-app endpoints]
-- [New dependencies or third-party integrations]
+- [New paid dependencies or third-party integrations]
+- [Access/ownership Nico lacks — a credential, a Google Cloud project, a service-account key]
+
+**Hard rule:** if the only reason an item is going to Brian is that it's technical, it is NOT a Brian item — Nico decides it (with his recommendation) and proceeds. The build never stalls on a non-technical founder approving a technical method. If Nico is genuinely unsure, he routes it to the PM (Claude), not to Brian.
 
 ## Estimated Effort
 [T-shirt size: Small (< 1 session) | Medium (1-2 sessions) | Large (3+ sessions)]

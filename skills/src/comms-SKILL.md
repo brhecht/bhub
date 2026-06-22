@@ -95,6 +95,15 @@ Note: The Gmail MCP tool drafts in whichever Gmail account is connected to the c
 
 Write the email in a professional but casual tone matching Brian and Nico's working relationship. No corporate fluff. Clear, direct, actionable.
 
+### Plain language when the recipient is Brian (MANDATORY)
+
+Brian is non-technical — AI-conversant, but not an engineer. Any message to Brian (email, DM, or ping, **from either side**) must be understandable to a smart non-engineer. The binding factor is the recipient, not the author — this applies to Nico's outgoing messages too.
+
+- **No naked jargon.** If a technical term is unavoidable, explain it in plain words the first time. Not "gate it with Next middleware on /projects/songwriters-lab/*" — instead "add a 'check if you're logged in' step at the app's web address, without moving the app."
+- **Lead with the decision or the ask**, not the mechanism. Brian needs to know what to decide and why it matters to him, not how it's wired.
+- **Never hand Brian a raw technical fork to adjudicate.** If a decision is needed, give him the plain-English choice plus your recommendation. If it's a technical-method call Nico can make himself, Nico makes it — it never reaches Brian (see the pm skill's Decision Map).
+- **The test:** could Brian's smart, non-technical friend read this and know what's being asked? If not, rewrite it.
+
 ## Channel: DM (Slack Direct Message)
 
 Send a short Slack DM via the Brain Inbox handoff-notify API with the `dmOnly` flag. This skips Brain Inbox / Firestore — it's just a direct Slack message.
