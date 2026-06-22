@@ -55,6 +55,12 @@ Stop when you can confidently answer:
 - What existing things could it break? (risk assessment)
 - How urgent is it? (timeline expectations)
 
+### No open decisions at handoff
+
+A brief handed to Nico must contain **zero decisions awaiting Brian.** Resolve every decision during discovery — or, if Nico has the access to execute it (git, Vercel, Google Cloud, Firebase, etc.), make it a **directive folded into the relevant build section**, not a flagged "decision." Do not include a "Decisions for Brian" / "Directives (resolved)" block — that framing is a conversation artifact Nico doesn't need; just write the spec as settled.
+
+The only items that may route to Brian are ones that **genuinely surface mid-build at a checkpoint**: a blocker Nico can't clear without access, or a product call that only emerges during the build. If you find yourself drafting a list of decisions for Brian at handoff time, discovery isn't finished — go back and close them.
+
 ---
 
 ## Phase 2: Brief (Claude → Brian for approval)

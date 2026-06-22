@@ -5,13 +5,13 @@
       "version": "1.0.0",
       "hash": "dde94b8d7f5760b9d9dc1f252c500809",
       "updated": "2026-06-09",
-      "changelog": "Initial release \u2014 TNB Slack Weekly Community Digest. Two-phase manual pipeline: Phase 1 reads 7 days across the 5 TNB community channels via the first-party Slack MCP, filters Builder Bot daily-recap posts + ops noise, and presents a categorized NUMBERED pickable digest inline in Cowork (plus emailed record + DM confirmation). Phase 2 ('render N,N,N') turns Brian's picks into raw narrative + expansion angles in a markdown draft (low-voice, not create-content). Private to Brian; read-only on Slack, never posts community-facing. Carries the daily-recap v2 naming/anti-editorializing rules (name every replier, no anonymous framing, neutral tone)."
+      "changelog": "Initial release — TNB Slack Weekly Community Digest. Two-phase manual pipeline: Phase 1 reads 7 days across the 5 TNB community channels via the first-party Slack MCP, filters Builder Bot daily-recap posts + ops noise, and presents a categorized NUMBERED pickable digest inline in Cowork (plus emailed record + DM confirmation). Phase 2 ('render N,N,N') turns Brian's picks into raw narrative + expansion angles in a markdown draft (low-voice, not create-content). Private to Brian; read-only on Slack, never posts community-facing. Carries the daily-recap v2 naming/anti-editorializing rules (name every replier, no anonymous framing, neutral tone)."
     },
     "comms": {
       "version": "1.2.0",
       "hash": "bfac0f7909d451c2e101986abdd745ef",
       "updated": "2026-04-17",
-      "changelog": "Added real auto-send for Email channel via Gmail Apps Script + hidden HTML marker. Skill now defaults to send mode (email delivered in ~5 min); draft-only mode is opt-in via explicit 'draft' keyword. Apps Script source at bhub/apps-script/claude-auto-send.gs \u2014 one-time deployment in Gmail required."
+      "changelog": "Added real auto-send for Email channel via Gmail Apps Script + hidden HTML marker. Skill now defaults to send mode (email delivered in ~5 min); draft-only mode is opt-in via explicit 'draft' keyword. Apps Script source at bhub/apps-script/claude-auto-send.gs — one-time deployment in Gmail required."
     },
     "consolidate-memory": {
       "version": "1.0.0",
@@ -27,7 +27,7 @@
       "version": "1.7.0",
       "hash": "26a4401e0ee4b5ec276a7838a9f25f33",
       "updated": "2026-04-25",
-      "changelog": "Library Awareness (Context7) section added \u2014 Claude now auto-invokes the Context7 MCP server on any code work that touches a documented external library (Next.js, Tailwind, Firebase, Vercel KV, Resend, Beehiiv, etc.), pulling current docs into context before writing. Eliminates the stale-API class of bugs (canonical example: Apr 23 builder-bot KV env-var rename). User does not need to invoke 'use context7' manually."
+      "changelog": "Library Awareness (Context7) section added — Claude now auto-invokes the Context7 MCP server on any code work that touches a documented external library (Next.js, Tailwind, Firebase, Vercel KV, Resend, Beehiiv, etc.), pulling current docs into context before writing. Eliminates the stale-API class of bugs (canonical example: Apr 23 builder-bot KV env-var rename). User does not need to invoke 'use context7' manually."
     },
     "docx": {
       "version": "1.0.0",
@@ -37,13 +37,13 @@
       "version": "1.0.0",
       "hash": "a45799e0f7da28bb590ce9f5b8d3f550",
       "updated": "2026-03-17",
-      "changelog": "Added Consequence Check & Red Team layer \u2014 auto-triggers adversarial audit on high-stakes recommendations via 3-lens evaluation (direct downside, coherence risk, unforeseeable surface area)"
+      "changelog": "Added Consequence Check & Red Team layer — auto-triggers adversarial audit on high-stakes recommendations via 3-lens evaluation (direct downside, coherence risk, unforeseeable surface area)"
     },
     "frontend-design": {
       "version": "1.0.0",
       "hash": "5c392562ec1cf5ffa6b9d2319375373f",
       "updated": "2026-04-25",
-      "changelog": "Initial install \u2014 official anthropics/claude-code frontend-design skill. Forces design direction commitment before code, bans Inter/Roboto/Arial, eliminates AI-slop generic UI. Source: github.com/anthropics/claude-code/plugins/frontend-design"
+      "changelog": "Initial install — official anthropics/claude-code frontend-design skill. Forces design direction commitment before code, bans Inter/Roboto/Arial, eliminates AI-slop generic UI. Source: github.com/anthropics/claude-code/plugins/frontend-design"
     },
     "grill-me": {
       "version": "1.0.0",
@@ -59,7 +59,7 @@
       "version": "1.0.0",
       "hash": "c224d6294aec2cf696a1a654a5d22d86",
       "updated": "2026-03-23",
-      "changelog": "Initial release \u2014 HC strategic brain with operating plan, expert research, quarterly review protocol. Hash corrected April 9 to match actual source.",
+      "changelog": "Initial release — HC strategic brain with operating plan, expert research, quarterly review protocol. Hash corrected April 9 to match actual source.",
       "status": "archived",
       "archived_note": "Superseded by tnb-strategy as of April 3, 2026. Repo remains for reference but no longer actively maintained."
     },
@@ -68,10 +68,10 @@
       "hash": "1c07e7fc21a8ad77c257900350a61098"
     },
     "pm": {
-      "version": "1.1.0",
-      "hash": "65da81d0037ad8a2d4629c88b6974096",
-      "updated": "2026-04-24",
-      "changelog": "UX Standards binding \u2014 canonical reference is now `bhub/UX-STANDARDS.md` (cross-device via git), not the skill-bundled copy. Briefs must cite the bhub path and list a `Deviations from the standards` block; unreviewed deviations block APPROVED status. New edge case: if a build introduces a pattern the standards don't cover, the standards doc must be updated (not silently invented). The bundled `references/ux-standards.md` is now a fallback pointer."
+      "version": "1.2.0",
+      "hash": "bddb86170e430325166dfd826f76c331",
+      "updated": "2026-06-22",
+      "changelog": "No-open-decisions-at-handoff rule added to Discovery. A brief handed to Nico must contain zero decisions awaiting Brian: resolve in discovery, or fold into the spec as directives when Nico has access to execute (git/Vercel/GCloud/Firebase). No 'Decisions for Brian' / 'Directives (resolved)' block — conversation artifact. Only genuine mid-build checkpoint blockers route to Brian."
     },
     "pptx": {
       "version": "1.0.0",
@@ -81,7 +81,7 @@
       "version": "1.1.0",
       "hash": "284b82ee11e6154465f8efbc1bffb78b",
       "updated": "2026-04-30",
-      "changelog": "Major editorial recalibration after Brian feedback that briefings drifted toward mega-cap + Series-D-heavy content. HARD rules added: (1) Mega-cap cap \u2014 Anthropic/OpenAI/MAANG capped at 1 item per briefing, Ecosystem Signal section only, never in lede; Anthropic/OpenAI valuation news automatically excluded. (2) Stage sweet spot reset to pre-seed through Series B/C; Series D+ becomes table stakes requiring a non-obvious angle. (3) Lede Rule \u2014 only when 2+ private items share a thesis; never to summarize mega-cap or generic 'heavy deal flow' framing. (4) Item ordering by EDGE not deal size. (5) Stream 2 mandatory \u2014 query 8+ VC firm domains + Carta/Walker + YC blog before drafting; \u226560% of items must be Stream 2 or Series C-or-earlier. (6) Item length cap \u2014 2\u20133 sentences max per item; 10\u201314 items per day; trade length for count. (7) Pre-flight checklist added to execution flow. (8) CVC framing rule for out-of-scope theses (robotics, AVs, hardware) reframed around in-scope angle."
+      "changelog": "Major editorial recalibration after Brian feedback that briefings drifted toward mega-cap + Series-D-heavy content. HARD rules added: (1) Mega-cap cap — Anthropic/OpenAI/MAANG capped at 1 item per briefing, Ecosystem Signal section only, never in lede; Anthropic/OpenAI valuation news automatically excluded. (2) Stage sweet spot reset to pre-seed through Series B/C; Series D+ becomes table stakes requiring a non-obvious angle. (3) Lede Rule — only when 2+ private items share a thesis; never to summarize mega-cap or generic 'heavy deal flow' framing. (4) Item ordering by EDGE not deal size. (5) Stream 2 mandatory — query 8+ VC firm domains + Carta/Walker + YC blog before drafting; ≥60% of items must be Stream 2 or Series C-or-earlier. (6) Item length cap — 2–3 sentences max per item; 10–14 items per day; trade length for count. (7) Pre-flight checklist added to execution flow. (8) CVC framing rule for out-of-scope theses (robotics, AVs, hardware) reframed around in-scope angle."
     },
     "schedule": {
       "version": "1.0.0",
