@@ -166,6 +166,9 @@ Once the brief is approved, Claude generates an **Implementation Plan** — a st
 **Generated:** [date]
 **Based on:** Approved brief above
 
+### Step 0: Bootstrap
+**Run "handoff here"** for the app first — bsync pulls the current repo + its HANDOFF.md so you start from live state (essential for repos you touch rarely).
+
 ### Step 1: [Action verb + what to do]
 **Files:** [Specific files to create or modify]
 **What to build:** [Concrete description — not "implement the feature" but "add a `handleEscape` listener to `SidePanel.jsx` that calls `onClose` on keydown"]
@@ -178,6 +181,9 @@ Once the brief is approved, Claude generates an **Implementation Plan** — a st
 **Run all acceptance criteria from the brief.**
 **Send Brian:** Screenshot of each passing check + link to live deploy.
 **Wait for Brian's acceptance before marking brief COMPLETE.**
+
+### Step N+1: Close out
+**Run "handoff away"** for the app to capture what changed for the next session.
 ```
 
 ### Plan principles
@@ -187,6 +193,7 @@ Once the brief is approved, Claude generates an **Implementation Plan** — a st
 - **File paths are explicit.** "Modify `src/components/SidePanel.jsx`" not "update the side panel component."
 - **Behavioral specs, not implementation suggestions.** Tell Nico what it should DO, not how to code it. Claude-in-Cowork will handle the implementation details.
 - **UX standards are referenced, not re-specified.** Point Nico at `bhub/UX-STANDARDS.md` (canonical, cross-device via git) rather than restating the patterns. His Cowork session pulls bhub on every "handoff here," so the standards are always current. Only call out the *sections* that apply (e.g., "Modals & Panels + Keyboard Shortcuts apply") and any approved deviations from the brief's UX Standards block.
+- **Bracket every session with handoff.** Open every plan with a "handoff here" bootstrap step and close it with "handoff away." This matters most for repos Nico touches rarely (e.g. tnb-website) — he won't carry the context in his head, so "handoff here" is how he gets current state and "handoff away" is how he leaves it for next time. State it explicitly in the plan; don't assume he'll remember.
 
 ---
 

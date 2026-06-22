@@ -68,10 +68,10 @@
       "hash": "1c07e7fc21a8ad77c257900350a61098"
     },
     "pm": {
-      "version": "1.2.0",
-      "hash": "bddb86170e430325166dfd826f76c331",
+      "version": "1.3.0",
+      "hash": "ccf32ac18842e9d482914dcf5df52961",
       "updated": "2026-06-22",
-      "changelog": "No-open-decisions-at-handoff rule added to Discovery. A brief handed to Nico must contain zero decisions awaiting Brian: resolve in discovery, or fold into the spec as directives when Nico has access to execute (git/Vercel/GCloud/Firebase). No 'Decisions for Brian' / 'Directives (resolved)' block — conversation artifact. Only genuine mid-build checkpoint blockers route to Brian."
+      "changelog": "Handoff bracketing baked into the Plan. Every implementation plan now opens with a 'handoff here' bootstrap step (Step 0) and closes with 'handoff away' (Step N+1), plus a Plan principle making it explicit — critical for repos Nico touches rarely (e.g. tnb-website) where he won't carry context in his head. Builds on v1.2.0 no-open-decisions-at-handoff rule."
     },
     "pptx": {
       "version": "1.0.0",
