@@ -24,10 +24,10 @@
       "changelog": "Workflow refactor (Path A as explicit default, multi-section scaffolding rule, scope confirmation for Path B). Added pre-delivery checklist (negation-pivot, magazine-piece framing, stock-phrase slop, accuracy, verbatim test). New Step 1.5 (voice exemplar protocol). style-guide.md gains magazine-piece framing and stock-phrase slop entries under Construction anti-patterns. Driven by post-mortem on TNB Ep1-3 podcast newsletter session, where Path A drift to Path B compounded across segments."
     },
     "dev-deploy": {
-      "version": "1.9.0",
-      "hash": "44c75ae05faad35e6fed5d370761c31d",
+      "version": "1.10.0",
+      "hash": "76c0e0b396379626115de40f4e5a1c5e",
       "updated": "2026-06-22",
-      "changelog": "Hard rule added: 'Skill edits — version + hash + bundle move together (MANDATORY).' Editing a skill isn't done until source + rebuilt bundle + manifest (version/hash/changelog) all change in one commit. Enforced mechanically by bsync's new manifest_synced check, not by memory. Closes the silent-drift gap that shipped the Acceptance Verification Harness invisibly (a81d1e3)."
+      "changelog": "Subagents section added (MANDATORY consideration): explicit propose-and-parallelize forcing function on every non-trivial build/debug/QA task — spawn independent agents in one message to run concurrently; criteria for when subagents help (parallel fan-out, independent verification, context isolation, specialization) vs. when they're overhead (small/linear, shared mutable state, coordination cost); rules of the road (no concurrent writers on the same files, scoped prompts, report integrated results). Pairs with the Acceptance Verification Harness — the independent verifier should be a separate agent."
     },
     "docx": {
       "version": "1.0.0",

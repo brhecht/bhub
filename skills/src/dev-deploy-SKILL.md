@@ -235,6 +235,27 @@ Editing a skill is not finished until three things change in the **same commit**
 
 The enforcement is mechanical, not trust-based: `bsync` reports `manifest_synced` per skill (manifest hash == source hash). **Any `manifest_synced: false` is a hard stop — fix the manifest before trusting version tracking.** Don't rely on remembering this rule; rely on the check catching you when you forget.
 
+### Subagents — propose, parallelize, verify (MANDATORY consideration)
+
+On any non-trivial build, debug, refactor, or QA task, make an **explicit decision about subagents at the start of the task** — do not assume them, do not skip the decision silently. The default behavior is to do everything inline in one context; that default must be actively overridden. Saying "I'm using subagents" without actually invoking the Agent/Task tool is not using subagents — it's narration.
+
+**The forcing function (run it every non-trivial task):** before building, state in one or two lines what independent subagents would improve the *speed, reliability, or quality* of the outcome, then spawn the worthwhile ones. Launch independent agents in a **single message with multiple tool calls so they run concurrently** — spawning them one at a time forfeits the main benefit.
+
+**Spawn subagents when the work is:**
+- **Parallelizable fan-out** — searching or mapping many files, gathering context across the repo, evaluating several independent hypotheses. N agents cover N areas at once without choking a single context window.
+- **Independently verifiable** — a *fresh* agent with no stake in the code is a far better QA instrument than the author re-reading its own work. This is the muscle behind the Acceptance Verification Harness below: the verifier should be a separate agent, and for high-stakes changes, a dedicated review/security agent.
+- **Context-isolatable** — large, independent workstreams that would otherwise pollute or crowd the main context. Each agent gets a clean context and returns only its conclusion.
+- **Specializable** — distinct roles (implement / test / security-review / performance) that each benefit from a focused, single-purpose prompt.
+
+**Do NOT spawn subagents when** the task is small and linear, needs shared mutable state mid-flight (agents can't see each other's in-progress work), or the coordination cost exceeds the benefit. Seven agents on a one-file copy change is theater, not engineering. Every agent must have a crisp scope and a single, independently-checkable deliverable.
+
+**Rules of the road:**
+- Parallel agents must **not write the same files** — partition by file/area, or run them read-only (explore/verify) and let the lead integrate. Concurrent writers create merge conflicts.
+- Give each agent a tightly scoped prompt and the one deliverable you need back (the conclusion, not a file dump). The lead agent owns integration and the final verdict.
+- Tell the user the plan in a line or two before spawning ("Running 3 agents: one maps the auth routes, one drafts tests, one security-reviews the rules"), then report the **integrated** result — not each agent's raw output.
+
+**Why this is mandatory, not optional:** left to the default, Claude under-uses subagents and silently serializes work that should be parallel and independently verified. The explicit propose-and-parallelize step is what converts "I'll use subagents" hand-waving into actual concurrent agents — faster, with verification done by a fresh instrument instead of the author grading its own homework.
+
 ### Acceptance Verification Harness (MANDATORY — loop engineering)
 
 This is the heart of getting the user out of the babysitting loop. The user's old workflow was *prompt → review → correct → re-prompt*, with the user personally acting as the loop's verifier on every turn. This harness moves that verdict into the loop. **Claude does not return to the user with "I think it works" — Claude returns with either proof it works or a precise report of which behavior failed.** "It rendered" / "it loaded" / "returns 200" are NOT proof it works — that's the weak-check trap. Proof means an instrument exercised the actual behavior and returned ground truth.
