@@ -24,10 +24,10 @@
       "changelog": "Workflow refactor (Path A as explicit default, multi-section scaffolding rule, scope confirmation for Path B). Added pre-delivery checklist (negation-pivot, magazine-piece framing, stock-phrase slop, accuracy, verbatim test). New Step 1.5 (voice exemplar protocol). style-guide.md gains magazine-piece framing and stock-phrase slop entries under Construction anti-patterns. Driven by post-mortem on TNB Ep1-3 podcast newsletter session, where Path A drift to Path B compounded across segments."
     },
     "dev-deploy": {
-      "version": "1.7.0",
-      "hash": "26a4401e0ee4b5ec276a7838a9f25f33",
-      "updated": "2026-04-25",
-      "changelog": "Library Awareness (Context7) section added — Claude now auto-invokes the Context7 MCP server on any code work that touches a documented external library (Next.js, Tailwind, Firebase, Vercel KV, Resend, Beehiiv, etc.), pulling current docs into context before writing. Eliminates the stale-API class of bugs (canonical example: Apr 23 builder-bot KV env-var rename). User does not need to invoke 'use context7' manually."
+      "version": "1.8.0",
+      "hash": "5fe1f60dabed36afb3c3db728fc6d20f",
+      "updated": "2026-06-22",
+      "changelog": "Acceptance Verification Harness (loop engineering) now reflected in the manifest. Subagent-driven QA + ground-truth assertion loops: Claude owns correctness (Type A) inside the loop and asserts each behavior against an instrument (assert, don't wait for errors; 3-try bail), handing back only intent/taste (Type B). Shipped in the bundle via commit a81d1e3 but the manifest was left at v1.7.0/26a4401 — this bump syncs version+hash to the real bundle so bsync flags stale installs and prompts reinstall. Source/bundle unchanged; manifest-only correction."
     },
     "docx": {
       "version": "1.0.0",
