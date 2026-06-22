@@ -2,16 +2,16 @@
   "_comment": "Tracks skill versions across devices. Hash is MD5 of SKILL.md source. Bootstrap protocol (bsync.sh) compares this against installed versions.",
   "skills": {
     "tnb-digest": {
-      "version": "1.0.0",
-      "hash": "dde94b8d7f5760b9d9dc1f252c500809",
-      "updated": "2026-06-09",
-      "changelog": "Initial release — TNB Slack Weekly Community Digest. Two-phase manual pipeline: Phase 1 reads 7 days across the 5 TNB community channels via the first-party Slack MCP, filters Builder Bot daily-recap posts + ops noise, and presents a categorized NUMBERED pickable digest inline in Cowork (plus emailed record + DM confirmation). Phase 2 ('render N,N,N') turns Brian's picks into raw narrative + expansion angles in a markdown draft (low-voice, not create-content). Private to Brian; read-only on Slack, never posts community-facing. Carries the daily-recap v2 naming/anti-editorializing rules (name every replier, no anonymous framing, neutral tone)."
+      "version": "1.0.1",
+      "hash": "a0f1a79b5a60a207cdcf9c63287abaf2",
+      "updated": "2026-06-22",
+      "changelog": "Manifest drift repair: hash resynced to the shipped bundle (source/bundle were ahead of the recorded manifest hash). No functional change."
     },
     "comms": {
-      "version": "1.2.0",
-      "hash": "bfac0f7909d451c2e101986abdd745ef",
-      "updated": "2026-04-17",
-      "changelog": "Added real auto-send for Email channel via Gmail Apps Script + hidden HTML marker. Skill now defaults to send mode (email delivered in ~5 min); draft-only mode is opt-in via explicit 'draft' keyword. Apps Script source at bhub/apps-script/claude-auto-send.gs — one-time deployment in Gmail required."
+      "version": "1.2.1",
+      "hash": "74c3dce999b0c63a3b34c875f6b65f56",
+      "updated": "2026-06-22",
+      "changelog": "Manifest drift repair: hash resynced to the shipped bundle (source/bundle were ahead of the recorded manifest hash). No functional change."
     },
     "consolidate-memory": {
       "version": "1.0.0",
@@ -24,10 +24,10 @@
       "changelog": "Workflow refactor (Path A as explicit default, multi-section scaffolding rule, scope confirmation for Path B). Added pre-delivery checklist (negation-pivot, magazine-piece framing, stock-phrase slop, accuracy, verbatim test). New Step 1.5 (voice exemplar protocol). style-guide.md gains magazine-piece framing and stock-phrase slop entries under Construction anti-patterns. Driven by post-mortem on TNB Ep1-3 podcast newsletter session, where Path A drift to Path B compounded across segments."
     },
     "dev-deploy": {
-      "version": "1.8.0",
-      "hash": "5fe1f60dabed36afb3c3db728fc6d20f",
+      "version": "1.9.0",
+      "hash": "44c75ae05faad35e6fed5d370761c31d",
       "updated": "2026-06-22",
-      "changelog": "Acceptance Verification Harness (loop engineering) now reflected in the manifest. Subagent-driven QA + ground-truth assertion loops: Claude owns correctness (Type A) inside the loop and asserts each behavior against an instrument (assert, don't wait for errors; 3-try bail), handing back only intent/taste (Type B). Shipped in the bundle via commit a81d1e3 but the manifest was left at v1.7.0/26a4401 — this bump syncs version+hash to the real bundle so bsync flags stale installs and prompts reinstall. Source/bundle unchanged; manifest-only correction."
+      "changelog": "Hard rule added: 'Skill edits — version + hash + bundle move together (MANDATORY).' Editing a skill isn't done until source + rebuilt bundle + manifest (version/hash/changelog) all change in one commit. Enforced mechanically by bsync's new manifest_synced check, not by memory. Closes the silent-drift gap that shipped the Acceptance Verification Harness invisibly (a81d1e3)."
     },
     "docx": {
       "version": "1.0.0",
@@ -50,10 +50,10 @@
       "hash": "424449ce8e8a1895f9ea83a2fa7b3f93"
     },
     "handoff": {
-      "version": "3.7.0",
-      "hash": "019ed6a20b8215f3992e5cd0a5539c30",
-      "updated": "2026-05-26",
-      "changelog": "Registry expanded to enroll sibling repos that live alongside B-Suite under ~/Developer/ (muscle-anatomy, saturn-v-anatomy, B-Personal). Closes the fleet-audit gap where local copies of those repos could drift behind GitHub without bsync ever flagging it. Registry table now includes a Location column. New Device Setup clones both B-Suite repos and the three siblings."
+      "version": "3.8.0",
+      "hash": "338a81de35a1a0ecf90ee56ff8a45655",
+      "updated": "2026-06-22",
+      "changelog": "Step 2.2 now acts on bsync's manifest_synced field: a false means the manifest hash drifted from the skill source (edited without a manifest bump) — surface and fix before trusting version tracking; null = externally-authored skill, ignore. Backstop for the dev-deploy version+hash+bundle rule."
     },
     "hc-strategy": {
       "version": "1.0.0",

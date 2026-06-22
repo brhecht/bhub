@@ -229,6 +229,12 @@ This was the #1 source of "I have to open terminal" friction. **`--sync-mount` e
 
 See the handoff skill for the full stamp-on-push protocol.
 
+### Skill edits: version + hash + bundle move together (MANDATORY)
+
+Editing a skill is not finished until three things change in the **same commit**: the source (`bhub/skills/src/<skill>-SKILL.md`), the rebuilt bundle (`bhub/skills/<skill>.skill`), and the manifest entry (`bhub/skills/skills-manifest.json` — bump `version`, set `hash` to the new MD5 of the source, update `updated` + `changelog`). A source edit without the matching manifest bump is **silent drift**: the bundle ships but version tracking keeps pointing at the old hash, so bsync can't tell anyone (Nico included) that the skill changed. That is exactly how the dev-deploy Acceptance Verification Harness shipped invisibly in June 2026.
+
+The enforcement is mechanical, not trust-based: `bsync` reports `manifest_synced` per skill (manifest hash == source hash). **Any `manifest_synced: false` is a hard stop — fix the manifest before trusting version tracking.** Don't rely on remembering this rule; rely on the check catching you when you forget.
+
 ### Acceptance Verification Harness (MANDATORY — loop engineering)
 
 This is the heart of getting the user out of the babysitting loop. The user's old workflow was *prompt → review → correct → re-prompt*, with the user personally acting as the loop's verifier on every turn. This harness moves that verdict into the loop. **Claude does not return to the user with "I think it works" — Claude returns with either proof it works or a precise report of which behavior failed.** "It rendered" / "it loaded" / "returns 200" are NOT proof it works — that's the weak-check trap. Proof means an instrument exercised the actual behavior and returned ground truth.

@@ -188,6 +188,8 @@ If the user's session genuinely needs the full fleet (e.g., audit, fleet-wide re
 - Tell the user: "**<skill> is outdated (v<version>).** Click to install, then restart the session."
 - **This is a blocking gate.** Do not proceed until skills are current or the user explicitly acknowledges the mismatch.
 
+**Manifest integrity:** For each entry where `"manifest_synced": false`, the manifest hash no longer matches the skill's source — someone edited a skill (source + bundle) without bumping `skills-manifest.json`. This corrupts version tracking for that skill (the install/`match` check above is comparing against a stale hash). Surface it and fix the manifest: set `hash` to the current source MD5, bump `version`, update `changelog`, commit. `null` means the skill has no source in bhub (externally authored) — ignore. This check is the backstop for the dev-deploy "version + hash + bundle move together" rule.
+
 **Step 2.3: Load app context**
 
 1. Find the repo path from bsync results (the `/tmp/bsync-*/` clone)

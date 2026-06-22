@@ -1,5 +1,10 @@
 #!/bin/bash
-# bsync v2.7 — B-Suite session bootstrap & reconciliation
+# bsync v2.8 — B-Suite session bootstrap & reconciliation
+# v2.8: check_skills now also reports manifest integrity per skill — source_hash,
+#       bundle_hash, and manifest_synced (manifest hash == source hash). Catches the
+#       silent-drift failure where a skill source/bundle is edited but the manifest
+#       version+hash are not bumped (version tracking then lies). manifest_synced=false
+#       is a loud flag to fix the manifest. null = externally-authored skill (no src).
 # v2.7: Three bottleneck fixes that cut full bootstrap from >60s to ~10s:
 #       (1) sync_mount_to_origin now fans out parallel git fetches (cap 8) instead
 #           of sequential — eliminates the ~8-60s wall at session start.
@@ -393,7 +398,7 @@ check_skills() {
   fi
 
   python3 - "$manifest" "$BSUITE_DIR/bhub/skills" "$WORK_DIR/bhub/skills" <<'PYEOF'
-import json, sys, hashlib, glob, os
+import json, sys, hashlib, glob, os, zipfile
 
 manifest_path = sys.argv[1]
 install_dirs  = sys.argv[2:]
@@ -429,12 +434,37 @@ for skill_name in sorted(skills):
             install_path = candidate
             break
 
+    # Manifest integrity: does the manifest hash still match the skill's SOURCE and built BUNDLE?
+    # Catches the silent-drift failure mode where a skill's source/bundle is edited but the
+    # manifest version+hash are NOT bumped, so version tracking quietly lies (the a81d1e3 bug).
+    source_hash = 'not_found'
+    for d in reversed(install_dirs):  # prefer the freshly-pulled work-dir copy as source of truth
+        cand = f'{d}/src/{skill_name}-SKILL.md'
+        if os.path.exists(cand):
+            with open(cand, 'rb') as fh:
+                source_hash = hashlib.md5(fh.read()).hexdigest()
+            break
+    bundle_hash = 'not_found'
+    if install_path:
+        try:
+            with zipfile.ZipFile(install_path) as z:
+                bundle_hash = hashlib.md5(z.read(f'{skill_name}/SKILL.md')).hexdigest()
+        except Exception:
+            bundle_hash = 'not_found'
+    if source_hash == 'not_found':
+        manifest_synced = 'null'   # no source file to check (e.g. externally-authored skill)
+    else:
+        manifest_synced = 'true' if source_hash == expected_hash else 'false'
+
     rows.append(
         f'    {{"skill": {json.dumps(skill_name)}, '
         f'"expected_version": {json.dumps(expected_ver)}, '
         f'"expected_hash": {json.dumps(expected_hash)}, '
         f'"installed_hash": {json.dumps(installed_hash)}, '
         f'"match": {"true" if match else "false"}, '
+        f'"source_hash": {json.dumps(source_hash)}, '
+        f'"bundle_hash": {json.dumps(bundle_hash)}, '
+        f'"manifest_synced": {manifest_synced}, '
         f'"install_path": {json.dumps(install_path)}}}'
     )
 
@@ -583,7 +613,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.7.0",
+  "bsync_version": "2.8.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
