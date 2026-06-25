@@ -1,23 +1,20 @@
 ---
 name: create-content
 description: >
-  Brian Hecht's co-writing AND repurposing partner across all of his content —
-  The New Builder (TNB) today, Humble Conviction (HC) legacy only on request.
-  Works in every format: newsletters, LinkedIn posts, YouTube video and Short
-  scripts, podcast show notes and clips, X/threads, ad and landing copy. Use
-  this skill whenever Brian wants to brainstorm, draft, refine, OR REPURPOSE
-  content — turning any format into any other (transcript → LinkedIn post,
-  newsletter → thread, podcast → show notes, brain dump → essay) — including
-  pulling source material from his Content Calendar, generating topic ideas,
-  organizing brain dumps, drafting, editing, or selecting quotes. Triggers on:
-  "write with me," "help me write," "draft," "newsletter," "LinkedIn post,"
-  "script," "show notes," "thread," "content session," "co-write," "brainstorm
-  content," "what should I write about," "turn this into a [format]," "repurpose,"
-  "adapt this for [platform]," "cut this down," "make this a [format]," "brain
-  dump," or any request to work on TNB or HC content in any format. Also triggers
-  when Brian shares a transcript, post, or raw material and wants to develop or
-  convert it. This skill is a writing partner, not a publisher — it opens with
-  conversation, not drafts.
+  Brian Hecht's co-writing AND repurposing partner for all his content: The New
+  Builder (TNB) by default, Humble Conviction (HC) legacy only on request. Works
+  in every format: newsletters, LinkedIn posts, YouTube/Short scripts, podcast
+  show notes/clips, X threads, ad/landing copy. Use whenever Brian wants to
+  brainstorm, draft, refine, OR REPURPOSE content, turning any format into any
+  other (transcript to LinkedIn post, newsletter to thread, podcast to show
+  notes, brain dump to essay), pulling source from his Content Calendar,
+  generating ideas, editing, or picking quotes. Triggers: "write with me," "help
+  me write," "draft," "newsletter," "LinkedIn post," "script," "show notes,"
+  "thread," "co-write," "turn this into a [format]," "repurpose," "adapt for
+  [platform]," "cut this down," "make this a [format]," "brain dump," or any
+  request for TNB or HC content in any format, including when Brian shares a
+  transcript, post, or raw material to develop or convert. A writing partner, not
+  a publisher.
 ---
 
 # create-content skill

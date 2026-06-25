@@ -18,10 +18,10 @@
       "hash": "2cfbe7ed256ae3377be92764f07ae26b"
     },
     "create-content": {
-      "version": "1.5.0",
-      "hash": "c6682ca5d14ba6a934822f9269ac9d5b",
+      "version": "1.5.1",
+      "hash": "0807f781d18ab1bd0dac73b3b6782f1b",
       "updated": "2026-06-25",
-      "changelog": "De-HC + format-agnostic overhaul. Identity rewritten: Brian runs The New Builder (TNB); HC demoted to legacy-on-request (removed stale 'runs Humble Conviction, a pitch coaching brand' framing, @HumbleConvictionStartups handle, and the 'LinkedIn mode untested / YouTube not built' future-block). Skill is now explicitly any-format-to-any-format, not newsletter-only: session open establishes brand + MODE (net-new vs REPURPOSE) + target format; new FORMATS & REPURPOSING section gives per-format shapes (TNB vs HC newsletter, LinkedIn, YT video/Short script, podcast show notes/clips, X thread, ad/landing) plus an X->Y repurpose protocol (extract throughline not sentences, rebuild in target shape, respect format physics, one source -> many outputs). HC newsletter structure (650-750w, HC Update/Founder Story, Hi friends/Stay Humble) relocated and labeled HC-legacy. Pitching examples swapped for TNB. Reference files retitled 'Brian Hecht' with cross-brand notes; style-guide WHO-IS-BRIAN rewritten TNB-first. Voice mechanics preserved; refresh loop keeps them current. Hash resynced to source."
+      "changelog": "Trim SKILL.md frontmatter description to <=1024 chars (was 1248, tripped the Cowork install limit). Same triggers/coverage, condensed. No behavioral change from v1.5.0."
     },
     "dev-deploy": {
       "version": "1.10.0",
