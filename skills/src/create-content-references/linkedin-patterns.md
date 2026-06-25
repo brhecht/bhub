@@ -1,5 +1,6 @@
-# Humble Conviction — LinkedIn Post Structural Patterns
-*Annotated breakdowns of Brian's LinkedIn-rhythm content*
+# Brian Hecht — LinkedIn Post Structural Patterns
+*Annotated breakdowns of Brian's LinkedIn-rhythm content.*
+*Examples are HC-era, but the structural mechanics (hooks, contrast pairs, closes) are cross-brand and apply to TNB. Brand substance lives in `tnb-core-teachings.md`; current voice in the style-guide Living Voice band.*
 
 ---
 

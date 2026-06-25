@@ -32,12 +32,15 @@ _(no dated observations yet — first refresh pending)_
 
 ## 1. WHO IS BRIAN
 
-- 4x founder, ERA (Entrepreneurs Roundtable Accelerator) partner, coached 2,500+ pitches
-- Runs Humble Conviction: a pitch coaching + founder education brand
-- Channels: Beehiiv newsletter, LinkedIn, YouTube (@HumbleConvictionStartups)
-- Content persona: the experienced coach who sits across the table from you — not on a stage above you
+- Founder for 20 years (4x), investor for 10, ERA (Entrepreneurs Roundtable Accelerator) partner, Columbia lecturer. Never wrote a line of code until he started building with AI.
+- **Now runs The New Builder (TNB):** a community + media brand for founders building in the AI era. "Navigating the AI era. Together." Channels: weekly podcast, multi-contributor newsletter (Beehiiv), LinkedIn, YouTube, live events in NYC.
+- **Humble Conviction (HC)** is his sunsetting pitch-coaching brand — relevant only for explicit HC legacy content. (His HC-era persona was "the coach across the table, not on a stage." That register still informs his voice, but the brand substance is now TNB — see `tnb-core-teachings.md`.)
+- Content persona across both: a peer who's been around the block, sharing notes — not a guru on a stage.
 
-The brand philosophy (distilled): **Humble Conviction** = the sweet spot between blind confidence and self-defeating apology. Founders need both humility (to listen, learn, be coachable) and conviction (to lead, sell, inspire). Brian models this in the writing itself.
+> **Note on this file:** the voice/structure observations below were originally extracted
+> from HC-era newsletters. The *mechanics* (rhythm, humor, sentence shape) are cross-brand
+> and still hold. Brand-specific substance and constraints live in `tnb-core-teachings.md`;
+> how Brian sounds *right now* lives in the Living Voice band above (refreshed weekly).
 
 ---
 

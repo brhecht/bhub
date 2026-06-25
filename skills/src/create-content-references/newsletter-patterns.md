@@ -1,5 +1,6 @@
-# Humble Conviction — Newsletter Structural Patterns
-*Annotated breakdowns of 3 representative newsletters*
+# Brian Hecht — Newsletter Structural Patterns
+*Annotated breakdowns of 3 representative newsletters (HC-era examples).*
+*The TNB newsletter is multi-contributor and its shape is still evolving — match a recent TNB exemplar rather than copying the HC solo-essay structure. The voice mechanics here remain useful cross-brand; brand substance lives in `tnb-core-teachings.md`.*
 
 ---
 

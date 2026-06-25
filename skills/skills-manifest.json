@@ -18,10 +18,10 @@
       "hash": "2cfbe7ed256ae3377be92764f07ae26b"
     },
     "create-content": {
-      "version": "1.4.0",
-      "hash": "f9d081101acd386201f0c8c9ad212fc2",
+      "version": "1.5.0",
+      "hash": "c6682ca5d14ba6a934822f9269ac9d5b",
       "updated": "2026-06-25",
-      "changelog": "Layer-1 (voice DNA) freshness + brand-routing overhaul. (1) Thinking layer is now BRAND-ROUTED: new references/tnb-core-teachings.md (imported from tnb-strategy POSITIONING-LANGUAGE.md + tnb-deck.md) for TNB; brian-core-teachings.md quarantined as HC-ONLY with a do-not-apply-to-TNB banner (the old 'Humble Conviction balance in every piece' directive no longer leaks into TNB). SKILL.md Step 0 establishes brand first, default TNB, load exactly one thinking file. (2) style-guide.md restructured into a recency-weighted Living Voice band (wins on conflict) over a stable Core. (3) New VOICE REFRESH PROTOCOL: weekly voice-refresh scheduled task + on-demand /refresh-voice does a DELTA pull (cards newer than .voice-watermark.json) and folds recent voice into Living Voice; Core is propose-only (never silent rewrite). (4) Live-source read: skill prefers mounted bhub source for style-guide/tnb-core-teachings so refreshes take effect without reinstall. Driven by Brian: quarterly was too slow (multi-post/week, recent matters most) and HC teachings were distorting TNB."
+      "changelog": "De-HC + format-agnostic overhaul. Identity rewritten: Brian runs The New Builder (TNB); HC demoted to legacy-on-request (removed stale 'runs Humble Conviction, a pitch coaching brand' framing, @HumbleConvictionStartups handle, and the 'LinkedIn mode untested / YouTube not built' future-block). Skill is now explicitly any-format-to-any-format, not newsletter-only: session open establishes brand + MODE (net-new vs REPURPOSE) + target format; new FORMATS & REPURPOSING section gives per-format shapes (TNB vs HC newsletter, LinkedIn, YT video/Short script, podcast show notes/clips, X thread, ad/landing) plus an X->Y repurpose protocol (extract throughline not sentences, rebuild in target shape, respect format physics, one source -> many outputs). HC newsletter structure (650-750w, HC Update/Founder Story, Hi friends/Stay Humble) relocated and labeled HC-legacy. Pitching examples swapped for TNB. Reference files retitled 'Brian Hecht' with cross-brand notes; style-guide WHO-IS-BRIAN rewritten TNB-first. Voice mechanics preserved; refresh loop keeps them current. Hash resynced to source."
     },
     "dev-deploy": {
       "version": "1.10.0",
