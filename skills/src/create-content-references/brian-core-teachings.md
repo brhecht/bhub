@@ -1,7 +1,19 @@
-# Brian Hecht — Core Teachings Reference
-*Transcripts and frameworks from Brian's most important video content*
+# Brian Hecht — Core Teachings Reference (HUMBLE CONVICTION / HC — LEGACY ONLY)
 
-This file exists so the skill understands **how Brian thinks**, not just how he writes. When generating topic suggestions, outlines, or drafts, ground them in these frameworks. Brian's content should sound like it comes from someone who has coached 2,500+ pitches and has specific, tested opinions — not generic startup advice.
+> **⚠️ HC-ONLY. DO NOT APPLY TO TNB CONTENT.** This file is pitch-coaching curriculum
+> from the Humble Conviction era (the 7 essentials, "magical medicine vs. vitamin," the
+> Humble Conviction balance, "every question is a gift"). It is the correct thinking
+> reference *only* when Brian is explicitly writing HC legacy content. For The New
+> Builder (the default brand now), use `tnb-core-teachings.md` instead — TNB is
+> relationship-led and anti-guru, and these HC frameworks will actively distort it.
+> Loading both for one piece is a mistake; load exactly the one that matches the brand.
+
+*Transcripts and frameworks from Brian's most important HC-era video content.*
+
+This file exists so the skill understands **how Brian thought about pitching in the HC
+era**, not just how he writes. When generating HC topic suggestions, outlines, or drafts,
+ground them in these frameworks. HC content should sound like it comes from someone who
+has coached 2,500+ pitches and has specific, tested opinions — not generic startup advice.
 
 ---
 

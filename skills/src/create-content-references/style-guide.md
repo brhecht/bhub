@@ -1,5 +1,32 @@
-# Humble Conviction — Brian Hecht Style Guide
-*Extracted from 17 newsletters (corpus analysis)*
+# Brian Hecht — Style Guide (Voice DNA)
+*Two-tier: a recency-weighted **Living Voice** band on top, a stable **Core** below.*
+*Core originally extracted from 17 HC-era newsletters; Living Voice is kept current by the Voice Refresh Protocol (see SKILL.md).*
+
+---
+
+## 0. HOW TO READ THIS FILE
+
+This guide has two tiers, and they are not equal:
+
+- **LIVING VOICE (below, §0.1)** — how Brian sounds *right now*, refreshed weekly from
+  his recent published pieces. **When Living Voice and Core conflict, Living Voice wins.**
+  Match this first. It is the closest thing to Brian-today.
+- **STABLE CORE (§1 onward)** — durable rules that rarely move (who Brian is, humor
+  patterns, the "never use" lists, structural anti-patterns). Treat as the base layer.
+  Core changes only when Brian approves a proposed diff — the refresh never rewrites it
+  silently.
+
+### 0.1 LIVING VOICE — last ~90 days
+
+*Maintained by the Voice Refresh Protocol. Each entry tagged with date + brand
+(TNB/HC). Entries age out at ~90 days unless they keep recurring.*
+
+> **Seed note (2026-06-25):** Band initialized empty. The first scheduled `voice-refresh`
+> run will populate it from recent beehiiv + linkedin pieces. Until then, fall back to
+> Core below, and for TNB content honor the TNB voice constraints in
+> `tnb-core-teachings.md` (no em dashes, the tagline beat, no "platform"/"movement").
+
+_(no dated observations yet — first refresh pending)_
 
 ---
 

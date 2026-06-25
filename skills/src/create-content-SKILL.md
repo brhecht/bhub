@@ -25,23 +25,47 @@ Brian runs Humble Conviction, a startup pitch coaching brand for early-stage fou
 
 ## BEFORE YOU WRITE ANYTHING
 
-**Step 1 — Read these reference files** (cross-brand voice DNA, not generic writing advice):
+### Step 0 — Establish the brand FIRST (TNB vs HC)
 
-- `references/style-guide.md` — voice, vocabulary, structure, anti-patterns (extracted from 17 real newsletters)
+Brand determines which "how Brian thinks" reference you load, and the two are NOT
+interchangeable. **Default is TNB** (HC is sunsetting). If the request is ambiguous,
+ask one question: "TNB or HC?" Do not assume, and never load the HC thinking
+reference for a TNB piece — it will distort the substance.
+
+### Step 1 — Voice DNA (load for BOTH brands)
+
+> **Source-of-truth note.** The Voice Refresh Protocol updates the *live source* file at
+> `B-Suite/bhub/skills/src/create-content-references/style-guide.md`, not the bundled
+> copy. **If the B-Suite folder is mounted (it normally is), read the style guide from
+> that live source path** so you always get the freshest Living Voice band. The
+> `references/style-guide.md` bundled with the skill is a fallback snapshot for when the
+> mount isn't available. Same applies to `tnb-core-teachings.md` and the watermark.
+
+These describe *how Brian writes* and apply cross-brand:
+
+- `references/style-guide.md` — voice, vocabulary, structure, anti-patterns. **Read its
+  two-tier structure correctly:** the **Living Voice** band (recency-weighted, refreshed
+  from recent posts) reflects how Brian sounds *now* and **outweighs the stable Core when
+  they conflict.** Match Living Voice first.
 - `references/newsletter-patterns.md` — annotated structural breakdowns of Brian's best newsletters
 - `references/linkedin-patterns.md` — annotated breakdowns of Brian's LinkedIn post structure (rhythm, hook formulas, contrast pairs, close patterns)
-- `references/brian-core-teachings.md` — transcript excerpts and key frameworks. **NOTE: this file is HC-flavored** — it's mostly pitch coaching content (the 7 essentials, QBQ, Humble Conviction balance, etc.). Use it for HC-era pitch content; for TNB content, the parallel reference is `B-Suite/tnb-strategy/brand/tnb-deck.md`.
 
-**Step 2 — Brand-aware positioning load:**
+### Step 2 — Thinking layer (BRAND-ROUTED — load exactly one)
 
-If Brian is working on **TNB content** (newsletter, LinkedIn, podcast hooks, ad copy, anything brand-facing for The New Builder), ALSO read:
+This is *how Brian thinks / what the brand believes*. **Load the one that matches the
+brand from Step 0. Never load both for the same piece.**
 
-- `B-Suite/tnb-strategy/brand/POSITIONING-LANGUAGE.md` — canonical TNB copy: tagline, one-liners, cocktail party version, written version, style rules
-- `B-Suite/tnb-strategy/brand/tnb-deck.md` — markdown of the strategy deck: thesis claims, brand positioning matrix, key principles ("peers sharing notes > clever frameworks"), audience contrast (Legacy Founder vs. New Builder)
+- **TNB content** → `references/tnb-core-teachings.md` (imported from the strategy docs:
+  thesis, audience contrast, anti-guru posture, recurring themes, TNB voice constraints
+  like *no em dashes* and the tagline beat). For deeper questions, the source of truth is
+  `B-Suite/tnb-strategy/brand/POSITIONING-LANGUAGE.md` + `B-Suite/tnb-strategy/brand/tnb-deck.md`.
+- **HC legacy content** (rare) → `references/brian-core-teachings.md`. **This file is
+  HC-ONLY** — the 7 essentials, "magical medicine vs. vitamin," Humble Conviction balance,
+  pitch-coaching transcripts. It must NEVER be applied to TNB content. The HC strategy
+  archive is at `B-Suite/hc-strategy/` if needed.
 
-If working on **HC legacy content** (rare now, since the brand is sunsetting), `references/brian-core-teachings.md` is your primary reference. The HC strategy archive is at `B-Suite/hc-strategy/` if needed.
-
-If Brian doesn't specify the brand, ask. Don't assume.
+> TNB is relationship-led, not instructional, so its thinking layer is deliberately
+> thematic rather than a framework bank. Don't force HC-style named frameworks onto TNB.
 
 ---
 
@@ -105,7 +129,7 @@ When you have source material (LinkedIn posts, transcripts, brain dumps, or just
 
 1. **Read the full input** — don't start generating until you've absorbed everything
 2. **Generate exactly 10 topic ideas**, each with a one-line description
-3. **Connect ideas to Brian's actual frameworks** when natural — check `references/brian-core-teachings.md`. Don't force it.
+3. **Connect ideas to Brian's actual thinking** when natural — check the brand-routed thinking layer from Step 2 (`tnb-core-teachings.md` for TNB, `brian-core-teachings.md` for HC). Don't force it. For TNB, ground in the recurring *themes* (every founder is a builder, AI as DNA, learn-by-doing/share-notes), not HC pitch frameworks.
 
 **Deduplication check:** Before presenting ideas, check whether any topic has already been covered as a previous newsletter. Use the API to pull recent Beehiiv cards and compare themes. If overlap exists:
 - Note it: "This was also the theme of your March 13 newsletter 'I Built Six Apps'"
@@ -114,7 +138,7 @@ When you have source material (LinkedIn posts, transcripts, brain dumps, or just
 **What makes a good topic idea:**
 - Specific enough to write about — not "how to pitch better" but "why your TAM slide is the one investors actually remember"
 - Tension-driven or counterintuitive — names something founders get wrong, or flips a common belief
-- Connected to something Brian actually teaches (the 7 essentials, Humble Conviction balance, "every question is a gift," "magical medicine vs. vitamin")
+- Connected to the brand's actual substance. **TNB:** the recurring themes ("every founder is a builder," "AI as DNA not a tool," "learn by doing and share notes," the anti-guru stance). **HC (legacy only):** the 7 essentials, Humble Conviction balance, "every question is a gift," "magical medicine vs. vitamin."
 
 **Format:**
 ```
@@ -275,9 +299,67 @@ These checks compound. The negation-pivot you didn't catch + the magazine framin
 | What words does Brian use/avoid? | style-guide.md §5 |
 | How does a newsletter open? | style-guide.md §3 |
 | What humor patterns work? | style-guide.md §2 |
+| How does Brian sound *right now*? | style-guide.md → Living Voice band |
 | How are quotes selected? | style-guide.md §10 |
-| What does Brian actually teach? | brian-core-teachings.md |
-| What frameworks does Brian use? | brian-core-teachings.md |
+| What does TNB believe / its themes? | tnb-core-teachings.md |
+| TNB voice constraints (em dashes, tagline)? | tnb-core-teachings.md |
+| What did Brian teach in HC (legacy)? | brian-core-teachings.md (HC ONLY) |
+
+---
+
+## VOICE REFRESH PROTOCOL (keeps Layer 1 from going stale)
+
+The voice DNA in `style-guide.md` is a distillation. Distillations rot — the original
+was extracted from a frozen snapshot of newsletters and never updated, while Brian
+ships multiple pieces a week and his *recent* voice is the truth. This protocol keeps
+the distillation current **without ever re-reading the whole corpus.** It runs weekly
+via a scheduled task (`voice-refresh`) and on demand when Brian says **"/refresh-voice"**
+or "refresh my voice."
+
+**It is a DELTA refresh, not a re-distillation.** Only new pieces since the last run
+are ever read.
+
+### Procedure
+
+1. **Read the watermark.** `references/.voice-watermark.json` holds `last_refresh` (ISO
+   date) and `last_seen` per platform (most recent card date already folded in). If the
+   file is missing, treat `last_refresh` as 30 days ago and create it at the end.
+
+2. **Pull ONLY the delta.** From the Content Calendar API, fetch published cards newer
+   than the watermark, newest first. Platforms: `beehiiv` and `linkedin` (these carry
+   voice; skip yt unless Brian asks). Typical run = a handful of pieces. Never pull the
+   full archive. Example:
+   `GET https://content-calendar-nine.vercel.app/api/cards?platform=beehiiv,linkedin&status=published&limit=25`
+   (Bearer = the Firebase key in Step 2 of the session flow. Exclude `status: "ghost"`.)
+   If zero new pieces, stop — nothing to refresh.
+
+3. **Extract from the delta**, per piece: new vocabulary or phrasings Brian is using;
+   new structural moves (openings, closes, section shapes); new humor beats; and any
+   *drift* from existing rules (a "never use" word he's now using, a pattern he's
+   abandoned). Note the brand of each piece (TNB vs HC) — TNB observations inform the
+   TNB-leaning voice; don't let HC-era tics contaminate current TNB voice.
+
+4. **Update the Living Voice band** at the top of `style-guide.md` (the "Living Voice —
+   last ~90 days" section). Add/replace observations there, each tagged with a date and
+   brand. Age out anything older than ~90 days that no longer recurs. This band is what
+   drafting matches first.
+
+5. **Stable Core is append-and-PROPOSE only.** Do NOT silently rewrite the durable Core
+   rules. If the delta suggests a Core rule has genuinely changed (e.g., Brian has fully
+   abandoned a "never use" word for months), surface it as a **proposed diff for Brian to
+   approve** — never auto-commit a Core change. (This honors Brian's stated failure mode:
+   don't bake conclusions into canon prematurely. The machine observes; Brian canonizes.)
+
+6. **Advance the watermark** (`last_refresh` = today; `last_seen` = newest card date per
+   platform) and **commit** `style-guide.md` + the watermark to `bhub` with a clear
+   message. Git diff makes every refresh auditable.
+
+### Guardrails
+
+- Never re-read the full corpus. Delta only. If the watermark looks wrong, ask Brian
+  rather than backfilling everything.
+- Living Voice = free to update. Core = propose only.
+- A refresh that finds nothing new should make no changes and say so.
 
 ---
 
