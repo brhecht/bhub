@@ -21,12 +21,80 @@ This guide has two tiers, and they are not equal:
 *Maintained by the Voice Refresh Protocol. Each entry tagged with date + brand
 (TNB/HC). Entries age out at ~90 days unless they keep recurring.*
 
-> **Seed note (2026-06-25):** Band initialized empty. The first scheduled `voice-refresh`
-> run will populate it from recent beehiiv + linkedin pieces. Until then, fall back to
-> Core below, and for TNB content honor the TNB voice constraints in
-> `tnb-core-teachings.md` (no em dashes, the tagline beat, no "platform"/"movement").
+*First populated 2026-06-28 from 13 recent published pieces (10 LinkedIn, 3 beehiiv),
+all TNB-era. No HC-era pieces in this delta.*
 
-_(no dated observations yet — first refresh pending)_
+**Recurring structural moves (TNB, 2026-05 → 06)**
+
+- **LI posts open cold with a single arresting line, then a hard break.** A confession, a
+  quoted zinger, or a count-up of damage — no runway. "Claude called BS on me the other
+  day." (Tooling Distraction, 6/26) · "Six hours, three subagents, and one disaster later,
+  Claude finally admitted what it should have told me upfront." (Claude Code Disaster,
+  5/28) · "I love vibe coding. I hate 'vibe coding.'" (5/14). Usually prefixed with one
+  leading emoji (🐝 ✍🏽 ⏰ 😵‍💫).
+- **The build-narrative arc** is now his default LI/essay spine: real need → "Challenge
+  accepted!" → built v1 → *"And then I realized…"* → built v2 → validation by a real
+  human (a friend, a PT, the Slack). (Anatomy, 5/27; Tooling Distraction, 6/26.)
+- **Pull-forward summary device:** "I'll cut to the punchline:" / "Here's the gist of what
+  I got." He spoils the ending to earn the read. (Claude Code Disaster 5/28; written by
+  AI, 6/16.)
+- **The "flip the question" move:** take the common framing and invert it. "Everyone tries
+  to spot AI tells. What if I flipped it? What makes my writing distinctly *me*?" (written
+  by AI 6/16; Shame!, 6/12.)
+- **Closes on a tension resolved by human judgment**, not a CTA-to-self. "a tension that
+  can only be resolved by human judgement." (6/26) · "Code has gotten cheap. But thinking
+  is more valuable than ever." (5/6) · "Picking the right tool is more important than
+  mastering all of them." (5/28).
+- **Public indecision as a feature.** He'll openly fail to land an opinion and make that
+  the point: "Even as I write this I'm struggling to formulate a clear opinion. So maybe
+  the Playbook has some value after all." (Backwards Playbook, 6/9.)
+- **Arrow bullets (`→`) and emoji bullets (🤥 💪)** are his current LI list texture —
+  parallel options or a numbered "lies/myths" frame, prose before and after. (Future of
+  Work 6/24; Three Lies 5/6; Anatomy 5/27.)
+- **Gives away a reusable artifact inline** — a copy-paste prompt or a description of a
+  skill he built — as the post's payload. (written by AI 6/16; Shame! 6/12.)
+
+**Recurring voice / humor beats (TNB, 2026-05 → 06)**
+
+- **Claude (the AI) is now a recurring comic character with a personality** — it talks
+  back, "calls BS," "berates itself" ("I was being stupid!"), gets "smug," and has "a
+  really big ego." He stages dialogue with it as a foil. This is the single most
+  distinctive new beat of the period. (Tooling Distraction 6/26; Lines in Between 6/2;
+  Claude Code Disaster 5/28.)
+- **GenX tech-bafflement as self-deprecation:** "Dotenv? Might as well be Klingon. Shell?
+  I've heard the word but… 🤷‍♂️." Drops "Kubrick and Klingon without a footnote and moves
+  on." (Lines in Between 6/2; written by AI 6/16.)
+- **Pop-culture riffs played straight, #iykyk** — a full 2001: A Space Odyssey "I'm sorry,
+  Dave" bit (Gemini = Hal) carrying a whole beehiiv section. (Man vs. Machine vs. Gmail,
+  5/26.)
+- **Wry absurd comparisons continue:** "sounds like a job at NVIDIA" (5/14) · the "worst"
+  wine still "better than the best wine I'd ever had before" (6/10) · "I ain't too proud
+  to beg" (5/26).
+
+**Current lexicon additions (TNB)**
+
+- "slop" / "AI slop" (the tell-word for bad AI writing) · "coding-without-code" (his
+  preferred frame vs. "vibe coding," which he likes as practice but hates as a phrase) ·
+  "noob," "under the hood," "set it and forget it," "tells" · "constructive optimism" vs.
+  "doomsaying" · "meta," "#iykyk." Still leans on "pretty" as a qualifier.
+
+**Brand / drift notes**
+
+- **TNB beehiiv essays open "Dear Friends," (comma)** — not Core's "Hi friends:". (Man vs.
+  Machine 5/26; Shame! 6/12.)
+- **No "Stay Humble!" sign-off and no "HC Update" in TNB essays** — both are HC-era Core
+  fixtures that the current brand has dropped. (See PROPOSED CORE CHANGE below.)
+
+> **PROPOSED CORE CHANGE (awaiting Brian's approval) — 2026-06-28:**
+> Core §3 still hard-codes HC-era newsletter fixtures that TNB no longer uses: the
+> mandatory **"HC Update,"** the **"Stay Humble!" / "Pitch Strong and Stay Humble!"**
+> sign-off, and the always-"Hi friends:" opener. Observed TNB beehiiv reality (5/26,
+> 6/12): opener is **"Dear Friends,"**, no HC Update, no "Stay Humble!" close. Recommend
+> rewriting §3 around the TNB structure (or scoping the HC fixtures as HC-legacy-only).
+> *Secondary flag:* the `tnb-core-teachings.md` "no em dashes" constraint is **not** being
+> honored in published LI posts — em dashes appear regularly (e.g. "distinctly human —
+> and distinctly me," 6/16; "Karpathy's own walkback —", 5/14). Decide which is canon:
+> the rule, or the published practice. Both are propose-only; not edited here.
 
 ---
 
