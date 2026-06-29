@@ -11,7 +11,7 @@
       "version": "1.3.0",
       "hash": "131ea46d1cadb8d455bbb327a261f625",
       "updated": "2026-06-22",
-      "changelog": "Plain-language-when-recipient-is-Brian rule (MANDATORY): every message to Brian — email/DM/ping, from either side — must read for a smart non-engineer. No naked jargon, lead with the decision/ask not the mechanism, never hand Brian a raw technical fork. Binding factor is the recipient, not the author (covers Nico's outgoing messages)."
+      "changelog": "Plain-language-when-recipient-is-Brian rule (MANDATORY): every message to Brian \u2014 email/DM/ping, from either side \u2014 must read for a smart non-engineer. No naked jargon, lead with the decision/ask not the mechanism, never hand Brian a raw technical fork. Binding factor is the recipient, not the author (covers Nico's outgoing messages)."
     },
     "consolidate-memory": {
       "version": "1.0.0",
@@ -27,7 +27,7 @@
       "version": "1.10.0",
       "hash": "76c0e0b396379626115de40f4e5a1c5e",
       "updated": "2026-06-22",
-      "changelog": "Subagents section added (MANDATORY consideration): explicit propose-and-parallelize forcing function on every non-trivial build/debug/QA task — spawn independent agents in one message to run concurrently; criteria for when subagents help (parallel fan-out, independent verification, context isolation, specialization) vs. when they're overhead (small/linear, shared mutable state, coordination cost); rules of the road (no concurrent writers on the same files, scoped prompts, report integrated results). Pairs with the Acceptance Verification Harness — the independent verifier should be a separate agent."
+      "changelog": "Subagents section added (MANDATORY consideration): explicit propose-and-parallelize forcing function on every non-trivial build/debug/QA task \u2014 spawn independent agents in one message to run concurrently; criteria for when subagents help (parallel fan-out, independent verification, context isolation, specialization) vs. when they're overhead (small/linear, shared mutable state, coordination cost); rules of the road (no concurrent writers on the same files, scoped prompts, report integrated results). Pairs with the Acceptance Verification Harness \u2014 the independent verifier should be a separate agent."
     },
     "docx": {
       "version": "1.0.0",
@@ -37,13 +37,13 @@
       "version": "1.0.0",
       "hash": "a45799e0f7da28bb590ce9f5b8d3f550",
       "updated": "2026-03-17",
-      "changelog": "Added Consequence Check & Red Team layer — auto-triggers adversarial audit on high-stakes recommendations via 3-lens evaluation (direct downside, coherence risk, unforeseeable surface area)"
+      "changelog": "Added Consequence Check & Red Team layer \u2014 auto-triggers adversarial audit on high-stakes recommendations via 3-lens evaluation (direct downside, coherence risk, unforeseeable surface area)"
     },
     "frontend-design": {
       "version": "1.0.0",
       "hash": "5c392562ec1cf5ffa6b9d2319375373f",
       "updated": "2026-04-25",
-      "changelog": "Initial install — official anthropics/claude-code frontend-design skill. Forces design direction commitment before code, bans Inter/Roboto/Arial, eliminates AI-slop generic UI. Source: github.com/anthropics/claude-code/plugins/frontend-design"
+      "changelog": "Initial install \u2014 official anthropics/claude-code frontend-design skill. Forces design direction commitment before code, bans Inter/Roboto/Arial, eliminates AI-slop generic UI. Source: github.com/anthropics/claude-code/plugins/frontend-design"
     },
     "grill-me": {
       "version": "1.0.0",
@@ -53,13 +53,13 @@
       "version": "3.8.0",
       "hash": "338a81de35a1a0ecf90ee56ff8a45655",
       "updated": "2026-06-22",
-      "changelog": "Step 2.2 now acts on bsync's manifest_synced field: a false means the manifest hash drifted from the skill source (edited without a manifest bump) — surface and fix before trusting version tracking; null = externally-authored skill, ignore. Backstop for the dev-deploy version+hash+bundle rule."
+      "changelog": "Step 2.2 now acts on bsync's manifest_synced field: a false means the manifest hash drifted from the skill source (edited without a manifest bump) \u2014 surface and fix before trusting version tracking; null = externally-authored skill, ignore. Backstop for the dev-deploy version+hash+bundle rule."
     },
     "hc-strategy": {
       "version": "1.0.0",
       "hash": "c224d6294aec2cf696a1a654a5d22d86",
       "updated": "2026-03-23",
-      "changelog": "Initial release — HC strategic brain with operating plan, expert research, quarterly review protocol. Hash corrected April 9 to match actual source.",
+      "changelog": "Initial release \u2014 HC strategic brain with operating plan, expert research, quarterly review protocol. Hash corrected April 9 to match actual source.",
       "status": "archived",
       "archived_note": "Superseded by tnb-strategy as of April 3, 2026. Repo remains for reference but no longer actively maintained."
     },
@@ -71,7 +71,7 @@
       "version": "1.4.0",
       "hash": "70fe06dd4cc2f39ebc8dad0e092092ed",
       "updated": "2026-06-22",
-      "changelog": "Decision Map sharpened: implementation-method choices with a clear option are Nico's to decide and proceed on, even when they feel 'architectural' — they never go to Brian. Route-to-Brian narrowed to money / irreversible data / user-facing behavior / access Nico lacks. Hard rule: an item going to Brian only because it's technical is not a Brian item; Nico decides (with his rec) or routes to the PM, never stalls the build on a non-technical founder approving a method. Fixes the Songwriter's-Lab gating-method bounce-back."
+      "changelog": "Decision Map sharpened: implementation-method choices with a clear option are Nico's to decide and proceed on, even when they feel 'architectural' \u2014 they never go to Brian. Route-to-Brian narrowed to money / irreversible data / user-facing behavior / access Nico lacks. Hard rule: an item going to Brian only because it's technical is not a Brian item; Nico decides (with his rec) or routes to the PM, never stalls the build on a non-technical founder approving a method. Fixes the Songwriter's-Lab gating-method bounce-back."
     },
     "pptx": {
       "version": "1.0.0",
@@ -81,7 +81,7 @@
       "version": "1.1.0",
       "hash": "284b82ee11e6154465f8efbc1bffb78b",
       "updated": "2026-04-30",
-      "changelog": "Major editorial recalibration after Brian feedback that briefings drifted toward mega-cap + Series-D-heavy content. HARD rules added: (1) Mega-cap cap — Anthropic/OpenAI/MAANG capped at 1 item per briefing, Ecosystem Signal section only, never in lede; Anthropic/OpenAI valuation news automatically excluded. (2) Stage sweet spot reset to pre-seed through Series B/C; Series D+ becomes table stakes requiring a non-obvious angle. (3) Lede Rule — only when 2+ private items share a thesis; never to summarize mega-cap or generic 'heavy deal flow' framing. (4) Item ordering by EDGE not deal size. (5) Stream 2 mandatory — query 8+ VC firm domains + Carta/Walker + YC blog before drafting; ≥60% of items must be Stream 2 or Series C-or-earlier. (6) Item length cap — 2–3 sentences max per item; 10–14 items per day; trade length for count. (7) Pre-flight checklist added to execution flow. (8) CVC framing rule for out-of-scope theses (robotics, AVs, hardware) reframed around in-scope angle."
+      "changelog": "Major editorial recalibration after Brian feedback that briefings drifted toward mega-cap + Series-D-heavy content. HARD rules added: (1) Mega-cap cap \u2014 Anthropic/OpenAI/MAANG capped at 1 item per briefing, Ecosystem Signal section only, never in lede; Anthropic/OpenAI valuation news automatically excluded. (2) Stage sweet spot reset to pre-seed through Series B/C; Series D+ becomes table stakes requiring a non-obvious angle. (3) Lede Rule \u2014 only when 2+ private items share a thesis; never to summarize mega-cap or generic 'heavy deal flow' framing. (4) Item ordering by EDGE not deal size. (5) Stream 2 mandatory \u2014 query 8+ VC firm domains + Carta/Walker + YC blog before drafting; \u226560% of items must be Stream 2 or Series C-or-earlier. (6) Item length cap \u2014 2\u20133 sentences max per item; 10\u201314 items per day; trade length for count. (7) Pre-flight checklist added to execution flow. (8) CVC framing rule for out-of-scope theses (robotics, AVs, hardware) reframed around in-scope angle."
     },
     "schedule": {
       "version": "1.0.0",
@@ -162,12 +162,22 @@
       "expert": "unknown",
       "hc-strategy": "unknown",
       "tnb-strategy": "unknown",
-      "last_synced": "2026-06-02",
+      "last_synced": "2026-06-28",
       "pm": "unknown",
       "create-content": "unknown",
       "priority-startup-intel": "unknown",
       "bhealth_version": "1.0.0",
-      "frontend-design": "unknown"
+      "frontend-design": "unknown",
+      "tnb-digest": "unknown",
+      "consolidate-memory": "unknown",
+      "docx": "unknown",
+      "grill-me": "unknown",
+      "pdf": "unknown",
+      "pptx": "unknown",
+      "schedule": "unknown",
+      "setup-cowork": "unknown",
+      "skill-creator": "unknown",
+      "xlsx": "unknown"
     },
     "Mac Mini": {
       "comms": "unknown",
