@@ -384,6 +384,10 @@ check_bsync() {
 check_tools() {
   hdr "Toolchain"
 
+  # Source Homebrew shellenv so launchd (which has a minimal PATH) can find
+  # tools installed via brew. Safe no-op if brew isn't at this path.
+  eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || true
+
   for tool in node npm gh vercel git; do
     local version="" path=""
     if command -v "$tool" >/dev/null 2>&1; then
@@ -403,13 +407,12 @@ check_tools() {
     fi
   done
 
-  # Also check gh auth
+  # gh auth — informational only, not flagged (deploys use PAT via .git-credentials)
   if command -v gh >/dev/null 2>&1; then
     if gh auth status 2>/dev/null >/dev/null; then
       say "${OK} gh: authenticated"
     else
-      say "${WARN} gh: not authenticated"
-      REPORT_FLAGS+=("gh CLI not authenticated — run: gh auth login")
+      say "${INFO} gh: not authenticated (optional — deploys work via PAT)"
     fi
   fi
 
@@ -429,9 +432,17 @@ check_tools() {
 check_master_handoff() {
   hdr "Master handoff — device path"
 
-  local master="$SCRIPT_DIR/HANDOFF-MASTER.md"
-  if [[ ! -f "$master" ]]; then
-    say "${WARN} Master handoff not found"
+  # HANDOFF-MASTER.md moved to bsuite-handoffs (private repo) on May 25 2026.
+  # The bhub copy is now a stub redirect — clone the real one to /tmp.
+  local handoffs_tmp="/tmp/bhealth-handoffs-$$"
+  local token=""
+  [[ -f "$TOKEN_FILE" ]] && token="$(cat "$TOKEN_FILE" | tr -d '\n')"
+  local master=""
+  if [[ -n "$token" ]]; then
+    git clone --depth 1 --quiet       "https://brhecht:${token}@github.com/brhecht/bsuite-handoffs.git"       "$handoffs_tmp" 2>/dev/null       && master="$handoffs_tmp/HANDOFF-MASTER.md"
+  fi
+  if [[ -z "$master" || ! -f "$master" ]]; then
+    say "${WARN} Could not fetch master handoff (token missing or clone failed)"
     return
   fi
 
