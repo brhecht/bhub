@@ -1,0 +1,322 @@
+{
+  "bhealth_version": "1.0.0",
+  "timestamp": "2026-07-05T12:01:58Z",
+  "device": "MacBook Air",
+  "hostname": "MacBookAir",
+  "computer_name": "BRH Macbook Air 2026",
+  "os_version": "26.3.1",
+  "bsuite_path": "/Users/BRHair/Developer/B-Suite",
+  "git_auth_ok": true,
+  "bsync_loaded": true,
+  "bsync_last_run": "2026-07-03 10:08:36",
+  "repos": [
+    {
+      "repo": "things-app",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-06-26",
+      "action": "none"
+    },
+    {
+      "repo": "brain-inbox",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-05-13",
+      "action": "none"
+    },
+    {
+      "repo": "content-calendar",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-06-29",
+      "action": "none"
+    },
+    {
+      "repo": "b-marketing",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-16",
+      "action": "none"
+    },
+    {
+      "repo": "b-people",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-21",
+      "action": "none"
+    },
+    {
+      "repo": "b-resources",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-05-25",
+      "action": "none"
+    },
+    {
+      "repo": "bhub",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-06-29",
+      "action": "none"
+    },
+    {
+      "repo": "eddy",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-05-25",
+      "action": "none"
+    },
+    {
+      "repo": "hc-funnel",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-05-25",
+      "action": "none"
+    },
+    {
+      "repo": "hc-strategy",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-24",
+      "action": "none"
+    },
+    {
+      "repo": "tnb-strategy",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-06-07",
+      "action": "none"
+    },
+    {
+      "repo": "hc-website",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-27",
+      "action": "none"
+    },
+    {
+      "repo": "tnb-website",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-06-08",
+      "action": "none"
+    },
+    {
+      "repo": "pitch-scorer",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-12",
+      "action": "none"
+    }
+  ],
+  "skills": [
+    {
+      "skill": "tnb-digest",
+      "installer_present": true,
+      "expected_hash": "a0f1a79b5a60a207cdcf9c63287abaf2",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "comms",
+      "installer_present": true,
+      "expected_hash": "131ea46d1cadb8d455bbb327a261f625",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "consolidate-memory",
+      "installer_present": false,
+      "expected_hash": "2cfbe7ed256ae3377be92764f07ae26b"
+    },
+    {
+      "skill": "create-content",
+      "installer_present": true,
+      "expected_hash": "0807f781d18ab1bd0dac73b3b6782f1b",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "dev-deploy",
+      "installer_present": true,
+      "expected_hash": "76c0e0b396379626115de40f4e5a1c5e",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "docx",
+      "installer_present": false,
+      "expected_hash": "fc4dc313a102d42cd53ca142fa32a992"
+    },
+    {
+      "skill": "expert",
+      "installer_present": true,
+      "expected_hash": "a45799e0f7da28bb590ce9f5b8d3f550",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "frontend-design",
+      "installer_present": true,
+      "expected_hash": "5c392562ec1cf5ffa6b9d2319375373f",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "grill-me",
+      "installer_present": false,
+      "expected_hash": "424449ce8e8a1895f9ea83a2fa7b3f93"
+    },
+    {
+      "skill": "handoff",
+      "installer_present": true,
+      "expected_hash": "338a81de35a1a0ecf90ee56ff8a45655",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "hc-strategy",
+      "installer_present": true,
+      "expected_hash": "c224d6294aec2cf696a1a654a5d22d86",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "pdf",
+      "installer_present": false,
+      "expected_hash": "1c07e7fc21a8ad77c257900350a61098"
+    },
+    {
+      "skill": "pm",
+      "installer_present": true,
+      "expected_hash": "70fe06dd4cc2f39ebc8dad0e092092ed",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "pptx",
+      "installer_present": false,
+      "expected_hash": "24895e8378922ad91f1edb152c1f1950"
+    },
+    {
+      "skill": "priority-startup-intel",
+      "installer_present": true,
+      "expected_hash": "284b82ee11e6154465f8efbc1bffb78b",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "schedule",
+      "installer_present": false,
+      "expected_hash": "64dae64d633b94d01d1f88599a4e54f7"
+    },
+    {
+      "skill": "setup-cowork",
+      "installer_present": false,
+      "expected_hash": "52e0ce1addc7b95ac5c05308a09da9fe"
+    },
+    {
+      "skill": "skill-creator",
+      "installer_present": false,
+      "expected_hash": "a1277b9e97e7a84dbd80a984164ad373"
+    },
+    {
+      "skill": "tnb-strategy",
+      "installer_present": true,
+      "expected_hash": "1a74e1f53a57fb3ca21f92e7151a645d",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "xlsx",
+      "installer_present": false,
+      "expected_hash": "0f7b2727c38539ef072a15a6b4622327"
+    }
+  ],
+  "tools": [
+    {
+      "tool": "node",
+      "installed": true,
+      "version": "v26.4.0"
+    },
+    {
+      "tool": "npm",
+      "installed": true,
+      "version": "11.17.0"
+    },
+    {
+      "tool": "gh",
+      "installed": true,
+      "version": "gh version 2.95.0 (2026-06-17)"
+    },
+    {
+      "tool": "vercel",
+      "installed": true,
+      "version": "54.18.2"
+    },
+    {
+      "tool": "git",
+      "installed": true,
+      "version": "git version 2.50.1 (Apple Git-155)"
+    }
+  ],
+  "actions": [
+    "Fixed master handoff path for MacBook Air \u2192 \\~/Developer/B-Suite"
+  ],
+  "flags": [
+    "Skill installer missing: /Users/BRHair/Developer/B-Suite/bhub/skills/consolidate-memory.skill \u2014 bhub repo incomplete?",
+    "Skill installer missing: /Users/BRHair/Developer/B-Suite/bhub/skills/docx.skill \u2014 bhub repo incomplete?",
+    "Skill installer missing: /Users/BRHair/Developer/B-Suite/bhub/skills/grill-me.skill \u2014 bhub repo incomplete?",
+    "Skill installer missing: /Users/BRHair/Developer/B-Suite/bhub/skills/pdf.skill \u2014 bhub repo incomplete?",
+    "Skill installer missing: /Users/BRHair/Developer/B-Suite/bhub/skills/pptx.skill \u2014 bhub repo incomplete?",
+    "Skill installer missing: /Users/BRHair/Developer/B-Suite/bhub/skills/schedule.skill \u2014 bhub repo incomplete?",
+    "Skill installer missing: /Users/BRHair/Developer/B-Suite/bhub/skills/setup-cowork.skill \u2014 bhub repo incomplete?",
+    "Skill installer missing: /Users/BRHair/Developer/B-Suite/bhub/skills/skill-creator.skill \u2014 bhub repo incomplete?",
+    "Skill installer missing: /Users/BRHair/Developer/B-Suite/bhub/skills/xlsx.skill \u2014 bhub repo incomplete?"
+  ]
+}
