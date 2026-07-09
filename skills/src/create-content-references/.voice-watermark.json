@@ -1,8 +1,8 @@
 {
   "_comment": "Watermark for the create-content Voice Refresh Protocol. Tracks how current style-guide.md's Living Voice band is. The weekly voice-refresh task (and on-demand /refresh-voice) reads this, pulls ONLY cards newer than last_seen, folds them into the Living Voice band, then advances these values. Never triggers a full-corpus re-read.",
-  "last_refresh": "2026-06-28",
+  "last_refresh": "2026-07-09",
   "last_seen": {
-    "beehiiv": "2026-06-22",
-    "linkedin": "2026-06-26"
+    "beehiiv": "2026-07-06",
+    "linkedin": "2026-07-02"
   }
 }

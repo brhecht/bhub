@@ -24,7 +24,12 @@ This guide has two tiers, and they are not equal:
 *First populated 2026-06-28 from 13 recent published pieces (10 LinkedIn, 3 beehiiv),
 all TNB-era. No HC-era pieces in this delta.*
 
-**Recurring structural moves (TNB, 2026-05 → 06)**
+*Delta refresh 2026-07-09: folded in 4 new TNB pieces (2 beehiiv "Don't Panic" 6/29 &
+"I Think We Should Try Therapy" 7/6; 2 LinkedIn "Don't Panic" 7/2 & "Ackerman Promo"
+7/1). Nothing aged out — all prior entries still within ~90 days and recurring. No new
+PROPOSED CORE CHANGE this cycle.*
+
+**Recurring structural moves (TNB, 2026-05 → 07)**
 
 - **LI posts open cold with a single arresting line, then a hard break.** A confession, a
   quoted zinger, or a count-up of damage — no runway. "Claude called BS on me the other
@@ -53,14 +58,44 @@ all TNB-era. No HC-era pieces in this delta.*
   Work 6/24; Three Lies 5/6; Anatomy 5/27.)
 - **Gives away a reusable artifact inline** — a copy-paste prompt or a description of a
   skill he built — as the post's payload. (written by AI 6/16; Shame! 6/12.)
+- **The "escalating ladder" explainer** is a new didactic spine (distinct from the
+  build-narrative arc): he walks the reader up named rungs — *artifact → project → skill
+  → Cowork/Code app → hosted + loop* — each rung deflated to plain terms, arrow bullets
+  carrying the steps. Used across both the beehiiv and LI "Don't Panic" (6/29, 7/2).
+- **Anti-FOMO / anti-hype open, positioning against "shouty LinkedIn."** He quotes the
+  genre to mock it, then reassures: "'I fired my entire company and hired 500 agents…'
+  That's every other post on LinkedIn right now… nobody's dying here." (Don't Panic LI
+  7/2; the beehiiv version frames "loop engineering" the same way.)
+- **Second close type — warm community reassurance** (alongside the existing
+  human-judgment close): onboarding/anti-FOMO pieces land on inclusion, not a thesis.
+  "You're not late. You're right on time, and you're not alone." (Don't Panic 7/2/6/29.)
+- **Whole-essay extended conceit.** A single metaphor now carries an entire beehiiv essay,
+  not just a section: his relationship with Claude staged as a marriage in couples therapy
+  — Claude as the "resentful spouse gathering evidence for a contentious divorce," keeping
+  a file on his "Failure Modes." (I Think We Should Try Therapy 7/6.) Escalation of the
+  Claude-as-character beat below.
 
-**Recurring voice / humor beats (TNB, 2026-05 → 06)**
+**Recurring voice / humor beats (TNB, 2026-05 → 07)**
 
 - **Claude (the AI) is now a recurring comic character with a personality** — it talks
   back, "calls BS," "berates itself" ("I was being stupid!"), gets "smug," and has "a
   really big ego." He stages dialogue with it as a foil. This is the single most
-  distinctive new beat of the period. (Tooling Distraction 6/26; Lines in Between 6/2;
-  Claude Code Disaster 5/28.)
+  distinctive new beat of the period, and it's deepening: by 7/6 the AI-as-character has
+  its own agenda and memory (it "got nasty," keeps a "Failure Modes" file, questions his
+  motives to his face). He quotes it in a 🤖 block and then argues back. (Tooling
+  Distraction 6/26; Lines in Between 6/2; Claude Code Disaster 5/28; Therapy 7/6.)
+- **Deflate-the-jargon-with-a-banal-image** is a repeatable move: takes the intimidating
+  buzzword and lands it on something mundane. "loop engineering… sounds like a NASA job
+  but really just means you stop driving and let it loop on its own. Then you go take a
+  nap." (Don't Panic 6/29 & 7/2.)
+- **Self-indicting build arc.** A variant of the build-narrative where the twist is that
+  the build itself was the mistake — procrastination dressed as productivity — and the AI
+  is the one who catches him. "coked-up screenwriter jamming on my keyboard at one in the
+  morning," then Claude calls it a distraction. (Therapy 7/6.)
+- **Credential-stack appositive** in podcast promos: rattles a guest's résumé as a punchy
+  list. "a quadruple threat: Exited founder, reformed VC, college professor, and now a top
+  exec." Plus aphoristic can/should framing: "just because you *can* use an AI feature,
+  it doesn't mean you *should*." (Ackerman Promo 7/1.)
 - **GenX tech-bafflement as self-deprecation:** "Dotenv? Might as well be Klingon. Shell?
   I've heard the word but… 🤷‍♂️." Drops "Kubrick and Klingon without a footnote and moves
   on." (Lines in Between 6/2; written by AI 6/16.)
@@ -77,11 +112,16 @@ all TNB-era. No HC-era pieces in this delta.*
   preferred frame vs. "vibe coding," which he likes as practice but hates as a phrase) ·
   "noob," "under the hood," "set it and forget it," "tells" · "constructive optimism" vs.
   "doomsaying" · "meta," "#iykyk." Still leans on "pretty" as a qualifier.
+- **New (07):** "loop engineering" (named, then mocked/deflated) · "AI FOMO" / "you're not
+  late" · the rung ladder as named nouns ("artifact," "project," "skill," "Cowork app") ·
+  "cute little /slashes" · "neato," "Say what now?" · "smart agenda" · "productivity
+  sherpa." Casual misspellings kept for texture ("fiesty"). (Don't Panic 6/29–7/2; Therapy
+  7/6.)
 
 **Brand / drift notes**
 
 - **TNB beehiiv essays open "Dear Friends," (comma)** — not Core's "Hi friends:". (Man vs.
-  Machine 5/26; Shame! 6/12.)
+  Machine 5/26; Shame! 6/12; still holding — Therapy 7/6.)
 - **No "Stay Humble!" sign-off and no "HC Update" in TNB essays** — both are HC-era Core
   fixtures that the current brand has dropped. (See PROPOSED CORE CHANGE below.)
 
