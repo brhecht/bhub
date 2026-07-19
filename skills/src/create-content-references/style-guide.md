@@ -29,6 +29,12 @@ all TNB-era. No HC-era pieces in this delta.*
 7/1). Nothing aged out — all prior entries still within ~90 days and recurring. No new
 PROPOSED CORE CHANGE this cycle.*
 
+*Delta refresh 2026-07-19: folded in 3 new TNB pieces (beehiiv "The Bug Claude Couldn't
+Catch" 7/15; LinkedIn "Inputs (NL)" 7/15 & "Vacation Photos" 7/14). A 4th card, "LI
+Repost LEVY" 7/10, was a bodyless repost and carried no voice signal. Nothing aged out —
+May entries are still inside the ~90-day window and still recurring. No PROPOSED CORE
+CHANGE this cycle.*
+
 **Recurring structural moves (TNB, 2026-05 → 07)**
 
 - **LI posts open cold with a single arresting line, then a hard break.** A confession, a
@@ -74,6 +80,29 @@ PROPOSED CORE CHANGE this cycle.*
   — Claude as the "resentful spouse gathering evidence for a contentious divorce," keeping
   a file on his "Failure Modes." (I Think We Should Try Therapy 7/6.) Escalation of the
   Claude-as-character beat below.
+- **The honest six-month audit.** New spine: he goes back over his own shipped builds and
+  grades them in public, failures included, with letter grades and blunt verdicts. "Short
+  answer: it ain't pretty." · CRM: "I never open the CRM." · project manager: "Useless." ·
+  content calendar: "I'd give it a B+." The audit is the setup; the one failure he cares
+  about is the payload. (The Bug Claude Couldn't Catch, 7/15.) Distinct from the
+  build-narrative arc (which ends in a working v2) and from the self-indicting build arc
+  (where building was the procrastination) — here the thing shipped, worked on paper, and
+  still died in use.
+- **The antithesis-pair close.** Two short parallel sentences, the second reversing the
+  first, landing the whole piece. "The code was fine. I was the broken part." · "I didn't
+  fix the habit. I fixed the friction." · "It fell apart at the one place I never thought
+  to test: me." (Bug Claude Couldn't Catch 7/15; Inputs LI 7/15.) A third close type
+  alongside human-judgment and warm-community.
+- **The non-coding capability post.** He deliberately steps off the build track to show a
+  mundane consumer use of AI and reclaim it for the audience: "Those of us who are
+  knee-deep in vibe coding sometimes forget those simple capabilities." Then he runs the
+  banal task (487 Greece photos) as a real multi-step workflow, with 📸 emoji bullets
+  carrying the steps. (Vacation Photos, 7/14.)
+- **The "delta" planning frame.** He names the gap between start state and end state as
+  the actual work: "It forced me to think through the delta between what I started with (a
+  jumble of photos) and what I needed (thematic albums with links)." Paired with an
+  explicit anti-one-shot warning: "There's no way I could have just dumped the mess on
+  Claude and said 'sort these.'" (Vacation Photos 7/14.)
 
 **Recurring voice / humor beats (TNB, 2026-05 → 07)**
 
@@ -84,6 +113,16 @@ PROPOSED CORE CHANGE this cycle.*
   its own agenda and memory (it "got nasty," keeps a "Failure Modes" file, questions his
   motives to his face). He quotes it in a 🤖 block and then argues back. (Tooling
   Distraction 6/26; Lines in Between 6/2; Claude Code Disaster 5/28; Therapy 7/6.)
+  **Inversion this cycle (7/15):** the character flips from sassy-and-sharper-than-him to
+  *competent but blind*. "the Mighty Claude" (mock-heroic) catches every bug and misses
+  the only one that mattered: "Claude is very good at telling you when the software will
+  break… What it can't tell you is that you'll never open the app." The AI's limit, not
+  its personality, becomes the punchline. Watch whether this holds — if it recurs it is a
+  real shift in how he stages the AI, not a one-off.
+- **Agents as partners, not employees.** A stated reframe against the prevailing LinkedIn
+  metaphor, landed with a brand-pun button: "Lots of people like to speak of agents as
+  'employees.' I find that, just as often, they're more like partners. I guess that's why
+  they call it 'Claude Cowork!'" (Vacation Photos 7/14.)
 - **Deflate-the-jargon-with-a-banal-image** is a repeatable move: takes the intimidating
   buzzword and lands it on something mundane. "loop engineering… sounds like a NASA job
   but really just means you stop driving and let it loop on its own. Then you go take a
@@ -117,6 +156,13 @@ PROPOSED CORE CHANGE this cycle.*
   "cute little /slashes" · "neato," "Say what now?" · "smart agenda" · "productivity
   sherpa." Casual misspellings kept for texture ("fiesty"). (Don't Panic 6/29–7/2; Therapy
   7/6.)
+- **New (mid-07):** "capture friction" (his named diagnosis for why a tool dies) · "to-do
+  list of record" · "one-shot prompt" (usually negated) · "the delta between" · "the
+  Mighty Claude" · "vibe-coded Eden" · "Whatever Happened To…" as a section frame · "it
+  ain't pretty" · "I'm always yapping about" · "voila" · "Achilles heel" · "always on."
+  Typos still ride through to publish as texture (the subject line shipped as "The Bug
+  *Clause* Couldn't Catch"; "when of the easy things"). (Bug Claude Couldn't Catch 7/15;
+  Inputs 7/15; Vacation Photos 7/14.)
 
 **Brand / drift notes**
 
