@@ -1,4 +1,5 @@
 #!/bin/bash
+# bsync v2.10 — check_skills finds the manifest on Mac runs too (was Cowork-only)
 # bsync v2.9 — --pull-only no longer swallows per-repo failures (see main dispatch)
 # bsync v2.8 — B-Suite session bootstrap & reconciliation
 # v2.8: check_skills now also reports manifest integrity per skill — source_hash,
@@ -390,11 +391,25 @@ check_handoffs() {
 # to check. Add a skill to skills-manifest.json and it's automatically checked here.
 check_skills() {
   local manifest="${MANIFEST_FILE:-}"
+  # v2.10: search every location bhub can actually live, in order of freshness.
+  # Previously this fell back to $WORK_DIR/bhub/... and nowhere else. $WORK_DIR is only
+  # populated in Cowork mode, where pull_one_repo clones bhub to /tmp. On a Mac run,
+  # pull_one_repo takes the "elif [[ -d $repo_dir/.git ]]" branch and fetch+resets the
+  # LOCAL bhub at $BSUITE_DIR/bhub, never writing $WORK_DIR/bhub at all. So on every
+  # Mac run the manifest was "not found" and the skill-version gate -- which is meant to
+  # BLOCK work on an outdated skill -- silently checked nothing. Same silent-failure
+  # class as the v2.9 --pull-only bug.
   if [[ -z "$manifest" || ! -f "$manifest" ]]; then
-    manifest="$WORK_DIR/bhub/skills/skills-manifest.json"
+    local _cand
+    for _cand in "$WORK_DIR/bhub/skills/skills-manifest.json" \
+                 "/tmp/bhub-bootstrap/skills/skills-manifest.json" \
+                 "$BSUITE_DIR/bhub/skills/skills-manifest.json"; do
+      if [[ -f "$_cand" ]]; then manifest="$_cand"; break; fi
+    done
   fi
   if [[ ! -f "$manifest" ]]; then
-    echo '    {"error": "skills-manifest.json not found"}'
+    log "check_skills: no manifest in WORK_DIR, /tmp/bhub-bootstrap, or BSUITE_DIR/bhub"
+    echo '    {"error": "skills-manifest.json not found in any known bhub location"}'
     return
   fi
 
@@ -629,7 +644,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.8.0",
+  "bsync_version": "2.10.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
