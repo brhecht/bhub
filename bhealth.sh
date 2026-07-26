@@ -72,6 +72,11 @@ REPOS=(
   "hc-website:brhecht/hc-website"
   "tnb-website:brhecht/tnb-website"
   "pitch-scorer:brhecht/pitch-scorer"
+  # v1.1: this list had drifted 5 repos behind bsync's registry. Most importantly
+  # bsuite-handoffs — the repo holding every per-app HANDOFF, added in the May 25
+  # migration — was never health-checked at all.
+  "builder-bot:brhecht/builder-bot"
+  "bsuite-handoffs:brhecht/bsuite-handoffs"
 )
 
 # Emoji helpers
@@ -184,6 +189,7 @@ audit_repos() {
   hdr "Repos (fetch / pull / push)"
 
   local total=0 clean=0 pulled=0 pushed=0 dirty=0 missing=0
+  UNTRACKED_ONLY=()
 
   for entry in "${REPOS[@]}"; do
     local folder="${entry%%:*}"
@@ -215,8 +221,16 @@ audit_repos() {
     dirty_count=$(git status --porcelain 2>/dev/null | grep -v '^??' | wc -l | tr -d ' ')
     untracked_count=$(git status --porcelain 2>/dev/null | grep '^??' | wc -l | tr -d ' ')
 
-    # Fetch to update remote refs
-    git fetch origin 2>/dev/null || true
+    # Fetch to update remote refs.
+    # v1.1: a failed fetch used to be swallowed here. ahead/behind were then computed
+    # from STALE remote refs, so behind=0 and the repo was reported CLEAN. That is
+    # exactly how tnb-website sat 53 commits behind main while every audit said fine.
+    local fetch_ok="true"
+    if ! git fetch origin 2>/dev/null; then
+      fetch_ok="false"
+      say "${FAIL} ${folder}: git fetch FAILED - ahead/behind below are stale"
+      REPORT_FLAGS+=("$folder: git fetch failed, so its sync status was NOT measured. Check the remote URL for an expired embedded token: cd $repo_dir && git remote -v")
+    fi
 
     # Ahead/behind counts — default to 0 if remote branch doesn't exist
     ahead=$(git rev-list --count "origin/$branch..HEAD" 2>/dev/null || echo 0)
@@ -230,7 +244,21 @@ audit_repos() {
       status="dirty"
       dirty=$((dirty + 1))
       say "${WARN} ${folder}: ${dirty_count} modified, ${untracked_count} untracked (${branch}, ↑${ahead} ↓${behind})"
-      REPORT_FLAGS+=("$folder has uncommitted work ($dirty_count modified, $untracked_count untracked) — review with: cd $repo_dir && git status")
+      # v1.1: dirty short-circuits the decision tree, so a repo that is BOTH dirty and
+      # ahead never reached the push branch and its unpushed commits were never named.
+      # A MacBook Pro audit reported tnb-website as merely "has uncommitted work" while
+      # it sat 32 commits unpushed on a feature branch. Say the dangerous part now.
+      if [[ $dirty_count -gt 0 ]]; then
+        REPORT_FLAGS+=("$folder has $dirty_count MODIFIED file(s) — review: cd $repo_dir && git status")
+      else
+        UNTRACKED_ONLY+=("$folder($untracked_count)")
+      fi
+      if [[ $ahead -gt 0 ]]; then
+        REPORT_FLAGS+=("$folder has $ahead UNPUSHED commit(s) on branch '$branch' — they exist only on this Mac: cd $repo_dir && git push origin $branch")
+      fi
+      if [[ "$branch" != "main" && "$branch" != "master" ]]; then
+        REPORT_FLAGS+=("$folder is on branch '$branch', not main — its main branch was never sync-checked on this device")
+      fi
     elif [[ $behind -gt 0 && $ahead -gt 0 ]]; then
       # Diverged — flag, don't touch (needs merge strategy)
       status="diverged"
@@ -279,6 +307,13 @@ audit_repos() {
 
   cd "$SCRIPT_DIR" || true
 
+  # v1.1: untracked-only repos used to emit one flag EACH. On the Mac Mini that was
+  # 9 of 18 flags, all of them "0 modified, 1 untracked". Noise at the same severity as
+  # real problems is how a flag list gets ignored. One line for the lot.
+  if [[ ${#UNTRACKED_ONLY[@]} -gt 0 ]]; then
+    REPORT_FLAGS+=("Untracked files present (no modified files) in: ${UNTRACKED_ONLY[*]} — usually harmless, tidy when convenient")
+  fi
+
   say ""
   say "${INFO} Summary: ${total} repos — ${clean} clean, ${pulled} pulled, ${pushed} pushed, ${dirty} needs-attention, ${missing} missing"
 }
@@ -326,11 +361,19 @@ print(m.get('skills',{}).get('$skill',{}).get('hash','unknown'))
       source_ok=$((source_ok + 1))
       say "${OK} ${skill}: installer present (bhub/skills/${skill}.skill)"
       REPORT_SKILLS+=("{\"skill\":\"$skill\",\"installer_present\":true,\"expected_hash\":\"$expected_hash\",\"verified_via\":\"cowork_bsync\"}")
+    elif [[ ! -f "$SCRIPT_DIR/skills/src/${skill}-SKILL.md" ]]; then
+      # v1.1: no bundle AND no source in bhub means this skill is externally authored
+      # (docx, pdf, pptx, xlsx, skill-creator, ...). bhub is not supposed to carry a
+      # .skill for it, so "bhub repo incomplete?" was a false positive fired on every
+      # device on every run — 9 of the Mac Mini's 18 flags. bsync already models this
+      # correctly as manifest_synced:null. Match that.
+      say "${INFO} ${skill}: externally authored, no bundle expected"
+      REPORT_SKILLS+=("{\"skill\":\"$skill\",\"installer_present\":false,\"externally_authored\":true,\"expected_hash\":\"$expected_hash\"}")
     else
       source_missing=$((source_missing + 1))
-      say "${WARN} ${skill}: installer missing from bhub/skills/"
-      REPORT_FLAGS+=("Skill installer missing: $install_file — bhub repo incomplete?")
-      REPORT_SKILLS+=("{\"skill\":\"$skill\",\"installer_present\":false,\"expected_hash\":\"$expected_hash\"}")
+      say "${WARN} ${skill}: source exists in bhub but the .skill bundle is missing"
+      REPORT_FLAGS+=("Skill bundle missing: $install_file (source IS in bhub/skills/src, so the bundle was never rebuilt)")
+      REPORT_SKILLS+=("{\"skill\":\"$skill\",\"installer_present\":false,\"externally_authored\":false,\"expected_hash\":\"$expected_hash\"}")
     fi
   done
 
@@ -560,7 +603,7 @@ actions = load_lines(f"{tmp}/actions.txt")
 flags = load_lines(f"{tmp}/flags.txt")
 
 report = {
-    "bhealth_version": "1.0.0",
+    "bhealth_version": "1.1.0",
     "timestamp": os.environ["TIMESTAMP_UTC"],
     "device": os.environ["DEVICE_NAME"],
     "hostname": os.environ["HOSTNAME_VAL"],
@@ -651,8 +694,48 @@ update_weekly_marker() {
 # Step 10 — Final human summary
 # ============================================================================
 
+# v1.1: THE headline finding of the audit. launchd runs bhealth with --ensure-weekly,
+# which is quiet, and final_summary() began with `quiet && return`. Every flag it ever
+# raised was rendered to nobody: 18 on the Mac Mini, 11 on the MacBook Pro, printed to
+# a suppressed stdout and buried in a JSON file inside a git repo. The checks worked
+# fine. Nothing ever told you. In quiet mode we now write a readable digest and, where
+# the OS allows, actually notify.
+deliver_flags_quietly() {
+  local digest="$BSUITE_DIR/bhub/.health/LATEST.md"
+  mkdir -p "$(dirname "$digest")" 2>/dev/null
+  {
+    echo "# bhealth — ${DEVICE_NAME} — ${TODAY}"
+    echo ""
+    echo "Auto-healed: ${#REPORT_ACTIONS[@]}    Needs attention: ${#REPORT_FLAGS[@]}"
+    if [[ ${#REPORT_ACTIONS[@]} -gt 0 ]]; then
+      echo ""; echo "## Auto-healed"
+      for a in "${REPORT_ACTIONS[@]}"; do echo "- $a"; done
+    fi
+    if [[ ${#REPORT_FLAGS[@]} -gt 0 ]]; then
+      echo ""; echo "## Needs your attention"
+      for f in "${REPORT_FLAGS[@]}"; do echo "- $f"; done
+    else
+      echo ""; echo "No flags. Fleet-ready on this Mac."
+    fi
+  } > "$digest" 2>/dev/null || true
+
+  [[ ${#REPORT_FLAGS[@]} -eq 0 ]] && return
+
+  # stderr lands in the launchd stderr log, which is the file a human would open.
+  {
+    echo "bhealth: ${DEVICE_NAME} ${TODAY} — ${#REPORT_FLAGS[@]} flag(s) need attention:"
+    for f in "${REPORT_FLAGS[@]}"; do echo "  - $f"; done
+    echo "bhealth: full digest at $digest"
+  } >&2
+
+  # And an actual notification, if this Mac can post one.
+  if command -v osascript >/dev/null 2>&1; then
+    osascript -e "display notification \"${#REPORT_FLAGS[@]} item(s) need attention on ${DEVICE_NAME}\" with title \"bhealth\"" >/dev/null 2>&1 || true
+  fi
+}
+
 final_summary() {
-  quiet && return
+  if quiet; then deliver_flags_quietly; return; fi
 
   echo ""
   echo "════════════════════════════════════════════════════════════"
