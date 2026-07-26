@@ -1,4 +1,5 @@
 #!/bin/bash
+# bsync v2.9 — --pull-only no longer swallows per-repo failures (see main dispatch)
 # bsync v2.8 — B-Suite session bootstrap & reconciliation
 # v2.8: check_skills now also reports manifest integrity per skill — source_hash,
 #       bundle_hash, and manifest_synced (manifest hash == source hash). Catches the
@@ -600,7 +601,22 @@ if [[ "$MODE" == "--sync-mount" ]]; then
 fi
 
 if [[ "$MODE" == "--pull-only" ]]; then
-  pull_repos > /dev/null
+  # v2.9: capture per-repo results instead of discarding them. Previously this was
+  # `pull_repos > /dev/null`, which swallowed every per-repo failure and printed
+  # "complete" unconditionally. A repo whose origin URL carried an expired PAT would
+  # fail `git fetch` every hour, silently, forever — tnb-website drifted 53 commits
+  # behind that way over ~8 weeks while the log claimed success. Now: any failed repo
+  # is named on stderr (so it lands in .bsync-stderr.log) and the exit code is non-zero
+  # (so launchd records the failure).
+  _pull_json="$(pull_repos)"
+  _failed="$(printf '%s' "$_pull_json" \
+    | grep -oE '"repo": "[^"]+", "github": "[^"]+", "status": "(failed|clone_failed)"' \
+    | grep -oE '^"repo": "[^"]+"' | cut -d'"' -f4 | tr '\n' ' ')"
+  if [[ -n "$_failed" ]]; then
+    log "bsync pull-only DEGRADED — could not sync: $_failed"
+    printf '%s\n' "{\"mode\": \"pull-only\", \"status\": \"degraded\", \"failed\": \"${_failed% }\"}" | tee /dev/stderr
+    exit 1
+  fi
   log "bsync pull-only complete"
   echo '{"mode": "pull-only", "status": "complete"}'
   exit 0
