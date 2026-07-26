@@ -1,4 +1,5 @@
 #!/bin/bash
+# bsync v2.13 — pull-only degraded output: printed once, and says WHY
 # bsync v2.12 — hourly pull no longer resets non-main branches or clobbers local work
 # bsync v2.11 — error-handling audit: nothing fails silently any more (health block)
 # bsync v2.10 — check_skills finds the manifest on Mac runs too (was Cowork-only)
@@ -791,8 +792,18 @@ if [[ "$MODE" == "--pull-only" ]]; then
     | grep -oE '"repo": "[^"]+", "github": "[^"]+", "status": "(failed|clone_failed|skipped_unsafe)"' \
     | grep -oE '^"repo": "[^"]+"' | cut -d'"' -f4 | tr '\n' ' ')"
   if [[ -n "$_failed" || "$CRED_TOKEN_OK" == "false" || -n "$CRED_EMBEDDED" ]]; then
-    log "bsync pull-only DEGRADED — failed: ${_failed:-none} | token_ok: $CRED_TOKEN_OK | stale embedded creds:${CRED_EMBEDDED:- none}"
-    printf '%s\n' "{\"mode\": \"pull-only\", \"status\": \"degraded\", \"failed\": \"${_failed% }\"}" | tee /dev/stderr
+    # v2.13: `| tee /dev/stderr` printed the whole line twice on a terminal, and the
+    # JSON only carried "failed", which is empty when the trigger was a credential
+    # problem rather than a repo failure — so a real degradation read as an empty one.
+    # Human line to stderr once, machine line to stdout once, with the actual reason.
+    _reason=""
+    [[ -n "$_failed" ]] && _reason="repos_failed=${_failed% }"
+    [[ "$CRED_TOKEN_OK" == "false" ]] && _reason="${_reason:+$_reason; }token_rejected_by_github"
+    [[ -n "$CRED_EMBEDDED" ]] && _reason="${_reason:+$_reason; }stale_embedded_credential=${CRED_EMBEDDED% }"
+    log "bsync pull-only DEGRADED — $_reason"
+    echo "bsync: pull-only DEGRADED — $_reason" >&2
+    printf '{"mode": "pull-only", "status": "degraded", "reason": %s, "failed": %s}\n' \
+      "$(json_escape "$_reason")" "$(json_escape "${_failed% }")"
     exit 1
   fi
   log "bsync pull-only complete"
@@ -807,7 +818,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.12.0",
+  "bsync_version": "2.13.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
