@@ -1,4 +1,5 @@
 #!/bin/bash
+# bsync v2.12 — hourly pull no longer resets non-main branches or clobbers local work
 # bsync v2.11 — error-handling audit: nothing fails silently any more (health block)
 # bsync v2.10 — check_skills finds the manifest on Mac runs too (was Cowork-only)
 # bsync v2.9 — --pull-only no longer swallows per-repo failures (see main dispatch)
@@ -273,13 +274,45 @@ pull_one_repo() {
       fi
     fi
   elif [[ -d "$repo_dir/.git" ]]; then
-    # Local Mac: fetch + hard reset to origin/main
+    # Local Mac: fetch, then fast-forward ONLY when it is provably safe.
+    #
+    # v2.12 - this was `git fetch origin && git reset --hard origin/main`, run hourly by
+    # launchd against every repo on every Mac. `git reset --hard origin/main` resets
+    # WHATEVER BRANCH IS CHECKED OUT to main's tip. On a machine sitting on a feature
+    # branch that is how you lose the branch. The MacBook Pro has tnb-website on
+    # `learn-prototype` with 32 unpushed commits; the only reason they still exist is
+    # that the fetch ahead of the reset kept failing on an expired embedded token, so the
+    # && short-circuited. Repairing that token - the obvious next step - would have
+    # destroyed them on the following hourly run. It also discarded uncommitted tracked
+    # edits without a word.
+    #
+    # Now: fast-forward only on main/master, only when clean, only when not ahead.
+    # Anything else is reported as skipped_unsafe and left completely alone.
     rm -f "$repo_dir/.git/index.lock" "$repo_dir/.git/HEAD.lock" "$repo_dir/.git/ORIG_HEAD.lock" 2>/dev/null
-    local output
-    output=$(cd "$repo_dir" && git fetch origin 2>&1 && git reset --hard origin/main 2>&1) && status="ok" || {
+    local output cur_branch ahead_n dirty_n
+    cur_branch=$(cd "$repo_dir" && git rev-parse --abbrev-ref HEAD 2>/dev/null)
+    if ! output=$(cd "$repo_dir" && git fetch origin 2>&1); then
       status="failed"
       detail=$(echo "$output" | head -3)
-    }
+    elif [[ "$cur_branch" != "main" && "$cur_branch" != "master" ]]; then
+      status="skipped_unsafe"
+      detail="on branch '$cur_branch', not main - refusing to reset, that would destroy the branch"
+    else
+      ahead_n=$(cd "$repo_dir" && git rev-list --count "origin/$cur_branch..HEAD" 2>/dev/null || echo 0)
+      dirty_n=$(cd "$repo_dir" && git status --porcelain 2>/dev/null | grep -v '^??' | wc -l | tr -d ' ')
+      if [[ "${ahead_n:-0}" -gt 0 ]]; then
+        status="skipped_unsafe"
+        detail="$ahead_n unpushed commit(s) on $cur_branch - refusing to reset, push or review them first"
+      elif [[ "${dirty_n:-0}" -gt 0 ]]; then
+        status="skipped_unsafe"
+        detail="$dirty_n uncommitted change(s) - refusing to reset"
+      else
+        output=$(cd "$repo_dir" && git reset --hard "origin/$cur_branch" 2>&1) && status="ok" || {
+          status="failed"
+          detail=$(echo "$output" | head -3)
+        }
+      fi
+    fi
   else
     # Repo doesn't exist locally — clone to /tmp
     [[ -d "$WORK_DIR/$folder" ]] && rm -rf "$WORK_DIR/$folder"
@@ -692,7 +725,7 @@ emit_health() {
   local frag_dir="$WORK_DIR/pull-fragments"
   local failed_repos=""
   if [[ -d "$frag_dir" ]]; then
-    failed_repos=$(grep -ho '"repo": "[^"]*", "github": "[^"]*", "status": "\(failed\|clone_failed\)"' "$frag_dir"/*.json 2>/dev/null \
+    failed_repos=$(grep -ho '"repo": "[^"]*", "github": "[^"]*", "status": "\(failed\|clone_failed\|skipped_unsafe\)"' "$frag_dir"/*.json 2>/dev/null \
       | sed -E 's/"repo": "([^"]*)".*/\1/' | tr '\n' ' ')
     failed_repos="${failed_repos% }"
   fi
@@ -755,7 +788,7 @@ if [[ "$MODE" == "--pull-only" ]]; then
   # (so launchd records the failure).
   _pull_json="$(pull_repos)"
   _failed="$(printf '%s' "$_pull_json" \
-    | grep -oE '"repo": "[^"]+", "github": "[^"]+", "status": "(failed|clone_failed)"' \
+    | grep -oE '"repo": "[^"]+", "github": "[^"]+", "status": "(failed|clone_failed|skipped_unsafe)"' \
     | grep -oE '^"repo": "[^"]+"' | cut -d'"' -f4 | tr '\n' ' ')"
   if [[ -n "$_failed" || "$CRED_TOKEN_OK" == "false" || -n "$CRED_EMBEDDED" ]]; then
     log "bsync pull-only DEGRADED — failed: ${_failed:-none} | token_ok: $CRED_TOKEN_OK | stale embedded creds:${CRED_EMBEDDED:- none}"
@@ -774,7 +807,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.11.0",
+  "bsync_version": "2.12.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
