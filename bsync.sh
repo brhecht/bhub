@@ -1,4 +1,5 @@
 #!/bin/bash
+# bsync v2.11 — error-handling audit: nothing fails silently any more (health block)
 # bsync v2.10 — check_skills finds the manifest on Mac runs too (was Cowork-only)
 # bsync v2.9 — --pull-only no longer swallows per-repo failures (see main dispatch)
 # bsync v2.8 — B-Suite session bootstrap & reconciliation
@@ -193,6 +194,51 @@ setup_git() {
   log "Git credentials configured"
 }
 
+# --- Step 0b: Credential pre-flight (v2.11) ---
+# Two failure modes that were completely invisible before this:
+#   1. An expired PAT in .git-token. setup_git writes it without validating, then
+#      every later fetch fails per-repo with an auth error nobody reads.
+#   2. A credential baked into a repo's origin URL (https://user:TOKEN@github.com/..).
+#      Those URLs BYPASS the credential helper entirely, so a stale embedded token
+#      keeps failing forever even after .git-token is rotated. That is exactly how
+#      tnb-website, hc-strategy and tnb-strategy stopped syncing for ~8 weeks while
+#      every run reported success. Nothing in bsync looked for it.
+CRED_TOKEN_OK="unknown"
+CRED_EMBEDDED=""
+preflight_credentials() {
+  # Never let an hourly cron hang: no interactive prompt, and bail on a dead socket.
+  export GIT_TERMINAL_PROMPT=0
+  export GIT_HTTP_LOW_SPEED_LIMIT=1000 GIT_HTTP_LOW_SPEED_TIME=15
+  # Reachability first, so we can tell "token rejected" apart from "no network".
+  if ! git ls-remote https://github.com/brhecht/bhub.git HEAD >/dev/null 2>&1; then
+    CRED_TOKEN_OK="unreachable"
+    log "PREFLIGHT: github.com unreachable - skipping credential validation"
+  elif git ls-remote "https://brhecht:${TOKEN}@github.com/brhecht/bsuite-handoffs.git" HEAD >/dev/null 2>&1; then
+    CRED_TOKEN_OK="true"
+  else
+    CRED_TOKEN_OK="false"
+    log "PREFLIGHT: the token in $TOKEN_FILE was REJECTED by GitHub (expired or revoked)"
+  fi
+
+  local entry folder dir url embedded
+  for entry in "${REPOS[@]}"; do
+    folder="${entry%%:*}"
+    dir="$(repo_dir_for "$entry")"
+    [[ -d "$dir/.git" ]] || continue
+    url="$(git -C "$dir" remote get-url origin 2>/dev/null)" || continue
+    # Must be an https URL with an embedded user:secret. Plain https and ssh
+    # (git@github.com:owner/repo) both correctly fall through here -- an earlier
+    # draft of this check matched "@github.com" and false-flagged every ssh remote.
+    [[ "$url" == https://*:*@github.com/* ]] || continue
+    embedded="$(printf '%s' "$url" | sed -E 's#https://[^:]*:([^@]*)@.*#\1#')"
+    if [[ "$embedded" != "$TOKEN" ]]; then
+      CRED_EMBEDDED="$CRED_EMBEDDED $folder"
+      log "PREFLIGHT: $folder origin URL carries a credential that does NOT match .git-token"
+    fi
+  done
+  CRED_EMBEDDED="${CRED_EMBEDDED# }"
+}
+
 # --- Step 1: Pull all repos (in parallel) ---
 # Each repo is cloned/pulled in its own background subshell, writing a JSON
 # fragment to a temp file. After all finish, fragments are concatenated in
@@ -299,6 +345,15 @@ pull_repos() {
 # with commit summaries so Claude can auto-reconcile.
 check_handoffs() {
   local first="true"
+  # v2.11: if bsuite-handoffs isn't available, say so ONCE instead of emitting
+  # handoff_exists:false / stale:true for every repo in the fleet. That looked like
+  # 15 stale handoffs when the truth was "the handoffs repo is not cloned here".
+  if [[ ! -d "$WORK_DIR/bsuite-handoffs/.git" && ! -d "$BSUITE_DIR/bsuite-handoffs/.git" ]]; then
+    printf '    {"error": "bsuite-handoffs repo not available - handoff staleness NOT checked", "searched": ["%s", "%s"]}' \
+      "$WORK_DIR/bsuite-handoffs" "$BSUITE_DIR/bsuite-handoffs"
+    log "check_handoffs: bsuite-handoffs not found - staleness NOT checked"
+    return
+  fi
   for entry in "${REPOS[@]}"; do
     local folder="${entry%%:*}"
     local github="$(github_for "$entry")"
@@ -318,6 +373,11 @@ check_handoffs() {
     elif [[ -d "$(repo_dir_for "$entry")/.git" ]]; then
       repo_path="$(repo_dir_for "$entry")"
     else
+      # v2.11: was a bare `continue`, so a repo that failed to clone AND isn't on
+      # disk just vanished from the report. "No stale handoffs" then silently meant
+      # "we could not look".
+      [[ "$first" == "true" ]] && first="false" || echo ","
+      printf '    {"repo": "%s", "error": "repo not found locally or in work dir - handoff NOT checked"}' "$folder"
       continue
     fi
 
@@ -542,10 +602,16 @@ clean_stale_locks() {
 # Now all in-scope fetches fire concurrently (capped to avoid GitHub limits).
 
 # Sync one mounted repo. Designed to run in a background subshell.
+# v2.11: sync_one_mount now records what it did. Every operation in here was
+# silenced with 2>/dev/null and the caller logged "complete" unconditionally, so a
+# failed fetch looked identical to a clean sync. Worse, the working-tree repair loop
+# below OVERWRITES locally-modified tracked files from HEAD with no warning and no
+# backup -- real, silent data loss for any uncommitted edit on the mount.
 sync_one_mount() {
   local repo_dir="$1"
+  local folder="${2:-$(basename "$repo_dir")}"
   [[ ! -d "$repo_dir/.git" ]] && return
-  cd "$repo_dir" 2>/dev/null || return
+  cd "$repo_dir" 2>/dev/null || { echo "unreadable:$folder:" >> "$SYNC_ISSUES_FILE" 2>/dev/null; return; }
 
   [[ -f .git/index.lock ]] && mv .git/index.lock ".git/index.lock.cwk_$$" 2>/dev/null
 
@@ -557,7 +623,10 @@ sync_one_mount() {
   local new_sha cur_sha
   new_sha=$(git rev-parse "origin/$branch" 2>/dev/null)
   cur_sha=$(git rev-parse HEAD 2>/dev/null)
-  [[ -z "$new_sha" ]] && return
+  if [[ -z "$new_sha" ]]; then
+    echo "fetch-failed:$folder:" >> "$SYNC_ISSUES_FILE" 2>/dev/null
+    return
+  fi
 
   if [[ "$cur_sha" != "$new_sha" ]]; then
     echo "$new_sha" > ".git/refs/heads/$branch"
@@ -572,8 +641,15 @@ sync_one_mount() {
     local file="${line:3}"
     case "$code" in
       " M"|"M "|" D"|"D ")
+        # Back the file up before clobbering it, and say so. Previously this
+        # silently destroyed uncommitted edits.
         mkdir -p "$(dirname "$file")" 2>/dev/null
+        if [[ -f "$file" ]]; then
+          mkdir -p "$repo_dir/.bsync-overwritten" 2>/dev/null
+          cp -f "$file" "$repo_dir/.bsync-overwritten/$(echo "$file" | tr '/' '_')" 2>/dev/null
+        fi
         git show "HEAD:$file" > "$file" 2>/dev/null
+        echo "overwrote-local-edit:$folder:$file" >> "$SYNC_ISSUES_FILE" 2>/dev/null
         ;;
     esac
   done < <(git status --porcelain 2>/dev/null | grep -v "^??")
@@ -590,7 +666,7 @@ sync_mount_to_origin() {
     local folder="${entry%%:*}"
     is_app_in_scope "$folder" || continue
     local repo_dir="$(repo_dir_for "$entry")"
-    sync_one_mount "$repo_dir" &
+    sync_one_mount "$repo_dir" "$folder" &
     pids+=($!)
     if [[ ${#pids[@]} -ge $MAX_PARALLEL ]]; then
       wait "${pids[0]}" 2>/dev/null || true
@@ -600,13 +676,67 @@ sync_mount_to_origin() {
   for pid in "${pids[@]}"; do
     wait "$pid" 2>/dev/null || true
   done
-  log "sync_mount: parallel complete"
+  if [[ -s "$SYNC_ISSUES_FILE" ]]; then
+    log "sync_mount: $(wc -l < "$SYNC_ISSUES_FILE" | xargs) issue(s) - see health block"
+  else
+    log "sync_mount: parallel complete, no issues"
+  fi
+}
+
+# --- Health summary (v2.11) ---
+# Every check above can fail quietly. This block is the single place a human (or
+# Claude) can look to answer "did this run actually verify anything?". Three separate
+# incidents in one day all had the same shape: a check failed, the failure was
+# swallowed, and the run reported success.
+emit_health() {
+  local frag_dir="$WORK_DIR/pull-fragments"
+  local failed_repos=""
+  if [[ -d "$frag_dir" ]]; then
+    failed_repos=$(grep -ho '"repo": "[^"]*", "github": "[^"]*", "status": "\(failed\|clone_failed\)"' "$frag_dir"/*.json 2>/dev/null \
+      | sed -E 's/"repo": "([^"]*)".*/\1/' | tr '\n' ' ')
+    failed_repos="${failed_repos% }"
+  fi
+  local fetch_fail overwritten unreadable
+  fetch_fail=$(grep '^fetch-failed:' "$SYNC_ISSUES_FILE" 2>/dev/null | cut -d: -f2 | sort -u | tr '\n' ' ')
+  overwritten=$(grep '^overwrote-local-edit:' "$SYNC_ISSUES_FILE" 2>/dev/null | cut -d: -f2- | tr '\n' '|')
+  unreadable=$(grep '^unreadable:' "$SYNC_ISSUES_FILE" 2>/dev/null | cut -d: -f2 | sort -u | tr '\n' ' ')
+
+  local skipped="[]"
+  [[ "$MODE" == "--status" ]] && skipped='["handoffs","skills"]'
+
+  local ok="true"
+  [[ -n "$failed_repos" || -n "$fetch_fail" || -n "$unreadable" ]] && ok="false"
+  [[ "$CRED_TOKEN_OK" == "false" || -n "$CRED_EMBEDDED" ]] && ok="false"
+
+  printf '  "health": {\n'
+  printf '    "ok": %s,\n' "$ok"
+  printf '    "token_accepted_by_github": %s,\n' "$(json_escape "$CRED_TOKEN_OK")"
+  printf '    "repos_with_stale_embedded_credential": %s,\n' "$(json_escape "${CRED_EMBEDDED% }")"
+  printf '    "repos_failed_to_sync": %s,\n' "$(json_escape "$failed_repos")"
+  printf '    "mount_fetch_failures": %s,\n' "$(json_escape "${fetch_fail% }")"
+  printf '    "mount_overwrote_local_edits": %s,\n' "$(json_escape "${overwritten%|}")"
+  printf '    "repos_unreadable": %s,\n' "$(json_escape "${unreadable% }")"
+  printf '    "checks_skipped": %s\n' "$skipped"
+  printf '  }\n'
 }
 
 # --- Main ---
-log "bsync v2.7 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
+log "bsync v2.11 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
+SYNC_ISSUES_FILE="$WORK_DIR/sync-issues.txt"
+: > "$SYNC_ISSUES_FILE" 2>/dev/null || true
 setup_git
+preflight_credentials
 clean_stale_locks
+
+# A rejected token or a stale embedded credential makes every later "ok" meaningless.
+# Say it loudly on stderr up front rather than letting it surface as N confusing
+# per-repo failures (or, worse, as nothing at all).
+if [[ "$CRED_TOKEN_OK" == "false" ]]; then
+  echo "bsync: WARNING - the PAT in $TOKEN_FILE was rejected by GitHub. Rotate it: echo NEW_PAT > $TOKEN_FILE" >&2
+fi
+if [[ -n "$CRED_EMBEDDED" ]]; then
+  echo "bsync: WARNING - stale credential baked into origin URL for:$CRED_EMBEDDED (these bypass .git-token and will never sync)" >&2
+fi
 
 if [[ "$MODE" == "--sync-mount" ]]; then
   sync_mount_to_origin
@@ -627,8 +757,8 @@ if [[ "$MODE" == "--pull-only" ]]; then
   _failed="$(printf '%s' "$_pull_json" \
     | grep -oE '"repo": "[^"]+", "github": "[^"]+", "status": "(failed|clone_failed)"' \
     | grep -oE '^"repo": "[^"]+"' | cut -d'"' -f4 | tr '\n' ' ')"
-  if [[ -n "$_failed" ]]; then
-    log "bsync pull-only DEGRADED — could not sync: $_failed"
+  if [[ -n "$_failed" || "$CRED_TOKEN_OK" == "false" || -n "$CRED_EMBEDDED" ]]; then
+    log "bsync pull-only DEGRADED — failed: ${_failed:-none} | token_ok: $CRED_TOKEN_OK | stale embedded creds:${CRED_EMBEDDED:- none}"
     printf '%s\n' "{\"mode\": \"pull-only\", \"status\": \"degraded\", \"failed\": \"${_failed% }\"}" | tee /dev/stderr
     exit 1
   fi
@@ -644,7 +774,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.10.0",
+  "bsync_version": "2.11.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
@@ -673,6 +803,8 @@ else
   echo '  "skills": []'
 fi
 
+echo "  ,"
+emit_health
 echo "}"
 
 log "bsync v2 complete"
