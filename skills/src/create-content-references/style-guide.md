@@ -35,6 +35,13 @@ Repost LEVY" 7/10, was a bodyless repost and carried no voice signal. Nothing ag
 May entries are still inside the ~90-day window and still recurring. No PROPOSED CORE
 CHANGE this cycle.*
 
+*Delta refresh 2026-07-26: folded in 4 new TNB pieces (beehiiv "LinkedIn or LinkedOut?"
+7/24; LinkedIn "Vibe App Store" 7/24, "Shanif Promo" 7/22, "MVHH 3.0" 7/21). Nothing aged
+out — the ~90-day window now starts ~4/27 and all existing May entries still fall inside
+it and still recur. Notable: the Claude-as-character beat did NOT appear this cycle, and
+zero em dashes appeared across all four pieces (see drift notes). No new PROPOSED CORE
+CHANGE; the standing 6/28 one is amended.*
+
 **Recurring structural moves (TNB, 2026-05 → 07)**
 
 - **LI posts open cold with a single arresting line, then a hard break.** A confession, a
@@ -103,6 +110,45 @@ CHANGE this cycle.*
   jumble of photos) and what I needed (thematic albums with links)." Paired with an
   explicit anti-one-shot warning: "There's no way I could have just dumped the mess on
   Claude and said 'sort these.'" (Vacation Photos 7/14.)
+- **The categorized-verdict research essay.** New beehiiv spine, distinct from the
+  escalating ladder and the honest audit: he runs a big AI research project, then dumps
+  the findings into four named verdict buckets — *Busted Myths / Probably Help / Doesn't
+  Matter / Definitely Hurt* — each bucket a short list of claim-then-ruling. Then he
+  **undercuts his own findings**: "here's the catch: they're observational. Not a reliably
+  repeatable set of rules." He hands you the prescriptive payload and then removes its
+  authority, which is the actual thesis. (LinkedIn or LinkedOut? 7/24.)
+- **The data-argument LI post.** Opens on a two-line mock dialogue (`Friend:` / `Me: 🙄`,
+  the emoji doing all the work of the reply), then "let's zoom out and check some numbers"
+  and two paired stat blocks in **`‣` bullets** — a third bullet glyph alongside `→` and
+  emoji. A reader-guiding question turns the corner ("See what's happening?"), and the
+  post closes on a **forward-looking market prediction** rather than a resolved tension:
+  "maybe we're entering an era where it's the marketer who's the indispensable
+  co-founder." Sources land in a bare parenthetical footer: "(All data courtesy of the New
+  York Times)". (Vibe App Store 7/24.)
+- **The "two types of people" open with a third-option punchline.** A mock taxonomy that
+  he immediately breaks: "There are two types of people in the business world… I guess
+  there are also people who don't give a shit…but they're wrong." (LinkedIn or LinkedOut?
+  7/24.)
+- **Explicit reader-guiding labels** are now doing his transitions: "Key takeaway:" ·
+  "Long story short," · "See what's happening?" · "But here's the real question:" · "here's
+  the catch:". He signposts rather than transitioning smoothly. (All four 7/21–7/24
+  pieces.)
+- **Fourth close type — the retro-wisdom close.** After a piece full of tactics, he lands
+  on something deliberately old-fashioned and unclever: "the through-line seems to be
+  surprisingly retro: Write what you know, write it authentically, and know why you're
+  doing it." (LinkedIn or LinkedOut? 7/24.) Sits alongside human-judgment,
+  warm-community, and antithesis-pair.
+- **The event-recap / name-roll post.** New LI type: what he loves about TNB → a growth
+  arrow in plain ASCII (`random startup friends -> an awesome collection of people`) →
+  "Key takeaway:" thesis → tiered thanks (co-hosts, then day-one stalwarts, then new
+  friends, all @-named) → self-deprecating apology close: "Sincere apologies to anyone I
+  missed...it was such a blur, I'm just going off the pictures!" (MVHH 3.0 7/21.)
+- **The withheld-detail teaser close** in podcast promos: dangles the payoff without
+  paying it off. "And at the end, Shanif reveals a passion project he works on while he's
+  running 5 models, 6 agents, and 3 projects at once!" Paired with a question-hook open
+  that answers itself immediately: "What was AI like before AI? Shanif Dhanani knows."
+  (Shanif Promo 7/22.)
+
 
 **Recurring voice / humor beats (TNB, 2026-05 → 07)**
 
@@ -144,6 +190,36 @@ CHANGE this cycle.*
 - **Wry absurd comparisons continue:** "sounds like a job at NVIDIA" (5/14) · the "worst"
   wine still "better than the best wine I'd ever had before" (6/10) · "I ain't too proud
   to beg" (5/26).
+- **Self-indictment in a parenthetical.** He'll name a bad practice, then immediately
+  cop to his own brand doing it: "Engagement bait and pods… are automatically demoted.
+  (Oops! We do a lot of this at The New Builder.)" The aside is the credibility move.
+  (LinkedIn or LinkedOut? 7/24.)
+- **"My own n=1" as evidence and as joke.** He runs personal testimony against the data in
+  both directions — to corroborate ("I can personally testify to this. So many great video
+  clips from the podcast have been met with crickets") and to deflate expertise ("I've
+  tried all the hacks… and I have no friggin' idea when a post is going to hit").
+  (LinkedIn or LinkedOut? 7/24.)
+- **Credit-the-model-then-claim-the-prompt.** A new twist on the AI-as-character beat: he
+  gives the model full billing, then takes the human credit back with a brag button.
+  "full credit to Fable, although I did write one hell of a prompt!" Note the model named
+  here is **Fable, not Claude** — first non-Claude tool to carry a piece. (LinkedIn or
+  LinkedOut? 7/24.) *Watch:* the sassy Claude-as-character beat did not appear at all this
+  cycle.
+- **The AI-eats-its-own-tail observation** as a recurring analytical shape: "the platform
+  is now grading you with the very technology that's been flooding it with slop in the
+  first place… Once AI is churning out volume, something has to do the enforcement, and
+  it's almost always more AI." Also stated as method: "I used AI to puzzle out what the AI
+  was doing with the AI." (LinkedIn or LinkedOut? 7/24.)
+- **Mild profanity is in-register** and used for emphasis, not shock: "don't give a shit,"
+  "no friggin' idea," "one hell of a prompt." Roughly one per long piece. (LinkedIn or
+  LinkedOut? 7/24.)
+- **Ellipsis is his default connective**, ahead of the dash or semicolon: "starting
+  pre-ChatGPT...right up to his current venture, Nobi...focusing on…" · "Which is just
+  another way to say...sales and marketing." · "it was such a blur..." Present in all four
+  pieces this cycle. (Shanif Promo 7/22; Vibe App Store 7/24; MVHH 3.0 7/21.)
+- **Parenthetical jab at the category, never the person** — the punch stays aimed at the
+  pattern: "(unlike some cagey founders), he shares actual numbers." (Shanif Promo 7/22.)
+
 
 **Current lexicon additions (TNB)**
 
@@ -163,6 +239,13 @@ CHANGE this cycle.*
   Typos still ride through to publish as texture (the subject line shipped as "The Bug
   *Clause* Couldn't Catch"; "when of the easy things"). (Bug Claude Couldn't Catch 7/15;
   Inputs 7/15; Vacation Photos 7/14.)
+- **New (late-07):** "enshittification" · "n=1" · "scroll-bait" · "niche down" · "black
+  box" · "false precision" · "red teams" · "distribution, distribution, distribution" ·
+  "the product business" vs. "the distribution business" · "MVHH / minimum viable happy
+  hour" · "weekend warrior vibe-coder" · "stalwarts" · "tech-adjacent" · "IRL" · "the
+  through-line" · "write for saves, not likes." Mild profanity in-register ("friggin',"
+  "give a shit," "one hell of a"). "Fable" enters the tool vocabulary alongside Claude.
+  (LinkedIn or LinkedOut? 7/24; Vibe App Store 7/24; MVHH 3.0 7/21; Shanif Promo 7/22.)
 
 **Brand / drift notes**
 
@@ -170,6 +253,16 @@ CHANGE this cycle.*
   Machine 5/26; Shame! 6/12; still holding — Therapy 7/6.)
 - **No "Stay Humble!" sign-off and no "HC Update" in TNB essays** — both are HC-era Core
   fixtures that the current brand has dropped. (See PROPOSED CORE CHANGE below.)
+- **Em dashes: reversing (2026-07-26).** The 6/28 secondary flag said published LI posts
+  were ignoring the `tnb-core-teachings.md` "no em dashes" rule. This cycle all four
+  pieces contain **zero** em dashes (ellipsis and the `‣`/`→` bullet carry the same work).
+  Two data points isn't canon yet, but the published practice now appears to be moving
+  *toward* the stated rule rather than away from it. Recheck next cycle before deciding.
+- **"Building" is being explicitly redefined as TNB doctrine**, stated outright rather
+  than implied: "building doesn't just mean founding a startup anymore. You can be a
+  solopreneur… VC money? You can take it or leave it. You can be a weekend warrior
+  vibe-coder or a veteran engineer." Useful as a positioning line, not just a voice note.
+  (MVHH 3.0 7/21.)
 
 > **PROPOSED CORE CHANGE (awaiting Brian's approval) — 2026-06-28:**
 > Core §3 still hard-codes HC-era newsletter fixtures that TNB no longer uses: the
@@ -181,6 +274,11 @@ CHANGE this cycle.*
 > honored in published LI posts — em dashes appear regularly (e.g. "distinctly human —
 > and distinctly me," 6/16; "Karpathy's own walkback —", 5/14). Decide which is canon:
 > the rule, or the published practice. Both are propose-only; not edited here.
+>
+> *Amendment 2026-07-26:* the secondary em-dash flag is **softening**. All four pieces in
+> the 7/21–7/24 delta use zero em dashes. If that holds one more cycle, the right call is
+> to keep the rule as canon and close this flag. The primary flag (HC fixtures hard-coded
+> in Core §3) is unchanged and still awaiting Brian.
 
 ---
 
