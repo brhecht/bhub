@@ -89,14 +89,27 @@ Then a flat **ALSO CONSIDER** tail for borderline items worth a glance.
 
 **Per-item format:**
 ```
-N. **Headline** (#channel) — One- to two-sentence neutral summary. When citing replies, NAME the replier ("Scott Werner replied that…"); collapse similar repliers into one sentence naming all. *Why:* one line on why it's newsletter-worthy. [link](permalink)
+N. **Headline** (#channel) [STATUS] — One- to two-sentence neutral summary. When citing replies, NAME the replier ("Scott Werner replied that…"); collapse similar repliers into one sentence naming all. *Why:* one line on why it's newsletter-worthy. [link](permalink)
 ```
+
+**Build status — REQUIRED on every 🔨 item, and on any item that describes something being made.**
+Tag it `[SHIPPED]`, `[IN PROGRESS]`, or `[PROPOSED]`, judged only on what the thread actually says:
+
+- `[SHIPPED]` — it exists and someone has used it. A link, a screenshot, an App Store listing, "it's live," a demo.
+- `[IN PROGRESS]` — work has started and there's evidence of it, but it isn't finished or usable yet.
+- `[PROPOSED]` — an intention, a plan, or a "this weekend I'm going to try…" with no follow-up. **This is the one that gets mislabeled.** A well-written description of what somebody intends to build reads exactly like a build. It is not one.
+
+Rules:
+- **Default to the lower status when uncertain.** `[PROPOSED]` is never embarrassing; calling a plan a shipped product in the newsletter is.
+- If the poster promised to report back and hasn't, append `· no follow-up as of {date}`. That is Brian's cue to go ask, which is usually better material than the original post.
+- Never infer completion from enthusiasm, detail, or technical fluency. People describe unbuilt things vividly all the time.
 
 **Naming & tone rules (carried from the daily-recap v2 spec — non-negotiable):**
 - Always name post authors and repliers by Slack display name. **Never** write "one user noted," "a reply pushed it further," or any anonymous framing. If a replier's name can't be resolved, drop the reply sentence rather than write an anonymous one.
 - Neutral and factual. **Banned:** "says he's…," "claims to be…," "supposedly," "the kind of person who…" — never editorialize about authenticity, motive, or vibe.
 - Tight noun-verb prose. Cut adjectives that don't carry information.
 - **Plain-language first, jargon in parentheses.** The audience is AI-conversant but **non-technical**. Never lead with a technical product, tool, framework, CLI, or feature name on first reference. Describe what the thing *does*, then put the name in parentheses. Write "a tool that scans a whole codebase for accidentally committed passwords and API keys (TruffleHog)" — not "a TruffleHog scanner." Same for things like `/goal`, Antigravity, Codex, MCP, etc.: explain the function, name it second.
+- **If the name or link isn't in the thread, say so — never paper over it.** The parenthetical above is not optional decoration; it's the part that survives into anything Brian writes later. A nameless "a free tool that reports your true LLM spend" is unusable downstream and reads as vague. When the thread doesn't contain the name or URL, write `(name not in thread — ask {author})` in the same parentheses. Same for numbers, repos, and products: capture the specific or flag that it's missing. Never smooth a missing specific into generic description.
 
 **Permalink construction (no extra API call needed):**
 `https://the-new-builder.slack.com/archives/{CHANNEL_ID}/p{ts}` where `{ts}` is the message ts with the decimal point removed (e.g. ts `1780969615.908419` → `p1780969615908419`).
@@ -126,11 +139,19 @@ End the inline output with: *"Reply `render 2,5,7` to turn picks into draft narr
 **Goal:** turn his picks into a *thinking input*, not a finished piece — raw narrative he can react to, plus angles to expand. **Low voice.**
 
 ### Steps
-1. For each picked number, pull full context — re-read the source message and its thread (`slack_read_thread`) for any quotes or detail you didn't capture in Phase 1.
+1. For each picked number, pull full context — re-read the source message and its thread (`slack_read_thread`) for any quotes or detail you didn't capture in Phase 1. **Capture verbatim while you're in there**: the poster's own sharpest one or two lines, exact tool names and URLs, exact figures, and the build status. Quoting the source is always better than paraphrasing it, and this is the only pass where the source is open.
 2. Produce a markdown draft with three parts:
    - **Throughline (1 short paragraph, ≤3 lines):** the connective thread that ties the picks together — what this week's selections, taken together, say about where building / the TNB community is going. Light editorial spine, not a hot take.
    - **Per pick — SCANNABLE, this is the whole point:** a bolded **headline** followed by **3–5 lines max** of plain summary. No fat paragraphs, no wall of text. If it can't be said in 5 lines, cut detail, don't add lines. Each pick must be skimmable in one glance.
    - **Angles to expand (2–3 tight bullets per pick):** concrete hooks I could develop into a take — questions, tensions, contrarian readings, "the bigger pattern here is…" prompts. Where my personal opinion belongs, mark it `[my take: …]` rather than inventing one.
+   - **Source & raw material (per pick, immediately after the summary):** a compact block that does NOT count against the 5-line summary cap, because it is not prose:
+     ```
+     Source: [permalink] · {author} · #{channel} · {date}
+     Status: [SHIPPED | IN PROGRESS | PROPOSED]{ · no follow-up as of {date}}
+     Verbatim: "…" (1–2 of the poster's own lines, exact)
+     Specifics: tool names, URLs, figures, repos — or "not in thread"
+     ```
+     This block is the whole point of the render. The 5-line summary is for scanning; this is what makes the pick usable weeks later. **Never drop it to save space.** If a later session needs to write from these picks, it must be able to get back to the source without re-searching Slack.
 
 ### Voice guardrails (critical)
 - **Write in my first person — refer to me as "I", not "Brian Hecht."** This is raw material for *my* newsletter, so it reads from my point of view (e.g. "I shipped a daily planner…", not "Brian Hecht shipped…"). For picks about other members' posts, narrate them as I'd reference them ("Jaron built…", "Chuck shared…") — I'm the narrator, they're the subjects.
@@ -138,6 +159,7 @@ End the inline output with: *"Reply `render 2,5,7` to turn picks into draft narr
 - Keep it tight and plain. Pull framing vocabulary from TNB positioning (relationship-led community, "the new builder," builders as the emerging role) but don't overreach or sloganeer.
 - **Plain-language first, jargon in parentheses (same rule as Phase 1).** Non-technical-but-AI-conversant audience. Lead with what a tool/feature does, then name it in parentheses on first reference — "a tool that finds secrets accidentally committed to a codebase (TruffleHog)," never "a TruffleHog scanner." This matters more in the narrative render than anywhere else.
 - **This is not `create-content`.** If Brian wants to develop a single pick into a full, voice-driven essay or LinkedIn post, that's a deliberate, separate hand-off to the `create-content` skill — say so and stop.
+- **Hand off the raw material, not just the summary.** When that hand-off happens, the Source & raw material blocks go with it. A downstream writing session working only from the 5-line summaries will produce flat, unverifiable copy: it cannot name the tool, quote the builder, or check whether the thing was actually built. Every specific deleted here has to be invented later, and invented specifics are how a `[PROPOSED]` weekend plan ends up described as a shipped product.
 
 ### Output
 Write the draft to the user's folder as `TNB-Digest-Draft-{YYYY-MM-DD}.md` and present it with `present_files`. Keep a short summary in chat.
