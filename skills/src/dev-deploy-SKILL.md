@@ -83,9 +83,55 @@ Keep them concise and descriptive. Focus on what changed and why, not implementa
 **Good:** `"Wire sidebar filters to archive view"`
 **Bad:** `"Updated ArchiveView.jsx to destructure filterPlatforms and filterStatuses from useStore and added conditional filtering logic"`
 
+## Execution Mode: Cloud vs On-Computer (READ FIRST)
+
+Cowork tasks run in one of two places, and **this determines whether Claude can push at all.** Everything else in this skill assumes you know which one you're in. Establish it before promising the user anything.
+
+| | **On the user's computer** | **In the cloud** |
+|---|---|---|
+| Where the shell runs | Brian's Mac, real network | Anthropic sandbox, proxied network |
+| `git push` to brhecht/* | Works, uses `.git-token` | **Gated per-repo by a git proxy** |
+| `api.github.com` | Works | Blocked by the same proxy |
+| Folder access | Direct, can add folders mid-session | Device bridge only, fixed at session start |
+| `device_bash` network | n/a | **None at all** |
+
+**The cloud git proxy is the trap.** In a cloud session, git traffic to github.com does not use `.git-token` no matter how correctly it is configured. The proxy injects its own credential, and only for repos in the session's authorized set. Everything else returns:
+
+```
+remote: access denied by the git proxy: brhecht/<repo> is not in this
+session's authorized repository set, so the proxy will not inject a
+credential for it.
+```
+
+This is not a token problem, a permissions problem, or a transient failure. **Retrying, re-configuring credentials, or regenerating the PAT will not fix it.** Do not spend the user's time on any of those.
+
+**Detect the mode first (MANDATORY, one command).** Every rule below branches on this. In a cloud session the Bash tool cannot see Brian's real filesystem at all; his folders are reachable only through the device bridge. On his computer they are simply there. That asymmetry is the test, plus the shape of `BSUITE_DIR` (a real `/Users/...` path means his machine). When the two signals disagree, treat it as cloud: that direction is fail-safe, since the cloud rules are strictly more conservative.
+
+```bash
+case "$BSUITE_DIR" in /Users/*) LOCAL=1 ;; *) LOCAL=0 ;; esac
+[ -d "$HOME/Developer/B-Suite" ] || [ -d /Users/BRHPro/Developer/B-Suite ] && LOCAL=1
+[ "$LOCAL" = 1 ] && echo "MODE=on-computer" || echo "MODE=cloud"
+```
+
+`MODE=on-computer`: no FUSE mount, no `/tmp` clone requirement, no `--sync-mount`, pushes work. `MODE=cloud`: every constraint in this skill applies. State the detected mode in the first response.
+
+**Then probe the push path, at session start, not at push time (MANDATORY).** The failure mode that burns the user is doing an hour of work and discovering at the deploy step that the push was never possible. **`git ls-remote` alone is NOT a sufficient probe — it only tests read.** The cloud proxy permits reads and refuses writes, so a read-only probe returns a false green and the block surfaces at the deploy step anyway. This happened on August 6, 2026: `ls-remote` passed, an hour of work went in, and the push was refused. Probe the write path, from a clone of the target repo:
+
+```bash
+git ls-remote https://github.com/brhecht/<target-repo>.git HEAD >/dev/null 2>&1 \
+  && git push --dry-run origin HEAD >/dev/null 2>&1 \
+  && echo "PUSH PATH OK" || echo "PUSH BLOCKED — cloud proxy, tell Brian now"
+```
+
+Read passing and dry-run failing is the proxy, and it is case 2 (structurally absent capability), not a fault to debug.
+
+If it comes back blocked, **say so in the first response**, along with the durable fix below. Then continue working: the code, the build, and the local commit all still work. Only the final hop needs him.
+
+**The durable fix (tell him once, don't re-litigate every session):** in the desktop app, Settings → Cowork → turn off "Run new tasks in the cloud" so new tasks default to running on his computer, or use the "Run this task" picker at the top right when starting a single task. Running on his computer bypasses the proxy entirely because it is his own shell and his own network. A running cloud session cannot be moved; the path is starting the task again.
+
 ## Git Auto-Config (Session Start)
 
-At the start of every Cowork session that involves code changes or deploys, Claude must configure git credentials before any git operations. This eliminates the terminal handoff for `git push` — Claude can push directly.
+At the start of every Cowork session that involves code changes or deploys, Claude must configure git credentials before any git operations.
 
 **The sequence:**
 1. Check if `.git-token` exists in the B-Suite root folder
@@ -96,14 +142,25 @@ At the start of every Cowork session that involves code changes or deploys, Clau
    git config --global user.name "brhecht"
    git config --global user.email "brhnyc1970@gmail.com"
    ```
-3. Verify with a dry-run push on any repo: `git push --dry-run`
+3. **Verify with `git ls-remote` or `git push --dry-run`.** A configured credential is not proof of a working push path. In a cloud session this step is where you learn the proxy will refuse you.
 4. If the token is expired or invalid, ask the user to generate a new classic PAT at github.com/settings/tokens with `repo` scope, and save it to `.git-token`
 
 **If `.git-token` is missing:** Ask the user to paste their GitHub PAT (classic token, `repo` scope). Save it to `.git-token` in the B-Suite root for future sessions.
 
-**This means the deploy flow is now fully autonomous in Cowork mode.** No terminal handoff needed for `git push`. The user's only checkpoint is confirming "ship it" before Claude pushes.
+**Scope of the autonomy claim:** in on-computer sessions this makes the deploy flow fully autonomous, and the user's only checkpoint is confirming "ship it." **In cloud sessions it does not**, and claiming otherwise sets up the exact broken promise this skill exists to prevent. Verify, then promise.
 
-## Git Operations: /tmp Clone First (MANDATORY)
+### Never print a remote URL that contains a token (MANDATORY)
+
+Brian's remotes have the PAT embedded in the URL (`https://brhecht:ghp_xxx@github.com/...`). That means `git remote -v`, `git remote get-url`, and many verbose git errors **print a live credential to the terminal**, where it lands in scrollback and in any screenshot he sends. This leaked a working token on August 5, 2026.
+
+- Never run `git remote -v` or `git remote get-url` where the output is shown, unless the token itself is what's being debugged. Use `git ls-remote` for reachability instead.
+- When you must inspect token-bearing output, scrub it: `| sed -E 's#//[^@]*@#//***@#g'`
+- If a token appears in any output, or in any screenshot the user sends, **stop and tell him to rotate it before continuing with the task.** Do not bury it under the task result.
+- The durable fix is plain remotes (`https://github.com/brhecht/<repo>.git`) plus the credential helper, which already holds the token. Propose that migration when the topic comes up.
+
+## Git Operations: /tmp Clone First (MANDATORY — cloud sessions only)
+
+**This entire section applies when `MODE=cloud`. When `MODE=on-computer`, skip it.** There is no FUSE mount in an on-computer session, so there is no EPERM problem to work around: work in the repo where it lives (`~/Developer/B-Suite/<repo>`), commit and push there directly, and do NOT create a `/tmp` clone. A `/tmp` clone in local mode is not merely wasted work — it splits the working tree in two, and any edit made in one copy is invisible to the other.
 
 **Never perform git write operations (commit, push, pull, rebase) on the mounted drive.** The mounted B-Suite folder has persistent EPERM issues — lock files, pack file errors, HEAD.lock failures. These are a fundamental limitation of how Cowork mounts the filesystem, not something that can be fixed per-session.
 
@@ -143,8 +200,12 @@ These are Cowork sandbox constraints that cannot be fixed. Don't waste time retr
 
 | Blocked | Workaround |
 |---------|------------|
+| **`git push` to an unauthorized repo** (cloud sessions only) | The git proxy refuses to inject a credential. Not fixable in-session. Probe with `git ls-remote` at session start; commit locally via the bridge and hand over one push line. Durable fix: run the task on his computer. |
+| **`device_bash` network** (cloud sessions) | The sandbox on Brian's Mac has **no outbound network**. It cannot push, fetch, curl, or install. Use it only for local file work on mounted folders. |
+| **`device_bash` deletes** | `rm`/`rmdir`/`unlink` fail with EPERM on mounted files. `mv` the file into a `_to_delete/` subfolder and tell him. Note this also means `git am --abort`, `git rebase --abort`, and stale `.git/*.lock` cleanup **cannot** be done from the bridge; they must go in his push line. |
 | **Firestore direct access** (gRPC blocked by proxy) | Can't query Firestore from sandbox. Use Vercel API endpoints if the domain is allowlisted, or read from local data files/exports. |
-| **GitHub API** (api.github.com blocked by proxy) | Can't create repos, manage issues, or use gh CLI. Give user a one-liner to run on their Mac. |
+| **GitHub API** (api.github.com blocked by proxy) | Can't create repos, manage issues, or use gh CLI. In cloud sessions the proxy error names an `add_repo` tool that may not be exposed; if it isn't, don't chase it. |
+| **GitHub via Claude in Chrome** | Only works if his Chrome profile is already signed in to GitHub. If it shows Sign in, that route is dead: signing him in means entering a password, which is prohibited. Check before building a plan around it. |
 | **Custom Vercel domains** (*.vercel.app blocked by proxy) | Can't fetch from live app APIs. Build data export scripts that write to repo files instead. |
 | **Firebase CLI deploy** | Use git push + Vercel auto-deploy instead. If Firebase deploy is truly needed, give user a one-liner. |
 | **Mounted drive git writes** | Use /tmp clone pattern (see above). |
@@ -183,15 +244,34 @@ If the rebase has conflicts, resolve them (prefer the current changes unless the
 ### Standard deploy sequence
 For projects deployed via git push (Vercel, Netlify, etc.):
 
+Cloud session (`MODE=cloud`):
+
 ```bash
 npm run build && git add -A && git commit -m "descriptive message" && git pull --rebase origin main && git push && bash $BSUITE_DIR/bhub/bsync.sh --sync-mount
 ```
 
+On-computer session (`MODE=on-computer`) — same minus the mount sync, run in the repo itself, not a `/tmp` clone:
+
+```bash
+npm run build && git add -A && git commit -m "descriptive message" && git pull --rebase origin main && git push
+```
+
 After the user confirms the push succeeded (or Claude runs it with permission), the deploy will be live in ~60 seconds.
 
-### Sync mount after every push (MANDATORY in Cowork)
+### Sync mount after every push (MANDATORY in cloud sessions — FORBIDDEN in on-computer sessions)
 
-**Every `git push` from Cowork must be followed by `bash $BSUITE_DIR/bhub/bsync.sh --sync-mount`.** No exceptions.
+**Guard, check this before running the command, every time:**
+
+```bash
+case "$BSUITE_DIR" in /Users/*) LOCAL=1 ;; *) LOCAL=0 ;; esac
+[ -d "$HOME/Developer/B-Suite" ] || [ -d /Users/BRHPro/Developer/B-Suite ] && LOCAL=1
+[ "$LOCAL" = 1 ] && echo "MODE=on-computer — DO NOT run --sync-mount" \
+                 || echo "MODE=cloud — --sync-mount required after push"
+```
+
+**Why this is a hard guard and not a preference.** `--sync-mount` force-overwrites drifted working-tree files with `git show HEAD:f > f`. In a cloud session that is safe and necessary, because the mount's `.git/HEAD` is genuinely stale after a `/tmp` push. In an on-computer session there is no mount and no stale HEAD, so the command has no work to do and only carries its failure mode: if it runs while Brian has edited-but-uncommitted files, it silently replaces them with origin's version. The loss is silent. There is no error, no prompt, and no undo, and Brian is not reading diffs to catch it. **Never run `--sync-mount` when `MODE=on-computer`. Never run it before a push in any mode.**
+
+**When `MODE=cloud`: every `git push` from Cowork must be followed by `bash $BSUITE_DIR/bhub/bsync.sh --sync-mount`.** No exceptions.
 
 **Why this matters:** Cowork edits files directly on the FUSE-mounted drive (which IS the user's Mac filesystem — same physical bytes), but pushes from a `/tmp/` clone. After a push, GitHub has the new HEAD, and the working tree files on the mount match the new HEAD. But the mount's `.git/HEAD` still points to the OLD commit — because Cowork's push happened in `/tmp/`, not on the mount. Result: the user's Mac sees `git status` reporting tracked files as "modified" (working tree differs from local HEAD), and any `git pull` fails with "your local changes would be overwritten."
 
@@ -204,6 +284,8 @@ This was the #1 source of "I have to open terminal" friction. **`--sync-mount` e
 **Never run `--sync-mount` BEFORE pushing local changes** — it will pull origin's version of any tracked file you've edited but not yet pushed, silently reverting your in-progress work. Always: edit → commit → pull --rebase → push → sync-mount, in that order. The bsync auto-call at session start is safe because session-start has no in-progress edits.
 
 **This responsibility is on Claude, not the user.** If a session forgets to call `--sync-mount` after a push, the user discovers it the next time they touch terminal — exactly what we're eliminating. Treat the post-push sync as part of the push, not an optional cleanup.
+
+**The one exception:** if the push was run from Brian's own Mac (a blocked-proxy handoff, per Execution Mode), his repo IS the source of truth and is already current. Running `--sync-mount` is unnecessary there. Applying a commit to the mount via `git am` also leaves `.git/*.lock` files and a `.git/rebase-apply/` directory that the bridge cannot delete, so **fold `rm -f .git/*.lock && rm -rf .git/rebase-apply` into his push line** or his next git command fails with "Another git process seems to be running."
 
 ### Stamp-on-push (handoff continuity)
 
@@ -305,6 +387,18 @@ If the build fails:
 
 This is the most important recovery principle in this skill. When a VM tool fails — git crashes, network blocks, auth errors, corrupted state — Claude's instinct will be to ask the user to run the command on their Mac instead. **This is always wrong as a first response.** The user chose Cowork so they wouldn't have to be a terminal operator. Every command offloaded to them is a broken promise.
 
+**Two different situations, do not conflate them.** This section governs the first; it does not govern the second.
+
+1. **A tool broke.** Crash, timeout, corrupted state, transient auth failure, a path that happens not to work. There is almost always another route. Follow the recovery hierarchy below. Handing over a command here is a failure.
+2. **A capability is structurally absent in this execution mode.** The cloud git proxy refusing an unauthorized repo; `device_bash` having no network; a credential Claude is forbidden to enter. No amount of cleverness produces the missing capability. Grinding through five doomed routes to prove diligence wastes the user's time as surely as offloading too early does.
+
+**For case 2 the contract is different, and it has three parts. All three, or it's still a broken promise:**
+- **Do everything that does not require the missing capability.** Write the code, run the build clean, commit locally through the bridge, stamp the handoff. The user's line should be the last hop only, never the work.
+- **Show the exhaustion ledger.** Name every route tried and the specific reason each failed. "I couldn't push" is a shrug. "Cloud proxy rejected it, the bridge sandbox has no network, GitHub API returns the same proxy 403, and Chrome is signed out of GitHub" is a diagnosis he can act on.
+- **Give the durable fix, not just the workaround.** The one-line push is the patch. Naming the setting that stops it recurring is the fix. A session that hands over the same paste line every week and never names the cause is failing him slowly instead of quickly.
+
+**How to tell them apart fast:** case 2 announces itself in the error text as a policy statement rather than a fault ("not in this session's authorized repository set", "uploads require push access", "Operation not permitted" on a mount). Faults say what went wrong; policies say what is not allowed. **Probe for case 2 at session start** (see Execution Mode above) so you find it before doing the work, not after.
+
 The reason this matters beyond convenience: the user may not be a developer. They can run commands you give them, but they can't debug when those commands fail. So if you hand them `git push` and it errors out, now they're stuck in a debugging loop they never signed up for — and you've traded one problem (your VM failing) for a worse one (the user stuck in terminal hell).
 
 **Recovery hierarchy — follow this order before ever involving the user:**
@@ -318,6 +412,8 @@ The reason this matters beyond convenience: the user may not be a developer. The
 **Self-check rule (apply EVERY time, not just during failures):** Before asking the user to do anything — run a command, check a dashboard, click a button, paste a URL — pause and ask: "Do I actually need them for this, or can I do it myself?" If the answer is "I could probably do it myself but it seems easier to ask them," that's not good enough. Do it yourself. The only valid reasons to involve the user are: (1) it requires credentials or permissions Claude doesn't have, (2) it requires physical interaction with their device that Claude cannot access, or (3) Claude has genuinely exhausted all alternatives. This check should be automatic and constant, not just triggered by errors.
 
 **The 3-alternatives rule:** Before composing any terminal command for the user, additionally verify: "Have I tried at least 3 alternative approaches on my own?" If the answer is no, go back and try them. This rule exists because of a real failure pattern: the VM's git crashed, Claude immediately started handing the user git commands, the user spent 30 minutes in terminal debugging — and the fix (clone to /tmp/) took 60 seconds once Claude finally tried it.
+
+The three alternatives must be **structurally different routes**, not the same route retried. For a blocked push the real list is: cloud git, GitHub API, the bridge sandbox, the browser. Retrying cloud git four times is one alternative, not four. If all structurally distinct routes are exhausted, you are in case 2 above and the ledger is what you owe him.
 
 **The corruption cascade to avoid:** The VM and the user's Mac often share a mounted folder. If the VM corrupts files in that shared folder (e.g., a crashed git process leaves a broken `.git/index`), those corruptions affect the user's machine too. When a VM tool crashes mid-operation: (1) stop immediately, (2) don't retry in the same directory, (3) work from a clean copy elsewhere. Repeated retries in corrupted state make everything worse.
 
