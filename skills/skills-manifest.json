@@ -18,10 +18,10 @@
       "hash": "2cfbe7ed256ae3377be92764f07ae26b"
     },
     "create-content": {
-      "version": "1.5.1",
-      "hash": "0807f781d18ab1bd0dac73b3b6782f1b",
-      "updated": "2026-06-25",
-      "changelog": "Trim SKILL.md frontmatter description to <=1024 chars (was 1248, tripped the Cowork install limit). Same triggers/coverage, condensed. No behavioral change from v1.5.0."
+      "version": "1.6.0",
+      "hash": "9fadb2cba6bae1540d7a1fdf9dc169bc",
+      "updated": "2026-08-11",
+      "changelog": "Verbatim-only repurposing (Brian standing rule). Repurpose protocol now defaults to selection/deletion/resequencing of Brian's existing sentences, connectors only; suggested rewrites must be flagged OUTSIDE the draft and never smuggled into copy; wording offered only on request; word count stated against target range. New DIRECTION rule: newsletter is source of truth, compress to LinkedIn/threads/scripts, never inflate a LI post into a newsletter without an explicit ask. Rule 2 rewritten (re-selection, not re-expression). New rule 8: when it won't fit, cut examples down to one rather than compressing every section uniformly."
     },
     "dev-deploy": {
       "version": "1.12.0",

@@ -292,12 +292,32 @@ Brian to name an exemplar and match it.
 
 ### Repurpose protocol (any format → any format)
 
+> **VERBATIM-ONLY IS THE DEFAULT.** (Brian's standing rule, added 2026-08 after it produced
+> the best repurpose session to date.) When repurposing, Claude does **not** write new prose.
+> The job is **selection, deletion, and resequencing of Brian's existing sentences.**
+> Connectors are the only exception, and only where a cut genuinely broke continuity.
+> The test Brian applies: *"every word of this was written by me" has to be substantially true.*
+>
+> - **Never smuggle a rewrite into the copy.** If a sentence doesn't work, or a seam doesn't
+>   flow, **flag it clearly outside the draft** and hand it back to Brian. Do not fix it in
+>   place, even if the fix is obviously better. Flagging is the deliverable.
+> - **Offer wording only when asked.** "Give me an alternative," "how would you say this,"
+>   or similar. Otherwise: flag and stop.
+> - **State the word count** of every repurposed draft against the target format's range,
+>   and say plainly when the source doesn't fit the target rather than mangling it to fit.
+> - Brian can lift this rule for a given piece. It resumes on the next one.
+
+> **DIRECTION: compress, don't inflate.** The newsletter is the source of truth. LinkedIn
+> posts, threads, scripts, and clips are compressed out of it. **Do not expand a LinkedIn
+> post into a newsletter** unless Brian explicitly asks. Stretching a post's worth of
+> substance into a full essay produces padding, and padding is where slop gets in.
+
 1. **Read the source in full first.** Pull it from the Content Calendar if it's an existing
    piece (see Step 2 — by `id`, or `platform` + `search`). Don't start transforming from a
    skim.
-2. **Extract the ideas and throughline, not the sentences.** Repurposing is re-expression,
-   not line-by-line translation. A good LinkedIn post from a newsletter keeps the *insight*
-   and throws away most of the prose.
+2. **Cut to the ideas, but keep Brian's sentences.** Repurposing is re-*selection*, not
+   re-expression. Find the throughline, identify which of Brian's existing sentences carry
+   it, and drop the rest. Most of the source prose goes; whatever survives goes over intact.
 3. **Rebuild in the target format's shape** (above) — its length, rhythm, and opening
    convention — then apply voice rules + brand thinking.
 4. **Respect format physics.** Don't hand over a newsletter that's really a long LinkedIn
@@ -310,6 +330,11 @@ Brian to name an exemplar and match it.
    one small unit first (one post, one section) so a voice miss is cheap to fix.
 7. **Run the full pre-delivery checklist** on every repurposed output — repurposed prose
    drifts into slop just as easily as net-new.
+8. **When it won't fit, cut examples, not the argument.** A newsletter usually carries three
+   or four proofs of the same point; a LinkedIn post needs one. Pick the single most
+   concrete, least dismissible example and drop the others. Compressing every section
+   uniformly is the failure mode — it yields a post that asserts more than it earns, and
+   introduces concepts (a coined term, a "base layer") that the surviving text never earns.
 
 ---
 
