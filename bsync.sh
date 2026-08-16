@@ -497,14 +497,25 @@ check_skills() {
   # class as the v2.9 --pull-only bug.
   if [[ -z "$manifest" || ! -f "$manifest" ]]; then
     local _cand
+    # v2.15: /tmp/bhub-bootstrap moved LAST. It is a --depth 1 clone taken at
+    # the top of a session by the handoff skill and is never refreshed. If that
+    # session then edits a skill and pushes, every later bsync run in the same
+    # session read the stale bootstrap manifest, reported the OLD expected
+    # version, and returned match=true against the user's already-installed old
+    # skill -- so the version gate that exists to BLOCK work on an outdated
+    # skill silently waved it through. Found Aug 16 2026 right after shipping
+    # handoff 3.9.0: bsync kept reporting 3.8.0/match=true. The tell was
+    # manifest_synced=false, the backstop added in 3.8.0, doing its job.
+    # WORK_DIR and BSUITE_DIR/bhub are both synced during the run; the
+    # bootstrap clone is only a fallback for when neither exists.
     for _cand in "$WORK_DIR/bhub/skills/skills-manifest.json" \
-                 "/tmp/bhub-bootstrap/skills/skills-manifest.json" \
-                 "$BSUITE_DIR/bhub/skills/skills-manifest.json"; do
+                 "$BSUITE_DIR/bhub/skills/skills-manifest.json" \
+                 "/tmp/bhub-bootstrap/skills/skills-manifest.json"; do
       if [[ -f "$_cand" ]]; then manifest="$_cand"; break; fi
     done
   fi
   if [[ ! -f "$manifest" ]]; then
-    log "check_skills: no manifest in WORK_DIR, /tmp/bhub-bootstrap, or BSUITE_DIR/bhub"
+    log "check_skills: no manifest in WORK_DIR, BSUITE_DIR/bhub, or /tmp/bhub-bootstrap"
     echo '    {"error": "skills-manifest.json not found in any known bhub location"}'
     return
   fi
@@ -820,7 +831,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.14.0",
+  "bsync_version": "2.15.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
