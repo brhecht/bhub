@@ -100,6 +100,8 @@ REPOS=(
   "muscle-anatomy:brhecht/muscle-anatomy:.."
   "saturn-v-anatomy:brhecht/saturn-v-anatomy:.."
   "B-Personal:brhecht/b-personal:.."
+  "b-personal-hub:brhecht/b-personal-hub:.."
+  "photo-cull:brhecht/photo-cull:.."
 )
 
 # Helper: resolve the local mount path for a repo entry.
@@ -818,7 +820,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.13.0",
+  "bsync_version": "2.14.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
