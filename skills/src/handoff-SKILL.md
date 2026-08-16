@@ -17,6 +17,9 @@ This skill manages project continuity across devices and Cowork sessions. It use
 - **Per-app `HANDOFF.md`** files live in **private `bsuite-handoffs/<app>/HANDOFF.md`**. They do NOT live inside individual app repos — that pattern leaked strategy/architecture from every public app repo until May 25, 2026 when everything was migrated to this dedicated private home.
 - **`bsync.sh`** lives in **bhub** repo root. The single bootstrap command. (Stays in bhub because it's deploy infrastructure, not strategy — safe even though bhub is public.)
 - **GitHub is the source of truth**, not the mounted drive.
+- **`b-personal-hub` carries a stale `HANDOFF-MASTER.md` dated March 31 2026.** It predates the
+  May 25 migration and nothing maintains it. Ignore it; the only master is the one in
+  `bsuite-handoffs`. Delete it next time that repo is touched.
 
 ## Reading B-Suite App DATA from Cowork (canonical — do NOT reach Firestore directly)
 
@@ -62,6 +65,8 @@ A few "sibling" repos live alongside B-Suite directly under `~/Developer/` (not 
 | muscle-anatomy | brhecht/muscle-anatomy | ~/Developer (sibling) | muscle anatomy, anatomy reference, physical therapy reference |
 | saturn-v-anatomy | brhecht/saturn-v-anatomy | ~/Developer (sibling) | saturn v, saturn-v, saturn v anatomy, rocket anatomy |
 | B-Personal | brhecht/b-personal | ~/Developer (sibling) | b-personal, b personal |
+| b-personal-hub | brhecht/b-personal-hub | ~/Developer (sibling) | b personal hub, personal launcher, launcher card |
+| photo-cull | brhecht/photo-cull | ~/Developer (sibling) | photo cull, cull my photos, dupe review, photo duplicates |
 
 ## B-Suite Device Setup Protocol
 
@@ -104,7 +109,9 @@ cd ~/Developer && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/muscle-anatomy.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/saturn-v-anatomy.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/b-personal.git B-Personal && \
-echo "Done — all repos cloned (B-Suite fleet + 3 siblings) and token saved"
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/b-personal-hub.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/photo-cull.git && \
+echo "Done — all repos cloned (B-Suite fleet + 5 siblings) and token saved"
 ```
 4. Revoke the PAT at github.com/settings/tokens (token is saved in .git-token for Cowork to use)
 5. Mount `~/Developer/B-Suite` in Cowork
