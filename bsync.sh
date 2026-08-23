@@ -102,6 +102,7 @@ REPOS=(
   "B-Personal:brhecht/b-personal:.."
   "b-personal-hub:brhecht/b-personal-hub:.."
   "photo-cull:brhecht/photo-cull:.."
+  "setlist-predictor:brhecht/setlist-predictor:.."
 )
 
 # Helper: resolve the local mount path for a repo entry.
