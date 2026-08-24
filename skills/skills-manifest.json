@@ -176,7 +176,7 @@
       "expert": "unknown",
       "hc-strategy": "unknown",
       "tnb-strategy": "unknown",
-      "last_synced": "2026-07-26",
+      "last_synced": "2026-08-24",
       "pm": "unknown",
       "create-content": "unknown",
       "priority-startup-intel": "unknown",
@@ -191,7 +191,9 @@
       "schedule": "unknown",
       "setup-cowork": "unknown",
       "skill-creator": "unknown",
-      "xlsx": "unknown"
+      "xlsx": "unknown",
+      "slate": "unknown",
+      "community-measure": "unknown"
     },
     "Mac Mini": {
       "comms": "unknown",
