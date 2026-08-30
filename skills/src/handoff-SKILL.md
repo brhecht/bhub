@@ -62,6 +62,7 @@ A few "sibling" repos live alongside B-Suite directly under `~/Developer/` (not 
 | pitch-scorer | brhecht/pitch-scorer | B-Suite | pitch scorer (archived) |
 | builder-bot | brhecht/builder-bot | B-Suite | builder bot |
 | bsuite-handoffs | brhecht/bsuite-handoffs | B-Suite | bsuite handoffs (central handoff store — May 25 migration) |
+| b-line | brhecht/b-line | B-Suite | b-line, bline, athena board, the athena board, linear board, tickler |
 | muscle-anatomy | brhecht/muscle-anatomy | ~/Developer (sibling) | muscle anatomy, anatomy reference, physical therapy reference |
 | saturn-v-anatomy | brhecht/saturn-v-anatomy | ~/Developer (sibling) | saturn v, saturn-v, saturn v anatomy, rocket anatomy |
 | B-Personal | brhecht/b-personal | ~/Developer (sibling) | b-personal, b personal |
@@ -104,6 +105,7 @@ git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/tnb-website.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/tnb-strategy.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/builder-bot.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/bsuite-handoffs.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/b-line.git && \
 echo "YOUR_TOKEN" > .git-token && \
 cd ~/Developer && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/muscle-anatomy.git && \
