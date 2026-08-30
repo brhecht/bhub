@@ -1,4 +1,10 @@
 #!/bin/bash
+# bsync v2.16 — b-line enrolled. It was a live, deployed app with a handoff in
+#               bsuite-handoffs and no registry entry, so no session ever
+#               audited it, and its local folder had rotted into a plain
+#               directory holding pre-bugfix code while still being the folder
+#               linked to Vercel. Absence from this list is silent: when a new
+#               app ships, adding it here is part of shipping it.
 # bsync v2.13 — pull-only degraded output: printed once, and says WHY
 # bsync v2.12 — hourly pull no longer resets non-main branches or clobbers local work
 # bsync v2.11 — error-handling audit: nothing fails silently any more (health block)
@@ -96,6 +102,7 @@ REPOS=(
   "pitch-scorer:brhecht/pitch-scorer"
   "builder-bot:brhecht/builder-bot"
   "bsuite-handoffs:brhecht/bsuite-handoffs"
+  "b-line:brhecht/b-line"
   # Sibling repos under ~/Developer/ (alongside B-Suite/, not inside it)
   "muscle-anatomy:brhecht/muscle-anatomy:.."
   "saturn-v-anatomy:brhecht/saturn-v-anatomy:.."
@@ -832,7 +839,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.15.0",
+  "bsync_version": "2.16.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
