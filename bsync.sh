@@ -1,4 +1,6 @@
 #!/bin/bash
+# bsync v2.17 — scoped runs now always pull bsuite-handoffs, so handoff
+#               staleness is never judged from a stale mounted copy.
 # bsync v2.16 — b-line enrolled. It was a live, deployed app with a handoff in
 #               bsuite-handoffs and no registry entry, so no session ever
 #               audited it, and its local folder had rotted into a plain
@@ -169,7 +171,13 @@ done
 # Build APPS_FILTER as a space-padded string for fast lookup; bhub always included.
 APPS_FILTER=""
 if [[ -n "$APPS" ]]; then
-  APPS_FILTER=" $(echo "$APPS" | tr ',' ' ') bhub "
+  # bsuite-handoffs is always in scope, like bhub. Without it a scoped run never
+  # pulls a fresh copy and check_handoffs silently falls back to the MOUNTED
+  # bsuite-handoffs, which can be many commits behind — so an app whose handoff
+  # was written since the mount last synced gets reported as handoff_exists:false.
+  # That is a lie that reads exactly like "nobody has handed this off", which is
+  # the one thing this check exists to tell you the truth about. (b-line, 30 Aug.)
+  APPS_FILTER=" $(echo "$APPS" | tr ',' ' ') bhub bsuite-handoffs "
 fi
 
 # is_app_in_scope folder
@@ -839,7 +847,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.16.0",
+  "bsync_version": "2.17.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
