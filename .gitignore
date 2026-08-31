@@ -11,3 +11,7 @@ com.bsuite.bsync.plist
 # Versioned skill bundle archives (canonical install file is unversioned)
 skills/*-v*.skill
 .bsync-overwritten/
+.git-token
+.bthings-key
+.env
+.env.local
