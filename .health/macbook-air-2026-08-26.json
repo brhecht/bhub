@@ -1,0 +1,359 @@
+{
+  "bhealth_version": "1.1.0",
+  "timestamp": "2026-08-26T12:00:40Z",
+  "device": "MacBook Air",
+  "hostname": "BRH-Macbook-Air-2026",
+  "computer_name": "BRH Macbook Air 2026",
+  "os_version": "26.3.1",
+  "bsuite_path": "/Users/BRHair/Developer/B-Suite",
+  "git_auth_ok": false,
+  "bsync_loaded": true,
+  "bsync_last_run": "2026-08-26 10:19:37",
+  "repos": [
+    {
+      "repo": "things-app",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-08-07",
+      "action": "none"
+    },
+    {
+      "repo": "brain-inbox",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-08-18",
+      "action": "none"
+    },
+    {
+      "repo": "content-calendar",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-08-18",
+      "action": "none"
+    },
+    {
+      "repo": "b-marketing",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-16",
+      "action": "none"
+    },
+    {
+      "repo": "b-people",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-21",
+      "action": "none"
+    },
+    {
+      "repo": "b-resources",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-05-25",
+      "action": "none"
+    },
+    {
+      "repo": "bhub",
+      "branch": "main",
+      "status": "dirty",
+      "ahead": 1,
+      "behind": 1,
+      "dirty": 2,
+      "untracked": 1,
+      "last_commit": "2026-08-24",
+      "action": "none"
+    },
+    {
+      "repo": "eddy",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-05-25",
+      "action": "none"
+    },
+    {
+      "repo": "hc-funnel",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-05-25",
+      "action": "none"
+    },
+    {
+      "repo": "hc-strategy",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-24",
+      "action": "none"
+    },
+    {
+      "repo": "tnb-strategy",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-08-12",
+      "action": "none"
+    },
+    {
+      "repo": "hc-website",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-27",
+      "action": "none"
+    },
+    {
+      "repo": "tnb-website",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-08-24",
+      "action": "none"
+    },
+    {
+      "repo": "pitch-scorer",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-12",
+      "action": "none"
+    },
+    {
+      "repo": "builder-bot",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-08-24",
+      "action": "none"
+    },
+    {
+      "repo": "bsuite-handoffs",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-08-23",
+      "action": "none"
+    }
+  ],
+  "skills": [
+    {
+      "skill": "tnb-digest",
+      "installer_present": true,
+      "expected_hash": "64f8821ffa21b79d3b20971fef2e79e3",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "comms",
+      "installer_present": true,
+      "expected_hash": "131ea46d1cadb8d455bbb327a261f625",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "consolidate-memory",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "2cfbe7ed256ae3377be92764f07ae26b"
+    },
+    {
+      "skill": "create-content",
+      "installer_present": true,
+      "expected_hash": "9fadb2cba6bae1540d7a1fdf9dc169bc",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "dev-deploy",
+      "installer_present": true,
+      "expected_hash": "d38a1d8a4677e611e67c90f7dfe62b66",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "docx",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "fc4dc313a102d42cd53ca142fa32a992"
+    },
+    {
+      "skill": "expert",
+      "installer_present": true,
+      "expected_hash": "a45799e0f7da28bb590ce9f5b8d3f550",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "frontend-design",
+      "installer_present": true,
+      "expected_hash": "5c392562ec1cf5ffa6b9d2319375373f",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "grill-me",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "424449ce8e8a1895f9ea83a2fa7b3f93"
+    },
+    {
+      "skill": "handoff",
+      "installer_present": true,
+      "expected_hash": "e9690c12065789fd47dcf1924e53fff7",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "hc-strategy",
+      "installer_present": true,
+      "expected_hash": "c224d6294aec2cf696a1a654a5d22d86",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "pdf",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "1c07e7fc21a8ad77c257900350a61098"
+    },
+    {
+      "skill": "pm",
+      "installer_present": true,
+      "expected_hash": "70fe06dd4cc2f39ebc8dad0e092092ed",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "pptx",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "24895e8378922ad91f1edb152c1f1950"
+    },
+    {
+      "skill": "priority-startup-intel",
+      "installer_present": true,
+      "expected_hash": "284b82ee11e6154465f8efbc1bffb78b",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "schedule",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "64dae64d633b94d01d1f88599a4e54f7"
+    },
+    {
+      "skill": "setup-cowork",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "52e0ce1addc7b95ac5c05308a09da9fe"
+    },
+    {
+      "skill": "skill-creator",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "a1277b9e97e7a84dbd80a984164ad373"
+    },
+    {
+      "skill": "tnb-strategy",
+      "installer_present": true,
+      "expected_hash": "1a74e1f53a57fb3ca21f92e7151a645d",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "xlsx",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "0f7b2727c38539ef072a15a6b4622327"
+    },
+    {
+      "skill": "slate",
+      "installer_present": true,
+      "expected_hash": "cd599ec6e5d53c415c9f5b0d78837517",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "community-measure",
+      "installer_present": true,
+      "expected_hash": "acad16977bac2976e909fd801c63e53f",
+      "verified_via": "cowork_bsync"
+    }
+  ],
+  "tools": [
+    {
+      "tool": "node",
+      "installed": true,
+      "version": "v26.4.0"
+    },
+    {
+      "tool": "npm",
+      "installed": true,
+      "version": "11.17.0"
+    },
+    {
+      "tool": "gh",
+      "installed": true,
+      "version": "gh version 2.95.0 (2026-06-17)"
+    },
+    {
+      "tool": "vercel",
+      "installed": true,
+      "version": "54.18.2"
+    },
+    {
+      "tool": "git",
+      "installed": true,
+      "version": "git version 2.50.1 (Apple Git-155)"
+    }
+  ],
+  "actions": [
+    "Fixed master handoff path for MacBook Air \u2192 \\~/Developer/B-Suite"
+  ],
+  "flags": [
+    "PAT appears expired \u2014 regenerate at github.com/settings/tokens, overwrite /Users/BRHair/Developer/B-Suite/.git-token",
+    "bhub has 2 MODIFIED file(s) \u2014 review: cd /Users/BRHair/Developer/B-Suite/bhub && git status",
+    "bhub has 1 UNPUSHED commit(s) on branch 'main' \u2014 they exist only on this Mac: cd /Users/BRHair/Developer/B-Suite/bhub && git push origin main"
+  ]
+}
