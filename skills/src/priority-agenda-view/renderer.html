@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Priority Agenda (read-only)",
+  "schemaVersion": 1,
+  "description": "Read-only view of Brian's priority agenda, pulled fresh from the Linear document \"Brian's priority agenda\" (Team Ops) each time it opens. Shows Brian's ranked work for the day, what's blocked, and what cleared.",
+  "mcpTools": [
+    "mcp__638f3656-20d7-4323-9149-4d05bd4d13fe__get_document"
+  ],
+  "mcpServerNames": [
+    "Linear"
+  ]
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Brian's Priority Agenda</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 20px 22px 40px;
+  background: #ffffff;
+  color: #16181d;
+  font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; padding-bottom: 12px; border-bottom: 2px solid #16181d;
+  margin-bottom: 18px; flex-wrap: wrap;
+}
+h1 { font-size: 19px; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+.stamp { font-size: 11px; color: #6b7280; font-variant-numeric: tabular-nums; white-space: nowrap; }
+h2 {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em;
+  font-weight: 700; color: #6b7280; margin: 24px 0 12px;
+  padding-bottom: 5px; border-bottom: 1px solid #e5e7eb;
+}
+h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; margin: 22px 0 9px; }
+h3.blocked { color: #b42318; }
+h3.cleared { color: #15803d; }
+h3.plain { color: #6b7280; }
+p { margin: 0 0 11px; }
+a { color: #1d4ed8; text-decoration: none; border-bottom: 1px solid rgba(29,78,216,.28); }
+a:hover { border-bottom-color: #1d4ed8; }
+strong { font-weight: 650; }
+.item {
+  border-left: 3px solid #16181d; padding: 10px 0 10px 13px; margin: 0 0 11px;
+  background: #fafafa; border-radius: 0 4px 4px 0;
+}
+.item.rank1 { border-left-color: #b42318; background: #fef6f5; }
+.item .title { font-weight: 650; display: block; margin-bottom: 3px; }
+.item .body { margin: 0; color: #374151; font-size: 14px; }
+.blockbox { background: #fff8f2; border: 1px solid #fde3cc; border-radius: 6px; padding: 4px 14px 10px; }
+.blockbox p { font-size: 14px; color: #4b5563; }
+.muted { color: #4b5563; font-size: 14px; }
+ul { margin: 0 0 11px; padding-left: 20px; }
+li { margin-bottom: 5px; }
+.state { padding: 30px 0; color: #6b7280; font-size: 14px; }
+.err { color: #b42318; }
+.appt { display: flex; gap: 10px; font-size: 14px; padding: 5px 0; border-bottom: 1px solid #f1f2f4; }
+.appt:last-child { border-bottom: 0; }
+.appt .t { color: #6b7280; font-variant-numeric: tabular-nums; white-space: nowrap; min-width: 74px; }
+.appt .n { color: #16181d; }
+.daylabel { font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: #9ca3af; font-weight: 700; margin: 12px 0 4px; }
+.foot { margin-top: 28px; padding-top: 12px; border-top: 1px solid #e5e7eb; font-size: 12px; color: #6b7280; line-height: 1.6; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Brian's Priority Agenda</h1>
+  <span class="stamp" id="stamp"></span>
+</header>
+<div id="out"><div class="state">Loading from Linear&hellip;</div></div>
+
+<script>
+var DOC_ID = "4aa0b7df0286";
+var DOC_URL = "https://linear.app/humbleconviction/document/brians-priority-agenda-4aa0b7df0286";
+
+function esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+/* Linear stores issue refs as <issue id=".." href="URL">TNB-123</issue>.
+   Pull them out into a table before escaping, then re-insert as anchors. */
+var LINKS = [];
+function stashLinks(raw) {
+  LINKS = [];
+  return raw.replace(/<issue\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/issue>/g, function (m, href, text) {
+    LINKS.push({ href: href, text: text });
+    return "@@L" + (LINKS.length - 1) + "@@";
+  });
+}
+function popLinks(html) {
+  return html.replace(/@@L(\d+)@@/g, function (m, i) {
+    var L = LINKS[Number(i)];
+    if (!L) return "";
+    return '<a href="' + esc(L.href) + '" target="_blank" rel="noopener">' + esc(L.text) + "</a>";
+  });
+}
+function inline(text) {
+  var t = esc(text);
+  t = t.replace(/\*\*([\s\S]+?)\*\*/g, "<strong>$1</strong>");
+  return popLinks(t);
+}
+
+function render(md) {
+  var lines = md.split("\n");
+  var html = "";
+  var buf = [];
+  var inList = false;
+  var openItem = false;
+  var boxOpen = false;
+  var mutedSection = false;
+
+  function closeItem() { if (openItem) { html += "</div>"; openItem = false; } }
+  function closeBox() { closeItem(); if (boxOpen) { html += "</div>"; boxOpen = false; } }
+  function closeList() { if (inList) { html += "</ul>"; inList = false; } }
+
+  function flush() {
+    if (!buf.length) return;
+    var joined = buf.join(" ").trim();
+    buf = [];
+    if (!joined) return;
+    var m = joined.match(/^\*\*(\d+)\.\s*([\s\S]+?)\*\*([\s\S]*)$/);
+    if (m) {
+      closeItem();
+      html += '<div class="item' + (m[1] === "1" ? " rank1" : "") + '">';
+      html += '<span class="title">' + m[1] + ". " + inline(m[2]) + inline(m[3]) + "</span>";
+      openItem = true;
+      return;
+    }
+    if (openItem) {
+      html += '<p class="body">' + inline(joined) + "</p>";
+      return;
+    }
+    html += "<p" + (mutedSection ? ' class="muted"' : "") + ">" + inline(joined) + "</p>";
+  }
+
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i].replace(/\s+$/, "");
+    if (!line.trim()) { flush(); closeList(); continue; }
+
+    if (/^###\s+/.test(line)) {
+      flush(); closeList(); closeBox();
+      var t = line.replace(/^###\s+/, "").trim();
+      var low = t.toLowerCase();
+      var cls = "plain";
+      mutedSection = true;
+      if (low.indexOf("block") > -1) {
+        cls = "blocked";
+        html += '<div class="blockbox">';
+        boxOpen = true;
+      } else if (low.indexOf("cleared") > -1) {
+        cls = "cleared";
+      }
+      html += '<h3 class="' + cls + '">' + inline(t) + "</h3>";
+      continue;
+    }
+    if (/^##\s+/.test(line)) {
+      flush(); closeList(); closeBox();
+      mutedSection = false;
+      html += "<h2>" + inline(line.replace(/^##\s+/, "")) + "</h2>";
+      continue;
+    }
+    if (/^[-*]\s+/.test(line)) {
+      flush(); closeItem();
+      if (!inList) { html += "<ul>"; inList = true; }
+      html += "<li>" + inline(line.replace(/^[-*]\s+/, "")) + "</li>";
+      continue;
+    }
+    buf.push(line);
+  }
+  flush(); closeList(); closeBox();
+  return html;
+}
+
+function load() {
+  var out = document.getElementById("out");
+  window.cowork.callMcpTool(
+    "mcp__638f3656-20d7-4323-9149-4d05bd4d13fe__get_document",
+    { id: DOC_ID }
+  ).then(function (r) {
+    if (r.isError) throw new Error("Linear returned an error");
+    var data = r.structuredContent;
+    if (!data) data = JSON.parse(r.content[0].text);
+    var md = data.content || "";
+
+    /* Skip the explanatory preamble, start at the first dated section. */
+    var body = md;
+    var cut = md.search(/^##\s+(Today|Tomorrow|Mon|Tue|Wed|Thu|Fri|Sat|Sun)/m);
+    if (cut > -1) body = md.slice(cut);
+
+    out.innerHTML = render(stashLinks(body)) +
+      '<div class="foot">Live from Linear. Read-only view of Brian&rsquo;s agenda.<br>' +
+      '<a href="' + DOC_URL + '" target="_blank" rel="noopener">Open in Linear</a></div>';
+
+    if (data.updatedAt) {
+      var d = new Date(data.updatedAt);
+      document.getElementById("stamp").textContent = "updated " +
+        d.toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+    }
+  }).catch(function (e) {
+    out.innerHTML = '<div class="state err">Could not load the agenda from Linear.<br>' +
+      esc(e && e.message ? e.message : e) + "</div>";
+  });
+}
+
+load();
+</script>
+</body>
+</html>
