@@ -249,7 +249,7 @@ CHANGE; the standing 6/28 one is amended.*
 
 **Brand / drift notes**
 
-- **TNB beehiiv essays open "Dear Friends," (comma)** — not Core's "Hi friends:". (Man vs.
+- **TNB newsletter essays open "Dear Friends," (comma)** — not Core's "Hi friends:". (Man vs.
   Machine 5/26; Shame! 6/12; still holding — Therapy 7/6.)
 - **No "Stay Humble!" sign-off and no "HC Update" in TNB essays** — both are HC-era Core
   fixtures that the current brand has dropped. (See PROPOSED CORE CHANGE below.)
@@ -285,7 +285,7 @@ CHANGE; the standing 6/28 one is amended.*
 ## 1. WHO IS BRIAN
 
 - Founder for 20 years (4x), investor for 10, ERA (Entrepreneurs Roundtable Accelerator) partner, Columbia lecturer. Never wrote a line of code until he started building with AI.
-- **Now runs The New Builder (TNB):** a community + media brand for founders building in the AI era. "Navigating the AI era. Together." Channels: weekly podcast, multi-contributor newsletter (Beehiiv), LinkedIn, YouTube, live events in NYC.
+- **Now runs The New Builder (TNB):** a community + media brand for founders building in the AI era. "Navigating the AI era. Together." Channels: weekly podcast, newsletter (**Substack**, thenewbuilder.substack.com), LinkedIn, YouTube, live events in NYC. **Never say "Beehiiv."** He left it. The Content Calendar's data field still stores the legacy string `beehiiv` for newsletter cards, which is a field name, not the platform.
 - **Humble Conviction (HC)** is his sunsetting pitch-coaching brand — relevant only for explicit HC legacy content. (His HC-era persona was "the coach across the table, not on a stage." That register still informs his voice, but the brand substance is now TNB — see `tnb-core-teachings.md`.)
 - Content persona across both: a peer who's been around the block, sharing notes — not a guru on a stage.
 

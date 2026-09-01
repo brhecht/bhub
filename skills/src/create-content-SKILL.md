@@ -124,10 +124,18 @@ GET https://content-calendar-nine.vercel.app/api/cards?platform=linkedin&limit=1
 Authorization: Bearer [VITE_FIREBASE_API_KEY from env]
 ```
 
-The API returns cards with full text. LinkedIn post text is in the `body` field as a JSON string containing `liBody`. Beehiiv newsletter essays are in `archiveData.essay` or in the `body` JSON as `essay`.
+The API returns cards with full text. LinkedIn post text is in the `body` field as a JSON string containing `liBody`. Newsletter essays are in `archiveData.essay` or in the `body` JSON as `essay`.
+
+> **PLATFORM NAMING — read before you say the word out loud.** Brian publishes the TNB
+> newsletter on **Substack** (thenewbuilder.substack.com). He left Beehiiv. The Content
+> Calendar's *display* says Substack; only the underlying data field still carries the
+> legacy string `beehiiv`. So: **query the API with `platform=beehiiv`** because that is
+> the literal stored value, but **never call the newsletter "Beehiiv"** in conversation,
+> in a draft, or in any reference to where a piece runs. It is Substack. Seeing the
+> `beehiiv` string in API output is not evidence about the platform.
 
 **Available query params:**
-- `platform` — linkedin, beehiiv, yt-video, yt-short (comma-separated)
+- `platform` — linkedin, beehiiv (legacy tag for the Substack newsletter), yt-video, yt-short (comma-separated)
 - `status` — published, draft, scheduled, etc. (omit for all non-ghost)
 - `limit` — number of cards (default 20, max 100)
 - `search` — title text search
@@ -262,11 +270,11 @@ Shapes below are guidance, not rigid templates (Brian is a freeform writer). Whe
 format's shape isn't settled, **match a recent exemplar in that format** rather than
 imposing a template.
 
-- **Newsletter — TNB (Beehiiv):** Multi-contributor / "group notes" format (the TNB
-  newsletter shifted away from solo essays). Longform, but the shape is evolving — match a
-  recent TNB newsletter exemplar and confirm which sections are Brian's vs. contributors'.
-  Do NOT impose the old HC essay template.
-- **Newsletter — HC legacy (Beehiiv):** Solo essay. **Body 650–750 words** (excludes the
+- **Newsletter — TNB (Substack, thenewbuilder.substack.com):** Longform, and the shape is
+  evolving — match a recent TNB newsletter exemplar rather than a template, and confirm
+  which sections are Brian's vs. contributors'. Do NOT impose the old HC essay template.
+  (Card data still tags these `beehiiv`; that is a legacy field name, not the platform.)
+- **Newsletter — HC legacy:** Solo essay. **Body 650–750 words** (excludes the
   standing sections). Brian writes the "HC Update" and "My Founder Story" sections, the
   subject/headline, and the "Hi friends:" open / "Stay Humble!" close himself. Only for
   explicit HC legacy work.
@@ -436,7 +444,8 @@ are ever read.
    file is missing, treat `last_refresh` as 30 days ago and create it at the end.
 
 2. **Pull ONLY the delta.** From the Content Calendar API, fetch published cards newer
-   than the watermark, newest first. Platforms: `beehiiv` and `linkedin` (these carry
+   than the watermark, newest first. Platforms: `beehiiv` (the legacy data tag for the
+   Substack newsletter) and `linkedin` (these carry
    voice; skip yt unless Brian asks). Typical run = a handful of pieces. Never pull the
    full archive. Example:
    `GET https://content-calendar-nine.vercel.app/api/cards?platform=beehiiv,linkedin&status=published&limit=25`
