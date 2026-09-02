@@ -1,4 +1,9 @@
 #!/bin/bash
+# bsync v2.18 — empty-mount detection. sync_one_mount silently `return`ed for any
+#       repo with no .git, so a mount containing ZERO repos produced ZERO issues and
+#       logged "parallel complete, no issues". A Cowork session connected to the
+#       retired ~/Desktop/B-Suite ran green against an empty folder for months.
+#       Now: count repos actually present, fail hard at zero, warn on partial.
 # bsync v2.17 — scoped runs now always pull bsuite-handoffs, so handoff
 #               staleness is never judged from a stale mounted copy.
 # bsync v2.16 — b-line enrolled. It was a live, deployed app with a handoff in
@@ -79,6 +84,21 @@ if [[ -z "$BSUITE_DIR" ]]; then
   echo '{"error": "B-Suite directory not found. Mount ~/Developer/B-Suite or set BSUITE_DIR."}'
   exit 1
 fi
+
+# --- Mount population state (v2.18) ---
+MOUNT_PRESENT=0
+MOUNT_MISSING=0
+MOUNT_MISSING_LIST=""
+MOUNT_EMPTY=false
+
+# Deprecated-path guard. Only fires on Mac/host runs: inside Cowork the host folder
+# is remapped to /sessions/<id>/mnt/B-Suite, so the real path is invisible from here.
+# The empty-mount check below is what catches the Desktop case in Cowork.
+case "$BSUITE_DIR" in
+  */Desktop/B-Suite|*/Desktop/B-Suite/)
+    echo "bsync: WARNING - $BSUITE_DIR is the RETIRED iCloud path (superseded March 12, 2026 by ~/Developer/B-Suite). Repos here are stale or absent." >&2
+    ;;
+esac
 
 TOKEN_FILE="$BSUITE_DIR/.git-token"
 LOG_FILE="$BSUITE_DIR/.bsync-log"
@@ -723,12 +743,28 @@ sync_mount_to_origin() {
   # Scoped runs sync only in-scope repos on the mount (bhub always included
   # so newly-pushed skill bundles + bsync.sh land on the mount immediately,
   # and install-link computer:// paths point to current bundles).
+  #
+  # v2.18: count what is actually THERE. sync_one_mount returns silently when a
+  # repo has no .git, so before this the absence of every repo was indistinguishable
+  # from a clean run. "no issues" must mean "checked things and they were fine",
+  # never "found nothing to check".
   local MAX_PARALLEL=8
   local pids=()
+  MOUNT_PRESENT=0
+  MOUNT_MISSING=0
+  MOUNT_MISSING_LIST=""
+  MOUNT_EMPTY=false
+
   for entry in "${REPOS[@]}"; do
     local folder="${entry%%:*}"
     is_app_in_scope "$folder" || continue
     local repo_dir="$(repo_dir_for "$entry")"
+    if [[ ! -d "$repo_dir/.git" ]]; then
+      MOUNT_MISSING=$((MOUNT_MISSING + 1))
+      MOUNT_MISSING_LIST="$MOUNT_MISSING_LIST $folder"
+      continue
+    fi
+    MOUNT_PRESENT=$((MOUNT_PRESENT + 1))
     sync_one_mount "$repo_dir" "$folder" &
     pids+=($!)
     if [[ ${#pids[@]} -ge $MAX_PARALLEL ]]; then
@@ -739,10 +775,25 @@ sync_mount_to_origin() {
   for pid in "${pids[@]}"; do
     wait "$pid" 2>/dev/null || true
   done
+  MOUNT_MISSING_LIST="${MOUNT_MISSING_LIST# }"
+
+  if [[ $MOUNT_PRESENT -eq 0 ]]; then
+    MOUNT_EMPTY=true
+    log "sync_mount: FATAL - 0 of $MOUNT_MISSING in-scope repos present at $BSUITE_DIR (empty or wrong mount)"
+    echo "bsync: FATAL - the mount at $BSUITE_DIR contains NONE of the $MOUNT_MISSING expected repos." >&2
+    echo "bsync: This is an empty or wrong folder, not a clean sync. Connect ~/Developer/B-Suite." >&2
+    return
+  fi
+
+  if [[ $MOUNT_MISSING -gt 0 ]]; then
+    log "sync_mount: $MOUNT_PRESENT present, $MOUNT_MISSING missing on mount:$MOUNT_MISSING_LIST"
+    echo "bsync: WARNING - $MOUNT_MISSING in-scope repo(s) absent from the mount: $MOUNT_MISSING_LIST" >&2
+  fi
+
   if [[ -s "$SYNC_ISSUES_FILE" ]]; then
     log "sync_mount: $(wc -l < "$SYNC_ISSUES_FILE" | xargs) issue(s) - see health block"
   else
-    log "sync_mount: parallel complete, no issues"
+    log "sync_mount: parallel complete, no issues ($MOUNT_PRESENT repos verified)"
   fi
 }
 
@@ -784,7 +835,7 @@ emit_health() {
 }
 
 # --- Main ---
-log "bsync v2.11 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
+log "bsync v2.18 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
 SYNC_ISSUES_FILE="$WORK_DIR/sync-issues.txt"
 : > "$SYNC_ISSUES_FILE" 2>/dev/null || true
 setup_git
@@ -803,8 +854,15 @@ fi
 
 if [[ "$MODE" == "--sync-mount" ]]; then
   sync_mount_to_origin
-  log "sync-mount complete"
-  echo '{"mode": "sync-mount", "status": "complete"}'
+  if [[ "$MOUNT_EMPTY" == "true" ]]; then
+    log "sync-mount FAILED - empty mount"
+    printf '{"mode": "sync-mount", "status": "failed", "reason": "empty_mount", "bsuite_path": "%s", "repos_present": 0, "repos_missing": %s}\n' \
+      "$BSUITE_DIR" "$MOUNT_MISSING"
+    exit 1
+  fi
+  log "sync-mount complete ($MOUNT_PRESENT repos verified, $MOUNT_MISSING missing)"
+  printf '{"mode": "sync-mount", "status": "complete", "repos_present": %s, "repos_missing": %s, "missing": "%s"}\n' \
+    "$MOUNT_PRESENT" "$MOUNT_MISSING" "$MOUNT_MISSING_LIST"
   exit 0
 fi
 
@@ -847,10 +905,16 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.17.0",
+  "bsync_version": "2.18.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
+  "mount": {
+    "repos_present": $MOUNT_PRESENT,
+    "repos_missing": $MOUNT_MISSING,
+    "missing": "$MOUNT_MISSING_LIST",
+    "empty": $MOUNT_EMPTY
+  },
   "locks": {
     $(check_locks)
   },
