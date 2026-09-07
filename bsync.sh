@@ -1,4 +1,16 @@
 #!/bin/bash
+# bsync v2.19 — Cowork edits get committed and pushed by the Mac, not the sandbox.
+#       Root cause: the Cowork FUSE mount lets git CREATE files under .git but not
+#       DELETE them, so every git write from a Cowork session leaves HEAD.lock /
+#       index.lock behind, and a commit made there is never pushed. Five weekly
+#       voice-refresh runs (Aug 2-30) edited style-guide.md on the mount, failed or
+#       never pushed, and sync_one_mount then overwrote the edits from origin (backup
+#       landed in .bsync-overwritten, which is the only reason they survived).
+#       Fix, two halves: (1) AUTO_COMMIT_PATHS - on the Mac hourly run, dirty files
+#       under an allowlisted path get committed and any unpushed main commits get
+#       pushed, before the fast-forward check; (2) sync_one_mount refuses to rewrite
+#       refs/heads/main or overwrite tracked files when local main is AHEAD of origin
+#       (unpushed commits), and reports unpushed-commits instead of orphaning them.
 # bsync v2.18 — empty-mount detection. sync_one_mount silently `return`ed for any
 #       repo with no .git, so a mount containing ZERO repos produced ZERO issues and
 #       logged "parallel complete, no issues". A Cowork session connected to the
@@ -178,6 +190,14 @@ github_for() {
 # Skip deep handoff check on dormant/archived repos and on the handoffs repo itself
 SKIP_HANDOFF_CHECK="pitch-scorer b-marketing hc-strategy bsuite-handoffs"
 
+# v2.19: paths the Mac hourly run may commit + push on its own when they are dirty on
+# main. Format: folder:relative/path. Scope deliberately narrow: only files that
+# scheduled/Cowork sessions write and that have no human review step. Anything not
+# listed is left alone exactly as before (reported skipped_unsafe if dirty).
+AUTO_COMMIT_PATHS=(
+  "bhub:skills/src/create-content-references"
+)
+
 # Argument parsing: positional MODE flag + optional --app=name1,name2 anywhere
 MODE="full"
 APPS=""
@@ -284,6 +304,51 @@ preflight_credentials() {
 # fragment to a temp file. After all finish, fragments are concatenated in
 # REPOS-array order so output is deterministic.
 
+# v2.19: Mac-only. Commit dirty allowlisted paths on main, then push any unpushed
+# main commits. Runs BEFORE the fast-forward safety check so that work written by
+# a Cowork/scheduled session (which cannot reliably commit or push through the FUSE
+# mount) reaches origin instead of sitting as "dirty" or "ahead" forever and then
+# getting overwritten. Echoes a short note for the detail field, or nothing.
+auto_commit_and_push() {
+  local folder="$1"
+  local repo_dir="$2"
+  local note=""
+  local cur_branch
+  cur_branch=$(cd "$repo_dir" && git rev-parse --abbrev-ref HEAD 2>/dev/null)
+  [[ "$cur_branch" != "main" && "$cur_branch" != "master" ]] && return 0
+
+  local entry rel dirty
+  for entry in "${AUTO_COMMIT_PATHS[@]}"; do
+    [[ "${entry%%:*}" != "$folder" ]] && continue
+    rel="${entry#*:}"
+    dirty=$(cd "$repo_dir" && git status --porcelain -- "$rel" 2>/dev/null | wc -l | tr -d ' ')
+    if [[ "${dirty:-0}" -gt 0 ]]; then
+      if (cd "$repo_dir" && git add -- "$rel" && git commit -q -m "bsync auto-commit: $rel ($dirty file(s) edited by a Cowork/scheduled session)" 2>/dev/null); then
+        note="${note:+$note; }auto-committed $dirty file(s) under $rel"
+        log "$folder: auto-committed $dirty file(s) under $rel"
+      else
+        note="${note:+$note; }auto-commit FAILED for $rel"
+        log "$folder: auto-commit FAILED for $rel"
+      fi
+    fi
+  done
+
+  local ahead_n
+  ahead_n=$(cd "$repo_dir" && git rev-list --count "origin/$cur_branch..HEAD" 2>/dev/null || echo 0)
+  if [[ "${ahead_n:-0}" -gt 0 ]]; then
+    local out
+    if out=$(cd "$repo_dir" && git push origin "$cur_branch" 2>&1); then
+      note="${note:+$note; }pushed $ahead_n commit(s)"
+      log "$folder: pushed $ahead_n unpushed commit(s) to origin/$cur_branch"
+    else
+      note="${note:+$note; }push FAILED ($ahead_n unpushed): $(echo "$out" | tail -1)"
+      log "$folder: push FAILED with $ahead_n unpushed commit(s): $(echo "$out" | tail -1)"
+    fi
+  fi
+  [[ -n "$note" ]] && echo "$note"
+  return 0
+}
+
 # Clone/pull one repo and write JSON fragment to $3. Safe to run in parallel.
 pull_one_repo() {
   local folder="$1"
@@ -328,7 +393,7 @@ pull_one_repo() {
     # Now: fast-forward only on main/master, only when clean, only when not ahead.
     # Anything else is reported as skipped_unsafe and left completely alone.
     rm -f "$repo_dir/.git/index.lock" "$repo_dir/.git/HEAD.lock" "$repo_dir/.git/ORIG_HEAD.lock" 2>/dev/null
-    local output cur_branch ahead_n dirty_n
+    local output cur_branch ahead_n dirty_n auto_note
     cur_branch=$(cd "$repo_dir" && git rev-parse --abbrev-ref HEAD 2>/dev/null)
     if ! output=$(cd "$repo_dir" && git fetch origin 2>&1); then
       status="failed"
@@ -337,6 +402,9 @@ pull_one_repo() {
       status="skipped_unsafe"
       detail="on branch '$cur_branch', not main - refusing to reset, that would destroy the branch"
     else
+      # v2.19: land Cowork/scheduled edits first (allowlisted paths only), push anything
+      # unpushed, THEN decide whether a fast-forward is safe.
+      auto_note=$(auto_commit_and_push "$folder" "$repo_dir")
       ahead_n=$(cd "$repo_dir" && git rev-list --count "origin/$cur_branch..HEAD" 2>/dev/null || echo 0)
       dirty_n=$(cd "$repo_dir" && git status --porcelain 2>/dev/null | grep -v '^??' | wc -l | tr -d ' ')
       if [[ "${ahead_n:-0}" -gt 0 ]]; then
@@ -351,6 +419,7 @@ pull_one_repo() {
           detail=$(echo "$output" | head -3)
         }
       fi
+      [[ -n "$auto_note" ]] && detail="${auto_note}${detail:+; $detail}"
     fi
   else
     # Repo doesn't exist locally — clone to /tmp
@@ -711,6 +780,17 @@ sync_one_mount() {
     return
   fi
 
+  # v2.19: if the mount's main is AHEAD of origin (a commit made from Cowork that was
+  # never pushed), rewriting the ref would orphan that commit and the overwrite loop
+  # below would then clobber its files. Leave the repo alone and report it; the Mac
+  # hourly run (auto_commit_and_push) is what pushes it.
+  local ahead_n
+  ahead_n=$(git rev-list --count "origin/$branch..HEAD" 2>/dev/null || echo 0)
+  if [[ "${ahead_n:-0}" -gt 0 ]]; then
+    echo "unpushed-commits:$folder:$ahead_n" >> "$SYNC_ISSUES_FILE" 2>/dev/null
+    return
+  fi
+
   if [[ "$cur_sha" != "$new_sha" ]]; then
     echo "$new_sha" > ".git/refs/heads/$branch"
   fi
@@ -814,6 +894,8 @@ emit_health() {
   fetch_fail=$(grep '^fetch-failed:' "$SYNC_ISSUES_FILE" 2>/dev/null | cut -d: -f2 | sort -u | tr '\n' ' ')
   overwritten=$(grep '^overwrote-local-edit:' "$SYNC_ISSUES_FILE" 2>/dev/null | cut -d: -f2- | tr '\n' '|')
   unreadable=$(grep '^unreadable:' "$SYNC_ISSUES_FILE" 2>/dev/null | cut -d: -f2 | sort -u | tr '\n' ' ')
+  local unpushed
+  unpushed=$(grep '^unpushed-commits:' "$SYNC_ISSUES_FILE" 2>/dev/null | cut -d: -f2- | tr '\n' ' ')
 
   local skipped="[]"
   [[ "$MODE" == "--status" ]] && skipped='["handoffs","skills"]'
@@ -830,12 +912,13 @@ emit_health() {
   printf '    "mount_fetch_failures": %s,\n' "$(json_escape "${fetch_fail% }")"
   printf '    "mount_overwrote_local_edits": %s,\n' "$(json_escape "${overwritten%|}")"
   printf '    "repos_unreadable": %s,\n' "$(json_escape "${unreadable% }")"
+  printf '    "mount_unpushed_commits": %s,\n' "$(json_escape "${unpushed% }")"
   printf '    "checks_skipped": %s\n' "$skipped"
   printf '  }\n'
 }
 
 # --- Main ---
-log "bsync v2.18 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
+log "bsync v2.19 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
 SYNC_ISSUES_FILE="$WORK_DIR/sync-issues.txt"
 : > "$SYNC_ISSUES_FILE" 2>/dev/null || true
 setup_git
@@ -905,7 +988,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.18.0",
+  "bsync_version": "2.19.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
