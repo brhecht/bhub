@@ -42,7 +42,18 @@ it and still recur. Notable: the Claude-as-character beat did NOT appear this cy
 zero em dashes appeared across all four pieces (see drift notes). No new PROPOSED CORE
 CHANGE; the standing 6/28 one is amended.*
 
-**Recurring structural moves (TNB, 2026-05 → 07)**
+*Delta refresh 2026-09-07: folded in 15 new TNB pieces spanning 7/28 to 9/2 (newsletter:
+"Zoom & Slack Roundup" 7/30, "Trapped Between AI and Abaci" 8/11, "Embed = Amazon vs.
+Spotify" 8/18, "The Uncanny Professor" 8/25, "One Weekend, Lost and Found" 9/1; LinkedIn:
+"What works for LinkedIn" 7/28, "Anthropic Economic Index" 7/30, "Mark Pod Promo" 8/4,
+"Linear" 8/11, "Member Dinner" 8/13, "Subway" 8/20, "The Uncanny Professor" 8/25, "Stowe
+Intro" 8/27, "Built vs. Done" 9/1, "EV Charging" 9/2). A 16th card, "Spotify AI Sucks" 8/18
+LI, was bodyless and carried no voice signal. No HC-era pieces. Window now starts ~6/8:
+May-only examples trimmed where the move did not recur; the pop-culture-riff beat (5/26
+only) aged out. Em dashes: zero across all 15 pieces, ~44K characters; the flag is closed
+(see drift notes). One PROPOSED CORE CHANGE amended with new evidence.*
+
+**Recurring structural moves (TNB, 2026-06 → 09)**
 
 - **LI posts open cold with a single arresting line, then a hard break.** A confession, a
   quoted zinger, or a count-up of damage — no runway. "Claude called BS on me the other
@@ -148,9 +159,63 @@ CHANGE; the standing 6/28 one is amended.*
   running 5 models, 6 agents, and 3 projects at once!" Paired with a question-hook open
   that answers itself immediately: "What was AI like before AI? Shanif Dhanani knows."
   (Shanif Promo 7/22.)
+- **Same-day essay/LI pairs (08→09).** The newsletter and a LinkedIn post now ship on the
+  same topic within a day, and the LI version is the essay *compressed*, reusing whole
+  sentences rather than rewriting: Linear / Trapped Between AI and Abaci (8/11), The
+  Uncanny Professor (8/25, both), Built vs. Done / One Weekend (9/1). When drafting one,
+  assume the other exists and keep the key sentences identical.
+- **The community roundup newsletter.** New spine: an "I'll show, not tell" frame, then
+  emoji-headed sections (🔨 Things We Built · 🧠 Things That Got Us Talking · ⚙️
+  Navigating the Costs of AI), members anonymized on purpose ("I'm leaving names out,
+  because I didn't ask anybody's permission"), each item a two-to-four sentence retelling
+  of a Slack thread with the underlying question named. Closes on a membership pitch with
+  a stated bar: "The bar isn't credentials, though. It's that you're building something."
+  (Zoom & Slack Roundup 7/30.)
+- **The two-case comparison essay.** Two consumer anecdotes told straight (Amazon chatbot
+  vs. Spotify Studio), then "I've got a theory about why," then a product verdict that
+  moves the blame off the model: "That's a product decision, not a model limitation."
+  (Embed = Amazon vs. Spotify 8/18.)
+- **The "base layer" obsolescence essay.** Build → it dies of neglect → redefinition of
+  what building is → the layer will erode again. Key repeated lines across essay and LI:
+  "My homemade suite didn't announce its obsolescence. It died of neglect." · "this one
+  will erode too." (Trapped 8/11; Linear 8/11.)
+- **Reported-piece essay.** He takes a news story (NYT on HBS Foundry), quotes it in short
+  fragments, names people with credential appositives and a "full disclosure" aside, then
+  runs his own experience against it. Ends by quoting the story's own source to undercut
+  the story: "It keeps coming back to humanity." (Uncanny Professor 8/25.)
+- **Cold-open variants this cycle:** the two-word obituary "RIP B-Suite." (8/11) · the
+  confession-as-kill "I just killed my finest creation." (8/11) · the count-up damage
+  ledger "Twenty AI prompts. Four charging stations. Two-and-a-half hours." (9/2) · the
+  arrival "Well, I've landed." (8/27) · the false-premise fact "My new favorite city in
+  Europe is Leipzig. And I've never even been there." (9/1). The `Friend:` / `Me:` mock
+  dialogue open recurred (Built vs. Done 9/1) and is now established.
+- **Dispatch posts from the road.** Stowe fellowship and the EV fiasco read as field notes:
+  present tense, "That's where I'm writing this now," a UK/US translation gag in
+  parentheses "(car park!)" "(boot!)". Expect a run of these through October. (Stowe
+  Intro 8/27; EV Charging 9/2.)
+- **Blame-apportionment close.** After a fiasco he divides the blame in shares: "I'll take
+  some of the blame… Maybe some goes to the EV infrastructure… But the lion's share goes
+  to ChatGPT." (EV Charging 9/2.)
+- **The antithesis-pair close keeps recurring** and is now his most reliable ending: "I
+  didn't say done. I said built." · "It's not an increase in effort, it's a shift in
+  altitude…and attitude!" · "Sometimes AI does a great job thinking for you. And sometimes
+  it just follows orders...very literally." (Built vs. Done 9/1; One Weekend 9/1.)
+- **The Saturday/Sunday altitude frame.** Bottom-up one day ("digging inside"), top-down
+  the next ("looking from way above"), offered as method rather than confession. Paired
+  with the line-drawing-to-oil-painting metaphor for iteration: "You don't fix it; you
+  fill it in." (One Weekend 9/1.)
+- **Cycle-nostalgia analogy for hype.** Dot-com bust → DTC → crypto → now AI subway ads,
+  landing on a coined metric: "a 'Subway Index'…something every VC should ask to see."
+  (Subway 8/20.)
+- **Fixed newsletter footer (08→09).** Every essay since 8/11 ends with the same three
+  blocks in order: a "Membership Invitation:" paragraph ("The New Builder exists in more
+  than just read-only mode!" … "consider this your invitation!" … 😉), then "Thanks for
+  reading, and let's all keep building together!", then "100% Written by me!" (order of
+  the last two varies). Treat as boilerplate, not voice. (Trapped 8/11; Uncanny 8/25; One
+  Weekend 9/1; the 7/30 roundup has only the thanks line.)
 
 
-**Recurring voice / humor beats (TNB, 2026-05 → 07)**
+**Recurring voice / humor beats (TNB, 2026-06 → 09)**
 
 - **Claude (the AI) is now a recurring comic character with a personality** — it talks
   back, "calls BS," "berates itself" ("I was being stupid!"), gets "smug," and has "a
@@ -165,6 +230,15 @@ CHANGE; the standing 6/28 one is amended.*
   break… What it can't tell you is that you'll never open the app." The AI's limit, not
   its personality, becomes the punchline. Watch whether this holds — if it recurs it is a
   real shift in how he stages the AI, not a one-off.
+  **Update (09-07):** it held. Across August the AI is *competent but blind or bumbling*,
+  never sassy: Claude "telling me multiple times that no such thing existed" until he
+  tried "cajoling, then threatening" (One Weekend 9/1); ChatGPT "confidently walked me
+  through at least a half-dozen remedies, profusely apologizing each time" and "literally
+  suggested I punch a hole in the lining of the trunk," then gives "the equivalent of a
+  shrug" (EV Charging 9/2). The AI still gets quoted in its own voice ("you're right! I
+  drifted…"), but the joke is now its confident wrongness. Affection survives as "my
+  beloved Claude" and "Claude and its army of agents." The old sassy version should be
+  treated as retired unless it reappears.
 - **Agents as partners, not employees.** A stated reframe against the prevailing LinkedIn
   metaphor, landed with a brand-pun button: "Lots of people like to speak of agents as
   'employees.' I find that, just as often, they're more like partners. I guess that's why
@@ -184,12 +258,10 @@ CHANGE; the standing 6/28 one is amended.*
 - **GenX tech-bafflement as self-deprecation:** "Dotenv? Might as well be Klingon. Shell?
   I've heard the word but… 🤷‍♂️." Drops "Kubrick and Klingon without a footnote and moves
   on." (Lines in Between 6/2; written by AI 6/16.)
-- **Pop-culture riffs played straight, #iykyk** — a full 2001: A Space Odyssey "I'm sorry,
-  Dave" bit (Gemini = Hal) carrying a whole beehiiv section. (Man vs. Machine vs. Gmail,
-  5/26.)
-- **Wry absurd comparisons continue:** "sounds like a job at NVIDIA" (5/14) · the "worst"
-  wine still "better than the best wine I'd ever had before" (6/10) · "I ain't too proud
-  to beg" (5/26).
+- **Wry absurd comparisons continue:** the "worst" wine still "better than the best wine
+  I'd ever had before" (6/10) · "go back to clay tablets and an abacus" (8/11) · packing
+  cubes as "that miracle of modern engineering" (8/18) · "the Turing Test hamster wheel"
+  (8/25) · "a question you'd ask in a dorm room smoking too much weed" (7/30).
 - **Self-indictment in a parenthetical.** He'll name a bad practice, then immediately
   cop to his own brand doing it: "Engagement bait and pods… are automatically demoted.
   (Oops! We do a lot of this at The New Builder.)" The aside is the credibility move.
@@ -219,6 +291,33 @@ CHANGE; the standing 6/28 one is amended.*
   pieces this cycle. (Shanif Promo 7/22; Vibe App Store 7/24; MVHH 3.0 7/21.)
 - **Parenthetical jab at the category, never the person** — the punch stays aimed at the
   pattern: "(unlike some cagey founders), he shares actual numbers." (Shanif Promo 7/22.)
+- **The parenthetical confession is the dominant humor unit this cycle (08).** Short
+  asides that cop to something or deflate the sentence they sit in: "(okay, it was me)" ·
+  "(okay, yes, it's Harvard)" · "(we're both left-handed, actually)" · "(sorry, Malta!)" ·
+  "(and not just because I still use Evernote)" · "(all those…months ago)" · "(mostly very
+  loud brass!)". Roughly one every two paragraphs in long pieces. (Roundup 7/30; Trapped
+  8/11; Amazon vs. Spotify 8/18; Uncanny 8/25; Econ Index 7/30.)
+- **Escalating confrontation with the chatbot as the turning point.** He gets the useful
+  answer only after he pushes: "So I decided to get real and challenge it: 'C'mon…'" ·
+  "Finally, I got aggressive:" · "offering helpful suggestions, then cajoling, then
+  threatening." The confrontation is staged as dialogue, and the AI's concession is the
+  payoff. (Amazon vs. Spotify 8/18; EV Charging 9/2; One Weekend 9/1.)
+- **One-word or two-word punch sentences as their own beat:** "Literally." (after "put
+  that fear to rest") · "Breathtaking." · "Ho hum." · "Not happening!" · "Good catch,
+  AI!" · "Um, three hours…I guess?" · "Twenty times. Not twenty percent." (Member Dinner
+  8/13; Stowe 8/27; Amazon vs. Spotify 8/18; EV Charging 9/2; Roundup 7/30.)
+- **Deliberate humility caveat before a conclusion**, stated as a disclaimer and then
+  ignored: "I'm not going to make any geopolitical conclusions due to the insane number of
+  unmeasured and unknown confounding variables… Still, one trend seems clear:" · "I don't
+  know the exact math here. Maybe these ads are in fact profitable. But…" · "Maybe they
+  do, and I'm just rationalizing. But…" (Econ Index 7/30; Subway 8/20; One Weekend 9/1.)
+- **The pro-human thesis is now stated with conviction, not hedged.** "mind meld" (used
+  four times across essay and LI), "that elusive and irreplaceable mind meld," "find a
+  real live human mentor." He still fences it with "I've learned better than to say that
+  AI can't, or will never." (Uncanny Professor 8/25.)
+- **"Who's the target?" arithmetic as a joke shape:** "exactly how many of us are there?
+  And exactly how many of us are actually making board decks? Talk about a niche of a
+  niche." (Subway 8/20.)
 
 
 **Current lexicon additions (TNB)**
@@ -246,18 +345,50 @@ CHANGE; the standing 6/28 one is amended.*
   through-line" · "write for saves, not likes." Mild profanity in-register ("friggin',"
   "give a shit," "one hell of a"). "Fable" enters the tool vocabulary alongside Claude.
   (LinkedIn or LinkedOut? 7/24; Vibe App Store 7/24; MVHH 3.0 7/21; Shanif Promo 7/22.)
+- **New (08→09):** "base layer" (the load-bearing new concept: "creating on top of whatever
+  base layer of tech is available to you at the time") · "Etsy version" / "homemade suite"
+  (his self-built software) · "janky" (now recurring, 3 pieces) · "over-featured
+  software" · "a slew of" · "Brain Inbox," "Brian Simplifier," "state of the union,"
+  "Jira-style tickets" (named internal tooling, said as proper nouns) · "built vs. done" ·
+  "one shot" (still, always in scare quotes) · "shift in altitude…and attitude" · "line
+  drawing" → "oil painting" · "mind meld" · "uncanny valley" · "Turing Test hamster wheel"
+  · "cognitive offloading" · "compound businesses" · "third leg of the stool" ·
+  "show-and-tell" (the Zoom format) · "night owls" · "read-only mode" · "Subway Index" ·
+  "niche of a niche" · "the bloom was off the rose" · "noodling around" · "lock in" ·
+  "stat" · "pull the trigger" · "held my nose" · "hodgepodge" · "menu diving" · "RIP" as
+  an opener · "Good catch, AI!" Still "pretty" as qualifier ("pretty impressive," "pretty
+  obvious," "pretty great"). Tool names in rotation: Claude (default, "my beloved
+  Claude"), Fable (research), ChatGPT (the one that failed him), Granola, Linear, HeyGen.
+  Typos still ship ("the bullk of the time," "You see ads ads like"). (Trapped 8/11;
+  Linear 8/11; Amazon vs. Spotify 8/18; Uncanny 8/25; One Weekend 9/1; EV Charging 9/2;
+  Member Dinner 8/13; Subway 8/20; Roundup 7/30.)
 
 **Brand / drift notes**
 
-- **TNB newsletter essays open "Dear Friends," (comma)** — not Core's "Hi friends:". (Man vs.
-  Machine 5/26; Shame! 6/12; still holding — Therapy 7/6.)
+- **TNB newsletter essays open "Dear Friends:" (colon, since 07-30)** — not Core's "Hi
+  friends:" and no longer the comma noted in June. Three of three salutations in this
+  delta use the colon (Roundup 7/30; Trapped 8/11; Uncanny 8/25). The 9/1 essay carried a
+  Substack title header and no salutation in the archived text.
 - **No "Stay Humble!" sign-off and no "HC Update" in TNB essays** — both are HC-era Core
   fixtures that the current brand has dropped. (See PROPOSED CORE CHANGE below.)
-- **Em dashes: reversing (2026-07-26).** The 6/28 secondary flag said published LI posts
-  were ignoring the `tnb-core-teachings.md` "no em dashes" rule. This cycle all four
-  pieces contain **zero** em dashes (ellipsis and the `‣`/`→` bullet carry the same work).
-  Two data points isn't canon yet, but the published practice now appears to be moving
-  *toward* the stated rule rather than away from it. Recheck next cycle before deciding.
+- **Em dashes: flag closed (2026-09-07).** "No em dashes" was approved as Core canon on
+  2026-08-17. Mechanical count across all 15 pieces in the 7/28 to 9/2 delta: **0 em
+  dashes, 0 en dashes, 31 ellipses** (per piece: Roundup 5, Amazon vs. Spotify 7, One
+  Weekend 6, Uncanny essay 2, Trapped 2, Built vs. Done 2, Subway 2, Mark Promo 2, EV 1,
+  Econ Index 1, Linear 1, others 0). Practice matches the rule. Ellipsis is confirmed as
+  the sole connective doing the dash's work. Keep verifying each cycle; flag immediately
+  if one reappears.
+- **Core §5 "never use" check (09-07):** no "leverage," "utilize," "seamless," "empower,"
+  "optimize," "synergy," "stakeholders," or "monetize" in any of the 15 pieces. One
+  "landscape" (Stowe 8/27) is literal (landscape gardens), not the metaphor. Clean.
+- **The "building" doctrine now has a second formulation (08-11):** beyond "not just
+  founding a startup" (MVHH 7/21), building is "creating on top of whatever base layer of
+  tech is available to you at the time," and assembling existing tools counts: "none of
+  it was code." Use both when positioning TNB. (Trapped 8/11; Linear 8/11.)
+- **Community language is settling (08):** "invitation-only," "by referral and invitation
+  only," "growing slowly and thoughtfully," "it isn't an open door," "the third leg of the
+  stool" (Slack, Zoom show-and-tells, member dinners). (Member Dinner 8/13; Roundup 7/30;
+  footer boilerplate.)
 - **"Building" is being explicitly redefined as TNB doctrine**, stated outright rather
   than implied: "building doesn't just mean founding a startup anymore. You can be a
   solopreneur… VC money? You can take it or leave it. You can be a weekend warrior
@@ -278,7 +409,16 @@ CHANGE; the standing 6/28 one is amended.*
 > *Amendment 2026-07-26:* the secondary em-dash flag is **softening**. All four pieces in
 > the 7/21–7/24 delta use zero em dashes. If that holds one more cycle, the right call is
 > to keep the rule as canon and close this flag. The primary flag (HC fixtures hard-coded
-> in Core §3) is unchanged and still awaiting Brian.
+>  in Core §3) is unchanged and still awaiting Brian.
+>
+> *Amendment 2026-09-07:* the em-dash flag is now **closed** (approved as canon 8/17;
+> zero em dashes in 15 published pieces since). The primary flag gains evidence: the TNB
+> newsletter now has a *fixed* shape that Core §3 does not describe. Observed in every
+> essay 7/30 to 9/1: opener **"Dear Friends:"** (colon); no HC Update; a standing
+> **"Membership Invitation:"** block; sign-off **"Thanks for reading, and let's all keep
+> building together!"**; and a **"100% Written by me!"** tag. Recommend replacing the HC
+> fixtures in §3 with this TNB structure and moving the HC fixtures to an HC-legacy note.
+> Still propose-only; Core not edited.
 
 ---
 
