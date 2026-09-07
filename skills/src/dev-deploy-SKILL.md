@@ -206,7 +206,7 @@ These are Cowork sandbox constraints that cannot be fixed. Don't waste time retr
 | **Firestore direct access** (gRPC blocked by proxy) | Can't query Firestore from sandbox. Use Vercel API endpoints if the domain is allowlisted, or read from local data files/exports. |
 | **GitHub API** (api.github.com blocked by proxy) | Can't create repos, manage issues, or use gh CLI. In cloud sessions the proxy error names an `add_repo` tool that may not be exposed; if it isn't, don't chase it. |
 | **GitHub via Claude in Chrome** | Only works if his Chrome profile is already signed in to GitHub. If it shows Sign in, that route is dead: signing him in means entering a password, which is prohibited. Check before building a plan around it. |
-| **Custom Vercel domains** (*.vercel.app blocked by proxy) | Can't fetch from live app APIs. Build data export scripts that write to repo files instead. |
+| **Live app URLs from the Bash tool** (`*.vercel.app` blocked by the sandbox proxy) | **Scoped to Bash only. The Cowork browser pane reaches production fine** — verified 7 Sep 2026 by fetching `b-line-mu.vercel.app/app.js` and asserting the served file contained the just-pushed code. Use the browser pane (`navigate` + `javascript_tool`/`get_page_text`) to confirm deploys and assert live behaviour. Only for bulk API pulls that genuinely need a shell, fall back to data export scripts that write to repo files. **Do not cite this row as a reason to skip verification.** |
 | **Firebase CLI deploy** | Use git push + Vercel auto-deploy instead. If Firebase deploy is truly needed, give user a one-liner. |
 | **Mounted drive git writes** | Use /tmp clone pattern (see above). |
 | **Skill files** (read-only once installed) | Edit source in bhub /tmp clone, rebuild .skill bundle, present to user for install. |
@@ -372,6 +372,10 @@ This is the heart of getting the user out of the babysitting loop. The user's ol
 2. **Bailed after 3:** "Stopped on assertion N: [what's still failing + evidence]. Your call on how to proceed."
 
 **Pre-step (still mandatory):** before running assertions, confirm the deploy is live — wait ~60s after push, navigate to the production URL, confirm it loads. If it errors, check Vercel deploy status/logs and fix before asserting. A failed deploy is assertion-zero.
+
+**Confirm the deploy carries YOUR change, not just that the page loads.** "It loaded" is the weak-check trap in its most common form: Vercel serves the previous build happily while yours is still building or has failed. Fetch the changed asset in the browser pane and assert a marker from the code you just pushed is present in what the server returned — a new function name, a new string, a comment you added. One `navigate` plus one `javascript_tool` call. This is cheap, it is available in every session (see the limitations table — the Bash proxy blocks these URLs, the browser pane does not), and skipping it is how a session ends up telling the user to go verify the deploy themselves.
+
+**When an instrument genuinely is not available, say which one and why, in the same breath as the handoff.** "I could not verify" is only acceptable with the route named and the reason given. If the reason turns out to be a limitation you read rather than tested, that is a defect in this skill — fix the row.
 
 The reason this matters: it converts the user from an every-turn reviewer into a two-endpoint operator — they specify behavioral assertions at the start and make the taste call at the end. Everything in between, including the correctness verdict, lives inside the loop.
 
