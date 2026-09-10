@@ -3,9 +3,10 @@
 {
   "name": "Priority Agenda",
   "schemaVersion": 1,
-  "description": "Brian's live priority agenda, pulled fresh from the Linear document \"Brian's priority agenda\" (Team Ops) each time it opens. Shows ranked work for the day, what's blocked, what cleared. Same document Nico reads, so the two never drift.",
+  "description": "Brian's live priority agenda, pulled fresh from the Linear document \"Brian's priority agenda\" (Team Ops) each time it opens, then cross-checked against live Linear issue status. Same document Nico reads, so the two never drift.",
   "mcpTools": [
     "mcp__638f3656-20d7-4323-9149-4d05bd4d13fe__get_document",
+    "mcp__638f3656-20d7-4323-9149-4d05bd4d13fe__list_issues",
     "mcp__2818b737-df40-4ae8-8d87-4468c0475010__list_events"
   ],
   "mcpServerNames": [
@@ -69,6 +70,23 @@ strong { font-weight: 650; }
 }
 .item.blk:last-child { margin-bottom: 2px; }
 .item.blk .title { color: #7c2d12; }
+
+/* Live drift check against Linear.
+   Nothing is ever struck through. Done means the line moved to Cleared
+   today in the document; a closed issue still ranked here is drift, and
+   drift raises a rebuild banner instead of restyling the item. */
+.checknote { font-size: 11px; color: #9ca3af; margin: -4px 0 14px; }
+.rebuild {
+  background: #fff8f2; border: 1px solid #f0b27a; border-left: 4px solid #d97706;
+  border-radius: 6px; padding: 11px 14px; margin: 0 0 18px;
+  font-size: 13px; line-height: 1.55; color: #7c2d12;
+}
+.rebuild b { font-weight: 700; }
+.rebuild .ids { font-variant-numeric: tabular-nums; color: #9a3412; }
+.item ul.sub { margin: 6px 0 0; padding-left: 18px; }
+.item ul.sub li { margin-bottom: 4px; color: #374151; font-size: 14px; }
+.item ul.sub li:last-child { margin-bottom: 0; }
+
 .muted { color: #4b5563; font-size: 14px; }
 ul { margin: 0 0 11px; padding-left: 20px; }
 li { margin-bottom: 5px; }
@@ -92,6 +110,9 @@ li { margin-bottom: 5px; }
 <script>
 var DOC_ID = "4aa0b7df0286";
 var DOC_URL = "https://linear.app/humbleconviction/document/brians-priority-agenda-4aa0b7df0286";
+var LINEAR_DOC = "mcp__638f3656-20d7-4323-9149-4d05bd4d13fe__get_document";
+var LINEAR_ISSUES = "mcp__638f3656-20d7-4323-9149-4d05bd4d13fe__list_issues";
+var CALENDAR = "mcp__2818b737-df40-4ae8-8d87-4468c0475010__list_events";
 
 function esc(s) {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -128,8 +149,9 @@ function render(md) {
   var openItem = false;
   var boxOpen = false;
   var mutedSection = false;
+  var callSheet = false;
 
-  function closeItem() { if (openItem) { html += "</div>"; openItem = false; } }
+  function closeItem() { closeList(); if (openItem) { html += "</div>"; openItem = false; } }
   function closeBox() { closeItem(); if (boxOpen) { html += "</div>"; boxOpen = false; } }
   function closeList() { if (inList) { html += "</ul>"; inList = false; } }
 
@@ -139,6 +161,12 @@ function render(md) {
     buf = [];
     if (!joined) return;
     var m = joined.match(/^\*\*(\d+)\.\s*([\s\S]+?)\*\*([\s\S]*)$/);
+    if (!m) {
+      /* Linear drops the bold markers when it normalises the document, so a
+         ranked item often comes back as plain "3. Title". Treat that the same. */
+      var bare = joined.match(/^(\d+)\.\s+([\s\S]+)$/);
+      if (bare) m = [bare[0], bare[1], bare[2], ""];
+    }
     if (m) {
       closeItem();
       html += '<div class="item' + (m[1] === "1" ? " rank1" : "") + '">';
@@ -161,7 +189,8 @@ function render(md) {
       html += '<p class="body">' + inline(joined) + "</p>";
       return;
     }
-    html += "<p" + (mutedSection ? ' class="muted"' : "") + ">" + inline(joined) + "</p>";
+    var pcls = callSheet ? "muted cs" : (mutedSection ? "muted" : "");
+    html += "<p" + (pcls ? ' class="' + pcls + '"' : "") + ">" + inline(joined) + "</p>";
   }
 
   for (var i = 0; i < lines.length; i++) {
@@ -174,6 +203,7 @@ function render(md) {
       var low = t.toLowerCase();
       var cls = "plain";
       mutedSection = true;
+      callSheet = low.indexOf("call sheet") > -1;
       if (low.indexOf("block") > -1) {
         cls = "blocked";
         html += '<div class="blockbox">';
@@ -187,12 +217,13 @@ function render(md) {
     if (/^##\s+/.test(line)) {
       flush(); closeList(); closeBox();
       mutedSection = false;
+      callSheet = false;
       html += "<h2>" + inline(line.replace(/^##\s+/, "")) + "</h2>";
       continue;
     }
     if (/^[-*]\s+/.test(line)) {
-      flush(); closeItem();
-      if (!inList) { html += "<ul>"; inList = true; }
+      flush();
+      if (!inList) { html += "<ul" + (openItem ? ' class="sub"' : "") + ">"; inList = true; }
       html += "<li>" + inline(line.replace(/^[-*]\s+/, "")) + "</li>";
       continue;
     }
@@ -202,12 +233,86 @@ function render(md) {
   return html;
 }
 
+/* ---- Live drift check ---------------------------------------------------
+   The document holds the ranking and the wording. Linear holds the truth
+   about whether something is still open.
+
+   Done is NOT a strikethrough. When something is finished, its line moves
+   out of the ranked list into Cleared today, in the document. If an issue
+   is closed in Linear but still sitting in a live position here, that is
+   drift: the document is behind, and the fix is to rebuild the agenda.
+   So this raises one banner naming the offenders. It never restyles,
+   dims, or strikes through an item, because a struck-through line reads
+   as handled and that is exactly the wrong signal.
+
+   Live positions only: ranked cards, blocked cards, their sub-bullets,
+   and call-sheet lines. Cleared today and Cleared yesterday are supposed
+   to hold closed issues and are skipped.
+   Fails silently: if the lookup errors, the agenda still renders. */
+function crossCheckStatuses() {
+  /* Titles only, never a body line. A body line legitimately names a closed
+     issue as an adjacent fact ("Wednesday's post, TNB-217, is canceled") and
+     that is not drift. */
+  var scopes = document.querySelectorAll("#out .item > .title, #out .item ul.sub li, #out p.cs");
+  if (!scopes.length) return;
+
+  window.cowork.callMcpTool(LINEAR_ISSUES, {
+    team: "The New Builder",
+    includeArchived: true,
+    limit: 250,
+    fields: ["id", "status", "statusType"]
+  }).then(function (r) {
+    if (r.isError) throw new Error("issue lookup failed");
+    var data = r.structuredContent;
+    if (!data) data = JSON.parse(r.content[0].text);
+    var byId = {};
+    (data.issues || []).forEach(function (it) { byId[it.id] = it; });
+
+    var stale = [], seen = {};
+    Array.prototype.forEach.call(scopes, function (el) {
+      Array.prototype.forEach.call(el.querySelectorAll("a"), function (a) {
+        var id = a.textContent.trim();
+        if (!/^TNB-\d+$/.test(id) || seen[id]) return;
+        var rec = byId[id];
+        if (!rec) return;
+        if (rec.statusType !== "completed" && rec.statusType !== "canceled") return;
+        seen[id] = 1;
+        stale.push(id);
+      });
+    });
+
+    var t = new Date().toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+    var note = document.getElementById("checknote");
+
+    if (!stale.length) {
+      if (note) note.textContent = "Checked against Linear at " + t + ". Everything below is still open.";
+      return;
+    }
+
+    if (note) note.textContent = "Checked against Linear at " + t + ".";
+
+    var one = stale.length === 1;
+    var banner = document.createElement("div");
+    banner.className = "rebuild";
+    banner.innerHTML =
+      "<b>This agenda is behind Linear.</b> " +
+      (one ? "One item" : stale.length + " items") +
+      " below " + (one ? "is" : "are") + " already closed in Linear but still " +
+      (one ? "sits" : "sit") + " in a live position: " +
+      '<span class="ids">' + esc(stale.join(", ")) + "</span>. " +
+      "Rebuild the agenda to move " + (one ? "it" : "them") + " into Cleared today.";
+
+    var out = document.getElementById("out");
+    if (out) out.insertBefore(banner, out.firstChild);
+  }).catch(function (e) {
+    var note = document.getElementById("checknote");
+    if (note) note.textContent = "Could not check live status against Linear.";
+  });
+}
+
 function load() {
   var out = document.getElementById("out");
-  window.cowork.callMcpTool(
-    "mcp__638f3656-20d7-4323-9149-4d05bd4d13fe__get_document",
-    { id: DOC_ID }
-  ).then(function (r) {
+  window.cowork.callMcpTool(LINEAR_DOC, { id: DOC_ID }).then(function (r) {
     if (r.isError) throw new Error("Linear returned an error");
     var data = r.structuredContent;
     if (!data) data = JSON.parse(r.content[0].text);
@@ -218,7 +323,11 @@ function load() {
     var cut = md.search(/^##\s+(Today|Tomorrow|Mon|Tue|Wed|Thu|Fri|Sat|Sun)/m);
     if (cut > -1) body = md.slice(cut);
 
-    out.innerHTML = render(stashLinks(body)) +
+    var rendered = render(stashLinks(body));
+    /* Drop the live-check note directly under the day heading. */
+    rendered = rendered.replace("</h2>", '</h2><div class="checknote" id="checknote">Checking live status&hellip;</div>');
+
+    out.innerHTML = rendered +
       '<h3 class="plain">Upcoming appointments</h3><div id="appts" class="muted">Loading&hellip;</div>' +
       '<div class="foot">Live from Linear. Nico reads the same document.<br>' +
       '<a href="' + DOC_URL + '" target="_blank" rel="noopener">Open in Linear</a></div>';
@@ -228,6 +337,7 @@ function load() {
       document.getElementById("stamp").textContent = "updated " +
         d.toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
     }
+    crossCheckStatuses();
     loadAppointments();
   }).catch(function (e) {
     out.innerHTML = '<div class="state err">Could not load the agenda from Linear.<br>' +
@@ -239,17 +349,15 @@ function fmtTime(iso) {
   var d = new Date(iso);
   return d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" }).replace(" ", "").toLowerCase();
 }
-function dayKey(iso) { return new Date(iso).toDateString(); }
 
 function loadAppointments() {
   var box = document.getElementById("appts");
   if (!box) return;
   var now = new Date();
   var end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
-  window.cowork.callMcpTool(
-    "mcp__2818b737-df40-4ae8-8d87-4468c0475010__list_events",
-    { startTime: now.toISOString(), endTime: end.toISOString(), orderBy: "startTime", pageSize: 25 }
-  ).then(function (r) {
+  window.cowork.callMcpTool(CALENDAR, {
+    startTime: now.toISOString(), endTime: end.toISOString(), orderBy: "startTime", pageSize: 25
+  }).then(function (r) {
     if (r.isError) throw new Error("calendar error");
     var data = r.structuredContent;
     if (!data) data = JSON.parse(r.content[0].text);

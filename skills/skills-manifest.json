@@ -78,10 +78,10 @@
       "hash": "24895e8378922ad91f1edb152c1f1950"
     },
     "priority-agenda": {
-      "version": "1.0.0",
-      "hash": "67d37b9170335e34feff54d95326f8d2",
-      "updated": "2026-09-01",
-      "changelog": "First manifest entry. This skill was live in the account but untracked here, and the B-Suite copy had rotted several generations behind: an old renderer and a SKILL.md predating the Athena firewall, so a rebuild from source would have silently regressed it. Source, bundle and manifest are now in sync. Content changes this version: (1) every run ends with a panel on screen, live artifact where the artifact tools exist and a baked-in snapshot everywhere else, replacing the old \"tell Brian to click Reload\" dead end; (2) strikethrough is gone. Done means the line moves to Cleared today. A closed issue still in a live position is drift, and the renderer raises one rebuild banner naming the offenders instead of striking items through, since a struck-through line reads as handled."
+      "version": "1.10.0",
+      "hash": "80161389f4e5cc241f9dea7836aa344f",
+      "updated": "2026-09-10",
+      "changelog": "Brings bhub up to the version live in the account. Folds in the unpushed 1.9.0 from the MacBook Air (Sep 2: description trimmed under the 1024-char install limit; all money in USD; Optional is not canceled, snooze label keeps the date soft; UK-timing rule for posts) plus the later account edits: process-not-strategy rule binds chat replies as hard as the document; when Brian reports something done, close it, move the CRM card and re-rank in the same turn; every priorities reply carries the panel link; the panel reads the Linear doc live with its own Refresh button so content changes need no republish; dated section opens at rank 1 with reference material below; new sections Waiting on a reply, Decisions waiting, Optional, Reference."
     },
     "priority-startup-intel": {
       "version": "1.1.0",
