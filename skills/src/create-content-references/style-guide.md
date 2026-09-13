@@ -53,6 +53,14 @@ May-only examples trimmed where the move did not recur; the pop-culture-riff bea
 only) aged out. Em dashes: zero across all 15 pieces, ~44K characters; the flag is closed
 (see drift notes). One PROPOSED CORE CHANGE amended with new evidence.*
 
+*Delta refresh 2026-09-13: folded in 2 new TNB pieces (beehiiv "Stowe Newsletter #1 /
+A-B-C, Easy as 1-2-3" 9/10; LinkedIn "Midterm Report" 9/8). Both are Stowe-fellowship
+dispatches, confirming the run predicted on 09-07. No HC-era pieces. Small delta, so
+nothing aged out this cycle; the ~90-day window now starts ~6/15 and every June entry
+still recurs. Em dashes: zero across both pieces, ~7.3K characters; the flag stays
+closed. Core §5 never-use list: clean. No new PROPOSED CORE CHANGE; the standing Core §3
+one gains further evidence.*
+
 **Recurring structural moves (TNB, 2026-06 → 09)**
 
 - **LI posts open cold with a single arresting line, then a hard break.** A confession, a
@@ -164,6 +172,12 @@ only) aged out. Em dashes: zero across all 15 pieces, ~44K characters; the flag 
   sentences rather than rewriting: Linear / Trapped Between AI and Abaci (8/11), The
   Uncanny Professor (8/25, both), Built vs. Done / One Weekend (9/1). When drafting one,
   assume the other exists and keep the key sentences identical.
+  **Variant (09-13):** the pair can now run two days apart with the LI *leading* the essay,
+  and the LI is a *different observation from the same situation* rather than a compression
+  of the essay. Midterm Report (9/8) takes the "nobody is behind" angle; Stowe Newsletter #1
+  (9/10) takes the "train the teachers" angle. Both quote the same doctrine sentence. So
+  when the source is an ongoing experience rather than a single build, split the angles
+  instead of compressing.
 - **The community roundup newsletter.** New spine: an "I'll show, not tell" frame, then
   emoji-headed sections (🔨 Things We Built · 🧠 Things That Got Us Talking · ⚙️
   Navigating the Costs of AI), members anonymized on purpose ("I'm leaving names out,
@@ -192,7 +206,9 @@ only) aged out. Em dashes: zero across all 15 pieces, ~44K characters; the flag 
 - **Dispatch posts from the road.** Stowe fellowship and the EV fiasco read as field notes:
   present tense, "That's where I'm writing this now," a UK/US translation gag in
   parentheses "(car park!)" "(boot!)". Expect a run of these through October. (Stowe
-  Intro 8/27; EV Charging 9/2.)
+  Intro 8/27; EV Charging 9/2.) **Confirmed (09-13):** the run arrived. The UK/US gag
+  recurred as "a math (maths!) teacher," and the dispatch grew into a full-length essay
+  spine, not just short field notes (Stowe Newsletter #1 9/10; Midterm Report 9/8).
 - **Blame-apportionment close.** After a fiasco he divides the blame in shares: "I'll take
   some of the blame… Maybe some goes to the EV infrastructure… But the lion's share goes
   to ChatGPT." (EV Charging 9/2.)
@@ -212,7 +228,39 @@ only) aged out. Em dashes: zero across all 15 pieces, ~44K characters; the flag 
   than just read-only mode!" … "consider this your invitation!" … 😉), then "Thanks for
   reading, and let's all keep building together!", then "100% Written by me!" (order of
   the last two varies). Treat as boilerplate, not voice. (Trapped 8/11; Uncanny 8/25; One
-  Weekend 9/1; the 7/30 roundup has only the thanks line.)
+  Weekend 9/1; the 7/30 roundup has only the thanks line.) Confirmed again 9/10, all three
+  blocks in order.
+- **The role-inversion cold open.** A then/now sentence pair where he occupied the opposite
+  role the first time. "for the first time in thirty-eight years, I found myself racing
+  down the corridor to beat the bell to a high school classroom. Back then I was trying to
+  avoid the wrath of a teacher. This time, I was the teacher." A tighter cousin of the
+  Before/After contrast: the contrast is him, not the tooling. (Stowe Newsletter #1 9/10.)
+- **The discovered-framework essay.** New beehiiv spine: he reports a pattern he noticed in
+  the field, names it as two plain questions, then converts it into his own delivery plan at
+  the close. "the questions they're grappling with match the questions I've been working
+  through… They usually fall into two categories: 'How can it make my life easier?' and
+  'How can it help me do my job better?'" → "I think I now have a framework… It's simple:
+  just focus on those two things." The framework arrives by observation, not by assertion,
+  and its portability across professions is the proof. (Stowe Newsletter #1 9/10.)
+- **The fifteen-minute build as a staged scene.** The timed-build promise is now a device,
+  said aloud and then delivered on camera: "Give me fifteen minutes and I'll build
+  something that does that for you!" → "I asked him to give me fifteen minutes, and I
+  dragged him to one of the computers" → "within three minutes we had a passable game" →
+  "Two more passes to refine." The clock is the tension, and a real human's reaction is
+  the payoff ("the teacher beamed… I was beaming too"). (Stowe Newsletter #1 9/10.)
+- **The scope-limited progress report.** Short LI form: state the tour of duty, state the
+  clock, then explicitly ration the piece to one finding. "since my residency is only one
+  month, I figured it's time for a progress report. So here's one key observation:" The
+  self-imposed limit is what makes the post readable. (Midterm Report 9/8.)
+- **Reported speech from the field as the evidence base.** Instead of data or his own n=1,
+  he quotes what people actually said to him, in their apologetic register, and treats the
+  pattern in the phrasing as the finding. "Most conversations start almost apologetically:
+  'I don't know much about AI' or 'I use AI a lot, but just for simple things.'" (Midterm
+  Report 9/8.)
+- **The from/to reframe close.** A fifth close type: he states the emotional move he wants
+  the reader to make, from one named feeling to another. "shift the focus from feeling
+  guilty about being 'behind' to being excited about what lies ahead." Sits alongside
+  human-judgment, warm-community, antithesis-pair, and retro-wisdom. (Midterm Report 9/8.)
 
 
 **Recurring voice / humor beats (TNB, 2026-06 → 09)**
@@ -318,6 +366,41 @@ only) aged out. Em dashes: zero across all 15 pieces, ~44K characters; the flag 
 - **"Who's the target?" arithmetic as a joke shape:** "exactly how many of us are there?
   And exactly how many of us are actually making board decks? Talk about a niche of a
   niche." (Subway 8/20.)
+- **GenX bafflement has widened past tech to ordinary subject matter.** The same shrug he
+  used for dotenv and shell now covers school maths: "(Which I can only remember
+  as…x equals the square root of something…over something?)" and "do something
+  quadratic-y." The `-y` suffix coinage is the joke's engine. Use it wherever he is
+  standing next to an expert. (Stowe Newsletter #1 9/10.)
+- **The blurted-impulse confession, immediately scolded.** He reports the rude thing he
+  wanted to say, admits he said it, then reprimands himself in a two-beat aside. "I can
+  barely stop myself from shouting 'Stop doing that! Give me fifteen minutes and I'll build
+  something that does that for you!' Sometimes I shout it anyway. I know, I know. You're
+  not supposed to shout at the teacher." A longer-form relative of the parenthetical
+  confession. (Stowe Newsletter #1 9/10.)
+- **He now quotes his own doctrine with attribution.** The TNB thesis has hardened into a
+  fixed sentence he cites as a standing position rather than re-deriving: "as I say all the
+  time with The New Builder, 'this stuff can't be taught from the top down. All you can do
+  is jump in, start building, and trade notes with others doing the same.'" The essay
+  carries the same line two days later, lightly varied: "the only way to know is to invite
+  a whole new group of people to jump in with me, start building, and keep sharing notes
+  with others doing the same." Treat the jump in / start building / trade notes triad as
+  canonical phrasing, not something to paraphrase. (Midterm Report 9/8; Stowe Newsletter #1
+  9/10.)
+- **The self-aware pun called out rather than left to land.** He makes the wordplay, then
+  flags it himself in a standalone line: "And yes, it's ironic that I'm advising high school
+  students to trade notes!" (Midterm Report 9/8.)
+- **The humility caveat before a conclusion keeps recurring** and is now a fixture (fourth
+  straight cycle): "As with everything else in AI, any prediction I make will be pointless.
+  But I do have a good feeling I'll be able to do something positive here." Disclaimer
+  stated, then ignored in the same breath. (Stowe Newsletter #1 9/10.)
+- **Anti-FOMO has escalated from "not late" to a flat denial of the category.** "nearly
+  everyone says they're 'behind'… Guess what? You're not behind. Because there's no such
+  thing as behind." Stronger than the 7/2 formulation ("You're not late. You're right on
+  time"), and paired with a scale argument: "We're less than a year into the level-jump."
+  Use the absolute version now. (Midterm Report 9/8.)
+- **The antithesis-pair close holds for a third straight cycle** and again lands on a
+  coinage: "It's not just upskilling. It's up-doing." (Stowe Newsletter #1 9/10.) Treat it
+  as the default ending unless a piece calls for one of the other four.
 
 
 **Current lexicon additions (TNB)**
@@ -362,6 +445,16 @@ only) aged out. Em dashes: zero across all 15 pieces, ~44K characters; the flag 
   Typos still ship ("the bullk of the time," "You see ads ads like"). (Trapped 8/11;
   Linear 8/11; Amazon vs. Spotify 8/18; Uncanny 8/25; One Weekend 9/1; EV Charging 9/2;
   Member Dinner 8/13; Subway 8/20; Roundup 7/30.)
+- **New (09-13, Stowe fellowship run):** "up-doing" (coined, as the button on "upskilling")
+  · "there's no such thing as behind" · "level-jump" · "Visiting Fellow in AI" (always in
+  scare quotes) · "the tsunami of both excitement and fear" · "internalize it" (his word for
+  the goal of teaching adults) · "jump in, start building, and trade notes" (the canonical
+  doctrine triad) · "ungodly amount of administrative work" · "that nonsense" · "the admin
+  work is necessary; the grief isn't" · "passable" (his grade for a good-enough v1) ·
+  "quadratic-y" (the `-y` suffix coinage) · "(maths!)" (UK/US gag) · "spat out" (what the
+  model does with ideas) · "cool and engaging" · "show, not tell" carried over. Still
+  "pretty" as a qualifier. Tools named this cycle: Claude only. (Stowe Newsletter #1 9/10;
+  Midterm Report 9/8.)
 
 **Brand / drift notes**
 
@@ -389,6 +482,26 @@ only) aged out. Em dashes: zero across all 15 pieces, ~44K characters; the flag 
   only," "growing slowly and thoughtfully," "it isn't an open door," "the third leg of the
   stool" (Slack, Zoom show-and-tells, member dinners). (Member Dinner 8/13; Roundup 7/30;
   footer boilerplate.)
+- **Em dashes: still clean (2026-09-13).** Mechanical count across both pieces in the
+  9/8 to 9/10 delta: **0 em dashes, 0 en dashes, 5 ellipses** (Stowe Newsletter #1 5,
+  Midterm Report 0). Running total since the rule was approved 8/17: 17 pieces, zero em
+  dashes. Flag stays closed.
+- **Core §5 "never use" check (09-13):** clean. No "leverage," "utilize," "seamless,"
+  "empower," "optimize," "synergy," "stakeholders," "monetize," or "landscape" in either
+  piece.
+- **Tension to watch: planning.** On 7/14 he warned against one-shotting a complex job and
+  praised working out "the delta between" start and end state. On 9/10 he says the
+  opposite about a small build: "I didn't ask him what kind of resource he wanted. Planning
+  is where these things stall. I just started typing." Not a contradiction yet; the sizes
+  differ. But if the anti-planning line recurs on a large build, his stated method has
+  changed and Core §8 should be revisited. (Vacation Photos 7/14; Stowe Newsletter #1
+  9/10.)
+- **The teaching audience is a new recurring subject (09).** Teachers and students, not
+  founders, and he treats the crossover as the point: "the questions they're grappling with
+  match the questions I've been working through… even though we're in two entirely
+  different professions." Expect TNB pieces through October to argue from the school, and
+  keep the founder reader as the implied audience anyway. (Stowe Newsletter #1 9/10;
+  Midterm Report 9/8.)
 - **"Building" is being explicitly redefined as TNB doctrine**, stated outright rather
   than implied: "building doesn't just mean founding a startup anymore. You can be a
   solopreneur… VC money? You can take it or leave it. You can be a weekend warrior
@@ -418,6 +531,13 @@ only) aged out. Em dashes: zero across all 15 pieces, ~44K characters; the flag 
 > **"Membership Invitation:"** block; sign-off **"Thanks for reading, and let's all keep
 > building together!"**; and a **"100% Written by me!"** tag. Recommend replacing the HC
 > fixtures in §3 with this TNB structure and moving the HC fixtures to an HC-legacy note.
+> Still propose-only; Core not edited.
+>
+> *Amendment 2026-09-13:* the 9/10 essay carries all four TNB fixtures again, in order:
+> "Dear Friends:" (colon), no HC Update, the "Membership Invitation:" block with the 😉,
+> "Thanks for reading, and let's all keep building together!", and "100% Written by me!".
+> That is six of six essays since 7/30. The §3 HC fixtures are now describing a shape that
+> has not been published in over six weeks. Recommend Brian canonize the TNB structure.
 > Still propose-only; Core not edited.
 
 ---
