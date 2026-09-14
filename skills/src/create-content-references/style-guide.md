@@ -21,6 +21,16 @@ This guide has two tiers, and they are not equal:
 *Maintained by the Voice Refresh Protocol. Each entry tagged with date + brand
 (TNB/HC). Entries age out at ~90 days unless they keep recurring.*
 
+> **Counting rule (added 2026-09-14, Brian's correction).** A newsletter and a LinkedIn
+> post from the same week on the same subject are **one editorial decision in two formats,
+> not two confirmations.** Brian carries a continuous theme across channels deliberately,
+> so the pair says nothing about how settled a pattern is even when the content differs.
+> Themes, doctrine and arguments from such a cluster count **once**. Mechanical habits
+> (dashes, ellipses, punctuation, boilerplate, typos) still count per piece, since those
+> are the hand rather than the calendar. "Recurring" requires **separate occasions**, never
+> separate formats of one occasion. Entries below predating 9/14 were written before this
+> rule; the ones it affected have been corrected in place and marked.
+
 *First populated 2026-06-28 from 13 recent published pieces (10 LinkedIn, 3 beehiiv),
 all TNB-era. No HC-era pieces in this delta.*
 
@@ -54,12 +64,20 @@ only) aged out. Em dashes: zero across all 15 pieces, ~44K characters; the flag 
 (see drift notes). One PROPOSED CORE CHANGE amended with new evidence.*
 
 *Delta refresh 2026-09-13: folded in 2 new TNB pieces (beehiiv "Stowe Newsletter #1 /
-A-B-C, Easy as 1-2-3" 9/10; LinkedIn "Midterm Report" 9/8). Both are Stowe-fellowship
-dispatches, confirming the run predicted on 09-07. No HC-era pieces. Small delta, so
-nothing aged out this cycle; the ~90-day window now starts ~6/15 and every June entry
+A-B-C, Easy as 1-2-3" 9/10; LinkedIn "Midterm Report" 9/8). No HC-era pieces. Small delta,
+so nothing aged out this cycle; the ~90-day window now starts ~6/15 and every June entry
 still recurs. Em dashes: zero across both pieces, ~7.3K characters; the flag stays
 closed. Core §5 never-use list: clean. No new PROPOSED CORE CHANGE; the standing Core §3
 one gains further evidence.*
+
+*Correction 2026-09-14: the two 9/13 pieces are **one cross-format cluster**, both from
+the Stowe residency in the same week, so they are a single thematic observation and not a
+double confirmation of anything (see the counting rule above). Three entries written on
+9/13 overstated their evidence and have been corrected below: the doctrine-triad beat, the
+teaching-audience drift note, and the dispatch-run confirmation. The mechanical counts
+(em dashes, never-use list, footer fixtures) stand as written, since those count per
+piece. Net effect: this cycle contributed new candidate observations but confirmed no
+existing pattern.*
 
 **Recurring structural moves (TNB, 2026-06 → 09)**
 
@@ -206,9 +224,12 @@ one gains further evidence.*
 - **Dispatch posts from the road.** Stowe fellowship and the EV fiasco read as field notes:
   present tense, "That's where I'm writing this now," a UK/US translation gag in
   parentheses "(car park!)" "(boot!)". Expect a run of these through October. (Stowe
-  Intro 8/27; EV Charging 9/2.) **Confirmed (09-13):** the run arrived. The UK/US gag
-  recurred as "a math (maths!) teacher," and the dispatch grew into a full-length essay
-  spine, not just short field notes (Stowe Newsletter #1 9/10; Midterm Report 9/8).
+  Intro 8/27; EV Charging 9/2.) **Update (09-14, corrected):** the 9/8 and 9/10 pieces are
+  one cross-format cluster from the same residency week, so they are a single further
+  instance, not a confirmed run. What they do add on their own terms: the UK/US gag
+  recurred ("a math (maths!) teacher"), and the dispatch stretched to a full-length essay
+  spine rather than short field notes. The dispatch pattern still rests mainly on 8/27 and
+  9/2 being genuinely separate occasions.
 - **Blame-apportionment close.** After a fiasco he divides the blame in shares: "I'll take
   some of the blame… Maybe some goes to the EV infrastructure… But the lion's share goes
   to ChatGPT." (EV Charging 9/2.)
@@ -377,15 +398,17 @@ one gains further evidence.*
   something that does that for you!' Sometimes I shout it anyway. I know, I know. You're
   not supposed to shout at the teacher." A longer-form relative of the parenthetical
   confession. (Stowe Newsletter #1 9/10.)
-- **He now quotes his own doctrine with attribution.** The TNB thesis has hardened into a
-  fixed sentence he cites as a standing position rather than re-deriving: "as I say all the
-  time with The New Builder, 'this stuff can't be taught from the top down. All you can do
-  is jump in, start building, and trade notes with others doing the same.'" The essay
-  carries the same line two days later, lightly varied: "the only way to know is to invite
-  a whole new group of people to jump in with me, start building, and keep sharing notes
-  with others doing the same." Treat the jump in / start building / trade notes triad as
-  canonical phrasing, not something to paraphrase. (Midterm Report 9/8; Stowe Newsletter #1
-  9/10.)
+- **He quotes his own doctrine with attribution.** He cites the TNB thesis as a standing
+  position rather than re-deriving it: "as I say all the time with The New Builder, 'this
+  stuff can't be taught from the top down. All you can do is jump in, start building, and
+  trade notes with others doing the same.'" (Midterm Report 9/8.) **Corrected 09-14:** the
+  9/10 essay carries a lightly varied version of the same line ("invite a whole new group
+  of people to jump in with me, start building, and keep sharing notes with others doing
+  the same"), but that is the same week and the same subject, so it is *one* appearance in
+  two formats, not evidence the phrasing has hardened. The real support for treating the
+  triad as canonical is his own "as I say all the time," which is self-report, not
+  observation. Use the triad as written, but watch for it on an unrelated occasion before
+  calling it fixed.
 - **The self-aware pun called out rather than left to land.** He makes the wordplay, then
   flags it himself in a standalone line: "And yes, it's ironic that I'm advising high school
   students to trade notes!" (Midterm Report 9/8.)
@@ -496,12 +519,14 @@ one gains further evidence.*
   differ. But if the anti-planning line recurs on a large build, his stated method has
   changed and Core §8 should be revisited. (Vacation Photos 7/14; Stowe Newsletter #1
   9/10.)
-- **The teaching audience is a new recurring subject (09).** Teachers and students, not
-  founders, and he treats the crossover as the point: "the questions they're grappling with
-  match the questions I've been working through… even though we're in two entirely
-  different professions." Expect TNB pieces through October to argue from the school, and
-  keep the founder reader as the implied audience anyway. (Stowe Newsletter #1 9/10;
-  Midterm Report 9/8.)
+- **The teaching audience is a new subject (09).** Teachers and students, not founders, and
+  he treats the crossover as the point: "the questions they're grappling with match the
+  questions I've been working through… even though we're in two entirely different
+  professions." Expect TNB pieces through October to argue from the school, and keep the
+  founder reader as the implied audience anyway. (Stowe Newsletter #1 9/10; Midterm Report
+  9/8.) **Corrected 09-14:** these two are one residency week in two formats, so "recurring"
+  was wrong; this is one appearance of a new subject. The prediction of an October run is a
+  bet on the fellowship calendar, not something the delta established.
 - **"Building" is being explicitly redefined as TNB doctrine**, stated outright rather
   than implied: "building doesn't just mean founding a startup anymore. You can be a
   solopreneur… VC money? You can take it or leave it. You can be a weekend warrior

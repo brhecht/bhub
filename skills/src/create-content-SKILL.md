@@ -458,6 +458,32 @@ are ever read.
    abandoned). Note the brand of each piece (TNB vs HC) — TNB observations inform the
    TNB-leaning voice; don't let HC-era tics contaminate current TNB voice.
 
+3.5 **Collapse cross-format clusters before counting anything.** When a newsletter and a
+   LinkedIn post from the same week cover the same subject or occasion, that is **one
+   editorial decision expressed in two formats, not two independent confirmations.** Brian
+   runs a continuous theme across channels on purpose, and the pieces are often written
+   from the same thinking even when the actual content differs. Treating the pair as two
+   data points manufactures a false trend and will push a one-off into canon.
+
+   Group the delta into clusters (same subject or occasion, within ~7 days, across
+   formats) before extracting. Then apply this split:
+
+   - **Theme, subject, doctrine, thesis, argument, positioning line** → count the cluster
+     **once**. Cite both pieces as the sources, but describe it as one appearance. Never
+     write "confirmed," "recurring," "holds," or "Nth straight cycle" on the strength of a
+     single cluster.
+   - **Mechanical habits** (em and en dashes, ellipses, punctuation, typo tolerance,
+     sentence length, parenthetical frequency, bullet glyphs, salutation and footer
+     boilerplate) → count **each piece independently**. These are the hand, not the
+     editorial calendar, so a cluster really does give two samples.
+   - **Structural moves and humor beats** → judgment call, default to once. If the two
+     pieces reuse the same or near-identical sentences, it is plainly one instance. If
+     each piece produced the shape independently, log it as one instance and note that a
+     second, unrelated occurrence is still needed before calling it recurring.
+
+   A pattern earns "recurring" only from **separate occasions**, not separate formats of
+   the same occasion.
+
 4. **Update the Living Voice band** at the top of `style-guide.md` (the "Living Voice —
    last ~90 days" section). Add/replace observations there, each tagged with a date and
    brand. Age out anything older than ~90 days that no longer recurs. This band is what
@@ -479,4 +505,7 @@ are ever read.
   rather than backfilling everything.
 - Living Voice = free to update. Core = propose only.
 - A refresh that finds nothing new should make no changes and say so.
+- **Never count a cross-format pair as two confirmations of a theme** (see 3.5). A small
+  delta that is really one cluster should be reported as one observation, and it is a
+  correct outcome for such a run to conclude that nothing new was confirmed.
 
