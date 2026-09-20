@@ -79,14 +79,31 @@ teaching-audience drift note, and the dispatch-run confirmation. The mechanical 
 piece. Net effect: this cycle contributed new candidate observations but confirmed no
 existing pattern.*
 
+*Delta refresh 2026-09-20: folded in 2 new TNB pieces (LinkedIn "Speed Coding" 9/15;
+LinkedIn "Cathedral Effect" 9/17). A third card, beehiiv "Start With the Purpose" 9/16,
+is archived with an empty essay field and carried no voice signal, so the newsletter side
+of this delta is blank. No HC-era pieces. The two LI posts are separate occasions two days
+apart on different subjects, so they are not a cross-format cluster and count separately,
+though both come out of the Stowe residency and neither on its own settles anything about
+that setting. Nothing aged out; the ~90-day window now starts ~6/22 and every late-June
+entry still recurs. Em dashes: zero across both pieces, ~3.3K characters; running total
+since the rule was approved 8/17 is 19 pieces and zero em dashes. Core §5 never-use list:
+clean. One mechanical drift closed this cycle (the leading emoji on LI posts), one tension
+escalated (anti-planning). No new PROPOSED CORE CHANGE; the standing Core §3 one is
+unchanged.*
+
 **Recurring structural moves (TNB, 2026-06 → 09)**
 
 - **LI posts open cold with a single arresting line, then a hard break.** A confession, a
   quoted zinger, or a count-up of damage — no runway. "Claude called BS on me the other
   day." (Tooling Distraction, 6/26) · "Six hours, three subagents, and one disaster later,
   Claude finally admitted what it should have told me upfront." (Claude Code Disaster,
-  5/28) · "I love vibe coding. I hate 'vibe coding.'" (5/14). Usually prefixed with one
-  leading emoji (🐝 ✍🏽 ⏰ 😵‍💫).
+  5/28) · "I love vibe coding. I hate 'vibe coding.'" (5/14).
+  **Amended 09-20: the leading emoji is gone.** The old note said posts were usually
+  prefixed with one (🐝 ✍🏽 ⏰ 😵‍💫). Mechanical count: the last LI post to open on an emoji
+  is Inputs 7/15 (⏰). Every LI post since, 15 in a row through 9/17, opens on a bare word.
+  Do not add a leading emoji when drafting. Emoji still appear mid-post as bullet glyphs,
+  as the trailing 😉, and in the fixed footer.
 - **The build-narrative arc** is now his default LI/essay spine: real need → "Challenge
   accepted!" → built v1 → *"And then I realized…"* → built v2 → validation by a real
   human (a friend, a PT, the Slack). (Anatomy, 5/27; Tooling Distraction, 6/26.)
@@ -282,6 +299,36 @@ existing pattern.*
   the reader to make, from one named feeling to another. "shift the focus from feeling
   guilty about being 'behind' to being excited about what lies ahead." Sits alongside
   human-judgment, warm-community, antithesis-pair, and retro-wisdom. (Midterm Report 9/8.)
+- **The method-swap post (09-15).** New LI spine: he describes his existing method in
+  enough detail that you believe in it, names what it costs, then throws it out in public
+  for a cheaper one. Method A is specified and admired (the History of Art app, students
+  dragging works to scale, "It took an hour") → cost stated flatly ("doing one for each
+  department just took too much time") → Method B announced as a decision, not a drift
+  ("So I made a radical choice and decided to wing it") → the new method quoted as the
+  script he now says out loud. The detail on Method A is what makes abandoning it read as
+  judgment rather than laziness. (Speed Coding 9/15.) Distinct from the build-narrative arc
+  (which ends in a better v2 of the same thing) and from the honest audit (which grades
+  finished work).
+- **Two-turn quoted dialogue as the close.** The payoff is an unattributed exchange, their
+  line then his, and he lets it carry the thesis instead of stating it. "'That was instant!
+  Could we also make it so there are fireworks when they get the equation right?' / 'Of
+  course we can! But our fifteen minutes is up. You see how easy it is. The rest is up to
+  you.'" (Speed Coding 9/15.) Related to the mock-dialogue *open* (Vibe App Store 7/24),
+  but here it sits at the end and the speakers are real people.
+- **The borrowed-concept short post.** A ~250-word LI form built on one named outside idea
+  rather than on a build: set the scene → name the concept → define it in a single sentence
+  → compress it into a two-line equation → apply it to himself. "That's the idea that
+  expansive spaces with high ceilings (or open skies) inspire a different sort of
+  creativity." (Cathedral Effect 9/17.)
+- **The `X = Y` paired line.** A new compression glyph alongside arrow bullets, `‣` bullets
+  and the antithesis pair: two stacked equations doing the whole comparison. "Small spaces
+  = Heads down focused work. / Large spaces = The sky's the limit." (Cathedral Effect 9/17.)
+- **Sixth close type — the anti-AI close.** He ends by ruling out the tool he is known for.
+  "My usual instinct when struggling to come up with new ideas is to consult Claude and go
+  down an unnecessarily specific rabbit hole… AI hasn't proven very useful in helping me
+  tackle these challenges. But this library absolutely has." Shape is the antithesis pair;
+  what is new is the content, since the thing that fails is his own subject. (Cathedral
+  Effect 9/17.) One appearance, not yet a pattern.
 
 
 **Recurring voice / humor beats (TNB, 2026-06 → 09)**
@@ -478,6 +525,18 @@ existing pattern.*
   model does with ideas) · "cool and engaging" · "show, not tell" carried over. Still
   "pretty" as a qualifier. Tools named this cycle: Claude only. (Stowe Newsletter #1 9/10;
   Midterm Report 9/8.)
+- **New (09-20, Stowe residency, LI only):** "speed coding" (coined and defined in the
+  opening line, positioned against his own "vibe coding": "It's not just a matter of pace.
+  It's a whole new mindset, born of necessity.") · "wing it" · "churning out" · "The
+  Cathedral Effect" (a borrowed named concept, capitalized and quoted) · "sprinkle my AI
+  magic fairy dust" · "outside the NY tech bubble" · "unnecessarily specific rabbit hole" ·
+  "schmooze" · "lock in" (recurring now) · "NeueHouse" and "Stowe School" as proper nouns
+  placed for contrast. Two beats worth naming: **self-deprecation by parallel to the
+  students** ("just like the students, I usually leave them until the last minute and build
+  them the night before") and **the bug-as-opportunity reframe put in someone else's
+  mouth** ("where I see bugs, they invariably see opportunity"). The trailing 😉 again marks
+  the shared joke at the very end ("Neither do I. 😉"). Tools named this cycle: Claude only,
+  and once as the thing that did not help. (Speed Coding 9/15; Cathedral Effect 9/17.)
 
 **Brand / drift notes**
 
@@ -519,6 +578,15 @@ existing pattern.*
   differ. But if the anti-planning line recurs on a large build, his stated method has
   changed and Core §8 should be revisited. (Vacation Photos 7/14; Stowe Newsletter #1
   9/10.)
+  **Escalated 09-20.** It recurred, on a separate occasion, and this time it is about his
+  method rather than one build: he drops pre-built demos entirely for unplanned live builds
+  and frames that as deliberate. "So I made a radical choice and decided to wing it." The
+  messiness is claimed as a benefit, not excused: "It's messy, but where I see bugs, they
+  invariably see opportunity." Two separate occasions now, so this is recurring rather than
+  a one-off. Still not a large build, so not yet a Core change, but Core §8's planning
+  guidance is the next thing likely to move. Draft anti-planning lines as current Brian;
+  keep the 7/14 "delta" framing for large multi-step jobs only. (Stowe Newsletter #1 9/10;
+  Speed Coding 9/15.)
 - **The teaching audience is a new subject (09).** Teachers and students, not founders, and
   he treats the crossover as the point: "the questions they're grappling with match the
   questions I've been working through… even though we're in two entirely different
@@ -532,6 +600,32 @@ existing pattern.*
   solopreneur… VC money? You can take it or leave it. You can be a weekend warrior
   vibe-coder or a veteran engineer." Useful as a positioning line, not just a voice note.
   (MVHH 3.0 7/21.)
+- **Em dashes: still clean (2026-09-20).** Mechanical count across both pieces with content
+  in the 9/15 to 9/17 delta: **0 em dashes, 0 en dashes, 1 ellipsis** (Cathedral Effect 1,
+  written as three dots with no spaces, "the school library...it was also"; Speed Coding
+  0). Running total since the rule was approved 8/17: 19 pieces, zero em dashes. Flag stays
+  closed. Note the ellipsis form: he types three dots unspaced, not the single … character.
+- **Core §5 "never use" check (09-20):** clean. No "leverage," "utilize," "seamless,"
+  "empower," "optimize," "synergy," "stakeholders," "monetize," or "landscape" in either
+  piece.
+- **The leading emoji on LI posts has stopped (09-20).** Recorded here as well as in the
+  structural-moves entry above because it is a mechanical habit and counts per piece: the
+  last LI post opening on an emoji is Inputs 7/15, and 15 consecutive posts since open on a
+  bare word. Core §6 already says emoji are "not common in LinkedIn posts," so practice and
+  Core now agree and no Core change is proposed. The Living Voice entry that said otherwise
+  was written in June and has been corrected in place.
+- **He will now say AI did not help (09-17).** First piece in the window where the tool is
+  named as the thing that failed at the task: "AI hasn't proven very useful in helping me
+  tackle these challenges." Paired with a self-aware jab at his own default ("my usual
+  instinct… go down an unnecessarily specific rabbit hole"). This is in register, not off
+  message, and it is a permitted move when drafting. One appearance; watch whether it
+  recurs.
+- **Data gap: the 9/16 newsletter archived empty.** "Start With the Purpose" (beehiiv 9/16)
+  has an empty `archiveData.essay` and an empty body, so this cycle has no newsletter
+  signal at all. Every other beehiiv card back to 7/6 archives with 2.9K to 6.1K characters
+  of essay, so this looks like a single pipeline miss rather than a pattern. If a second
+  newsletter archives empty, the beehiiv side of the voice record is going dark and the
+  archiver needs a look.
 
 > **PROPOSED CORE CHANGE (awaiting Brian's approval) — 2026-06-28:**
 > Core §3 still hard-codes HC-era newsletter fixtures that TNB no longer uses: the
