@@ -323,7 +323,7 @@ unchanged.*
 - **The `X = Y` paired line.** A new compression glyph alongside arrow bullets, `‣` bullets
   and the antithesis pair: two stacked equations doing the whole comparison. "Small spaces
   = Heads down focused work. / Large spaces = The sky's the limit." (Cathedral Effect 9/17.)
-- **Sixth close type — the anti-AI close.** He ends by ruling out the tool he is known for.
+- **Sixth close type, the anti-AI close.** He ends by ruling out the tool he is known for.
   "My usual instinct when struggling to come up with new ideas is to consult Claude and go
   down an unnecessarily specific rabbit hole… AI hasn't proven very useful in helping me
   tackle these challenges. But this library absolutely has." Shape is the antithesis pair;
