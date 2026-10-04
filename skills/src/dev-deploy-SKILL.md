@@ -281,7 +281,7 @@ This was the #1 source of "I have to open terminal" friction. **`--sync-mount` e
 3. `git read-tree HEAD` (writes index, doesn't touch working tree)
 4. For any drifted working-tree files: `git show HEAD:f > f` (write+truncate, FUSE-safe — `rm` and `git checkout` don't work on FUSE)
 
-**Never run `--sync-mount` BEFORE pushing local changes** — it will pull origin's version of any tracked file you've edited but not yet pushed, silently reverting your in-progress work. Always: edit → commit → pull --rebase → push → sync-mount, in that order. The bsync auto-call at session start is safe because session-start has no in-progress edits.
+**Never run `--sync-mount` BEFORE pushing local changes** — it will pull origin's version of any tracked file you've edited but not yet pushed, silently reverting your in-progress work. Always: edit → commit → pull --rebase → push → sync-mount, in that order. The bsync auto-call at session start is safe because session-start has no in-progress edits. If another session may be live on the same app, run the guard in "Parallel sessions on one app" first.
 
 **This responsibility is on Claude, not the user.** If a session forgets to call `--sync-mount` after a push, the user discovers it the next time they touch terminal — exactly what we're eliminating. Treat the post-push sync as part of the push, not an optional cleanup.
 
@@ -337,6 +337,14 @@ On any non-trivial build, debug, refactor, or QA task, make an **explicit decisi
 - Tell the user the plan in a line or two before spawning ("Running 3 agents: one maps the auth routes, one drafts tests, one security-reviews the rules"), then report the **integrated** result — not each agent's raw output.
 
 **Why this is mandatory, not optional:** left to the default, Claude under-uses subagents and silently serializes work that should be parallel and independently verified. The explicit propose-and-parallelize step is what converts "I'll use subagents" hand-waving into actual concurrent agents — faster, with verification done by a fresh instrument instead of the author grading its own homework.
+
+### Parallel sessions on one app (MANDATORY when another session may be live)
+
+Several Cowork sessions can run at once, and the mounted B-Suite folder is Brian's real filesystem, so every session sees and writes the same bytes. Git guards the push (`git pull --rebase` first). Nothing guards the working folder, so two sessions on one app can overwrite each other's uncommitted edits.
+
+- **One app, one writer.** Before the first edit, run `git status --short` for the app. Modified files this session did not make belong to another session or to Brian. Stop, name the files, and ask. Do not edit or commit over them.
+- **A second session on the same app gets its own checkout.** On-computer: `git worktree add ../<app>-<topic> -b <topic>` and work there, merging through the normal `git pull --rebase` push. This is the one sanctioned exception to "no second copy" in the on-computer rules. Cloud: edit, commit, and push from the session's own /tmp clone and leave the mount copy of that app alone.
+- **Guard `--sync-mount` (cloud).** It overwrites every drifted file in the mount with origin's version, including another session's uncommitted edits, with no error and no undo. Before running it, run `git fetch origin && git diff --name-only origin/main` in the app on the mount. After your own push that list should be empty. Any file on it is someone else's unpushed work: skip `--sync-mount` for that app and tell Brian which files.
 
 ### Acceptance Verification Harness (MANDATORY — loop engineering)
 

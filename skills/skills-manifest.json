@@ -24,10 +24,10 @@
       "changelog": "Platform correction: the TNB newsletter publishes on SUBSTACK (thenewbuilder.substack.com), not Beehiiv. Added an explicit PLATFORM NAMING block to the Content Calendar API section: query with platform=beehiiv because that is the literal legacy value stored in card data, but never call the newsletter Beehiiv in conversation or in a draft. Updated the TNB newsletter format definition and the style-guide channels line to Substack; 'TNB beehiiv essays' rule renamed to 'TNB newsletter essays'. Dated Living Voice entries left as-is (historical log, not instructions)."
     },
     "dev-deploy": {
-      "version": "1.13.0",
-      "hash": "bef8e4f4df5463b7935da171c80b4501",
-      "updated": "2026-09-07",
-      "changelog": "Corrected a limitations row that was suppressing deploy verification fleet-wide. *.vercel.app is blocked from the Bash tool ONLY; the Cowork browser pane reaches production, verified 7 Sep 2026 against b-line-mu.vercel.app. Sessions had been citing that row to hand deploy verification back to Brian. Acceptance Verification Harness pre-step strengthened: confirming the page loads is not enough, fetch the changed asset and assert a marker from the just-pushed code is in what the server returned, since Vercel serves the previous build while yours is building or failed. Added the rule that 'I could not verify' requires naming the route and the reason, and that a reason read rather than tested is a defect in this skill."
+      "version": "1.14.0",
+      "hash": "f1ebb4a9c1e914ffea82fe207d3af8bb",
+      "updated": "2026-10-04",
+      "changelog": "Added 'Parallel sessions on one app': one writer per app, a second session gets its own checkout (git worktree on-computer, /tmp clone in cloud), and a pre-check before --sync-mount because it silently overwrites another live session's uncommitted edits in the mount. Pointer added in the sync-mount section. Acceptance Verification Harness unchanged."
     },
     "docx": {
       "version": "1.0.0",
