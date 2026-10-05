@@ -492,7 +492,9 @@ check_master_handoff() {
   # Expected path for this device is BSUITE_DIR
   local expected="$BSUITE_DIR"
   # Strip home prefix for matching
-  local home_relative="${expected/#$HOME/\~}"
+  # Tilde comes from a variable: a literal \~ here keeps its backslash on some bash versions
+  local tilde='~'
+  local home_relative="${expected/#$HOME/$tilde}"
 
   # Find the line for this device in the Devices section (markdown list item)
   local line
