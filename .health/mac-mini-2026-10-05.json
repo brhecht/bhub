@@ -1,6 +1,6 @@
 {
   "bhealth_version": "1.1.0",
-  "timestamp": "2026-10-05T11:14:37Z",
+  "timestamp": "2026-10-05T11:15:45Z",
   "device": "Mac Mini",
   "hostname": "Mac",
   "computer_name": "Mac mini",
@@ -8,7 +8,7 @@
   "bsuite_path": "/Users/BRHPro/Developer/B-Suite",
   "git_auth_ok": true,
   "bsync_loaded": true,
-  "bsync_last_run": "",
+  "bsync_last_run": "2026-10-05 07:14:58",
   "repos": [
     {
       "repo": "things-app",
@@ -79,12 +79,12 @@
     {
       "repo": "bhub",
       "branch": "main",
-      "status": "clean",
+      "status": "dirty",
       "ahead": 0,
       "behind": 0,
-      "dirty": 0,
+      "dirty": 1,
       "untracked": 0,
-      "last_commit": "2026-10-04",
+      "last_commit": "2026-10-05",
       "action": "none"
     },
     {
@@ -180,10 +180,10 @@
       "branch": "main",
       "status": "dirty",
       "ahead": 0,
-      "behind": 28,
+      "behind": 0,
       "dirty": 0,
       "untracked": 1,
-      "last_commit": "2026-09-24",
+      "last_commit": "2026-10-04",
       "action": "none"
     }
   ],
@@ -355,10 +355,10 @@
     }
   ],
   "actions": [
-    "Auto-installed bsync launchd agent",
     "Fixed master handoff path for Mac Mini \u2192 \\~/Developer/B-Suite"
   ],
   "flags": [
+    "bhub has 1 MODIFIED file(s) \u2014 review: cd /Users/BRHPro/Developer/B-Suite/bhub && git status",
     "Untracked files present (no modified files) in: things-app(2) content-calendar(1) b-marketing(1) b-people(1) b-resources(1) eddy(1) hc-strategy(1) tnb-strategy(1) tnb-website(3) bsuite-handoffs(1) \u2014 usually harmless, tidy when convenient"
   ]
 }
