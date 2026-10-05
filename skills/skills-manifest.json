@@ -210,7 +210,7 @@
       "expert": "unknown",
       "hc-strategy": "unknown",
       "tnb-strategy": "unknown",
-      "last_synced": "2026-08-23",
+      "last_synced": "2026-10-05",
       "pm": "unknown",
       "create-content": "unknown",
       "priority-startup-intel": "unknown",
@@ -227,7 +227,8 @@
       "skill-creator": "unknown",
       "xlsx": "unknown",
       "slate": "unknown",
-      "community-measure": "unknown"
+      "community-measure": "unknown",
+      "priority-agenda": "unknown"
     }
   }
 }
