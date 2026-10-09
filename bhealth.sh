@@ -428,8 +428,17 @@ check_tools() {
   hdr "Toolchain"
 
   # Source Homebrew shellenv so launchd (which has a minimal PATH) can find
-  # tools installed via brew. Safe no-op if brew isn't at this path.
-  eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || true
+  # tools installed via brew. Checks both the Apple Silicon location
+  # (/opt/homebrew) and the Intel one (/usr/local). The old version hardcoded
+  # the Apple Silicon path and claimed to be a safe no-op, but the path is
+  # resolved before 2>/dev/null applies, so it printed a "No such file or
+  # directory" error on every run on Intel Macs AND left brew tools off the
+  # PATH under launchd, which made node/npm/gh/vercel look missing there.
+  if [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || true
+  elif [ -x /usr/local/bin/brew ]; then
+    eval "$(/usr/local/bin/brew shellenv)" 2>/dev/null || true
+  fi
 
   for tool in node npm gh vercel git; do
     local version="" path=""
