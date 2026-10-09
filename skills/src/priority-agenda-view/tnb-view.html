@@ -1,0 +1,361 @@
+<title>TNB Agenda</title>
+<style>
+/* Nico's read-only view of Brian's TNB priority agenda. One reading column, light ground.
+   Same marks as Brian's own panel so the two read alike. Nothing on this page writes. */
+:root {
+  --bg: #ffffff; --fg: #16181d; --fg2: #374151; --muted: #6b7280; --faint: #9ca3af;
+  --line: #e5e7eb; --hair: #f1f2f4; --card: #f7f7f9;
+  --rank1: #b42318; --rank1-bg: #fef6f5;
+  --ok: #15803d;
+  --link: #1d4ed8; --link-line: rgba(29,78,216,.28);
+  --warn-bg: #fff8f2; --warn-line: #f0b27a; --warn-edge: #d97706; --warn-fg: #7c2d12;
+  --blk-bg: #fff8f2; --blk-line: #fde3cc; --blk-edge: #d97706; --blk-fg: #7c2d12; --blk-card: #ffffff;
+  --tw-bg: #dbeafe; --tw-line: #93c5fd; --tw-fg: #1e3a8a; --tw-hover: #bfdbfe;
+  --btn-bg: #ffffff; --btn-fg: #16181d;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { margin: 0; padding-block: 20px 40px; padding-inline: 22px; background: var(--bg); color: var(--fg); font: 15px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 760px; margin: 0 auto; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 10px 12px; padding-bottom: 12px; border-bottom: 2px solid var(--fg); margin-bottom: 18px; flex-wrap: wrap; }
+h1 { font-size: 19px; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+h1 a { font-size: 11px; font-weight: 600; color: var(--muted); border-bottom: 0; margin-left: 8px; white-space: nowrap; }
+h1 a:hover { color: var(--link); }
+.hright { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+.stamp { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+button.refresh { font: 600 12px/1 var(--sans); color: var(--btn-fg); background: var(--btn-bg); border: 1px solid var(--line); border-radius: 6px; padding: 7px 11px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+button.refresh:hover { border-color: var(--faint); }
+button.refresh:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+button.refresh[disabled] { opacity: .6; cursor: default; }
+button.refresh .spin { display: inline-block; }
+button.refresh.busy .spin { animation: turn .9s linear infinite; }
+@keyframes turn { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { button.refresh.busy .spin { animation: none; } }
+h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; color: var(--muted); margin: 24px 0 12px; padding-bottom: 5px; border-bottom: 1px solid var(--line); }
+h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; margin: 22px 0 9px; color: var(--muted); }
+h3.cleared { color: var(--ok); }
+h3.blocked { color: var(--rank1); }
+p { margin: 0 0 11px; }
+ul { margin: 0 0 11px; padding-left: 20px; }
+li { margin-bottom: 5px; }
+a { color: var(--link); text-decoration: none; border-bottom: 1px solid var(--link-line); }
+a:hover { border-bottom-color: var(--link); }
+strong { font-weight: 650; }
+.item { border-left: 3px solid var(--fg); padding: 10px 12px 10px 13px; margin: 0 0 11px; background: var(--card); border-radius: 0 4px 4px 0; min-width: 0; }
+.item.rank1 { border-left-color: var(--rank1); background: var(--rank1-bg); }
+.item .title { font-weight: 650; display: block; margin-bottom: 3px; overflow-wrap: anywhere; }
+.item .body { margin: 0; color: var(--fg2); font-size: 14px; }
+.item ul.sub { margin: 6px 0 0; padding-left: 18px; }
+.item ul.sub li { margin-bottom: 4px; color: var(--fg2); font-size: 14px; }
+.blockbox { background: var(--blk-bg); border: 1px solid var(--blk-line); border-radius: 6px; padding: 4px 12px 12px; }
+.blockbox p { font-size: 14px; color: var(--fg2); }
+.item.blk { border: 1px solid var(--blk-line); border-left: 3px solid var(--blk-edge); background: var(--blk-card); padding: 9px 12px; margin: 0 0 8px; }
+.item.blk .title { color: var(--blk-fg); }
+button.twisty { border: 1px solid var(--tw-line); background: var(--tw-bg); color: var(--tw-fg); border-radius: 6px; font: 700 13px/1 var(--sans); padding: 5px 10px 5px 8px; margin-left: 8px; cursor: pointer; vertical-align: 1px; font-variant-numeric: tabular-nums; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+button.twisty:hover { background: var(--tw-hover); border-color: var(--link); }
+button.twisty:focus-visible { outline: 2px solid var(--link); outline-offset: 1px; }
+button.twisty .tri { display: inline-block; font-size: 12px; transition: transform .12s; }
+.item.open button.twisty .tri { transform: rotate(90deg); }
+.item.collapsible > .title { cursor: pointer; }
+.item.collapsible:not(.open) ul.sub { display: none; }
+.muted { color: var(--fg2); font-size: 14px; }
+ul.muted li { color: var(--fg2); }
+.checknote { font-size: 11px; color: var(--faint); margin: -4px 0 14px; }
+.recent { font-size: 11px; line-height: 1.5; color: var(--faint); margin: -8px 0 14px; }
+.recent:empty, #banners:empty { display: none; }
+.banner { background: var(--warn-bg); border: 1px solid var(--warn-line); border-left: 4px solid var(--warn-edge); border-radius: 6px; padding: 11px 14px; margin: 0 0 12px; font-size: 13px; line-height: 1.55; color: var(--warn-fg); }
+.banner b { font-weight: 700; }
+.state { padding: 30px 0; color: var(--muted); font-size: 14px; }
+.err { color: var(--rank1); }
+.foot { margin-top: 28px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); line-height: 1.6; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>TNB Agenda <a href="https://linear.app/humbleconviction/document/brians-priority-agenda-4aa0b7df0286" target="_blank" rel="noopener">Open in Linear</a></h1>
+    <div class="hright">
+      <span class="stamp" id="stamp"></span>
+      <button class="refresh" id="refresh" type="button" disabled aria-label="Refresh from Linear"><span class="spin" aria-hidden="true">↻</span> Refresh</button>
+    </div>
+  </header>
+  <div class="recent" id="recent"></div>
+  <div id="banners"></div>
+  <div id="out"><div class="state">Loading from Linear…</div></div>
+</div>
+
+<script>
+/* Read-only. This page calls two Linear tools, get_document and list_issues, and never a
+   write. Every list_issues call names The New Builder team. Nothing here knows about any
+   other team, and nothing here edits the document: Brian owns the ranking. */
+var DOC_ID = "4aa0b7df0286";
+var DOC_URL = "https://linear.app/humbleconviction/document/brians-priority-agenda-4aa0b7df0286";
+var TEAM = "The New Builder";
+var AUTO_MS = 120000;
+var MCP = null, loading = false, lastLoad = 0;
+
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+function unwrap(r) {
+  var p = r && r.payload;
+  if (p === undefined && r) p = r.structuredContent;
+  if (p === undefined && r && r.content && r.content[0] && typeof r.content[0].text === "string") p = r.content[0].text;
+  if (typeof p === "string") { try { p = JSON.parse(p); } catch (e) {} }
+  return p || {};
+}
+function call(server, tool, input) {
+  return MCP.callTool(server, tool, input, { cache: false }).catch(function (e) {
+    if (!e || !e.retryable) throw e;
+    var wait = Math.min(e.retryAfterMs || 1200, 8000) + Math.random() * 400;
+    return new Promise(function (r) { setTimeout(r, wait); }).then(function () {
+      return MCP.callTool(server, tool, input, { cache: false });
+    });
+  }).then(unwrap);
+}
+function errText(e, server) {
+  var code = e && e.code, s = (e && e.server) || server;
+  if (code === "needs_reauth") return "Reconnect " + s + " in claude.ai Settings, Connectors, then press Refresh.";
+  if (code === "server_not_connected" || code === "selection_required" || code === "server_not_found") return s + " is not connected for this account. Add it in claude.ai Settings, Connectors.";
+  if (code === "not_in_manifest" || code === "not_granted" || code === "consent_required") return s + " is not allowed for this page. Allow it from the page's Permissions menu, then press Refresh.";
+  if (code === "blocked_by_policy" || code === "approval_required") return s + " is blocked for this page by an organisation policy.";
+  if (code === "server_unavailable" || code === "rate_limited") return s + " did not answer. Press Refresh to try again.";
+  if (code === "capability_disabled" || code === "capability_removed") return "This view cannot reach connectors. Open the page inside Claude.";
+  if (code === "tool_error") return s + " reported an error. If it says the document was not found, ask Brian for access to the Team Ops project in Linear.";
+  return (e && e.message) ? String(e.message) : "The request failed.";
+}
+var MONI = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+function agendaDate(md) {
+  var m = md.match(/^##\s+[^\n]*?\b([A-Za-z]{3})[a-z]*\.?\s+(\d{1,2})\b[^\n]*$/m);
+  if (!m || MONI[m[1].toLowerCase()] === undefined) return null;
+  var now = new Date(), d = new Date(now.getFullYear(), MONI[m[1].toLowerCase()], Number(m[2]));
+  if (d - now > 200 * 86400000) d.setFullYear(d.getFullYear() - 1);
+  if (now - d > 200 * 86400000) d.setFullYear(d.getFullYear() + 1);
+  return d;
+}
+function clock() { return new Date().toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" }); }
+
+/* ---- rendering ---- */
+var LINKS = [];
+function stashLinks(raw) {
+  LINKS = [];
+  return raw.replace(/<issue\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/issue>/g, function (m, href, text) {
+    LINKS.push({ href: href, text: text });
+    return "@@L" + (LINKS.length - 1) + "@@";
+  });
+}
+function popLinks(html) {
+  return html.replace(/@@L(\d+)@@/g, function (m, i) {
+    var L = LINKS[Number(i)];
+    if (!L) return "";
+    var safe = /^https:\/\/linear\.app\//.test(L.href) ? L.href : DOC_URL;
+    return '<a href="' + esc(safe) + '" target="_blank" rel="noopener">' + esc(L.text) + "</a>";
+  });
+}
+function inline(text) {
+  var t = esc(text);
+  t = t.replace(/\*\*([\s\S]+?)\*\*/g, "<strong>$1</strong>");
+  t = t.replace(/\[([^\]]+)\]\((?:&lt;)?((?:https?|mailto):[^)\s]+?)(?:&gt;)?\)/g, function (m, label, href) {
+    return '<a href="' + href + '" target="_blank" rel="noopener">' + label.replace(/^mailto:/, "") + "</a>";
+  });
+  return popLinks(t);
+}
+function secOf(heading) {
+  var l = heading.toLowerCase();
+  if (l.indexOf("call sheet") > -1) return "call";
+  if (l.indexOf("waiting") > -1) return "waiting";
+  if (l.indexOf("cleared") > -1) return "cleared";
+  if (l.indexOf("block") > -1) return "blocked";
+  return "other";
+}
+function render(md) {
+  var lines = md.split("\n"), html = "", buf = [];
+  var inList = false, openItem = false, boxOpen = false, sec = "ranked";
+  function closeList() { if (inList) { html += "</ul>"; inList = false; } }
+  function closeItem() { closeList(); if (openItem) { html += "</div>"; openItem = false; } }
+  function closeBox() { closeItem(); if (boxOpen) { html += "</div>"; boxOpen = false; } }
+  function flush() {
+    if (!buf.length) return;
+    var joined = buf.join(" ").trim(); buf = [];
+    if (!joined) return;
+    var m = sec === "ranked" ? joined.match(/^\*\*(\d+)\.\s*([\s\S]+?)\*\*([\s\S]*)$/) : null;
+    if (!m && sec === "ranked") {
+      var bare = joined.match(/^(\d+)\\?\.\s+([\s\S]+)$/);
+      if (bare) m = [bare[0], bare[1], bare[2], ""];
+    }
+    if (m) {
+      closeItem();
+      html += '<div class="item' + (m[1] === "1" ? " rank1" : "") + '"><span class="title"><span class="num">' + m[1] + ".</span> " + inline(m[2]) + inline(m[3]) + "</span>";
+      openItem = true; return;
+    }
+    if (boxOpen) {
+      var b = joined.match(/^\*\*([\s\S]+?)\*\*([\s\S]*)$/);
+      if (b) { closeItem(); html += '<div class="item blk"><span class="title">' + inline(b[1]) + inline(b[2]) + "</span>"; openItem = true; return; }
+    }
+    if (openItem) { html += '<p class="body">' + inline(joined) + "</p>"; return; }
+    html += "<p" + (sec === "ranked" ? "" : ' class="muted"') + ' data-sec="' + sec + '">' + inline(joined) + "</p>";
+  }
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i].replace(/\s+$/, "");
+    if (!line.trim()) { flush(); closeList(); continue; }
+    if (/^###\s+/.test(line)) {
+      flush(); closeBox();
+      var t = line.replace(/^###\s+/, "").trim();
+      sec = secOf(t);
+      if (sec === "blocked") { html += '<div class="blockbox">'; boxOpen = true; }
+      html += '<h3 class="' + (sec === "cleared" ? "cleared" : sec === "blocked" ? "blocked" : "plain") + '">' + inline(t) + "</h3>";
+      continue;
+    }
+    if (/^##\s+/.test(line)) {
+      flush(); closeBox(); sec = "ranked";
+      html += "<h2>" + inline(line.replace(/^##\s+/, "")) + '</h2><div class="checknote" id="checknote">Checking live status&hellip;</div>';
+      continue;
+    }
+    if (/^[-*]\s+/.test(line)) {
+      flush();
+      if (!inList) { html += "<ul" + (openItem ? ' class="sub"' : ' class="muted"') + ">"; inList = true; }
+      html += '<li data-sec="' + (openItem ? "ranked" : sec) + '">' + inline(line.replace(/^[-*]\s+/, "")) + "</li>";
+      continue;
+    }
+    buf.push(line);
+  }
+  flush(); closeBox();
+  return html;
+}
+function banner(html) { var d = document.createElement("div"); d.className = "banner"; d.innerHTML = html; $("banners").appendChild(d); }
+function note(text) { var n = $("checknote"); if (n) n.textContent = text; }
+
+/* Items with sub-bullets collapse to a count. */
+var OPEN_KEY = "tnbViewOpen";
+function openSet() { try { return JSON.parse(localStorage.getItem(OPEN_KEY) || "{}") || {}; } catch (e) { return {}; } }
+function saveOpen(o) { try { localStorage.setItem(OPEN_KEY, JSON.stringify(o)); } catch (e) {} }
+function groupKey(el) { var t = el.querySelector(".title"); return t ? t.textContent.replace(/^\s*\d+\.\s*/, "").split(/[,(]/)[0].trim().toLowerCase() : ""; }
+function enableTwisties() {
+  var open = openSet();
+  document.querySelectorAll("#out .item").forEach(function (el) {
+    var ul = el.querySelector("ul.sub"), t = el.querySelector(".title");
+    if (!ul || !t) return;
+    var n = ul.querySelectorAll(":scope > li").length; if (!n) return;
+    var k = groupKey(el);
+    el.classList.add("collapsible"); el.setAttribute("data-group", k);
+    if (open[k]) el.classList.add("open");
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "twisty";
+    b.setAttribute("aria-expanded", open[k] ? "true" : "false");
+    b.setAttribute("aria-label", n + (n === 1 ? " sub-item" : " sub-items") + ". Show or hide.");
+    b.innerHTML = '<span class="tri">&#9654;</span>' + n + (n === 1 ? " item" : " items");
+    t.appendChild(b);
+  });
+}
+$("out").addEventListener("click", function (e) {
+  if (!e.target.closest || e.target.closest("a")) return;
+  var b = e.target.closest("button.twisty");
+  if (!b) { var t = e.target.closest(".item.collapsible > .title"); if (!t) return; b = t.querySelector("button.twisty"); if (!b) return; }
+  e.preventDefault(); e.stopPropagation();
+  var el = b.closest(".item"), k = el.getAttribute("data-group"), o = openSet();
+  var isOpen = el.classList.toggle("open");
+  b.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  if (isOpen) o[k] = 1; else delete o[k];
+  saveOpen(o);
+});
+
+/* ---- the checks, read-only: they only say what they found ---- */
+function ownCodes(text) {
+  var t = String(text).replace(/\*\*/g, "").trim();
+  if (/Status\s*=/.test(t)) { var m = t.match(/\(([^()]*)\)\s*\.?\s*$/); if (m) { var c = m[1].match(/TNB-\d+/g); if (c) return c; } }
+  var f = t.match(/TNB-\d+/);
+  return f ? [f[0]] : [];
+}
+function staleDateCheck(body) {
+  var day = agendaDate(body); if (!day) return;
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  if (day < today) {
+    var days = Math.round((today - day) / 86400000);
+    banner("<b>This ranking is from a past day.</b> It was built for " + esc(day.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" })) + ", " + days + " day" + (days === 1 ? "" : "s") + " ago. Brian's morning rebuild replaces it.");
+  }
+}
+function driftCheck() {
+  var scopes = document.querySelectorAll("#out .item > .title, #out .item ul.sub li, #out p[data-sec=\"call\"]");
+  if (!scopes.length) return;
+  call("Linear", "list_issues", { team: TEAM, includeArchived: true, limit: 250, fields: ["id", "statusType"] }).then(function (data) {
+    var byId = {};
+    (data.issues || []).forEach(function (it) { byId[it.id] = it; });
+    var closed = [], seen = {};
+    Array.prototype.forEach.call(scopes, function (el) {
+      var own = ownCodes(el.textContent);
+      if (!own.length || seen[own.join(",")]) return;
+      var all = own.every(function (c) { var r = byId[c]; return r && /completed|canceled|duplicate/.test(r.statusType || ""); });
+      if (!all) return;
+      seen[own.join(",")] = 1; closed.push(own.join(", "));
+    });
+    var t = clock();
+    if (!closed.length) note("Checked against Linear at " + t + ". Everything below is still open.");
+    else note("Checked against Linear at " + t + ". Already closed in Linear, still listed here: " + closed.join("; ") + ". Brian's next refresh tidies them.");
+  }).catch(function (e) { note("Could not check live status. " + errText(e, "Linear")); });
+}
+var RECENT_HOURS = 2, RECENT_MAX = 6;
+function shortTitle(t) {
+  return String(t || "").replace(/,\s*TNB-\d+\s*$/, "").replace(/\s*\((USD|\$)[^)]*\)\s*$/, "")
+    .replace(/,\s*(due\s+)?(by\s+)?(Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*\.?\s+[A-Z][a-z]{2}\s+\d{1,2}\s*$/i, "")
+    .replace(/,\s*(ships|publishes)\s+.*$/i, "").replace(/\s+(Mon|Tues|Tue|Wednes|Wed|Thurs|Thu|Fri)day$/i, "").trim();
+}
+function loadRecent() {
+  var box = $("recent");
+  call("Linear", "list_issues", { team: TEAM, updatedAt: "-PT" + RECENT_HOURS + "H", includeArchived: true, limit: 100, fields: ["id", "title", "statusType", "createdAt", "completedAt", "canceledAt"] }).then(function (data) {
+    var since = Date.now() - RECENT_HOURS * 3600000, ev = [];
+    (data.issues || []).forEach(function (it) {
+      var t = shortTitle(it.title); if (!t) return;
+      var done = it.completedAt && new Date(it.completedAt).getTime() >= since;
+      var canc = it.canceledAt && new Date(it.canceledAt).getTime() >= since;
+      var made = it.createdAt && new Date(it.createdAt).getTime() >= since;
+      if (done && it.statusType === "completed") ev.push({ at: new Date(it.completedAt).getTime(), text: "Closed " + t });
+      else if (it.statusType === "duplicate") return;
+      else if (canc && it.statusType === "canceled") { if (!made) ev.push({ at: new Date(it.canceledAt).getTime(), text: "Dropped " + t }); }
+      else if (made) ev.push({ at: new Date(it.createdAt).getTime(), text: "Added " + t });
+    });
+    ev.sort(function (a, b) { return b.at - a.at; });
+    if (!ev.length) { box.textContent = ""; return; }
+    var shown = ev.slice(0, RECENT_MAX).map(function (e) { return e.text; }), more = ev.length - shown.length;
+    box.textContent = "Recently changed: " + shown.join("; ") + (more > 0 ? "; and " + more + " more" : "") + ".";
+  }).catch(function () { box.textContent = ""; });
+}
+
+/* ---- load ---- */
+function load() {
+  if (loading || !MCP) return;
+  loading = true;
+  var btn = $("refresh"); btn.disabled = true; btn.classList.add("busy");
+  call("Linear", "get_document", { id: DOC_ID }).then(function (data) {
+    var md = data.content || "", body = md;
+    var cut = md.search(/^##\s+(Today|Tomorrow|Mon|Tue|Wed|Thu|Fri|Sat|Sun)/m);
+    if (cut > -1) body = md.slice(cut);
+    $("banners").innerHTML = "";
+    $("out").innerHTML = render(stashLinks(body)) +
+      '<div class="foot">Read-only. Live from Linear: refreshes every two minutes and when you return to this tab. Brian owns the ranking; if something looks missing or wrong, tell him rather than editing the document.<br><a href="' + DOC_URL + '" target="_blank" rel="noopener">Open in Linear</a></div>';
+    var read = new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", hour12: false });
+    var stamp = "read " + read;
+    if (data.updatedAt) stamp += " · doc updated " + new Date(data.updatedAt).toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+    $("stamp").textContent = stamp;
+    lastLoad = Date.now();
+    enableTwisties();
+    staleDateCheck(body);
+    driftCheck();
+    loadRecent();
+  }).catch(function (e) {
+    if (!$("out").querySelector(".item")) {
+      $("out").innerHTML = '<div class="state err">Could not load the agenda from Linear. ' + esc(errText(e, "Linear")) + '<br><a href="' + DOC_URL + '" target="_blank" rel="noopener">Open the document in Linear</a></div>';
+    } else $("stamp").textContent = "refresh failed: " + errText(e, "Linear");
+  }).then(function () { loading = false; btn.disabled = false; btn.classList.remove("busy"); });
+}
+$("refresh").addEventListener("click", load);
+setInterval(function () { if (!document.hidden) load(); }, AUTO_MS);
+document.addEventListener("visibilitychange", function () { if (!document.hidden && Date.now() - lastLoad > 60000) load(); });
+
+(function boot() {
+  var c = window.claude;
+  if (!c || !c.use) return noBridge();
+  c.use("mcp").then(function (m) { if (!m) return noBridge(); MCP = m; load(); }, noBridge);
+  function noBridge() {
+    $("out").innerHTML = '<div class="state">This view cannot reach Linear. Open the page inside Claude, or read the agenda in Linear.</div><div class="foot"><a href="' + DOC_URL + '" target="_blank" rel="noopener">Open the document in Linear</a></div>';
+  }
+})();
+</script>
