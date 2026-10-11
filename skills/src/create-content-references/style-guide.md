@@ -92,7 +92,21 @@ clean. One mechanical drift closed this cycle (the leading emoji on LI posts), o
 escalated (anti-planning). No new PROPOSED CORE CHANGE; the standing Core §3 one is
 unchanged.*
 
-**Recurring structural moves (TNB, 2026-06 → 09)**
+*Delta refresh 2026-10-11: folded in 3 new TNB pieces (beehiiv "The Flaw of Large
+Numbers" 10/7; LinkedIn "While You See a Chance" 10/6 and "MVHH 4.0" 10/8). No HC-era
+pieces, no ghost cards, and the API returned 30 cards reaching back to 7/15, so the delta is
+not truncated. This run is a catch-up: the last refresh landed 9/20, so the weekly runs of
+9/27 and 10/4 did not land. The three pieces are separate occasions (a sabbatical
+reflection, a photo-sorting build, an event recap), so none is a cross-format cluster and
+each counts on its own, though the first two both follow his return from Stowe. Aged out
+(older than ~90 days, no recurrence since): the pull-forward summary device (5/28, 6/16),
+the flip-the-question move (6/12, 6/16), and the gives-away-a-reusable-artifact-inline move
+(6/12, 6/16). The ~90-day window now starts ~7/13. Em dashes: zero across all three pieces,
+~8.0K characters; running total since the rule was approved 8/17 is 22 pieces and zero em
+dashes. Core section 5 never-use list: clean. No new PROPOSED CORE CHANGE; the standing
+Core section 3 one gains a seventh essay of evidence.*
+
+**Recurring structural moves (TNB, 2026-06 → 10)**
 
 - **LI posts open cold with a single arresting line, then a hard break.** A confession, a
   quoted zinger, or a count-up of damage — no runway. "Claude called BS on me the other
@@ -107,12 +121,6 @@ unchanged.*
 - **The build-narrative arc** is now his default LI/essay spine: real need → "Challenge
   accepted!" → built v1 → *"And then I realized…"* → built v2 → validation by a real
   human (a friend, a PT, the Slack). (Anatomy, 5/27; Tooling Distraction, 6/26.)
-- **Pull-forward summary device:** "I'll cut to the punchline:" / "Here's the gist of what
-  I got." He spoils the ending to earn the read. (Claude Code Disaster 5/28; written by
-  AI, 6/16.)
-- **The "flip the question" move:** take the common framing and invert it. "Everyone tries
-  to spot AI tells. What if I flipped it? What makes my writing distinctly *me*?" (written
-  by AI 6/16; Shame!, 6/12.)
 - **Closes on a tension resolved by human judgment**, not a CTA-to-self. "a tension that
   can only be resolved by human judgement." (6/26) · "Code has gotten cheap. But thinking
   is more valuable than ever." (5/6) · "Picking the right tool is more important than
@@ -123,8 +131,6 @@ unchanged.*
 - **Arrow bullets (`→`) and emoji bullets (🤥 💪)** are his current LI list texture —
   parallel options or a numbered "lies/myths" frame, prose before and after. (Future of
   Work 6/24; Three Lies 5/6; Anatomy 5/27.)
-- **Gives away a reusable artifact inline** — a copy-paste prompt or a description of a
-  skill he built — as the post's payload. (written by AI 6/16; Shame! 6/12.)
 - **The "escalating ladder" explainer** is a new didactic spine (distinct from the
   build-narrative arc): he walks the reader up named rungs — *artifact → project → skill
   → Cowork/Code app → hosted + loop* — each rung deflated to plain terms, arrow bullets
@@ -331,7 +337,56 @@ unchanged.*
   Effect 9/17.) One appearance, not yet a pattern.
 
 
-**Recurring voice / humor beats (TNB, 2026-06 → 09)**
+- **The song-title cold open is back (10-11).** Two pieces in one week open on a pop lyric
+  or title, then explain why it matters. "'While You See a Chance, Take It' by Steve Winwood
+  is one of my all-time favorite classic hits." (LI 10/6) · "'Fifty-seven channels and
+  nothin' on.' That's what Bruce Springsteen sang in his 1992 hit" (newsletter 10/7). The
+  earlier pop-culture-riff beat aged out in September as a 5/26 one-off; these two are
+  different songs on different subjects, but they land in the same post-Stowe week, so
+  treat it as a revived habit and not yet a settled one. In both, the lyric is the title's
+  source and the close calls back to it.
+- **The title-callback close (10-11), a seventh close type.** The last line repeats the
+  opening hook, either as an imperative or as a "which brings me back to": "While you see a
+  chance, take it." (LI 10/6, after "all I can say is:") · "Which brings me back to
+  Springsteen's fifty-seven channels. Seems quaint, right?" (newsletter 10/7). It sits
+  beside human-judgment, warm-community, antithesis-pair, retro-wisdom, from/to reframe
+  and anti-AI. The newsletter then adds a joke CTA after the callback: "if you want to see
+  some neato pictures of England, reply to this email and I'll send you a link."
+- **The scope-creep confession as a feature list (10-11).** Newsletter 10/7 builds the
+  Photo Cull app, then lists what it grew into as six short blocks (open text field, detects
+  the trip range, categorizes by theme, groups and recommends the best frame, exports to
+  sub-albums, writes the share email). The list is introduced with "Of course, the scope
+  crept, and here's what I wound up with:" and justified in numbers: "the extra two hours
+  of coding probably saved me eight hours of manual work." He says out loud that this
+  reverses his stance: "Usually, I bash scope creep, but in this case..." Extends the 7/14
+  non-coding photo post into a hardened tool. (Flaw of Large Numbers 10/7.)
+- **Scale-limit argument.** A new analytical shape: the same AI workflow is fine at one
+  size and a "false economy" at the next, and the honest line is where checking costs more
+  than doing. "It all works fine with 900 photos... For 10,000 emails, the nominations
+  become less precise, and the burden on you to check its work becomes a false economy."
+  Paired with the frame "deputizing it to make nominations, not take definitive actions"
+  and "your tolerance for false positives and false negatives." (Flaw of Large Numbers
+  10/7.)
+- **The reflection post that withholds its conclusion (10-11).** LI 10/6 reports that the
+  residency "changed me, personally and professionally" and then declines to say how: "I'm
+  struggling to put my finger on it, and I'll be writing more about this in future posts...
+  but for now I'll say that the picture below provides a hint." It is the public-indecision
+  move (6/9) used to set up a series instead of to land an opinion. It opens with a
+  rhetorical run of three fears as questions ("Would I lose momentum... Would the startup
+  founders whom I've mentored... Would I miss important events and lose my spot on the
+  'best' invite lists?") and answers them in one flat sentence: "And of course, none of that
+  happened." (While You See a Chance 10/6.)
+- **The event-recap post returns (10-11).** MVHH 4.0 follows the MVHH 3.0 shape from 7/21
+  (thanks to co-hosts, @-named, then "celebrity sightings," then an apology to everyone he
+  missed) on a separate occasion, so the recap form is now recurring. What differs: it
+  opens on the origin story and the name's hedge ("we named it 'Minimum Viable Happy
+  Hour'...as a kind of hedge"), not a cold arresting line, and it states the arc as a
+  count ("Six months later, we just hosted our fourth"). (MVHH 4.0 10/8.)
+- **Fixed newsletter footer, seventh essay in a row (10-11).** "Dear Friends:" (colon),
+  Membership Invitation block with the 😉, "Thanks for reading, and let's all keep building
+  together!", then "100% Written by me!". (Flaw of Large Numbers 10/7.)
+
+**Recurring voice / humor beats (TNB, 2026-06 → 10)**
 
 - **Claude (the AI) is now a recurring comic character with a personality** — it talks
   back, "calls BS," "berates itself" ("I was being stupid!"), gets "smug," and has "a
@@ -473,6 +528,30 @@ unchanged.*
   as the default ending unless a piece calls for one of the other four.
 
 
+- **The self-mocking impossibility comparison, again (10-11).** "My chances of ever reaching
+  Inbox Zero are smaller than the chances I'll live on Mars." · "Inbox Zero is my white
+  whale." · "God knows I've tried." Same family as the abacus and Klingon lines. He
+  introduces a returning topic with "I've written about this before." (Flaw of Large
+  Numbers 10/7.)
+- **Tidy-sounding terms for ugly things, then the blunt gloss.** "the optimal 'signal-to-
+  noise ratio.' In other words, we're all sifting through endless piles of shit, looking
+  for the one or two things that really matter." The jargon comes first and the plain
+  profanity translates it, which is the deflate-the-jargon move run in the opposite
+  direction. Profanity count for the long piece: one. (Flaw of Large Numbers 10/7.)
+- **AI did not work for him, now on a separate occasion.** 9/17 said AI "hasn't proven very
+  useful" for generating ideas. 10/7 says the standard starter project fails him too:
+  "It's supposed to be one of the most basic functions of AI: the 'starter' project any LLM
+  suggests you try... It's never worked for me," with the reason named as missing context.
+  Two separate occasions three weeks apart, so this is recurring and no longer a one-off.
+  He locates the failure in context and error rate, not in the model's competence. (Cathedral
+  Effect 9/17; Flaw of Large Numbers 10/7.)
+- **Gentle self-aware age line.** "At age 55, I never thought I'd never see a chance like
+  this." The only age disclosure in the window; used as setup for a risk, not as a joke
+  about decline. (While You See a Chance 10/6.)
+- **The deflating aside on a pastoral image.** "That's me, 'beagling.' Don't worry, they
+  don't hunt any more." A two-sentence swerve that corrects the reader's assumption and
+  moves on. (While You See a Chance 10/6.)
+
 **Current lexicon additions (TNB)**
 
 - "slop" / "AI slop" (the tell-word for bad AI writing) · "coding-without-code" (his
@@ -537,6 +616,20 @@ unchanged.*
   mouth** ("where I see bugs, they invariably see opportunity"). The trailing 😉 again marks
   the shared joke at the very end ("Neither do I. 😉"). Tools named this cycle: Claude only,
   and once as the thing that did not help. (Speed Coding 9/15; Cathedral Effect 9/17.)
+
+- **New (10-11, post-Stowe return):** "tyranny of choice" (called a cliche in the same
+  breath) · "signal-to-noise ratio" (quoted, then glossed) · "dupes and near-dupes" ·
+  "wall of friction" · "non-intuitive manual steps" · "scope crept" (past tense, as a
+  verb) · "nominations" (what the AI makes, versus "definitive actions") · "false economy" ·
+  "false positives and false negatives" · "white whale" · "second-brain system" · "neato"
+  (recurring, 3rd cycle) · "beagling" · "best invite lists" · "celebrity sightings" ·
+  "maestro" (for his events lead) · "exited founders," "AI builders," "visiting
+  international entrepreneurs" (how he now describes the room at MVHH). Tools named: Claude
+  (artifact, then app), Photos. Typos still ship: "embarassed," "never thought I'd never
+  see." Raw archive artifacts to ignore when reading the cards: `&nbsp;` in LI 10/6 and
+  flattened line breaks in both LI bodies (the paragraphs run together in the archive, so
+  paragraph length cannot be read from LI cards). (Flaw of Large Numbers 10/7; While You
+  See a Chance 10/6; MVHH 4.0 10/8.)
 
 **Brand / drift notes**
 
@@ -627,6 +720,34 @@ unchanged.*
   newsletter archives empty, the beehiiv side of the voice record is going dark and the
   archiver needs a look.
 
+- **Em dashes: still clean (2026-10-11).** Mechanical count across the three pieces in the
+  10/6 to 10/8 delta: **0 em dashes, 0 en dashes, 8 ellipses** (Flaw of Large Numbers 4, of
+  which 2 are three unspaced dots and 2 are the single … character; While You See a Chance
+  3, all the single … character; MVHH 4.0 3, all three unspaced dots). Running total since
+  the rule was approved 8/17: 22 pieces, zero em dashes. Flag stays closed.
+- **Ellipsis form is no longer uniformly three dots (10-11).** The 9/20 note said he types
+  three unspaced dots, not the … character. Five of the eight ellipses this cycle are the
+  single … character, including all of 10/6. Likely the editing app autocorrecting, not a
+  decision. Either form is the same connective; do not normalize one to the other when
+  drafting. The ellipsis remains his default connective (8 in about 8K characters).
+- **Core section 5 "never use" check (10-11):** clean. No "leverage," "utilize," "seamless,"
+  "empower," "optimize," "synergy," "stakeholders," "monetize," or "landscape" in any of
+  the three pieces. Not a Core word, but "signal" and "noise" appear once each in the
+  newsletter, as a quoted cliche he then glosses in plain words.
+- **Drift: the anti-planning tension (09-20) did not recur this cycle.** The 10/7 build
+  went the other way: "I decided the solution was to create a more robust generalized app,"
+  after hitting friction, and the scope grew, with the payoff counted in hours saved. It is
+  a post-hoc rebuild, not a planned one, so it neither contradicts nor extends the wing-it
+  stance. The Core section 8 watch stays open.
+- **Drift: he talks about the sabbatical itself now (10-06).** The 9/20 prediction was that
+  October pieces would argue from the school. The two post-return pieces do not: the
+  10/6 post is about leaving and coming back, and the 10/7 essay uses Stowe only as the
+  source of the photos. Expect the subject to be "what the residency changed," not "what
+  the teachers said." One post (10/6) promises more on it.
+- **Data gap: the 9/16 newsletter is still empty.** "Start With the Purpose" has no body, so
+  nothing to fold in. Newsletter 10/7 archived normally at 5.4K characters, so the earlier
+  empty card still looks like a single pipeline miss. No second empty newsletter.
+
 > **PROPOSED CORE CHANGE (awaiting Brian's approval) — 2026-06-28:**
 > Core §3 still hard-codes HC-era newsletter fixtures that TNB no longer uses: the
 > mandatory **"HC Update,"** the **"Stay Humble!" / "Pitch Strong and Stay Humble!"**
@@ -658,6 +779,11 @@ unchanged.*
 > That is six of six essays since 7/30. The §3 HC fixtures are now describing a shape that
 > has not been published in over six weeks. Recommend Brian canonize the TNB structure.
 > Still propose-only; Core not edited.
+>
+> *Amendment 2026-10-11:* the 10/7 essay is the seventh in a row with the four TNB
+> fixtures in order ("Dear Friends:" with a colon, no HC Update, Membership Invitation
+> block with the 😉, thanks line, "100% Written by me!"). The 9/16 card was archived empty
+> and does not count either way. Still propose-only; Core not edited.
 
 ---
 
