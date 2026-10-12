@@ -139,7 +139,7 @@
       "hc-strategy": "unknown",
       "tnb-strategy": "unknown",
       "create-content": "unknown",
-      "last_synced": "2026-10-05",
+      "last_synced": "2026-10-12",
       "pm": "unknown",
       "priority-startup-intel": "unknown",
       "bhealth_version": "1.0.0",
@@ -156,7 +156,8 @@
       "xlsx": "unknown",
       "slate": "unknown",
       "community-measure": "unknown",
-      "priority-agenda": "unknown"
+      "priority-agenda": "unknown",
+      "priority-agenda-view": "unknown"
     },
     "iMac": {
       "comms": "unknown",
