@@ -1,4 +1,14 @@
 #!/bin/bash
+# bsync v2.20 — --registry mode. REGISTRY.md (bsuite-handoffs) is a hand-maintained
+#       inventory of every app, skill, published artifact and scheduled task Brian
+#       has built, and a hand-maintained inventory drifts the same way HANDOFF-MASTER.md
+#       did: nobody notices when a new thing ships without a row. `bash bsync.sh
+#       --registry` is the backstop — it diffs the static REPOS[] list and
+#       skills-manifest.json's skill list against what REGISTRY.md actually mentions,
+#       and reports anything present in the world with no row (orphan_repos_no_row,
+#       orphan_skills_no_row). Read-only: it does not rewrite REGISTRY.md. Hand-written
+#       columns (stage, next) are touched only by "handoff away"; this pass only finds
+#       what's missing, same spirit as check_skills' manifest_synced flag.
 # bsync v2.19 — Cowork edits get committed and pushed by the Mac, not the sandbox.
 #       Root cause: the Cowork FUSE mount lets git CREATE files under .git but not
 #       DELETE them, so every git write from a Cowork session leaves HEAD.lock /
@@ -204,7 +214,7 @@ APPS=""
 for arg in "$@"; do
   case "$arg" in
     --app=*) APPS="${arg#--app=}" ;;
-    --pull-only|--status|--sync-mount) MODE="$arg" ;;
+    --pull-only|--status|--sync-mount|--registry) MODE="$arg" ;;
     *) ;;
   esac
 done
@@ -700,6 +710,75 @@ print(',\n'.join(rows))
 PYEOF
 }
 
+check_registry() {
+  # v2.20: read-only orphan detector for REGISTRY.md. See header comment. Does NOT
+  # rewrite REGISTRY.md -- stage/next are hand-written at "handoff away" and this
+  # pass never touches them. A name counts as present if it appears anywhere in
+  # REGISTRY.md as a table cell or in backticks; loose on purpose, this is a
+  # diagnostic, not a parser the file has to format itself to satisfy.
+  local registry=""
+  for _cand in "$WORK_DIR/bsuite-handoffs/REGISTRY.md" "$BSUITE_DIR/bsuite-handoffs/REGISTRY.md"; do
+    [[ -f "$_cand" ]] && { registry="$_cand"; break; }
+  done
+  if [[ -z "$registry" ]]; then
+    echo "{\"mode\": \"registry\", \"error\": \"REGISTRY.md not found in bsuite-handoffs (checked WORK_DIR and BSUITE_DIR)\"}"
+    return
+  fi
+
+  local manifest="${MANIFEST_FILE:-}"
+  if [[ -z "$manifest" || ! -f "$manifest" ]]; then
+    for _cand in "$WORK_DIR/bhub/skills/skills-manifest.json" "$BSUITE_DIR/bhub/skills/skills-manifest.json"; do
+      [[ -f "$_cand" ]] && { manifest="$_cand"; break; }
+    done
+  fi
+
+  local repo_names=""
+  for entry in "${REPOS[@]}"; do
+    repo_names="$repo_names ${entry%%:*}"
+  done
+
+  python3 - "$registry" "${manifest:-}" "$repo_names" <<'REGISTRYPY'
+import json, re, sys
+
+registry_path, manifest_path, repo_names_str = sys.argv[1], sys.argv[2], sys.argv[3]
+repo_names = [r for r in repo_names_str.split() if r]
+
+with open(registry_path) as f:
+    registry_text = f.read()
+
+def missing_of(names, text):
+    missing = []
+    for n in names:
+        if re.search(r'\|\s*' + re.escape(n) + r'\s*\|', text) or re.search(r'`' + re.escape(n) + r'`', text):
+            continue
+        missing.append(n)
+    return missing
+
+orphan_repos = missing_of(repo_names, registry_text)
+
+orphan_skills = []
+manifest_error = None
+if manifest_path:
+    try:
+        with open(manifest_path) as f:
+            manifest = json.load(f)
+        skill_names = sorted(manifest.get('skills', {}).keys())
+        orphan_skills = missing_of(skill_names, registry_text)
+    except Exception as e:
+        manifest_error = str(e)
+else:
+    manifest_error = "skills-manifest.json not found in WORK_DIR or BSUITE_DIR"
+
+print(json.dumps({
+    "mode": "registry",
+    "registry_path": registry_path,
+    "orphan_repos_no_row": orphan_repos,
+    "orphan_skills_no_row": orphan_skills,
+    "manifest_error": manifest_error,
+}, indent=2))
+REGISTRYPY
+}
+
 # --- Step 4: Lock file check ---
 # In Cowork, the FUSE mount blocks `rm` from the Linux VM, so stale .git/index.lock
 # files (left over from previous Cowork sessions that died mid-git-op) accumulate
@@ -918,7 +997,7 @@ emit_health() {
 }
 
 # --- Main ---
-log "bsync v2.19 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
+log "bsync v2.20 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
 SYNC_ISSUES_FILE="$WORK_DIR/sync-issues.txt"
 : > "$SYNC_ISSUES_FILE" 2>/dev/null || true
 setup_git
@@ -933,6 +1012,11 @@ if [[ "$CRED_TOKEN_OK" == "false" ]]; then
 fi
 if [[ -n "$CRED_EMBEDDED" ]]; then
   echo "bsync: WARNING - stale credential baked into origin URL for:$CRED_EMBEDDED (these bypass .git-token and will never sync)" >&2
+fi
+
+if [[ "$MODE" == "--registry" ]]; then
+  check_registry
+  exit 0
 fi
 
 if [[ "$MODE" == "--sync-mount" ]]; then
@@ -988,7 +1072,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.19.0",
+  "bsync_version": "2.20.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
