@@ -5,15 +5,17 @@ description: "MANDATORY SESSION BOOTSTRAP for all B-Suite work. This skill MUST 
 
 # Handoff Skill
 
-This skill manages project continuity across devices and Cowork sessions. It uses three layers of resilience:
+This skill manages project continuity across devices and Cowork sessions. It uses three layers of resilience, plus a fourth added October 17, 2026:
 
 1. **bsync.sh** (the belt) — a bash script that pulls all repos from GitHub, cross-checks handoff freshness against git history, checks skill versions, and outputs a structured JSON report. Claude runs this once at session start. It works regardless of what the previous session did or didn't do.
 2. **Stamp-on-push** (the belt+) — lightweight context stamps appended to HANDOFF.md on meaningful pushes during a session. Captures intent, known issues, and next steps that git commits alone can't convey.
 3. **Handoff away** (the suspenders) — a full handoff rewrite when the user explicitly requests it. Captures rich context. The system doesn't break if this is skipped — bsync + stamps cover the gap.
+4. **REGISTRY.md** (the inventory) — one file in `bsuite-handoffs` listing every app, skill, published artifact and scheduled task Brian has, with its stage and what's next. Handoffs answer "what does a fresh session need to know about app X"; REGISTRY.md answers "what do I have, across everything, and where did I leave it" — a different question, so it gets its own file rather than being squeezed into HANDOFF-MASTER.md (which drifted into an unmaintained narrative log once before, see its own history). `bsync.sh --registry` derives what it can (last-commit dates, skill versions, orphan detection); stage and next are hand-written, touched only at handoff-away, never auto-filled or guessed.
 
 ## Architecture: What Lives Where
 
 - **`HANDOFF-MASTER.md`** lives in the **private `bsuite-handoffs`** repo root. Cross-session index summarizing every app's status. **Auto-generated** from per-app handoffs — never hand-edited.
+- **`REGISTRY.md`** also lives in the private `bsuite-handoffs` repo root, alongside `HANDOFF-MASTER.md`. Different job: HANDOFF-MASTER is deep status per app; REGISTRY.md is a flat inventory across every type of thing Brian builds (apps, skills, published artifacts, scheduled tasks), including things with no repo at all.
 - **Per-app `HANDOFF.md`** files live in **private `bsuite-handoffs/<app>/HANDOFF.md`**. They do NOT live inside individual app repos — that pattern leaked strategy/architecture from every public app repo until May 25, 2026 when everything was migrated to this dedicated private home.
 - **`bsync.sh`** lives in **bhub** repo root. The single bootstrap command. (Stays in bhub because it's deploy infrastructure, not strategy — safe even though bhub is public.)
 - **GitHub is the source of truth**, not the mounted drive.
@@ -27,16 +29,9 @@ This skill manages project continuity across devices and Cowork sessions. It use
 1. `firebase-admin` uses gRPC; the channel handshake alone exceeds the **45s bash cap**, so every direct read times out.
 2. On-disk service-account keys (e.g. `B-Suite/b-things-service-account.json`) go **stale on rotation** — the live key only ever lives in Vercel env. A rotated key returns `Invalid JWT Signature`, so even the fast REST path can't auth.
 
-**Instead, read through the app's own Vercel backend over HTTPS.** The serverless functions already hold the live `FIREBASE_SERVICE_ACCOUNT` and authenticate with `API_SECRET` — one `curl`, sub-second, immune to key rotation forever.
+**Instead, read through the app's own Vercel backend over HTTPS.** The serverless functions already hold the live `FIREBASE_SERVICE_ACCOUNT` and authenticate with their own secret, so one `curl` is sub-second and immune to key rotation. Look up the endpoint and secret name in that app's own HANDOFF.md.
 
-**B Things read endpoint** (`things-app/api/tasks.js`, shipped June 8, 2026):
-```bash
-KEY=$(cat "$BSUITE_DIR/.bthings-key")   # API_SECRET, stored once per device alongside .git-token
-curl -s -H "x-api-key: $KEY" \
-  "https://things-app-gamma.vercel.app/api/tasks?bucket=today&starred=1"
-# params: bucket, starred(1/0), completed(default 0=open), project, limit. Returns {ok,count,tasks:[...]}.
-```
-If `.bthings-key` is missing on a device, get `API_SECRET` from Vercel → things-app → Settings → Env Vars (or the iOS "B Thing" Shortcut's `x-api-key`) and write it to `B-Suite/.bthings-key` once. **When `API_SECRET` is rotated, update `.bthings-key` too** (add it to the rotation runbook). This same read-through-the-backend pattern is the template for every other B-Suite app.
+**B Things is retired (Focus Machine Stage 2, October 2026).** Its `/api/tasks` read endpoint and the per-device `.bthings-key` file are gone with it. Do NOT read tasks at session bootstrap. Brian's tasks live in Linear (Athena team, and The New Builder / TNB CRM teams shared with Nico); use the `athena` and `linear-ops` skills when a session needs them.
 
 ## B-Suite Repo Registry
 
@@ -46,7 +41,7 @@ A few "sibling" repos live alongside B-Suite directly under `~/Developer/` (not 
 
 | Repo folder | GitHub repo | Location | App keywords (for auto-detection) |
 |-------------|------------|----------|----------------------------------|
-| things-app | brhecht/things-app | B-Suite | things, tasks, kanban, task board |
+| things-app | brhecht/things-app | B-Suite | things, tasks, kanban, task board — RETIRED Oct 2026 (Vercel paused, repo kept as the Game Plan reference) |
 | brain-inbox | brhecht/brain-inbox | B-Suite | brain inbox, nico, b nico, nicoOS |
 | content-calendar | brhecht/content-calendar | B-Suite | content, calendar, content calendar, youtube, linkedin, beehiiv |
 | b-marketing | brhecht/b-marketing | B-Suite | marketing, b marketing |
@@ -55,14 +50,15 @@ A few "sibling" repos live alongside B-Suite directly under `~/Developer/` (not 
 | bhub | brhecht/bhub | B-Suite | hub, b hub, suite, master |
 | eddy | brhecht/eddy-tracker | B-Suite | eddy, tracker, course launch, gantt |
 | hc-funnel | brhecht/hc-funnel | B-Suite | funnel, quiz, ads, meta ads, landing page, pitch assessment |
-| hc-strategy | brhecht/hc-strategy | B-Suite | hc strategy (archived — superseded by tnb-strategy) |
+| hc-strategy | brhecht/hc-strategy | B-Suite | hc strategy — RETIRED Oct 17 2026, superseded by tnb-strategy since April; closing note at top of hc-strategy/STRATEGY-CONTEXT.md |
 | tnb-strategy | brhecht/tnb-strategy | B-Suite | tnb, the new builder, tnb strategy, new builder strategy, war room (private — Brian only) |
 | hc-website | brhecht/hc-website | B-Suite | hc website, humble conviction website |
 | tnb-website | brhecht/tnb-website | B-Suite | tnb website, the new builder website, thenewbuilder.ai |
 | pitch-scorer | brhecht/pitch-scorer | B-Suite | pitch scorer (archived) |
 | builder-bot | brhecht/builder-bot | B-Suite | builder bot |
-| bsuite-handoffs | brhecht/bsuite-handoffs | B-Suite | bsuite handoffs (central handoff store — May 25 migration) |
+| bsuite-handoffs | brhecht/bsuite-handoffs | B-Suite | bsuite handoffs (central handoff store — May 25 migration — also holds REGISTRY.md and scheduled-tasks/) |
 | b-line | brhecht/b-line | B-Suite | b-line, bline, athena board, the athena board, linear board, tickler |
+| setlist-predictor | brhecht/setlist-predictor | B-Suite | setlist predictor — enrolled in bsync.sh REPOS[] but missing from this table until now; flagged by REGISTRY.md's Oct 17 backfill |
 | muscle-anatomy | brhecht/muscle-anatomy | ~/Developer (sibling) | muscle anatomy, anatomy reference, physical therapy reference |
 | saturn-v-anatomy | brhecht/saturn-v-anatomy | ~/Developer (sibling) | saturn v, saturn-v, saturn v anatomy, rocket anatomy |
 | B-Personal | brhecht/b-personal | ~/Developer (sibling) | b-personal, b personal |
@@ -106,6 +102,7 @@ git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/tnb-strategy.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/builder-bot.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/bsuite-handoffs.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/b-line.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/setlist-predictor.git && \
 echo "YOUR_TOKEN" > .git-token && \
 cd ~/Developer && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/muscle-anatomy.git && \
@@ -138,7 +135,7 @@ This is the session bootstrap. The protocol is **two-phase, lazy by design**: fi
 
 **Step 1.1: Pull a fresh `bhub` AND `bsuite-handoffs` to `/tmp/`**
 
-Always pull both from GitHub fresh — never trust the mount's copies. The mount may be stale. `bhub` carries `bsync.sh` (and is public); `bsuite-handoffs` carries `HANDOFF-MASTER.md` and every per-app `HANDOFF.md` (and is private).
+Always pull both from GitHub fresh — never trust the mount's copies. The mount may be stale. `bhub` carries `bsync.sh` (and is public); `bsuite-handoffs` carries `HANDOFF-MASTER.md`, `REGISTRY.md`, and every per-app `HANDOFF.md` (and is private).
 
 ```bash
 rm -rf /tmp/bhub-bootstrap /tmp/bsuite-handoffs-bootstrap 2>/dev/null
@@ -155,7 +152,7 @@ git clone --depth 1 "https://brhecht:${TOKEN}@github.com/brhecht/bsuite-handoffs
 
 **Step 1.2: Read the lean master**
 
-Read `HANDOFF-MASTER.md` from `/tmp/bsuite-handoffs-bootstrap/`. This is a **lean cross-app reference** (~17KB): apps index, dependencies, UX/comms rules, device registry, fleet ops. Per-app deep status lives in `/tmp/bsuite-handoffs-bootstrap/<app>/HANDOFF.md` (read on demand in Phase 2).
+Read `HANDOFF-MASTER.md` from `/tmp/bsuite-handoffs-bootstrap/`. This is a **lean cross-app reference** (~17KB): apps index, dependencies, UX/comms rules, device registry, fleet ops. Per-app deep status lives in `/tmp/bsuite-handoffs-bootstrap/<app>/HANDOFF.md` (read on demand in Phase 2). If the session's work might touch anything outside one app — what exists across the fleet, what's live vs. dead, what a skill actually does — also glance at `REGISTRY.md` in the same folder; it's the flat inventory, not the deep-dive.
 
 **Migration note:** Before May 25, 2026, `HANDOFF-MASTER.md` lived in `bhub` and per-app `HANDOFF.md` files lived inside each app's own repo. They were moved to the private `bsuite-handoffs` repo because every public app repo was leaking strategy/architecture content. If you ever see a stub HANDOFF in an app repo pointing here, that's the migration artifact — read the real file from `bsuite-handoffs`.
 
@@ -241,6 +238,7 @@ For everything else, prefer the scoped form.
 - If the `## Session Log` section doesn't exist, create it at the bottom of HANDOFF.md.
 - The stamp is committed alongside the code change — same commit, not a separate one.
 - If there's no HANDOFF.md yet, don't create one just for a stamp. Stamps are amendments to existing handoffs.
+- If the push shipped, killed, or materially changed the stage of something that has a REGISTRY.md row, update that row's `stage` and `next` in the same commit (one line each, not a rewrite). Skip this when nothing about stage or next actually changed — a stamp doesn't need a registry touch every time.
 
 **When to stamp:**
 - After pushing a feature or meaningful fix
@@ -325,6 +323,19 @@ After writing per-app handoffs, ALWAYS rebuild the master:
 3. Commit and push `bsuite-handoffs`
 
 This is part of every "handoff away" — not a separate step. If the master update fails, tell the user explicitly.
+
+#### Registry update (mandatory — part of every handoff away)
+
+Added October 17, 2026. After the master update, touch `REGISTRY.md` (same repo, same commit) for every row this session's work bears on — not only repo-backed apps:
+
+1. Read `REGISTRY.md` from `bsuite-handoffs`.
+2. For each thing this session touched — an app, a skill, a published artifact, a scheduled task, or a side project with no repo at all — find or add its row and update only `stage` and `next`. Those two fields are the only ones this step writes; everything else (last-touched dates, repo links, skill versions) is derived and gets refreshed by `bsync.sh --registry`, not hand-typed here.
+3. If something this session built or changed has no row yet (a brand-new skill, a new artifact, a new side project), add one. This is the moment orphans get caught permanently, not just flagged — `bsync.sh --registry` only ever reports an orphan, it never adds the row itself.
+4. Stage is one of: idea, building, live, parked, dead. Set it from what actually happened this session, not from a guess about the thing's future. Next is one line, or "—" if there's nothing pending.
+5. Before writing a stage, run `bash bhub/bsync.sh --registry` once if it hasn't been run yet this session. It flags orphans (things with no row) and won't rewrite anything itself — it exists so this step isn't relying on a hand-maintained file to audit itself, the same failure mode that let HANDOFF-MASTER.md go stale for months.
+6. Commit this alongside the HANDOFF-MASTER.md update in the same `bsuite-handoffs` commit, not a separate one.
+
+If a session is a quick single-app fix with nothing to change about that app's row (same stage, same next), skip this — like stamps, the registry doesn't need a touch every time, only when something about stage or next actually moved.
 
 #### Verification step
 

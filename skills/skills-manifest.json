@@ -50,10 +50,10 @@
       "hash": "424449ce8e8a1895f9ea83a2fa7b3f93"
     },
     "handoff": {
-      "version": "3.10.0",
-      "hash": "a78ef308a77a5014e80152bdda307602",
-      "updated": "2026-08-30",
-      "changelog": "Registry: added brhecht/b-line (the Athena board over Linear, shipped 30 Aug). It was live and deployed with a handoff in bsuite-handoffs but appeared in no registry, so no session audited it and its local folder had rotted into a plain directory holding pre-bugfix code while still being the copy linked to Vercel. Also added to the new-device clone block. Paired with bsync v2.16/v2.17."
+      "version": "3.11.0",
+      "hash": "afdfb96516971b109ded527811d29cda",
+      "updated": "2026-10-18",
+      "changelog": "B Things retired (Focus Machine Stage 2): removed the B Things /api/tasks read endpoint and .bthings-key instructions from the Cowork data-reading section; tasks now live in Linear (athena / linear-ops skills). Also carries the Oct 17 REGISTRY.md changes (fourth layer, handoff-away registry step, bsync --registry, setlist-predictor row, hc-strategy retired) that existed only in the installed copy and had never reached bhub source. Reinstall handoff.skill."
     },
     "hc-strategy": {
       "version": "1.0.0",
