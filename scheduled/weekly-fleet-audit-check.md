@@ -1,6 +1,6 @@
 ---
 name: weekly-fleet-audit-check
-description: Weekly B-Suite fleet health check — reads bhealth JSON reports from GitHub and posts a summary to B Things
+description: Weekly B-Suite fleet health check — reads bhealth JSON reports from GitHub and posts a summary as a comment on the standing Athena issue ATH-92
 ---
 
 > **This file is the canonical definition of the weekly fleet audit task.**
@@ -16,9 +16,12 @@ description: Weekly B-Suite fleet health check — reads bhealth JSON reports fr
 > 3am."*
 >
 > If you edit the task on a machine, update this file too, or the two drift.
-> Last synced: Oct 9, 2026.
+> Last synced: Oct 18, 2026. The report now goes to Athena (Linear), not B Things
+> (retired, Focus Machine Stage 2). The live registration is the cloud routine
+> `trig_01J2dKbZf7qRntCfVLqHGw2u` (Mon 3am New York, Linear connector attached);
+> its prompt is the text below from "You are running" onward.
 
-You are running the weekly B-Suite fleet health check. Your job is to read the latest bhealth JSON reports from each Mac, summarize the fleet state, and create a B Things task with the findings.
+You are running the weekly B-Suite fleet health check. Your job is to read the latest bhealth JSON reports from each Mac, summarize the fleet state, and add the findings as a comment on the standing Athena issue ATH-92 "Fleet audit reports".
 
 ## Path rule (read first)
 
@@ -125,39 +128,16 @@ Action needed: [any confirmed repo/auth flags requiring attention; or "None"]
 
 Keep it under 200 words. Be specific about what needs fixing. The Infra alerts line is the loud signal — staleness or broken auth means the auto-audit pipeline is broken, not just that a Mac was idle.
 
-## Step 5: Load B Things API key
+## Step 5: Post the report to Athena
 
-The `/api/add-task` endpoint requires `x-api-key: <API_SECRET>`. Try both sources in order:
+Post the Step 4 summary as a comment on the standing Athena issue **ATH-92 "Fleet audit reports"** (Linear team Athena, team id `880896f2-4c0d-4c3c-b742-6d9c90025f01`). Use the Linear connector. If its tools are deferred, load their schemas with ToolSearch first (you need `list_comments` and `save_comment`).
 
-```bash
-API_KEY=$(grep -E "^API_SECRET=" "$PWD/mnt/Developer/B-Suite/things-app/.env.local" 2>/dev/null | cut -d= -f2-)
-if [ -z "$API_KEY" ] && [ -f "$PWD/mnt/Developer/B-Suite/.bthings-key" ]; then
-  API_KEY=$(tr -d ' \t\n\r' < "$PWD/mnt/Developer/B-Suite/.bthings-key")
-fi
-if [ -n "$API_KEY" ]; then echo "KEY_FOUND len=${#API_KEY}"; else echo "KEY_MISSING"; fi
-```
+1. Call `list_comments` for issue `ATH-92`. If a comment whose first line starts with `Fleet check — [Mon DD]` for today's date already exists, stop: the report is already posted.
+2. Otherwise call `save_comment` with `issueId` `ATH-92` and a body that begins with the line `Fleet check — [Mon DD]` followed by the Step 4 summary, unchanged.
 
-`.env.local` holds it as `API_SECRET=<value>`; `.bthings-key` holds the same secret as a bare value with no key name.
+Only ever write to ATH-92. Never create other issues and never touch any TNB or CRM team issue.
 
-**If neither exists or `API_KEY` is empty, fail loudly.** Do NOT silently skip the B Things post. Write the summary to `/Users/BRHPro/Developer/fleet-check-[YYYY-MM-DD].md` as a fallback, and surface the missing-key error clearly in your response. Tell Brian to run `cd ~/Developer/B-Suite/things-app && vercel env pull .env.local` to restore it. Never print the key value itself.
-
-## Step 6: Create B Things task
-
-POST to https://things-app-gamma.vercel.app/api/add-task with the loaded key:
-
-```bash
-curl -sS -X POST https://things-app-gamma.vercel.app/api/add-task \
-  -H "Content-Type: application/json" \
-  -H "x-api-key: $API_KEY" \
-  -d '{
-    "title": "Fleet check — [Mon DD]",
-    "notes": "[your summary]",
-    "project": "Infra",
-    "idempotencyKey": "fleet-check-[YYYY-MM-DD]"
-  }'
-```
-
-Expect `{"ok":true, ...}` on success. If you get `{"error":"Unauthorized"}`, the key is stale — same fallback path as Step 5.
+**If ATH-92 cannot be found or the Linear connector is unavailable, fail loudly.** Do NOT silently skip the post. Write the summary to `/Users/BRHPro/Developer/fleet-check-[YYYY-MM-DD].md` as a fallback and state the error clearly in your response.
 
 ## Important notes
 - This task reads reports only — it does NOT run bhealth on any Mac. bhealth runs autonomously via the `com.bsuite.bhealth` launchd agent installed by `bhub/install-bhealth.sh`.
@@ -165,7 +145,6 @@ Expect `{"ok":true, ...}` on success. If you get `{"error":"Unauthorized"}`, the
 - Local repo flags must be live-verified (Step 3b) before being reported. Never report a flag from a stale bhealth report without confirming it still exists on the machine you are running on.
 - A report > 8 days old, or `git_auth_ok: false`, is an **Infra alert** (the autonomous pipeline is broken on that Mac), not a routine "audit overdue" note. Surface it loudly. Check any travel exception's end date before honouring it.
 - Broken git auth masquerades as agent rot. Check for unpushed local reports before blaming the launchd agent.
-- If bhub can't be reached (network issue), fail gracefully and skip the B Things post.
+- If bhub can't be reached (network issue), fail gracefully and skip the Athena post.
 - Toolchain flags: the old `/opt/homebrew` hardcode in bhealth.sh was fixed Oct 9 2026 so Intel Macs (the iMac) now find Homebrew at `/usr/local`. Toolchain flags should therefore be rare. Do not wave them away as "expected on iMac and Air" any more — if they reappear, something actually regressed.
-- Auth failures on `/api/add-task` are loud, not silent — Brian needs to know the secret is broken so he can rotate it.
-- The `idempotencyKey` means a duplicate copy of this task on another Mac cannot create a second card on the same date. **The Mac Mini is the designated host.** If a copy on another Mac ever runs, disable that one, not the Mini's.
+- The step 1 duplicate check on ATH-92 means a stray second copy of this routine cannot post a second report for the same date. Only one registration should exist (`trig_01J2dKbZf7qRntCfVLqHGw2u`); if another ever appears, disable that one.
