@@ -1,4 +1,6 @@
 #!/bin/bash
+# bsync v2.20.1 — .bsync-log rotation. The log was append-only since March and had
+#       reached 34,850 lines; log() now keeps the newest 2,000 lines on each run.
 # bsync v2.20 — --registry mode. REGISTRY.md (bsuite-handoffs) is a hand-maintained
 #       inventory of every app, skill, published artifact and scheduled task Brian
 #       has built, and a hand-maintained inventory drifts the same way HANDOFF-MASTER.md
@@ -241,6 +243,11 @@ is_app_in_scope() {
 
 # --- Helpers ---
 mkdir -p "$WORK_DIR"
+
+# Keep .bsync-log bounded: trim to the newest 2,000 lines once per run (v2.20.1).
+if [ -f "$LOG_FILE" ] && [ "$(wc -l < "$LOG_FILE" 2>/dev/null || echo 0)" -gt 2000 ]; then
+  tail -n 2000 "$LOG_FILE" > "$LOG_FILE.tmp" 2>/dev/null && mv -f "$LOG_FILE.tmp" "$LOG_FILE" 2>/dev/null || true
+fi
 
 log() {
   echo "$(date '+%Y-%m-%d %H:%M:%S'): $1" >> "$LOG_FILE" 2>/dev/null || true
@@ -997,7 +1004,7 @@ emit_health() {
 }
 
 # --- Main ---
-log "bsync v2.20 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
+log "bsync v2.20.1 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
 SYNC_ISSUES_FILE="$WORK_DIR/sync-issues.txt"
 : > "$SYNC_ISSUES_FILE" 2>/dev/null || true
 setup_git
