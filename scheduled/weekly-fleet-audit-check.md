@@ -3,57 +3,41 @@ name: weekly-fleet-audit-check
 description: Weekly B-Suite fleet health check — reads bhealth JSON reports from GitHub and posts a summary as a comment on the standing Athena issue ATH-92
 ---
 
-> **This file is the canonical definition of the weekly fleet audit task.**
+> **This file is the canonical definition of the weekly fleet audit routine.**
 >
-> Claude's scheduled tasks are stored per-machine at
-> `~/Documents/Claude/Scheduled/<taskId>/SKILL.md` and are NOT synced between
-> Macs. This copy lives in bhub so every Mac can reach it via bsync.
+> The live registration is a cloud routine named "Weekly fleet audit check",
+> Mondays 3:00 AM New York, with the Linear connector attached. Its prompt is
+> the text below from "You are running" onward. If you edit the routine, update
+> this file too, or the two drift.
 >
-> **Designated host: the Mac Mini.** It is the only machine that is reliably
-> awake at the 3:00 AM Monday run time. To install it there, open Cowork on the
-> Mini and say: *"Create a weekly scheduled task from
-> `~/Developer/B-Suite/bhub/scheduled/weekly-fleet-audit-check.md`, Mondays at
-> 3am."*
->
-> If you edit the task on a machine, update this file too, or the two drift.
-> Last synced: Oct 18, 2026. The report now goes to Athena (Linear), not B Things
-> (retired, Focus Machine Stage 2). The live registration is the cloud routine
-> `trig_01J2dKbZf7qRntCfVLqHGw2u` (Mon 3am New York, Linear connector attached);
-> its prompt is the text below from "You are running" onward.
+> History: until Oct 18, 2026 this ran from the Mac Mini as a device-bound
+> routine and posted a B Things task. B Things was retired (Focus Machine
+> Stage 2), and a device-bound routine's prompt cannot be edited remotely, so
+> it was replaced by a cloud routine. The cloud routine cannot see any Mac's
+> folders, so the old "live-verify dirty repos on this Mac" step is gone; it
+> reports from the bhealth files in GitHub only.
+> Last synced: Oct 18, 2026.
 
-You are running the weekly B-Suite fleet health check. Your job is to read the latest bhealth JSON reports from each Mac, summarize the fleet state, and add the findings as a comment on the standing Athena issue ATH-92 "Fleet audit reports".
+You are running the weekly B-Suite fleet health check. Nobody is watching this session, so do not ask questions. Your job is to read the latest bhealth JSON reports from each Mac, summarize the fleet state, and add the findings as a comment on the standing Athena issue ATH-92 "Fleet audit reports".
 
-## Path rule (read first)
+## Step 1: Get the health reports
 
-Every bash call starts in `/sessions/<session>`, so `$PWD` is the session root and the mounted Developer folder is always `$PWD/mnt/Developer`.
-
-**Never use `/sessions/$(ls /sessions)/...`.** There are often a hundred-plus session directories on this machine, so that expands to garbage and the command fails. Use `$PWD` everywhere.
-
-## Step 1: Pull latest bhub
-
-Run bsync to get the latest bhub repo (which contains .health/ JSON files committed by bhealth runs on each Mac):
-
-```bash
-BSUITE_DIR="$PWD/mnt/Developer/B-Suite" timeout 100 bash "$PWD/mnt/Developer/B-Suite/bhub/bsync.sh" 2>/dev/null | tail -5
-```
-
-If that times out, errors, or returns nothing useful, go straight to the clone fallback. Do not retry bsync — on a machine with broken git auth it will hang every time.
+The bhealth JSON reports are committed to the public bhub repo. Clone it fresh:
 
 ```bash
 rm -rf /tmp/bhub-fleet-check && git clone --depth 1 https://github.com/brhecht/bhub.git /tmp/bhub-fleet-check 2>&1 | tail -3
+ls /tmp/bhub-fleet-check/.health | tail -40
 ```
+
+If the clone fails, skip to Step 5 and post a one-line comment saying bhub could not be reached.
 
 ## Step 2: Read health reports
 
-Read all JSON files from bhub/.health/:
-- mac-mini-*.json (most recent)
-- imac-*.json (most recent)
-- macbook-pro-*.json (most recent)
-- macbook-air-*.json (most recent)
-
-From `/tmp/bsync-*/bhub/.health/` if bsync succeeded, or `/tmp/bhub-fleet-check/.health/` if you cloned directly.
-
-For each device, find the most recent JSON file (by filename date) and read it.
+From `/tmp/bhub-fleet-check/.health/`, read the most recent JSON file (by filename date) for each device:
+- mac-mini-*.json
+- imac-*.json
+- macbook-pro-*.json
+- macbook-air-*.json
 
 ## Step 3: Analyze each device
 
@@ -63,12 +47,12 @@ For each device report, extract:
 - `git_auth_ok` — if false, that is the highest-priority finding for that device
 - `repos` — count how many are clean vs dirty vs missing
 - `flags` — list all flags, categorized as:
-  - **Toolchain-only** (missing node/npm/gh/vercel) — low priority, cosmetic
+  - **Toolchain-only** (missing node/npm/gh/vercel) — low priority
   - **Repo issues** (dirty, missing, ahead/behind) — medium priority, needs attention
   - **Auth issues** (git auth failed, PAT expired) — high priority, blocking
 - `skills` — any missing skill installers
 
-Calculate days since last bhealth run for each device.
+Calculate days since last bhealth run for each device, using today's real date from `date`.
 
 ### Staleness flag (system-level rot detection)
 
@@ -79,43 +63,22 @@ bhealth runs automatically every week via the `com.bsuite.bhealth` launchd agent
 - bsync auto-push failing → check `$BSUITE_DIR/.bsync-stderr.log`
 - Mac has been off or asleep (laptops, or a desktop during travel) — note it and re-check next run
 
-**Distinguish "not running" from "running but not pushing."** A device can run bhealth faithfully every day and still look silent in bhub if its git auth is broken. Before calling a device rotted, check whether recent reports for it exist locally but unpushed:
-
-```bash
-ls "$PWD/mnt/Developer/B-Suite/bhub/.health/" | tail -20
-cd "$PWD/mnt/Developer/B-Suite/bhub" && timeout 20 git --no-optional-locks status --short 2>/dev/null | grep '.health/'
-```
-
-If recent reports for a device exist locally as untracked or uncommitted files, the agent is fine and the push is broken. Report it as an auth failure, not agent rot, and say so plainly.
-
-In the Step 4 summary, surface staleness as a separate **Infra alert** line, not lumped in with toolchain flags.
+**Broken git auth masquerades as agent rot.** A device can run bhealth faithfully and still look silent in bhub if its git auth is broken. You cannot see other Macs' local files from here, so if a report is stale, say the cause is unknown and list both possibilities.
 
 If a device has no health report at all on file, treat that as the same class of problem (launchd never installed).
 
-**Travel and sleep exceptions:** If Brian is away and specific Macs are known to be asleep for the duration, their staleness is expected and should be reported as a single quiet line rather than a loud alert. Any such exception must carry explicit start and end dates. **Before applying one, check today's date against its end date. If the window has passed, ignore the exception entirely and report normally.** Do not leave an expired exception in force.
-
-There is no active exception as of this revision (Oct 9, 2026).
+**Travel and sleep exceptions:** If Brian is away and specific Macs are known to be asleep, their staleness is expected and should be reported as a single quiet line. Any such exception must carry explicit start and end dates, and today's date must be checked against the end date first. There is no active exception as of Oct 18, 2026.
 
 **Known low-use machine:** the iMac is rarely used and is not reliably awake. Its staleness is lower-urgency than the other three, but it still gets reported, and `git_auth_ok: false` on it is always loud.
 
-## Step 3b: Live-verify local repo flags
-
-This machine's Developer folder is mounted at `$PWD/mnt/Developer/`. Work out which device this is — read the local `bhealth` output or match the `device` name in the report whose `hostname` matches this machine — and state in your summary which Mac you are running on. If that device's report flags any repos as dirty, verify them live before reporting, because the report may be stale:
-
-```bash
-cd "$PWD/mnt/Developer/B-Suite/[repo-name]" && timeout 20 git --no-optional-locks status --short 2>/dev/null
-```
-
-Only report a repo as dirty if `git status --short` confirms it still has uncommitted changes. If it's clean, drop the flag silently — do not mention it.
-
-You can only live-verify the machine you are running on. Flags on other devices are reported as the report gives them. Say which is which.
+Because this routine runs in the cloud, it cannot check any Mac's folders live. Report repo flags exactly as the health report gives them and say they are as of the report's timestamp.
 
 ## Step 4: Build summary
 
 Write a plain-English summary in this format:
 
 ```
-Fleet check — [date]. Running on [device].
+Fleet check — [Mon DD]. From GitHub health reports only.
 
 [Device]: clean / [N flags] / [critical issue] — last audited [X days ago]
 [Device]: ...
@@ -123,7 +86,7 @@ Fleet check — [date]. Running on [device].
 [Device]: ...
 
 Infra alerts: [any device with report > 8 days old, or any device with git_auth_ok false, with the likely cause and the one-line fix command; or "None"]
-Action needed: [any confirmed repo/auth flags requiring attention; or "None"]
+Action needed: [any repo/auth flags requiring attention; or "None"]
 ```
 
 Keep it under 200 words. Be specific about what needs fixing. The Infra alerts line is the loud signal — staleness or broken auth means the auto-audit pipeline is broken, not just that a Mac was idle.
@@ -137,14 +100,12 @@ Post the Step 4 summary as a comment on the standing Athena issue **ATH-92 "Flee
 
 Only ever write to ATH-92. Never create other issues and never touch any TNB or CRM team issue.
 
-**If ATH-92 cannot be found or the Linear connector is unavailable, fail loudly.** Do NOT silently skip the post. Write the summary to `/Users/BRHPro/Developer/fleet-check-[YYYY-MM-DD].md` as a fallback and state the error clearly in your response.
+**If ATH-92 cannot be found or the Linear connector is unavailable, fail loudly.** Do NOT silently skip the post. Make your final message start with `FAILED:` followed by the reason, and include the full summary text so it is not lost.
 
 ## Important notes
-- This task reads reports only — it does NOT run bhealth on any Mac. bhealth runs autonomously via the `com.bsuite.bhealth` launchd agent installed by `bhub/install-bhealth.sh`.
-- Use `$PWD`, never `/sessions/$(ls /sessions)/...`. See the path rule at the top.
-- Local repo flags must be live-verified (Step 3b) before being reported. Never report a flag from a stale bhealth report without confirming it still exists on the machine you are running on.
-- A report > 8 days old, or `git_auth_ok: false`, is an **Infra alert** (the autonomous pipeline is broken on that Mac), not a routine "audit overdue" note. Surface it loudly. Check any travel exception's end date before honouring it.
-- Broken git auth masquerades as agent rot. Check for unpushed local reports before blaming the launchd agent.
-- If bhub can't be reached (network issue), fail gracefully and skip the Athena post.
-- Toolchain flags: the old `/opt/homebrew` hardcode in bhealth.sh was fixed Oct 9 2026 so Intel Macs (the iMac) now find Homebrew at `/usr/local`. Toolchain flags should therefore be rare. Do not wave them away as "expected on iMac and Air" any more — if they reappear, something actually regressed.
-- The step 1 duplicate check on ATH-92 means a stray second copy of this routine cannot post a second report for the same date. Only one registration should exist (`trig_01J2dKbZf7qRntCfVLqHGw2u`); if another ever appears, disable that one.
+- This routine reads reports only — it does NOT run bhealth on any Mac. bhealth runs autonomously via the `com.bsuite.bhealth` launchd agent installed by `bhub/install-bhealth.sh`.
+- A report > 8 days old, or `git_auth_ok: false`, is an **Infra alert**, not a routine "audit overdue" note. Surface it loudly.
+- If bhub can't be reached (network issue), fail gracefully, post the one-line comment from Step 1, and say so in your final message.
+- Toolchain flags: the old `/opt/homebrew` hardcode in bhealth.sh was fixed Oct 9 2026 so Intel Macs (the iMac) now find Homebrew at `/usr/local`. Toolchain flags should be rare. If they reappear, something actually regressed.
+- The duplicate check in Step 5 means a stray second copy of this routine cannot post a second report for the same date. Only one registration should exist; if another ever appears, disable that one.
+- Final message: one line saying which issue got the comment, plus any `FAILED:` reason.
