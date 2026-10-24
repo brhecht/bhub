@@ -50,10 +50,10 @@
       "hash": "424449ce8e8a1895f9ea83a2fa7b3f93"
     },
     "handoff": {
-      "version": "3.12.0",
-      "hash": "cbf6e7b37ed6a5458dd48538939f8e9f",
+      "version": "3.12.1",
+      "hash": "809f5aa2dfbae86a4377f5a781c8f4de",
       "updated": "2026-10-24",
-      "changelog": "Oct 24 cleanup: trigger narrowed to 'a repo in the REPOS table is about to be edited, or Brian asks for a fleet check' (reading Linear, Slack, email or the strategy canon no longer triggers it); Phase 1 gains Step 1.3 recent decisions (past-chat search plus Linear documents updated in the last 7 days, including decision logs, read before any judgment); registry rows for skills, artifacts, Linear documents and scheduled tasks are added at creation in the same turn, not at handoff-away; removed the false 'lean ~17KB' claim about HANDOFF-MASTER.md (it was 98KB); added a 'When this skill runs' section and a pointer to STANDING-RULES.md. Reinstall handoff.skill."
+      "changelog": "Recent-decisions step (Phase 1, Step 1.3) window changed from 7 to 14 days at Brian's direction (he said 10 to 14; Nico often discusses a project well before real work starts), with a speed limit: one search, one listing per project, read only hits that touch the topic. Otherwise unchanged from 3.12.0. Reinstall handoff.skill."
     },
     "hc-strategy": {
       "version": "1.0.0",

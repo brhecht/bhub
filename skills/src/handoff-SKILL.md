@@ -164,12 +164,14 @@ Read `HANDOFF-MASTER.md` from `/tmp/bsuite-handoffs-bootstrap/`. This is the cro
 
 **Step 1.3: Read recent decisions (before any judgment)**
 
-For the topic of the first message, find what was decided in the last 7 days. Do both:
+For the topic of the first message, find what was decided in the last 14 days. Brian chose the range (10 to 14 days, Oct 24, 2026) because Nico often first discusses a project well before real work starts on it. Do both:
 
-1. Run past-chat search (`conversation_search`) on the topic's content words, limited to the last 7 days, and read the relevant hits.
-2. List Linear documents updated in the last 7 days in every project the topic names, including any "<project> decision log", and read them.
+1. Run past-chat search (`conversation_search`) once on the topic's content words, limited to the last 14 days.
+2. List Linear documents updated in the last 14 days in every project the topic names, including any "<project> decision log", in one listing call per project.
 
-Read these before forming any judgment or recommendation. A decision log entry counts as a decision only if it links to where Brian said it. The 7-day window is an assumed value; widen it when the topic clearly spans longer.
+Read these before forming any judgment or recommendation. A decision log entry counts as a decision only if it links to where Brian said it.
+
+Keep it fast, because Brian does not want this to slow down every task. One search and one listing per project. Read only the hits whose title or snippet touches the topic, and stop reading once you have found the newest decision on it. Do not run extra searches to be thorough. If nothing in the window touches the topic, say so in one line and move on.
 
 **Step 1.4: Determine target app**
 
