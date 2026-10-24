@@ -16,3 +16,4 @@ How Brian works, for every Claude session on every surface. One line per rule. D
 12. Read B-Suite app data through the app's own backend, never Firestore from the sandbox.
 13. Brian's codewords and failure modes live in personal/BRIAN-CONTEXT.md in bsuite-handoffs, and grill-me depends on it. Confirm with Brian whether memory has superseded this.
 14. Composio is the route into HC Slack. Nico's human DM and the Brain Inbox bot DM are different channels, and Nico often sends through bots.
+15. Brain Inbox is exclusively Nico's, though it lives in Brian's git and on his Vercel. Never flag or ask Brian about its code or behavior. Only token or credential problems go to Brian.
