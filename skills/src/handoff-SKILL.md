@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: "MANDATORY SESSION BOOTSTRAP for all B-Suite work. This skill MUST be the first thing invoked — before reading code, before making edits, before any other skill — whenever the user references ANY B-Suite app by name, URL, screenshot, or description (B Content, B Things, B People, B Eddy, B Marketing, B Resources, hc-funnel, content-calendar, things-app, brain-inbox, etc.). Any B-Suite app reference is an implicit 'handoff here' — run bsync, check skill versions, read the master handoff, then load the app's handoff. Also triggers explicitly on 'handoff away', 'handoff here', or references to switching devices or syncing project state. This is the session prerequisite that ensures context, skill currency, and continuity. Do not skip it. Do not defer it. Do not do 'just one quick fix' first."
+description: "SESSION BOOTSTRAP for editing B-Suite repos. Run it before the first edit, when a repo in the REPOS table (the B-Suite Repo Registry below) is about to be edited, or when Brian asks for a fleet check, 'handoff here', 'handoff away', or a device or project-state sync. It runs bsync, checks skill versions, reads the master handoff and the recent decisions, then loads the app's handoff. It does NOT run for reading or writing Linear, Slack, email, Google Drive or the strategy canon, or for any question that does not edit a repo. Standing rules about how Brian works live in STANDING-RULES.md at the root of the bhub repo, not in this skill. Do not edit a repo before this has run, and do not do 'just one quick fix' first."
 ---
 
 # Handoff Skill
@@ -10,7 +10,13 @@ This skill manages project continuity across devices and Cowork sessions. It use
 1. **bsync.sh** (the belt) — a bash script that pulls all repos from GitHub, cross-checks handoff freshness against git history, checks skill versions, and outputs a structured JSON report. Claude runs this once at session start. It works regardless of what the previous session did or didn't do.
 2. **Stamp-on-push** (the belt+) — lightweight context stamps appended to HANDOFF.md on meaningful pushes during a session. Captures intent, known issues, and next steps that git commits alone can't convey.
 3. **Handoff away** (the suspenders) — a full handoff rewrite when the user explicitly requests it. Captures rich context. The system doesn't break if this is skipped — bsync + stamps cover the gap.
-4. **REGISTRY.md** (the inventory) — one file in `bsuite-handoffs` listing every app, skill, published artifact and scheduled task Brian has, with its stage and what's next. Handoffs answer "what does a fresh session need to know about app X"; REGISTRY.md answers "what do I have, across everything, and where did I leave it" — a different question, so it gets its own file rather than being squeezed into HANDOFF-MASTER.md (which drifted into an unmaintained narrative log once before, see its own history). `bsync.sh --registry` derives what it can (last-commit dates, skill versions, orphan detection); stage and next are hand-written, touched only at handoff-away, never auto-filled or guessed.
+4. **REGISTRY.md** (the inventory) — one file in `bsuite-handoffs` listing every app, skill, published artifact, Linear document and scheduled task Brian has, with its stage and what's next. Handoffs answer "what does a fresh session need to know about app X"; REGISTRY.md answers "what do I have, across everything, and where did I leave it" — a different question, so it gets its own file rather than being squeezed into HANDOFF-MASTER.md (which drifted into an unmaintained narrative log once before, see its own history). `bsync.sh --registry` derives what it can (last-commit dates, skill versions, orphan detection); stage and next are hand-written, never auto-filled or guessed. A row is added in the same turn the thing is created (see "Registry update"), not at handoff-away.
+
+## When this skill runs
+
+Run it when a repo in the REPOS table (the B-Suite Repo Registry below) is about to be edited, or when Brian asks for a fleet check, "handoff here" or "handoff away". Do not run it for reading Linear, Slack, email, Google Drive or the strategy canon, or for answering questions. Brian never has to type "handoff here" or "handoff away": the bootstrap is implicit when a repo edit is coming, and outputs land where they belong when they are made.
+
+Brian does not mount B-Suite by default. When a task needs the git token (`.git-token`), a file he dropped there, or a repo edit, request access to `~/Developer/B-Suite` yourself; do not ask him to mount it.
 
 ## Architecture: What Lives Where
 
@@ -152,11 +158,20 @@ git clone --depth 1 "https://brhecht:${TOKEN}@github.com/brhecht/bsuite-handoffs
 
 **Step 1.2: Read the lean master**
 
-Read `HANDOFF-MASTER.md` from `/tmp/bsuite-handoffs-bootstrap/`. This is a **lean cross-app reference** (~17KB): apps index, dependencies, UX/comms rules, device registry, fleet ops. Per-app deep status lives in `/tmp/bsuite-handoffs-bootstrap/<app>/HANDOFF.md` (read on demand in Phase 2). If the session's work might touch anything outside one app — what exists across the fleet, what's live vs. dead, what a skill actually does — also glance at `REGISTRY.md` in the same folder; it's the flat inventory, not the deep-dive.
+Read `HANDOFF-MASTER.md` from `/tmp/bsuite-handoffs-bootstrap/`. This is the cross-app reference: the per-app index plus the repo plumbing notes. It has grown past its intended size before, so check its actual size with `wc -c` and read it in sections if it is large; do not assume it is short. Per-app deep status lives in `/tmp/bsuite-handoffs-bootstrap/<app>/HANDOFF.md` (read on demand in Phase 2). If the session's work might touch anything outside one app — what exists across the fleet, what's live vs. dead, what a skill actually does — also glance at `REGISTRY.md` in the same folder; it's the flat inventory, not the deep-dive.
 
 **Migration note:** Before May 25, 2026, `HANDOFF-MASTER.md` lived in `bhub` and per-app `HANDOFF.md` files lived inside each app's own repo. They were moved to the private `bsuite-handoffs` repo because every public app repo was leaking strategy/architecture content. If you ever see a stub HANDOFF in an app repo pointing here, that's the migration artifact — read the real file from `bsuite-handoffs`.
 
-**Step 1.3: Determine target app**
+**Step 1.3: Read recent decisions (before any judgment)**
+
+For the topic of the first message, find what was decided in the last 7 days. Do both:
+
+1. Run past-chat search (`conversation_search`) on the topic's content words, limited to the last 7 days, and read the relevant hits.
+2. List Linear documents updated in the last 7 days in every project the topic names, including any "<project> decision log", and read them.
+
+Read these before forming any judgment or recommendation. A decision log entry counts as a decision only if it links to where Brian said it. The 7-day window is an assumed value; widen it when the topic clearly spans longer.
+
+**Step 1.4: Determine target app**
 
 Either the user named it ("handoff here b-people") or their message implies it ("the funnel is broken" → hc-funnel). If neither, ask: "What do you want to work on?"
 
@@ -324,7 +339,11 @@ After writing per-app handoffs, ALWAYS rebuild the master:
 
 This is part of every "handoff away" — not a separate step. If the master update fails, tell the user explicitly.
 
-#### Registry update (mandatory — part of every handoff away)
+#### Registry rows are added at creation (same turn)
+
+Changed October 24, 2026. When a session creates a skill, a published artifact, a Linear document or a scheduled task (or an app or side project), add its `REGISTRY.md` row in `bsuite-handoffs` in that same turn, with stage and next, and push. Do not wait for handoff-away: Brian often walks away from a session without one, and a row that waits for it never gets written. Handoff-away only revisits rows whose stage or next moved.
+
+#### Registry update at handoff away (stage and next only)
 
 Added October 17, 2026. After the master update, touch `REGISTRY.md` (same repo, same commit) for every row this session's work bears on — not only repo-backed apps:
 
