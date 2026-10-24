@@ -5,6 +5,10 @@ description: |
   - MANDATORY TRIGGERS: Any session where Claude is writing or editing code in a web application project (React, Next.js, Vite, etc.) and the user will build/deploy. Also triggers when doing git operations, running dev servers, or deploying to Vercel/Netlify/similar. Use this skill whenever the user has a mounted project folder and asks Claude to make code changes, fix bugs, add features, or deploy updates — even if they don't explicitly mention "deploy" or "workflow".
 ---
 
+## Writing to Brian (read first)
+
+Every sentence this skill writes to Brian follows `references/writing-to-brian.md` in this skill: a stated subject and a finite verb in every sentence, including bullets and lines after a colon; no verbless claims; no announced counts; no "That is" or "This is" pointing at an idea instead of a noun; no ", not X" tails; and literal verbs for abstract subjects. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+
 # Dev-Deploy Workflow
 
 This skill defines the protocol for how Claude works on web app codebases. The goal: Claude does the heavy lifting on code, the user does minimal terminal interaction, and deployments are smooth single-step operations.

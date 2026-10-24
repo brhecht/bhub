@@ -3,6 +3,10 @@ name: priority-agenda
 description: "Opens, rebuilds and re-ranks Brian's Priority Agenda, and refreshes the panel that shows it. Triggers on '/priority-agenda', 'my agenda', 'my priorities', 'priority agenda', 'open my agenda', 'what is my day look like', 'rebuild my priorities', 're-rank my day', 'update my agenda', 'refresh panel', 'reload the panel', 'show me the panel', or any request to see or change his ranked list of what he is working on. The agenda lives in the Linear document 'Brian's priority agenda' (Team Ops, doc id 4aa0b7df0286); the panel reads that document live and has its own Refresh button, so a content change needs no republish. Covers The New Builder and TNB CRM teams only, never the private Athena team. NOT the morning brief (that is `morning`) and NOT a plain Linear issue list."
 ---
 
+## Writing to Brian (read first)
+
+Every sentence this skill writes to Brian follows `references/writing-to-brian.md` in this skill: a stated subject and a finite verb in every sentence, including bullets and lines after a colon; no verbless claims; no announced counts; no "That is" or "This is" pointing at an idea instead of a noun; no ", not X" tails; and literal verbs for abstract subjects. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+
 # Priority Agenda
 
 Brian's ranked agenda for the day, rendered in the Cowork side panel.

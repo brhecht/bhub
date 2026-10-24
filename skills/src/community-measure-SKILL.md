@@ -3,6 +3,10 @@ name: community-measure
 description: "Measures participation in the TNB community Slack against the decisions in tnb-strategy/community/MEASUREMENT-CANON.md. Produces the primary number (distinct non-host initiators, trailing 30 days), the secondary active-member count, the full participation ladder per member, and the reactivation list ranked by how far each member fell. Triggers on '/community-measure', 'run the community measurement', 'community numbers', 'how many active members', 'distinct initiators', 'who went quiet', 'reactivation list', 'the ladder', 'measure the community', or any request for how vibrant or active the TNB community is. Read-only on Slack; never posts. NOT the gross event counter (that is slack-stats), NOT the weekly editorial pick-list (that is tnb-digest), and NOT per-person Tendys scoring (that is Builder Bot)."
 ---
 
+## Writing to Brian (read first)
+
+Every sentence this skill writes to Brian follows `references/writing-to-brian.md` in this skill: a stated subject and a finite verb in every sentence, including bullets and lines after a colon; no verbless claims; no announced counts; no "That is" or "This is" pointing at an idea instead of a noun; no ", not X" tails; and literal verbs for abstract subjects. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+
 # TNB Community Measurement
 
 You are computing the participation numbers for The New Builder community Slack

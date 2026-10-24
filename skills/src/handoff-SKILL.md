@@ -3,6 +3,10 @@ name: handoff
 description: "SESSION BOOTSTRAP for editing B-Suite repos. Run it before the first edit, when a repo in the REPOS table (the B-Suite Repo Registry below) is about to be edited, or when Brian asks for a fleet check, 'handoff here', 'handoff away', or a device or project-state sync. It runs bsync, checks skill versions, reads the master handoff and the recent decisions, then loads the app's handoff. It does NOT run for reading or writing Linear, Slack, email, Google Drive or the strategy canon, or for any question that does not edit a repo. Standing rules about how Brian works live in STANDING-RULES.md at the root of the bhub repo, not in this skill. Do not edit a repo before this has run, and do not do 'just one quick fix' first."
 ---
 
+## Writing to Brian (read first)
+
+Every sentence this skill writes to Brian follows `references/writing-to-brian.md` in this skill: a stated subject and a finite verb in every sentence, including bullets and lines after a colon; no verbless claims; no announced counts; no "That is" or "This is" pointing at an idea instead of a noun; no ", not X" tails; and literal verbs for abstract subjects. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+
 # Handoff Skill
 
 This skill manages project continuity across devices and Cowork sessions. It uses three layers of resilience, plus a fourth added October 17, 2026:

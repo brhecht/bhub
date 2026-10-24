@@ -3,6 +3,10 @@ name: comms
 description: "Send messages between Brian and Nico via Email, Slack DM, or Brain Inbox ping. Use this skill whenever the user says 'email', 'DM', 'ping', 'send to', 'message', 'notify', or 'tell' followed by a person's name (Nico, Brian) — even if they don't explicitly say 'comms'. Also triggers on 'send to Brain Inbox', 'send to B Things Bot', or any request to communicate something to a team member. Handles channel routing automatically: email for longer content (creates Gmail draft), DM for quick Slack messages, ping for task-oriented Brain Inbox notifications."
 ---
 
+## Writing to Brian (read first)
+
+Every sentence this skill writes to Brian follows `references/writing-to-brian.md` in this skill: a stated subject and a finite verb in every sentence, including bullets and lines after a colon; no verbless claims; no announced counts; no "That is" or "This is" pointing at an idea instead of a noun; no ", not X" tails; and literal verbs for abstract subjects. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+
 # Comms Skill
 
 Route messages between Brian and Nico through the right channel. This skill works for **both users** — it detects who the current user is from the `<user>` tag in the system prompt (which contains Name and Email), then routes to the other person accordingly.

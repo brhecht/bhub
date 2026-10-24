@@ -3,6 +3,10 @@ name: pm
 description: "Product manager skill — handles the gap between 'I want this built' and 'start building.' Triggers when Brian describes a feature, app, or skill he wants built, or when Nico opens a session with an active approved build plan. Use this skill whenever Brian says 'build,' 'I want,' 'Nico should,' 'new feature,' 'add X to Y,' or describes any product/feature idea — even casually. Also triggers when Brian says 'pm,' 'brief,' 'spec,' 'build plan,' or 'what's Nico working on.' On Nico's side, triggers automatically when an approved PM-BRIEF file exists for the app he's loading. Trigger aggressively — if Brian is describing something that will become work for Nico, this skill should fire before anyone writes code."
 ---
 
+## Writing to Brian (read first)
+
+Every sentence this skill writes to Brian follows `references/writing-to-brian.md` in this skill: a stated subject and a finite verb in every sentence, including bullets and lines after a colon; no verbless claims; no announced counts; no "That is" or "This is" pointing at an idea instead of a noun; no ", not X" tails; and literal verbs for abstract subjects. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+
 # PM Skill
 
 This skill is the product manager between Brian (business owner) and Nico (IC builder). Its job: make sure the right thing gets built, on time, without surprises.

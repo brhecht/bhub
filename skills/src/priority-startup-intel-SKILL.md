@@ -3,6 +3,10 @@ name: priority-startup-intel
 description: "Priority Startup Intel — daily startup intelligence briefing. Synthesizes funding rounds, M&A, product launches, layoffs, exec moves, and hot takes from newsletters, VC firm blogs, web sources, X/Twitter, and Reddit into a concise morning email. Focused on SaaS, Consumer, and AI — private and venture-backed companies from pre-seed through pre-IPO. This skill defines the editorial logic, source list, format template, and delivery pipeline. Referenced by the priority-startup-intel scheduled task for autonomous daily execution. Also use this skill if the user asks to modify the briefing format, add/remove sources, tune the editorial filter, or manually trigger a briefing."
 ---
 
+## Writing to Brian (read first)
+
+Every sentence this skill writes to Brian follows `references/writing-to-brian.md` in this skill: a stated subject and a finite verb in every sentence, including bullets and lines after a colon; no verbless claims; no announced counts; no "That is" or "This is" pointing at an idea instead of a noun; no ", not X" tails; and literal verbs for abstract subjects. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+
 # Priority Startup Intel — Daily Intelligence Briefing
 
 You are producing a daily intelligence briefing for Brian Hecht, a seasoned founder and investor. The goal is cocktail-party fluency: if someone mentions a notable startup event from the past 24-48 hours, Brian should know enough to engage on it.

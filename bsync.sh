@@ -1,4 +1,8 @@
 #!/bin/bash
+# bsync v2.21 — ensure_claude_md. Keeps ~/.claude/CLAUDE.md on each Mac importing
+#       bhub/WRITING-TO-BRIAN.md (Brian's writing rules for Claude, approved Oct 24 2026),
+#       so every Claude Code session on every machine reads them. Local runs only; it
+#       never overwrites a CLAUDE.md that already carries the import line.
 # bsync v2.20.1 — .bsync-log rotation. The log was append-only since March and had
 #       reached 34,850 lines; log() now keeps the newest 2,000 lines on each run.
 # bsync v2.20 — --registry mode. REGISTRY.md (bsuite-handoffs) is a hand-maintained
@@ -1003,13 +1007,49 @@ emit_health() {
   printf '  }\n'
 }
 
+# --- Step 0c: Claude Code user instructions (v2.21) ---
+# Every Claude Code session reads ~/.claude/CLAUDE.md. This keeps that file importing
+# bhub/WRITING-TO-BRIAN.md, the canonical writing rules, on whichever Mac bsync runs on.
+# Local only: the Cowork sandbox has no ~/.claude of Brian's. Idempotent: if the import
+# line is already present nothing is written; if a CLAUDE.md exists without it, the line
+# is appended rather than the file replaced.
+ensure_claude_md() {
+  [[ "$ENV" == "local" ]] || return 0
+  local spec="$BSUITE_DIR/bhub/WRITING-TO-BRIAN.md"
+  local target="$HOME/.claude/CLAUDE.md"
+  local tilde="~"   # a literal tilde; bare ~ in the replacement would expand to $HOME
+  local import_line="@${BSUITE_DIR/#$HOME/$tilde}/bhub/WRITING-TO-BRIAN.md"
+  if [[ ! -f "$spec" ]]; then
+    log "ensure_claude_md: $spec not found, skipped"
+    return 0
+  fi
+  mkdir -p "$HOME/.claude"
+  if [[ -f "$target" ]] && grep -qF -- "$import_line" "$target"; then
+    return 0
+  fi
+  if [[ -f "$target" ]]; then
+    printf '\n%s\n' "$import_line" >> "$target"
+    log "ensure_claude_md: appended import line to existing $target"
+  else
+    {
+      echo "# Brian's standing instructions for Claude Code"
+      echo ""
+      echo "The writing rules below apply to every message written to Brian, on every project. The canonical file lives in the bhub repo and is kept current by bsync; edit it there, never here."
+      echo ""
+      echo "$import_line"
+    } > "$target"
+    log "ensure_claude_md: created $target"
+  fi
+}
+
 # --- Main ---
-log "bsync v2.20.1 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
+log "bsync v2.21.0 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
 SYNC_ISSUES_FILE="$WORK_DIR/sync-issues.txt"
 : > "$SYNC_ISSUES_FILE" 2>/dev/null || true
 setup_git
 preflight_credentials
 clean_stale_locks
+ensure_claude_md
 
 # A rejected token or a stale embedded credential makes every later "ok" meaningless.
 # Say it loudly on stderr up front rather than letting it surface as N confusing
@@ -1079,7 +1119,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.20.0",
+  "bsync_version": "2.21.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
