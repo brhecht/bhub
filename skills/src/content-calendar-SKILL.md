@@ -11,6 +11,10 @@ Say the point; do not write about the point. Every sentence this skill writes to
 
 Brian runs his content calendar (the app B Content, https://content-calendar-nine.vercel.app) by talking. Every card lives in Firebase (Firestore). Claude changes the data there and the app shows it on the next refresh. Linear is not involved. Do the operation and report it in two lines: what changed and the card's id. No analysis, no alternatives, no recommendations.
 
+## Do not run the handoff bootstrap, and do not open a browser first
+
+These requests change card data, not code. Do not run the `handoff` skill or the B-Suite bootstrap for them, and do not mount or clone any repo. Try the call from a shell first. Open the browser only when the shell cannot reach the app. If the browser tab is not signed in to B Content, or the key is not available, say so in one line and stop; do not click through a sign-in.
+
 ## The calls
 
 Base URL `https://content-calendar-nine.vercel.app/api/cards-admin`, header `Authorization: Bearer <VITE_FIREBASE_API_KEY>`. The key is the content-calendar app's Firebase web key (the same one `create-content` uses; it lives in the app's `.env` and Vercel settings). Never print it in chat and never write it into a file in a repo.

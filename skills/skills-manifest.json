@@ -8,10 +8,10 @@
       "changelog": "1.4.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "content-calendar": {
-      "version": "1.1.0",
-      "hash": "73beeca84f9bfe19f4831a9a0287f0f1",
+      "version": "1.1.1",
+      "hash": "242e72b0dc7322729c3dc1b2dd64d389",
       "updated": "2026-10-25",
-      "changelog": "1.1.0: Firebase only. Linear is out of the content calendar: add, find, change and annotate cards through cards-admin (add, edit, list). Dated cards and every date, status and format change work the same way. 1.0.x: first versions (Linear for dated pieces)."
+      "changelog": "1.1.1: Never runs the handoff bootstrap or mounts a repo for card requests; tries a shell call first and stops with one line if the browser tab is not signed in or the key is missing. 1.1.0: Firebase only (cards-admin add, edit, list). 1.0.x: first versions."
     },
     "community-measure": {
       "version": "1.1.1",
