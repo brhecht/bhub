@@ -8,10 +8,10 @@
       "changelog": "1.4.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "content-calendar": {
-      "version": "1.3.0",
-      "hash": "f7fb5373d6151e35926854baa3190a23",
+      "version": "1.3.1",
+      "hash": "191b9fa436bc19f737764580272f1d1b",
       "updated": "2026-10-25",
-      "changelog": "1.3.0: Adds delete_card (two-step: show Brian the list, then delete; recovery copy first), the empty filter, searching the archive and Marketing Library, publishing and un-publishing, and promo formats. 1.2.0: connector tools. 1.1.x: Chrome route, description fixes. 1.0.x: first versions."
+      "changelog": "1.3.1: Delete (two-step: show Brian the list, then delete; recovery copy first), the empty filter, searching the archive and Marketing Library, publishing and un-publishing, promo formats. 1.3.0 shipped with the old text by mistake. 1.2.0: connector tools. 1.1.x: Chrome route, description fixes."
     },
     "community-measure": {
       "version": "1.1.1",
