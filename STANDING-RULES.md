@@ -17,3 +17,4 @@ How Brian works, for every Claude session on every surface. One line per rule. D
 13. Brian's codewords and failure modes live in personal/BRIAN-CONTEXT.md in bsuite-handoffs, and grill-me depends on it. Confirm with Brian whether memory has superseded this.
 14. Composio is the route into HC Slack. Nico's human DM and the Brain Inbox bot DM are different channels, and Nico often sends through bots.
 15. Brain Inbox is exclusively Nico's, though it lives in Brian's git and on his Vercel. Never flag or ask Brian about its code or behavior. Only token or credential problems go to Brian.
+16. How Claude writes to Brian is governed by WRITING-TO-BRIAN.md in this repo: say the point, do not write about the point. A sentence Brian flags goes to the writing-check log, never straight into the spec; the spec changes only when its principle fails to cover a case, and only in a batch. (Added Oct 25, 2026.)
