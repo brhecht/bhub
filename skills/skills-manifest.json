@@ -8,10 +8,10 @@
       "changelog": "1.4.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "content-calendar": {
-      "version": "1.0.1",
-      "hash": "120d11bb3043fd86d78f7def3c5b7cc6",
+      "version": "1.1.0",
+      "hash": "73beeca84f9bfe19f4831a9a0287f0f1",
       "updated": "2026-10-25",
-      "changelog": "1.0.1: Says what 'due date' means on a piece (the Linear date, shown as Publish Date; the writing deadline only when named) and lets Claude change the date of a planted issue when Brian asks for that piece. 1.0.0: New. Controls the content calendar (B Content) by talking, with no slash command."
+      "changelog": "1.1.0: Firebase only. Linear is out of the content calendar: add, find, change and annotate cards through cards-admin (add, edit, list). Dated cards and every date, status and format change work the same way. 1.0.x: first versions (Linear for dated pieces)."
     },
     "community-measure": {
       "version": "1.1.1",
