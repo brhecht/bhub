@@ -1,6 +1,6 @@
 {
   "bhealth_version": "1.1.0",
-  "timestamp": "2026-10-25T08:00:17Z",
+  "timestamp": "2026-10-25T14:25:00Z",
   "device": "MacBook Air",
   "hostname": "BRH-Macbook-Air-2026",
   "computer_name": "BRH Macbook Air 2026",
@@ -8,7 +8,7 @@
   "bsuite_path": "/Users/BRHair/Developer/B-Suite",
   "git_auth_ok": true,
   "bsync_loaded": true,
-  "bsync_last_run": "2026-10-24 17:09:33",
+  "bsync_last_run": "2026-10-25 10:23:42",
   "repos": [
     {
       "repo": "things-app",
@@ -82,9 +82,9 @@
       "status": "dirty",
       "ahead": 0,
       "behind": 0,
-      "dirty": 0,
-      "untracked": 16,
-      "last_commit": "2026-10-24",
+      "dirty": 1,
+      "untracked": 0,
+      "last_commit": "2026-10-25",
       "action": "none"
     },
     {
@@ -112,24 +112,24 @@
     {
       "repo": "hc-strategy",
       "branch": "main",
-      "status": "clean",
+      "status": "pulled",
       "ahead": 0,
-      "behind": 0,
+      "behind": 3,
       "dirty": 0,
       "untracked": 0,
       "last_commit": "2026-03-24",
-      "action": "none"
+      "action": "pulled_3"
     },
     {
       "repo": "tnb-strategy",
       "branch": "main",
-      "status": "clean",
+      "status": "pulled",
       "ahead": 0,
-      "behind": 0,
+      "behind": 7,
       "dirty": 0,
       "untracked": 0,
       "last_commit": "2026-08-31",
-      "action": "none"
+      "action": "pulled_7"
     },
     {
       "repo": "hc-website",
@@ -183,7 +183,7 @@
       "behind": 0,
       "dirty": 0,
       "untracked": 0,
-      "last_commit": "2026-10-24",
+      "last_commit": "2026-10-25",
       "action": "none"
     }
   ],
@@ -360,12 +360,13 @@
       "version": "git version 2.50.1 (Apple Git-155)"
     }
   ],
-  "actions": [],
+  "actions": [
+    "Pulled 3 commits into hc-strategy",
+    "Pulled 7 commits into tnb-strategy"
+  ],
   "flags": [
-    "hc-strategy: git fetch failed, so its sync status was NOT measured. Check the remote URL for an expired embedded token: cd /Users/BRHair/Developer/B-Suite/hc-strategy && git remote -v",
-    "tnb-strategy: git fetch failed, so its sync status was NOT measured. Check the remote URL for an expired embedded token: cd /Users/BRHair/Developer/B-Suite/tnb-strategy && git remote -v",
+    "bhub has 1 MODIFIED file(s) \u2014 review: cd /Users/BRHair/Developer/B-Suite/bhub && git status",
     "tnb-website: git fetch failed, so its sync status was NOT measured. Check the remote URL for an expired embedded token: cd /Users/BRHair/Developer/B-Suite/tnb-website && git remote -v",
-    "bsuite-handoffs: git fetch failed, so its sync status was NOT measured. Check the remote URL for an expired embedded token: cd /Users/BRHair/Developer/B-Suite/bsuite-handoffs && git remote -v",
-    "Untracked files present (no modified files) in: bhub(16) \u2014 usually harmless, tidy when convenient"
+    "bsuite-handoffs: git fetch failed, so its sync status was NOT measured. Check the remote URL for an expired embedded token: cd /Users/BRHair/Developer/B-Suite/bsuite-handoffs && git remote -v"
   ]
 }
