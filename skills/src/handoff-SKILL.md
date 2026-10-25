@@ -260,6 +260,7 @@ For everything else, prefer the scoped form.
 - The stamp is committed alongside the code change — same commit, not a separate one.
 - If there's no HANDOFF.md yet, don't create one just for a stamp. Stamps are amendments to existing handoffs.
 - If the push shipped, killed, or materially changed the stage of something that has a REGISTRY.md row, update that row's `stage` and `next` in the same commit (one line each, not a rewrite). Skip this when nothing about stage or next actually changed — a stamp doesn't need a registry touch every time.
+- If the push changed what an app is or does (its status line, a new capability, a new file other sessions must know about), update that app's section in `HANDOFF-MASTER.md` in `bsuite-handoffs` in the same commit as the stamp: the **Status** and **Last updated** lines and, where one fits, one bullet under **Key context**. Do not wait for "handoff away": Brian never has to say it, and a master that only moves on that phrase goes stale (added Oct 25, 2026, after the Oct 24 to 25 writing-spec deployment left the B Hub section at Oct 17). Skip it for stamps that change nothing about the app's shape.
 
 **When to stamp:**
 - After pushing a feature or meaningful fix

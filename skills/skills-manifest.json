@@ -50,10 +50,10 @@
       "hash": "424449ce8e8a1895f9ea83a2fa7b3f93"
     },
     "handoff": {
-      "version": "3.13.1",
-      "hash": "cbeb50f0d6c7c1e361fe9ca8a8b1d8ef",
+      "version": "3.13.2",
+      "hash": "bc85b1ea835c60297b04c3c493f7042e",
       "updated": "2026-10-25",
-      "changelog": "3.13.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
+      "changelog": "3.13.2: Stamp-on-push now also updates the app's section in HANDOFF-MASTER.md (Status, Last updated, one Key context bullet) in the same commit whenever the push changed what the app is or does, so the master no longer waits for the words 'handoff away'. Reinstall the bundle."
     },
     "hc-strategy": {
       "version": "1.0.0",
