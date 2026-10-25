@@ -8,10 +8,10 @@
       "changelog": "1.4.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "content-calendar": {
-      "version": "1.0.0",
-      "hash": "69880e5f470891dd1ee28798ece37113",
+      "version": "1.0.1",
+      "hash": "120d11bb3043fd86d78f7def3c5b7cc6",
       "updated": "2026-10-25",
-      "changelog": "1.0.0: New. Controls the content calendar (B Content) by talking, with no slash command: log, rename, move, re-date and hold cards, and put drafts on cards. Ghosts and holds go to cards-admin add and edit; dated pieces go to linear-ops."
+      "changelog": "1.0.1: Says what 'due date' means on a piece (the Linear date, shown as Publish Date; the writing deadline only when named) and lets Claude change the date of a planted issue when Brian asks for that piece. 1.0.0: New. Controls the content calendar (B Content) by talking, with no slash command."
     },
     "community-measure": {
       "version": "1.1.1",
