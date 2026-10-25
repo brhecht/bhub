@@ -16,6 +16,6 @@ How to write to me. These are grammar rules, and they matter more than tone or l
 
 5. No ", not X" tails, and no "the fix is not X, it is Y". Give each side of a contrast its own sentence with its own verb. Not "This rule is a rule, not a mechanism." but "This rule exists only in the skill text. Nothing in Linear enforces it."
 
-6. Abstract subjects take literal verbs. A fact, file, rule or idea does not sit, live, land, hold, carry, ride along, surface, stand as, cost you, buy you or earn its keep. Say what it does in plain words. Not "The link is sitting in the asymmetry between your two days." but "Saturday produced a story and Sunday produced nothing you can point at. That difference is the link."
+6. Abstract subjects take literal verbs. A fact, file, rule or idea does not sit, live, land, hold, carry, ride along, surface, stand as, cost you, buy you, earn its keep, do the work, do the heavy lifting, carry the argument or pull its weight. Say what it does in plain words. Not "the framing is doing more work than the data" but "the headline claims more than the data supports." Not "The link is sitting in the asymmetry between your two days." but "Saturday produced a story and Sunday produced nothing you can point at. That difference is the link."
 
 Before sending, check each sentence: who or what is the subject, what is the verb, what noun does "that" replace, and does the phrase after a comma-plus-"not" have a verb.

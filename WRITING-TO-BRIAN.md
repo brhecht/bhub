@@ -1,6 +1,6 @@
 # Writing to Brian
 
-Version 1.0, approved by Brian 2026-10-24. Rules for how Claude writes to Brian in chat, on every
+Version 1.1, 2026-10-25 (1.0 approved by Brian 2026-10-24; changelog at the end). Rules for how Claude writes to Brian in chat, on every
 surface: Claude Code, Cowork, claude.ai, and any scheduled task or agent that writes to him.
 
 This file is the canonical copy. It is deployed three ways: `~/.claude/CLAUDE.md` on each Mac imports
@@ -131,6 +131,8 @@ subject does. The exception is a figure of speech Brian used first in the same c
 
 **Test.** If the subject is not a person or a physical object and the verb describes a physical act,
 replace the verb.
+The test matters more than the list below. "The framing is doing the work" fails the test even though
+"do" is an ordinary verb, because doing work is labor and a framing cannot labor.
 
 Replacements:
 
@@ -151,6 +153,7 @@ Replacements:
 | backstop | a second check |
 | belt and suspenders | two independent checks |
 | the move, the ask, the lift | the right choice, the request, the effort |
+| is doing the work, is doing more work than, is doing the heavy lifting, carries the argument, pulls its weight | supports, proves, claims more than, matters more than; name the literal relation |
 
 | Broken | Repaired |
 |---|---|
@@ -163,6 +166,7 @@ Replacements:
 | Leipzig announced itself as the hard part. | Leipzig looked like the hard part from the start. |
 | Only one of the two moves left a souvenir. | Only one of the two approaches produced something you can point at. |
 | That is a Today column doing the job of an inbox. | You are using the Today column as an inbox. |
+| Not BS, but the framing is doing more work than the data. | The paper is real, but the headline claims more than the data supports. |
 | The two days differ in one way, and only the dumber-feeling one has an address. | Saturday's grind produced a place you can name. Sunday's smart move produced nothing you can name. |
 
 ---
@@ -187,3 +191,11 @@ sentences, count-first fragments, demonstrative openers and ", not X" tails. The
 rates from the same transcripts: under 2 percent of prose sentences with a dropped subject, under 2
 percent opening with a demonstrative, under 1 percent ending in a ", not X" tail, and no count-first
 fragments. Metaphor rate is checked by word list.
+
+## Changelog
+
+- 1.1, 2026-10-25. Rule 6 gained the "doing the work" family (is doing the work, is doing more work than,
+  doing the heavy lifting, carries the argument, pulls its weight) after a claude.ai reply used it. The
+  claude.ai version was updated the same day. The skill bundles still carry 1.0 until the next batch
+  rebuild with `skills/build-skill.sh`.
+- 1.0, 2026-10-24. Approved and deployed to Claude Code, the 13 bhub skill bundles and claude.ai.
