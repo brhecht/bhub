@@ -13,13 +13,13 @@ Brian runs his content calendar (the app B Content, https://content-calendar-nin
 
 ## Do not run the handoff bootstrap, and do not open a browser first
 
-These requests change card data, not code. Do not run the `handoff` skill or the B-Suite bootstrap for them, and do not mount or clone any repo. Try the call from a shell first. Open the browser only when the shell cannot reach the app. If the browser tab is not signed in to B Content, or the key is not available, say so in one line and stop; do not click through a sign-in.
+These requests change card data, not code. Do not run the `handoff` skill or the B-Suite bootstrap for them, and do not mount or clone any repo. Make the calls through Claude in Chrome (see below). Do not use the built-in browser pane and do not click through a sign-in. If the tab shows the sign-in page or Chrome is not connected, say so in one line and stop.
 
 ## The calls
 
 Base URL `https://content-calendar-nine.vercel.app/api/cards-admin`, header `Authorization: Bearer <VITE_FIREBASE_API_KEY>`. The key is the content-calendar app's Firebase web key (the same one `create-content` uses; it lives in the app's `.env` and Vercel settings). Never print it in chat and never write it into a file in a repo.
 
-From a shell that can reach vercel.app, use curl. From a Cowork session, the shell cannot reach `*.vercel.app`; run the same `fetch` from Brian's signed-in B Content tab in the browser, where the app exposes the key as `window.__store.getState().user.auth.config.apiKey`.
+**How to make the call.** Use Claude in Chrome (the `mcp__claude-in-chrome__*` tools), not the built-in browser pane. Brian's own Chrome is already signed in to B Content, and the built-in pane is not. Open https://content-calendar-nine.vercel.app/ in a new Chrome tab, wait until the page shows the calendar (not the sign-in page), and run the `fetch` calls with the `javascript_tool` from that tab. The page exposes the key as `window.__store.getState().user.auth.config.apiKey`, so no key needs to be pasted anywhere. A shell with curl also works when the key is available and the shell can reach vercel.app, but most chats cannot, so go to Chrome without trying more than once. If Chrome is not connected, or the tab shows the sign-in page, say so in one line and stop. Close the tab you opened when you finish.
 
 - **Find cards.** `GET ?open=1` returns every open card with `id, title, status, contentType, publishDate, dueDate`. Match "that ghost", "today's LinkedIn" or "the Halloween newsletter" by title, format and date. If two cards match, ask which one, in one line.
 - **Add a card.** `POST {"action":"add","fields":{...}}`. `title` is required. `status` is `ghost` unless Brian says otherwise. A card on the calendar needs a status in the pipeline (`idea`, `draft`, `ready-to-edit`, `ready-to-review`, `ready-to-stage`, `staged`, `approved`, `scheduled`) and a `publishDate`. "Add a LinkedIn for Thursday on the Jesse clip" is `{"title":"Jesse clip","contentType":"linkedin-post","status":"idea","publishDate":"2026-10-29"}`.
