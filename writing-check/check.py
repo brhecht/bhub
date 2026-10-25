@@ -47,7 +47,22 @@ def clean(t):
 
 def sentences(text):
     """Yield (context, sentence). context is prose, bullet, heading or label."""
-    for para in clean(text).split('\n'):
+    # Paragraphs are separated by blank lines. Inside a paragraph, a line that starts with a
+    # bullet marker or a heading mark stands alone; other lines are joined, so a hard-wrapped
+    # sentence in a file is read as one sentence.
+    units = []
+    for block in re.split(r'\n\s*\n', clean(text)):
+        buf = []
+        for line in block.split('\n'):
+            line = line.strip()
+            if not line: continue
+            if re.match(r'^(#{1,4}\s|[-*]\s+|\d+\.\s+)', line) or (line.endswith(':') and len(line.split()) <= 8):
+                if buf: units.append(' '.join(buf)); buf = []
+                units.append(line)
+            else:
+                buf.append(line)
+        if buf: units.append(' '.join(buf))
+    for para in units:
         para = para.strip()
         if not para: continue
         ctx = 'prose'
