@@ -170,8 +170,11 @@ check_git_auth() {
   git config --global user.name "brhecht" 2>/dev/null || true
   git config --global user.email "brhnyc1970@gmail.com" 2>/dev/null || true
 
-  # Verify with dry-run push against bhub
-  if (cd "$SCRIPT_DIR" && git push --dry-run origin main 2>&1) >/dev/null; then
+  # Verify write auth with a dry-run push to a branch that does not exist.
+  # Dry-running main is rejected as non-fast-forward whenever another Mac has
+  # pushed since this one last pulled, which reported a valid PAT as expired
+  # and skipped the commit on the MacBook Air from 2026-09-30 to 2026-10-24.
+  if (cd "$SCRIPT_DIR" && git push --dry-run origin HEAD:refs/heads/bhealth-auth-probe 2>&1) >/dev/null; then
     GIT_AUTH_OK="true"
     say "${OK} PAT works — push auth verified"
   else
