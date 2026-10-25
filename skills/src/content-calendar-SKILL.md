@@ -9,7 +9,7 @@ Say the point; do not write about the point. Every sentence this skill writes to
 
 # Content Calendar
 
-Brian runs his content calendar (the app B Content) by talking. Every card lives in Firebase. Claude changes it through the **B Content connector**, which gives three tools: `list_cards`, `add_card` and `edit_card`. Linear is not involved. Do the operation and report it in two lines: what changed and the card's id. No analysis, no alternatives, no recommendations.
+Brian runs his content calendar (the app B Content) by talking. Every card lives in Firebase. Claude changes it through the **B Content connector**, which gives four tools: `list_cards`, `add_card`, `edit_card` and `delete_card`. Linear is not involved. Do the operation and report it in two lines: what changed and the card's id. No analysis, no alternatives, no recommendations.
 
 ## Do not run the handoff bootstrap
 
@@ -19,6 +19,7 @@ These requests change card data, not code. Do not run the `handoff` skill or the
 
 - **`list_cards`** finds open cards. Filters: `query` (text in the title), `status`, `date` (publish date). Use it to find "that ghost", "today's LinkedIn" or "the Halloween newsletter" before editing. If two cards match, ask which one, in one line.
 - **`add_card`** adds a card. `title` is required. A ghost has no date. A card on the calendar needs a pipeline status and a `publishDate`: "add a LinkedIn for Thursday on the Jesse clip" is title "Jesse clip", `contentType` `linkedin-post`, `status` `idea`, `publishDate` that Thursday.
+- **`delete_card`** deletes ghost and on-hold cards by id. Use it only in two steps. First show Brian the cards (`list_cards`, with `empty: true` for "show me all empty ghost cards"), each with its title and id. Then, only when he says to delete them, call `delete_card` with those ids and `confirmed: true`. Never delete on your own, never delete a card Brian has not seen in the list, and never widen the list after he approved it. Each deleted card is copied to a recovery area first; say so in the report.
 - **`edit_card`** changes a card by `id`: title, status, publish date, due date, format, notes, draft, tags. Moving a card into the pipeline needs a `publishDate`.
 
 Statuses: `ghost`, `idea`, `draft`, `ready-to-edit`, `ready-to-review`, `ready-to-stage`, `staged`, `approved`, `scheduled`, `on-hold`. The tool descriptions give the format words and the draft shapes.
@@ -28,7 +29,7 @@ Statuses: `ghost`, `idea`, `draft`, `ready-to-edit`, `ready-to-review`, `ready-t
 - "Publish date", "ships" and "goes out" mean `publishDate`. "Due date" and "draft due" mean `dueDate`, Brian's writing deadline (usually the day before publish). "Move it to Thursday" with no other word means `publishDate`. If the wording could mean either, ask in one line.
 - Resolve relative dates ("Thursday", "tomorrow", "next week") against today's date and send YYYY-MM-DD built from local calendar parts. Never derive a date through `toISOString()`.
 - A card Brian names by topic gets a title in his words ("Halloween newsletter"). Do not invent a title when he gave only a format; ask for the topic in one line.
-- Never publish, archive or delete a card, and never touch the Marketing Library from here. Publishing happens in the app. The tools refuse these.
+- Never publish or archive a card, and never touch the Marketing Library from here. Publishing happens in the app. The tools refuse these. Deleting follows the two-step rule under `delete_card`.
 - If a tool returns an error, report the error text in one line and stop. Do not retry with different fields.
 - To tell Nico something, use the `comms` skill.
 
