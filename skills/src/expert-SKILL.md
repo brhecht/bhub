@@ -6,7 +6,7 @@ description: |
 
 ## Writing to Brian (read first)
 
-Every sentence this skill writes to Brian follows `references/writing-to-brian.md` in this skill: a stated subject and a finite verb in every sentence, including bullets and lines after a colon; no verbless claims; no announced counts; no "That is" or "This is" pointing at an idea instead of a noun; no ", not X" tails; and literal verbs for abstract subjects. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+Say the point; do not write about the point. Every sentence this skill writes to Brian states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/writing-to-brian.md` in this skill. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
 
 # Expert — On-Demand Research Agent
 

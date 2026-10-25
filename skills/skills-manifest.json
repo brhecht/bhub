@@ -2,64 +2,64 @@
   "_comment": "Tracks skill versions across devices. Hash is MD5 of SKILL.md source. Bootstrap protocol (bsync.sh) compares this against installed versions.",
   "skills": {
     "comms": {
-      "version": "1.4.0",
-      "hash": "799adc51742a9b1787c3f3410d3d6970",
-      "updated": "2026-10-24",
-      "changelog": "1.4.0: Writing to Brian (read first) section added after the frontmatter; bundle now carries references/writing-to-brian.md, a copy of bhub/WRITING-TO-BRIAN.md (Brian's six grammar rules for how Claude writes to him, approved Oct 24 2026). No other change to the skill's behavior. Reinstall the bundle."
+      "version": "1.4.1",
+      "hash": "aadd761cc2408f70afcdb71808617712",
+      "updated": "2026-10-25",
+      "changelog": "1.4.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "community-measure": {
-      "version": "1.1.0",
-      "hash": "265e0e02a19057edde8415747edcade5",
-      "updated": "2026-10-24",
-      "changelog": "1.1.0: Writing to Brian (read first) section added after the frontmatter; bundle now carries references/writing-to-brian.md, a copy of bhub/WRITING-TO-BRIAN.md (Brian's six grammar rules for how Claude writes to him, approved Oct 24 2026). No other change to the skill's behavior. Reinstall the bundle."
+      "version": "1.1.1",
+      "hash": "59cf4c882c57828b9a0632cbf55f1762",
+      "updated": "2026-10-25",
+      "changelog": "1.1.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "consolidate-memory": {
       "version": "1.0.0",
       "hash": "2cfbe7ed256ae3377be92764f07ae26b"
     },
     "create-content": {
-      "version": "1.8.0",
-      "hash": "500156051f7ad40e614d189dc6b34ae5",
-      "updated": "2026-10-24",
-      "changelog": "1.8.0: Writing to Brian (read first) section added after the frontmatter; bundle now carries references/writing-to-brian.md, a copy of bhub/WRITING-TO-BRIAN.md (Brian's six grammar rules for how Claude writes to him, approved Oct 24 2026). No other change to the skill's behavior. Reinstall the bundle. Also clears the pre-existing manifest drift: the manifest hash had not matched the SKILL.md source since the Sep 1 edit (manifest_synced was false)."
+      "version": "1.8.1",
+      "hash": "5f31c92c26afe10fa8293e6502559b68",
+      "updated": "2026-10-25",
+      "changelog": "1.8.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "dev-deploy": {
-      "version": "1.15.0",
-      "hash": "5e0eee17d2ec7ccb34405b1e9ff994c2",
-      "updated": "2026-10-24",
-      "changelog": "1.15.0: Writing to Brian (read first) section added after the frontmatter; bundle now carries references/writing-to-brian.md, a copy of bhub/WRITING-TO-BRIAN.md (Brian's six grammar rules for how Claude writes to him, approved Oct 24 2026). No other change to the skill's behavior. Reinstall the bundle."
+      "version": "1.15.1",
+      "hash": "1a1d5f5ad4961cf7f39e7e364b834790",
+      "updated": "2026-10-25",
+      "changelog": "1.15.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "docx": {
       "version": "1.0.0",
       "hash": "fc4dc313a102d42cd53ca142fa32a992"
     },
     "expert": {
-      "version": "1.1.0",
-      "hash": "921993eced14b22d0c6372b619c02fe9",
-      "updated": "2026-10-24",
-      "changelog": "1.1.0: Writing to Brian (read first) section added after the frontmatter; bundle now carries references/writing-to-brian.md, a copy of bhub/WRITING-TO-BRIAN.md (Brian's six grammar rules for how Claude writes to him, approved Oct 24 2026). No other change to the skill's behavior. Reinstall the bundle."
+      "version": "1.1.1",
+      "hash": "90205173b736fa2add3a350126996dbb",
+      "updated": "2026-10-25",
+      "changelog": "1.1.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "frontend-design": {
-      "version": "1.1.0",
-      "hash": "03b596a906fa88dc3766acb6c0ea33f3",
-      "updated": "2026-10-24",
-      "changelog": "1.1.0: Writing to Brian (read first) section added after the frontmatter; bundle now carries references/writing-to-brian.md, a copy of bhub/WRITING-TO-BRIAN.md (Brian's six grammar rules for how Claude writes to him, approved Oct 24 2026). No other change to the skill's behavior. Reinstall the bundle."
+      "version": "1.1.1",
+      "hash": "79150319ca2ed5eb474db6c047e78ff1",
+      "updated": "2026-10-25",
+      "changelog": "1.1.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "grill-me": {
       "version": "1.0.0",
       "hash": "424449ce8e8a1895f9ea83a2fa7b3f93"
     },
     "handoff": {
-      "version": "3.13.0",
-      "hash": "82b185c0615d2e51fea24c077127d8fa",
-      "updated": "2026-10-24",
-      "changelog": "3.13.0: Writing to Brian (read first) section added after the frontmatter; bundle now carries references/writing-to-brian.md, a copy of bhub/WRITING-TO-BRIAN.md (Brian's six grammar rules for how Claude writes to him, approved Oct 24 2026). No other change to the skill's behavior. Reinstall the bundle."
+      "version": "3.13.1",
+      "hash": "cbeb50f0d6c7c1e361fe9ca8a8b1d8ef",
+      "updated": "2026-10-25",
+      "changelog": "3.13.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "hc-strategy": {
       "version": "1.0.0",
       "hash": "c224d6294aec2cf696a1a654a5d22d86",
       "updated": "2026-03-23",
-      "changelog": "Initial release \u2014 HC strategic brain with operating plan, expert research, quarterly review protocol. Hash corrected April 9 to match actual source.",
+      "changelog": "Initial release — HC strategic brain with operating plan, expert research, quarterly review protocol. Hash corrected April 9 to match actual source.",
       "status": "archived",
       "archived_note": "Superseded by tnb-strategy as of April 3, 2026. Repo remains for reference but no longer actively maintained."
     },
@@ -68,26 +68,26 @@
       "hash": "1c07e7fc21a8ad77c257900350a61098"
     },
     "pm": {
-      "version": "1.5.0",
-      "hash": "fbe3ad0147344212dda8a0dedb3b8fd3",
-      "updated": "2026-10-24",
-      "changelog": "1.5.0: Writing to Brian (read first) section added after the frontmatter; bundle now carries references/writing-to-brian.md, a copy of bhub/WRITING-TO-BRIAN.md (Brian's six grammar rules for how Claude writes to him, approved Oct 24 2026). No other change to the skill's behavior. Reinstall the bundle."
+      "version": "1.5.1",
+      "hash": "b96dc511fa87587e2025cc6cfd7b47cd",
+      "updated": "2026-10-25",
+      "changelog": "1.5.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "pptx": {
       "version": "1.0.0",
       "hash": "24895e8378922ad91f1edb152c1f1950"
     },
     "priority-agenda": {
-      "version": "1.11.0",
-      "hash": "e89aea0698605e7b39b43576807424e9",
-      "updated": "2026-10-24",
-      "changelog": "1.11.0: Writing to Brian (read first) section added after the frontmatter; bundle now carries references/writing-to-brian.md, a copy of bhub/WRITING-TO-BRIAN.md (Brian's six grammar rules for how Claude writes to him, approved Oct 24 2026). No other change to the skill's behavior. Reinstall the bundle."
+      "version": "1.11.1",
+      "hash": "4c5fb8a9505a7a928c8861ece60f4958",
+      "updated": "2026-10-25",
+      "changelog": "1.11.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "priority-startup-intel": {
-      "version": "1.2.0",
-      "hash": "1784b1b81068fe03b0981a2daa7217d3",
-      "updated": "2026-10-24",
-      "changelog": "1.2.0: Writing to Brian (read first) section added after the frontmatter; bundle now carries references/writing-to-brian.md, a copy of bhub/WRITING-TO-BRIAN.md (Brian's six grammar rules for how Claude writes to him, approved Oct 24 2026). No other change to the skill's behavior. Reinstall the bundle."
+      "version": "1.2.1",
+      "hash": "05f8632d604863a765945dec41cf0fa8",
+      "updated": "2026-10-25",
+      "changelog": "1.2.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "schedule": {
       "version": "1.0.0",
@@ -102,22 +102,22 @@
       "hash": "a1277b9e97e7a84dbd80a984164ad373"
     },
     "slate": {
-      "version": "1.1.0",
-      "hash": "e58963bc09c41594c70852126dcb7c27",
-      "updated": "2026-10-24",
-      "changelog": "1.1.0: Writing to Brian (read first) section added after the frontmatter; bundle now carries references/writing-to-brian.md, a copy of bhub/WRITING-TO-BRIAN.md (Brian's six grammar rules for how Claude writes to him, approved Oct 24 2026). No other change to the skill's behavior. Reinstall the bundle."
+      "version": "1.1.1",
+      "hash": "26f261609d34b588a7defbc5abd096cf",
+      "updated": "2026-10-25",
+      "changelog": "1.1.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "tnb-digest": {
-      "version": "1.2.0",
-      "hash": "4aff795ae0e80d12d4683ca1e36dd2ad",
-      "updated": "2026-10-24",
-      "changelog": "1.2.0: Writing to Brian (read first) section added after the frontmatter; bundle now carries references/writing-to-brian.md, a copy of bhub/WRITING-TO-BRIAN.md (Brian's six grammar rules for how Claude writes to him, approved Oct 24 2026). No other change to the skill's behavior. Reinstall the bundle."
+      "version": "1.2.1",
+      "hash": "519eae7714f8d31803fcd821ca7759fa",
+      "updated": "2026-10-25",
+      "changelog": "1.2.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "tnb-strategy": {
-      "version": "1.2.0",
-      "hash": "2a9b116bb0cbf1b357e2c4eae09a8db5",
-      "updated": "2026-10-24",
-      "changelog": "1.2.0: Writing to Brian (read first) section added after the frontmatter; bundle now carries references/writing-to-brian.md, a copy of bhub/WRITING-TO-BRIAN.md (Brian's six grammar rules for how Claude writes to him, approved Oct 24 2026). No other change to the skill's behavior. Reinstall the bundle."
+      "version": "1.2.1",
+      "hash": "fc6183750afd1eec190ee93018a7150b",
+      "updated": "2026-10-25",
+      "changelog": "1.2.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "xlsx": {
       "version": "1.0.0",
