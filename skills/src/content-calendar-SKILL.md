@@ -1,6 +1,6 @@
 ---
 name: content-calendar
-description: "Controls Brian's content calendar (B Content) by talking. Logs, renames, moves and re-dates cards, and puts drafts on cards. Triggers without a slash command on any request to add, log, park, rename, move, re-date, hold or look up a content idea or piece: 'log a ghost newsletter about Halloween', 'add an idea for a LinkedIn on X', 'park that', 'put it on hold', 'what ghosts do I have', 'what's on my content calendar', 'move that ghost to Idea on Dec 3', 'add a LinkedIn for Thursday on the Jesse clip', 'rename that card', 'put this draft on Tuesday's LinkedIn', 'schedule a short for Friday', 'change the due date for this week's newsletter to Thursday'. Ghosts, holds and drafts go to B Content directly; dated pieces go to Linear. Not for writing the piece itself (that is create-content) and not for Brian's personal task list (that is athena)."
+description: "Controls Brian's content calendar (B Content) by talking, with no slash command. Adds, finds, renames, moves, re-dates, holds and annotates content cards. Triggers on any request to add, log, park, rename, move, re-date, hold or look up a content idea or piece, or to put a draft or note on one: 'log a ghost newsletter about Halloween', 'add an idea for a LinkedIn on X', 'park that', 'put it on hold', 'what ghosts do I have', 'add a LinkedIn for Thursday on the Jesse clip', 'change today's LinkedIn publish date to tomorrow', 'move the Halloween newsletter to Draft', 'rename that card', 'change the due date on the newsletter to Wednesday', 'put this draft on Tuesday's LinkedIn', 'add a note to the Jesse podcast'. Not for writing the piece itself (that is create-content) and not for Brian's personal task list (that is athena)."
 ---
 
 ## Writing to Brian (read first)
@@ -9,18 +9,7 @@ Say the point; do not write about the point. Every sentence this skill writes to
 
 # Content Calendar
 
-Brian runs his content calendar (the app B Content, https://content-calendar-nine.vercel.app) by talking. Do the operation and report it in two lines: what changed, and the card's id or Linear key. No analysis, no alternatives, no recommendations.
-
-## Where each kind of card lives
-
-| What Brian says | Where it lives | How |
-|---|---|---|
-| A ghost, an idea, a parked or held card ("log a ghost newsletter about Halloween", "park that") | Firestore only | `cards-admin` `add` or `edit` |
-| A piece with a format and a publish date ("add a LinkedIn for Thursday on the Jesse clip") | A Linear issue in the Content Calendar project (team TNB) | the `linear-ops` skill |
-| Words on a card (a draft, notes, tags, a transcript) | Firestore | `cards-admin` `edit` for a ghost; `cards-admin` `set` for a piece |
-| Moving a ghost into the calendar ("move that ghost to Idea on Dec 3") | Becomes a Linear issue | `cards-admin` `edit` with a status and a publish date |
-
-A piece with a date is a Linear issue because Nico already plants the weekly set there. A ghost has no date and nothing is owed yet, so it stays out of Linear. Cards appear in the app on its next refresh (up to 2 minutes, a window focus, or the Refresh button).
+Brian runs his content calendar (the app B Content, https://content-calendar-nine.vercel.app) by talking. Every card lives in Firebase (Firestore). Claude changes the data there and the app shows it on the next refresh. Linear is not involved. Do the operation and report it in two lines: what changed and the card's id. No analysis, no alternatives, no recommendations.
 
 ## The calls
 
@@ -28,23 +17,21 @@ Base URL `https://content-calendar-nine.vercel.app/api/cards-admin`, header `Aut
 
 From a shell that can reach vercel.app, use curl. From a Cowork session, the shell cannot reach `*.vercel.app`; run the same `fetch` from Brian's signed-in B Content tab in the browser, where the app exposes the key as `window.__store.getState().user.auth.config.apiKey`.
 
-- **List the open Firestore-only cards.** `GET ?open=1` returns `id, title, status, contentType, publishDate, dueDate`. Use it to find "that ghost" by title. If two cards match, ask which one, in one line.
-- **Add a ghost.** `POST {"action":"add","fields":{"title":"Halloween newsletter","contentType":"beehiiv-post"}}`. `status` is `ghost` unless Brian says hold (`"status":"on-hold"`). Add refuses dates and pipeline statuses.
-- **Edit a Firestore-only card.** `POST {"action":"edit","id":"card-…","fields":{…}}`. Fields: `title`, `status`, `publishDate` (YYYY-MM-DD), `contentType`, `body`, `notes`, `transcript`, `sourceUrl`, `tags`, `dueDate`. Moving a ghost or held card to a pipeline status (`idea`, `draft`, and on up) needs a title, a format and a `publishDate`; the call then creates the Linear issue in Content Calendar and links the card. Without all three, nothing is written and the call returns what is missing; ask Brian for it in one line.
-- **Put a draft on a piece that is already a Linear issue.** `POST {"action":"set","linearId":"TNB-694","fields":{"contentType":"linkedin-post","body":{"liBody":"<p>Text</p>","liFooter":""},"notes":"…"}}`. `linearId` takes the issue key or its uuid. `set` refuses title, status and publish date.
+- **Find cards.** `GET ?open=1` returns every open card with `id, title, status, contentType, publishDate, dueDate`. Match "that ghost", "today's LinkedIn" or "the Halloween newsletter" by title, format and date. If two cards match, ask which one, in one line.
+- **Add a card.** `POST {"action":"add","fields":{...}}`. `title` is required. `status` is `ghost` unless Brian says otherwise. A card on the calendar needs a status in the pipeline (`idea`, `draft`, `ready-to-edit`, `ready-to-review`, `ready-to-stage`, `staged`, `approved`, `scheduled`) and a `publishDate`. "Add a LinkedIn for Thursday on the Jesse clip" is `{"title":"Jesse clip","contentType":"linkedin-post","status":"idea","publishDate":"2026-10-29"}`.
+- **Change a card.** `POST {"action":"edit","id":"card-…","fields":{...}}`. Fields: `title`, `status`, `publishDate`, `dueDate`, `contentType`, `body`, `notes`, `transcript`, `sourceUrl`, `tags`. A card moved into the pipeline needs a `publishDate`; the call returns what is missing.
 
-Format words to `contentType`: newsletter or Substack is `beehiiv-post`; LinkedIn is `linkedin-post`; YouTube or video is `yt-video`; podcast is `podcast`; short is `yt-short`. Body shapes: `linkedin-post` is `{liBody, liFooter}`; `yt-video` and `yt-short` are `{ytTitle, description, timeCodes, footer}`; `beehiiv-post` is `{subjectLine, subHead, imageCaption, essayBody, bestOfWeek, theySaidQuote, theySaidAttribution}`. `body` may be sent as an object.
+Statuses: `ghost`, `idea`, `draft`, `ready-to-edit`, `ready-to-review`, `ready-to-stage`, `staged`, `approved`, `scheduled`, `on-hold`. Format words to `contentType`: newsletter or Substack is `beehiiv-post`; LinkedIn is `linkedin-post`; YouTube or video is `yt-video`; podcast is `podcast`; short is `yt-short`. Body shapes: `linkedin-post` is `{liBody, liFooter}`; `yt-video` and `yt-short` are `{ytTitle, description, timeCodes, footer}`; `beehiiv-post` is `{subjectLine, subHead, imageCaption, essayBody, bestOfWeek, theySaidQuote, theySaidAttribution}`. `body` may be sent as an object.
 
 ## Rules
 
-- Resolve relative dates ("Thursday", "next week") against today's date and send YYYY-MM-DD built from local calendar parts. Never derive a date through `toISOString()`.
+- "Publish date", "ships" and "goes out" mean `publishDate`. "Due date" and "draft due" mean `dueDate`, Brian's writing deadline (usually the day before publish). "Move it to Thursday" with no other word means `publishDate`. If the wording could mean either, ask in one line.
+- Resolve relative dates ("Thursday", "tomorrow", "next week") against today's date and send YYYY-MM-DD built from local calendar parts. Never derive a date through `toISOString()`.
 - A card Brian names by topic gets a title in his words ("Halloween newsletter"). Do not invent a title when he gave only a format; ask for the topic in one line.
-- Never publish, archive, delete or touch the Marketing Library from here. Publishing happens in the app, which fills the archive fields. A card linked to Linear is cancelled in Linear (`linear-ops`), never deleted.
-- "Due date" on a piece means the Linear due date, which the app shows as the Publish Date. Brian's private writing deadline is a separate field; change it only when he says "writing deadline" or "draft due" (use `set` with `dueDate`). Tell Brian which one changed in the report.
-- Change the date, stage or assignee of a planted issue when Brian asks for that piece ("this week's newsletter", "Thursday's LinkedIn"). Do not change the title or labels of a planted issue unless he asks for that. Nico's Friday job names and labels them; Brian renamed TNB-698, 699 and 700 himself.
-- Moving a piece's stage in Linear moves the issue for Nico too: Ready to edit assigns it to Nico and Ready to review assigns it to Brian. Say so in the report when it happens.
+- Never publish, archive or delete a card, and never touch the Marketing Library from here. Publishing happens in the app, which fills the archive fields. The calls refuse these.
 - If a call returns an error, report the error text in one line and stop. Do not retry with different fields.
+- To tell Nico something, use the `comms` skill.
 
 ## Report format
 
-Two lines. Example: "Logged a ghost: Halloween newsletter (card-1792…). It is in Ghost." Or: "Moved Halloween newsletter to Idea on Dec 3 and created TNB-820. It shows in the app after the next refresh."
+Two lines. Example: "Logged a ghost: Halloween newsletter (card-1792…). It is in Ghost." Or: "Moved the Jesse clip LinkedIn to Oct 30. It shows after you refresh the app."
