@@ -1,0 +1,371 @@
+{
+  "bhealth_version": "1.1.0",
+  "timestamp": "2026-10-25T08:00:17Z",
+  "device": "MacBook Air",
+  "hostname": "BRH-Macbook-Air-2026",
+  "computer_name": "BRH Macbook Air 2026",
+  "os_version": "26.6.2",
+  "bsuite_path": "/Users/BRHair/Developer/B-Suite",
+  "git_auth_ok": true,
+  "bsync_loaded": true,
+  "bsync_last_run": "2026-10-24 17:09:33",
+  "repos": [
+    {
+      "repo": "things-app",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-08-07",
+      "action": "none"
+    },
+    {
+      "repo": "brain-inbox",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-08-18",
+      "action": "none"
+    },
+    {
+      "repo": "content-calendar",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-10-18",
+      "action": "none"
+    },
+    {
+      "repo": "b-marketing",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-16",
+      "action": "none"
+    },
+    {
+      "repo": "b-people",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-10-18",
+      "action": "none"
+    },
+    {
+      "repo": "b-resources",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-05-25",
+      "action": "none"
+    },
+    {
+      "repo": "bhub",
+      "branch": "main",
+      "status": "dirty",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 16,
+      "last_commit": "2026-10-24",
+      "action": "none"
+    },
+    {
+      "repo": "eddy",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-10-18",
+      "action": "none"
+    },
+    {
+      "repo": "hc-funnel",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-10-18",
+      "action": "none"
+    },
+    {
+      "repo": "hc-strategy",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-24",
+      "action": "none"
+    },
+    {
+      "repo": "tnb-strategy",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-08-31",
+      "action": "none"
+    },
+    {
+      "repo": "hc-website",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-04-27",
+      "action": "none"
+    },
+    {
+      "repo": "tnb-website",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-09-21",
+      "action": "none"
+    },
+    {
+      "repo": "pitch-scorer",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-03-12",
+      "action": "none"
+    },
+    {
+      "repo": "builder-bot",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-10-15",
+      "action": "none"
+    },
+    {
+      "repo": "bsuite-handoffs",
+      "branch": "main",
+      "status": "clean",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": 0,
+      "untracked": 0,
+      "last_commit": "2026-10-24",
+      "action": "none"
+    }
+  ],
+  "skills": [
+    {
+      "skill": "comms",
+      "installer_present": true,
+      "expected_hash": "799adc51742a9b1787c3f3410d3d6970",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "community-measure",
+      "installer_present": true,
+      "expected_hash": "265e0e02a19057edde8415747edcade5",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "consolidate-memory",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "2cfbe7ed256ae3377be92764f07ae26b"
+    },
+    {
+      "skill": "create-content",
+      "installer_present": true,
+      "expected_hash": "500156051f7ad40e614d189dc6b34ae5",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "dev-deploy",
+      "installer_present": true,
+      "expected_hash": "5e0eee17d2ec7ccb34405b1e9ff994c2",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "docx",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "fc4dc313a102d42cd53ca142fa32a992"
+    },
+    {
+      "skill": "expert",
+      "installer_present": true,
+      "expected_hash": "921993eced14b22d0c6372b619c02fe9",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "frontend-design",
+      "installer_present": true,
+      "expected_hash": "03b596a906fa88dc3766acb6c0ea33f3",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "grill-me",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "424449ce8e8a1895f9ea83a2fa7b3f93"
+    },
+    {
+      "skill": "handoff",
+      "installer_present": true,
+      "expected_hash": "82b185c0615d2e51fea24c077127d8fa",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "hc-strategy",
+      "installer_present": true,
+      "expected_hash": "c224d6294aec2cf696a1a654a5d22d86",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "pdf",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "1c07e7fc21a8ad77c257900350a61098"
+    },
+    {
+      "skill": "pm",
+      "installer_present": true,
+      "expected_hash": "fbe3ad0147344212dda8a0dedb3b8fd3",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "pptx",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "24895e8378922ad91f1edb152c1f1950"
+    },
+    {
+      "skill": "priority-agenda",
+      "installer_present": true,
+      "expected_hash": "e89aea0698605e7b39b43576807424e9",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "priority-startup-intel",
+      "installer_present": true,
+      "expected_hash": "1784b1b81068fe03b0981a2daa7217d3",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "schedule",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "64dae64d633b94d01d1f88599a4e54f7"
+    },
+    {
+      "skill": "setup-cowork",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "52e0ce1addc7b95ac5c05308a09da9fe"
+    },
+    {
+      "skill": "skill-creator",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "a1277b9e97e7a84dbd80a984164ad373"
+    },
+    {
+      "skill": "slate",
+      "installer_present": true,
+      "expected_hash": "e58963bc09c41594c70852126dcb7c27",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "tnb-digest",
+      "installer_present": true,
+      "expected_hash": "4aff795ae0e80d12d4683ca1e36dd2ad",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "tnb-strategy",
+      "installer_present": true,
+      "expected_hash": "2a9b116bb0cbf1b357e2c4eae09a8db5",
+      "verified_via": "cowork_bsync"
+    },
+    {
+      "skill": "xlsx",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "0f7b2727c38539ef072a15a6b4622327"
+    },
+    {
+      "skill": "priority-agenda-view",
+      "installer_present": false,
+      "externally_authored": true,
+      "expected_hash": "5f768201259100479e9f2d05208b536e"
+    }
+  ],
+  "tools": [
+    {
+      "tool": "node",
+      "installed": true,
+      "version": "v26.4.0"
+    },
+    {
+      "tool": "npm",
+      "installed": true,
+      "version": "11.17.0"
+    },
+    {
+      "tool": "gh",
+      "installed": true,
+      "version": "gh version 2.95.0 (2026-06-17)"
+    },
+    {
+      "tool": "vercel",
+      "installed": true,
+      "version": "54.18.2"
+    },
+    {
+      "tool": "git",
+      "installed": true,
+      "version": "git version 2.50.1 (Apple Git-155)"
+    }
+  ],
+  "actions": [],
+  "flags": [
+    "hc-strategy: git fetch failed, so its sync status was NOT measured. Check the remote URL for an expired embedded token: cd /Users/BRHair/Developer/B-Suite/hc-strategy && git remote -v",
+    "tnb-strategy: git fetch failed, so its sync status was NOT measured. Check the remote URL for an expired embedded token: cd /Users/BRHair/Developer/B-Suite/tnb-strategy && git remote -v",
+    "tnb-website: git fetch failed, so its sync status was NOT measured. Check the remote URL for an expired embedded token: cd /Users/BRHair/Developer/B-Suite/tnb-website && git remote -v",
+    "bsuite-handoffs: git fetch failed, so its sync status was NOT measured. Check the remote URL for an expired embedded token: cd /Users/BRHair/Developer/B-Suite/bsuite-handoffs && git remote -v",
+    "Untracked files present (no modified files) in: bhub(16) \u2014 usually harmless, tidy when convenient"
+  ]
+}
