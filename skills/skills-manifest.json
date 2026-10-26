@@ -65,7 +65,7 @@
       "version": "1.0.0",
       "hash": "c224d6294aec2cf696a1a654a5d22d86",
       "updated": "2026-03-23",
-      "changelog": "Initial release — HC strategic brain with operating plan, expert research, quarterly review protocol. Hash corrected April 9 to match actual source.",
+      "changelog": "Initial release \u2014 HC strategic brain with operating plan, expert research, quarterly review protocol. Hash corrected April 9 to match actual source.",
       "status": "archived",
       "archived_note": "Superseded by tnb-strategy as of April 3, 2026. Repo remains for reference but no longer actively maintained."
     },
@@ -145,7 +145,7 @@
       "hc-strategy": "unknown",
       "tnb-strategy": "unknown",
       "create-content": "unknown",
-      "last_synced": "2026-10-19",
+      "last_synced": "2026-10-26",
       "pm": "unknown",
       "priority-startup-intel": "unknown",
       "bhealth_version": "1.0.0",
@@ -163,7 +163,8 @@
       "slate": "unknown",
       "community-measure": "unknown",
       "priority-agenda": "unknown",
-      "priority-agenda-view": "unknown"
+      "priority-agenda-view": "unknown",
+      "content-calendar": "unknown"
     },
     "iMac": {
       "comms": "unknown",
