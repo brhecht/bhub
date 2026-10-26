@@ -9,7 +9,7 @@ Say the point; do not write about the point. Every sentence this skill writes to
 
 # Content Calendar
 
-Brian runs his content calendar (the app B Content) by talking. Every card lives in Firebase. Claude changes it through the **B Content connector**, which gives four tools: `list_cards`, `add_card`, `edit_card` and `delete_card`. Linear is not involved. Do the operation and report it in two lines: what changed and the card's id. No analysis, no alternatives, no recommendations.
+Brian runs his content calendar (the app B Content) by talking. Every card lives in Firebase. Claude changes it through the **B Content connector**, which gives six tools: `list_cards`, `add_card`, `edit_card`, `delete_card`, `list_deleted` and `restore_card`. Linear is not involved. Do the operation and report it in two lines: what changed and the card's id. No analysis, no alternatives, no recommendations.
 
 ## Do not run the handoff bootstrap
 
@@ -17,22 +17,24 @@ These requests change card data, not code. Do not run the `handoff` skill or the
 
 ## The tools
 
-- **`list_cards`** finds cards. By default only open cards (ghosts, held cards, cards on the calendar); set `where` to `archive`, `marketing` or `all` to search published cards or the Marketing Library. Filters: `query` (text in the title), `status`, `date` (publish date), `empty` (cards with nothing typed on them). Use it to find "that ghost", "today's LinkedIn" or "the Halloween newsletter" before editing. If two cards match, ask which one, in one line.
-- **`add_card`** adds a card. `title` is required. A ghost has no date. A card on the calendar needs a pipeline status and a `publishDate`: "add a LinkedIn for Thursday on the Jesse clip" is title "Jesse clip", `contentType` `linkedin-post`, `status` `idea`, `publishDate` that Thursday.
-- **`delete_card`** deletes cards by id (any card). Use it only in two steps. First show Brian the cards (`list_cards`, with `empty: true` for "show me all empty ghost cards"), each with its title and id. Then, only when he says to delete them, call `delete_card` with those ids and `confirmed: true`. Never delete on your own, never delete a card Brian has not seen in the list, and never widen the list after he approved it. Each deleted card, with its messages, is copied to a recovery area first; say so in the report. Do not delete an archived or Marketing Library card unless Brian named it.
+- **`list_cards`** finds cards. By default only open cards (ghosts, held cards, cards on the calendar); set `where` to `archive`, `marketing` or `all` to search published cards or the Marketing Library. Filters: `query` (text in the title), `status`, `date` (publish date), `before` and `after` (a publish date range; cards with no date are left out), `empty` (cards with nothing on them at all), `untouched` (cards with nothing on them but a title and dates). `show_text: true` adds the first 140 characters typed on each card, so you can tell Brian what a card says. Every line shows how much is typed on the card. Use it to find "that ghost", "today's LinkedIn" or "the Halloween newsletter" before editing. "Overdue blank cards" is `untouched: true` with `before` set to today. If two cards match, ask which one, in one line.
+- **`add_card`** adds a card. `title` is required. A ghost has no date. A card on the calendar needs a pipeline status and a `publishDate`: "add a LinkedIn for Thursday on the Jesse clip" is title "Jesse clip", `contentType` `linkedin-post`, `status` `idea`, `publishDate` that Thursday. A card cannot be added as published.
 - **`edit_card`** changes a card by `id`: title, status, publish date, due date, format (including promo-video and promo-email), the Marketing flag, notes, draft, tags. Moving a card into the pipeline needs a `publishDate`. Setting the status to `published` archives the card and fills its archive fields, like the app. Moving an archived card to any other status takes it out of the archive. Archived and Marketing Library cards can be edited.
+- **`delete_card`** deletes cards by id (any card). Use it only in two steps. First show Brian the cards (`list_cards`, with `empty: true` for "show me all empty ghost cards"), each with its title and id. Then, only when he says to delete them, call `delete_card` with those ids and `confirmed: true`. Never delete on your own, never delete a card Brian has not seen in the list, and never widen the list after he approved it. Each deleted card, with its messages, is copied to a recovery area first; say so in the report. Do not delete an archived or Marketing Library card unless Brian named it.
+- **`list_deleted`** shows the recovery area: the last 30 deleted cards, newest first, each with its recovery id and whether it was already restored. Use it when Brian asks what was deleted or wants something back.
+- **`restore_card`** puts a deleted card back, with its messages, from a recovery id. It refuses if a card with the same id already exists. Only when Brian asks for it; show him the `list_deleted` line first if he did not name the card.
 
-Statuses: `ghost`, `idea`, `draft`, `ready-to-edit`, `ready-to-review`, `ready-to-stage`, `staged`, `approved`, `scheduled`, `on-hold`. The tool descriptions give the format words and the draft shapes.
+Statuses: `ghost`, `idea`, `draft`, `ready-to-edit`, `ready-to-review`, `ready-to-stage`, `staged`, `approved`, `scheduled`, `on-hold`, and `published` for `edit_card` only. The tool descriptions give the format words and the draft shapes.
 
 ## Rules
 
 - "Publish date", "ships" and "goes out" mean `publishDate`. "Due date" and "draft due" mean `dueDate`, Brian's writing deadline (usually the day before publish). "Move it to Thursday" with no other word means `publishDate`. If the wording could mean either, ask in one line.
 - Resolve relative dates ("Thursday", "tomorrow", "next week") against today's date and send YYYY-MM-DD built from local calendar parts. Never derive a date through `toISOString()`.
 - A card Brian names by topic gets a title in his words ("Halloween newsletter"). Do not invent a title when he gave only a format; ask for the topic in one line.
-- Publish only when Brian says the piece is published. Deleting follows the two-step rule under `delete_card`.
+- Publish only when Brian says the piece is published. Deleting follows the two-step rule under `delete_card`; restoring follows `restore_card`.
 - If a tool returns an error, report the error text in one line and stop. Do not retry with different fields.
 - To tell Nico something, use the `comms` skill.
 
 ## Report format
 
-Two lines. Example: "Logged a ghost: Halloween newsletter (card-1792…). It is in Ghost." Or: "Moved the Jesse clip LinkedIn to Oct 30. It shows after you refresh the app."
+Two lines. Example: "Logged a ghost: Halloween newsletter (card-1792…). It is in Ghost." Or: "Moved the Jesse clip LinkedIn to Oct 30. It shows after you refresh the app." Or: "Deleted 3 empty ghosts; each is in the recovery area. Say the word and I restore any of them."
