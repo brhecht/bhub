@@ -381,7 +381,10 @@ Standing rules he has set:
 
 Where he has not specified, rank by hard external dates first, then commitments to other people, then internal due dates.
 
-**A yes-or-no item shows the question, not the issue title** (set by Brian Oct 27, 2026). When a ranked item asks Brian for a yes or no, its bold title line is the question from the first line of the issue body, in the issue's own words, then the code. Its body line is the proposal from the issue, for example "Proposed: yes. Attendees get cards the next day, so nothing is lost." The Pre-send checklist (Linear document "Pre-send checklist: before a memo reaches Brian", section "A single yes-or-no question") sets that four-line format for Nico's issues. If the issue has no plain question as its first line, the body line reads "No question line on the issue; Nico to rewrite it" and the item is not reworded by guessing. Never rank a yes-or-no item under a title that names systems instead of the decision, such as "Answer whether the CRM sync stops reading the TNB Event Log."
+**A yes-or-no item shows the question, not the issue title** (set by Brian Oct 27, 2026). The Pre-send checklist (Linear document "Pre-send checklist: before a memo reaches Brian", section "A single yes-or-no question") has Nico open every yes-or-no issue with a question line: the first line of the issue body, one sentence ending in a question mark. When a ranked item asks Brian for a yes or no:
+
+* **The issue has a question line.** The bold title line is that question, word for word, then the code, with no comma after the question mark: `**4. OK to stop copying old attendance onto new member cards?** TNB-901`. The body line is the issue's "Proposed:" line, word for word. If a due date is the reason for the rank, add it at the end of the body line.
+* **The issue has no question line** (its first line is not one sentence ending in a question mark). Keep the issue title as the bold title line, unchanged. The body line reads "No question line on the issue; Nico to rewrite it." followed by the issue's proposal if it has one, for example "Proposed: yes." Do not write a question yourself: a question Claude wrote can misstate what Nico is asking.
 
 **Approvals queued behind Nico are not ranked items.** If Brian cannot start it until Nico hands it over, it goes in Blocked by Nico, named, not in the numbered list.
 
