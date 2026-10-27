@@ -303,6 +303,8 @@ Standing rules he has set:
 
 Where he has not specified, rank by hard external dates first, then commitments to other people, then internal due dates.
 
+**A yes-or-no item shows the question, not the issue title** (set by Brian Oct 27, 2026). When a ranked item asks Brian for a yes or no, its bold title line is the question from the first line of the issue body, in the issue's own words, then the code. Its body line is the proposal from the issue, for example "Proposed: yes. Attendees get cards the next day, so nothing is lost." The Pre-send checklist (Linear document "Pre-send checklist: before a memo reaches Brian", section "A single yes-or-no question") sets that four-line format for Nico's issues. If the issue has no plain question as its first line, the body line reads "No question line on the issue; Nico to rewrite it" and the item is not reworded by guessing. Never rank a yes-or-no item under a title that names systems instead of the decision, such as "Answer whether the CRM sync stops reading the TNB Event Log."
+
 **Approvals queued behind Nico are not ranked items.** If Brian cannot start it until Nico hands it over, it goes in Blocked by Nico, named, not in the numbered list.
 
 **Optional work is not ranked.** If Brian says something is optional, move it to an "Optional, not priorities" section even when it carries a due date in Linear. Optional is not canceled: leave the issue open, add the `snooze` label to mark the date soft, and keep it listed there.

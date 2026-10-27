@@ -84,10 +84,10 @@
       "hash": "24895e8378922ad91f1edb152c1f1950"
     },
     "priority-agenda": {
-      "version": "1.11.1",
-      "hash": "4c5fb8a9505a7a928c8861ece60f4958",
-      "updated": "2026-10-25",
-      "changelog": "1.11.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
+      "version": "1.12.0",
+      "hash": "0e9ce3cdf78de74b6975afb7ae2161dd",
+      "updated": "2026-10-27",
+      "changelog": "1.12.0: a ranked yes-or-no item shows the question from the first line of the issue body and the proposal, not the issue title; falls back to a \"No question line\" note. Pairs with the new \"A single yes-or-no question\" section of the Pre-send checklist. Includes 1.11.1."
     },
     "priority-startup-intel": {
       "version": "1.2.1",
