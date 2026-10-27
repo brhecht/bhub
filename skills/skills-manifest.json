@@ -84,10 +84,10 @@
       "hash": "24895e8378922ad91f1edb152c1f1950"
     },
     "priority-agenda": {
-      "version": "1.12.0",
-      "hash": "0e9ce3cdf78de74b6975afb7ae2161dd",
+      "version": "1.12.1",
+      "hash": "d0f3c3e60bbf77467612e73aa86d9623",
       "updated": "2026-10-27",
-      "changelog": "1.12.0: a ranked yes-or-no item shows the question from the first line of the issue body and the proposal, not the issue title; falls back to a \"No question line\" note. Pairs with the new \"A single yes-or-no question\" section of the Pre-send checklist. Includes 1.11.1."
+      "changelog": "1.12.1: source re-based on the installed account copy, which had moved ahead of bhub (Agendas page, reconciliation pass, length rule, funnel rules), with the Writing to Brian section kept. 1.12.0: a ranked yes-or-no item shows the question from the first line of the issue body and the proposal, not the issue title. Pairs with the \"A single yes-or-no question\" section of the Pre-send checklist."
     },
     "priority-startup-intel": {
       "version": "1.2.1",
