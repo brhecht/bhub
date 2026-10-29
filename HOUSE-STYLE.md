@@ -1,6 +1,6 @@
 # B-Suite House Style
 
-Version 3.0, 2026-10-29. Replaces WRITING-TO-BRIAN.md 2.0. How Claude writes for Brian and Nico, on
+Version 3.0, approved by Brian 2026-10-29. Replaces WRITING-TO-BRIAN.md 2.0. How Claude writes for Brian and Nico, on
 every surface (Claude Code, Cowork, claude.ai, scheduled tasks and agents) and in everything it writes
 into a shared system: a Linear issue, comment or document, a Slack message, an email, a handoff file.
 The rule follows the text, not the reader. A note Nico's Claude writes into Linear follows it; so does a
