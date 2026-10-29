@@ -3,9 +3,9 @@ name: tnb-digest
 description: "TNB Slack Weekly Community Digest — a manually-triggered, two-phase editorial pipeline for The New Builder community Slack. PHASE 1 ('/tnb-digest', 'run my TNB digest', 'weekly TNB digest', 'what's worth surfacing from Slack'): reads the last 7 days across the 5 TNB community channels, filters noise, and produces a categorized, NUMBERED list of the most newsletter-worthy conversations — presented inline in Cowork for Brian to pick from, plus an emailed record + Slack DM confirmation. PHASE 2 ('render 2,5,7', 'draft these', 'turn those picks into narrative'): takes Brian's picked item numbers and produces raw narrative paragraphs + flagged expansion angles in a markdown draft — low-voice, NOT create-content. Also use this skill when Brian wants to tune the digest's editorial filter, add/remove channels, or adjust the format. Private to Brian; never posts anything community-facing."
 ---
 
-## Writing to Brian (read first)
+## House style (read first)
 
-Say the point; do not write about the point. Every sentence this skill writes to Brian states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/writing-to-brian.md` in this skill. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+Say the point; do not write about the point. Every sentence this skill writes, to Brian or Nico or into Linear, Slack or email, states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/house-style.md` in this skill. The canonical copy is `HOUSE-STYLE.md` at the root of the bhub repo, with the 27-entry catalogue of forms to avoid.
 
 # TNB Weekly Community Digest
 

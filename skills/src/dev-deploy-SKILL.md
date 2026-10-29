@@ -5,9 +5,9 @@ description: |
   - MANDATORY TRIGGERS: Any session where Claude is writing or editing code in a web application project (React, Next.js, Vite, etc.) and the user will build/deploy. Also triggers when doing git operations, running dev servers, or deploying to Vercel/Netlify/similar. Use this skill whenever the user has a mounted project folder and asks Claude to make code changes, fix bugs, add features, or deploy updates — even if they don't explicitly mention "deploy" or "workflow".
 ---
 
-## Writing to Brian (read first)
+## House style (read first)
 
-Say the point; do not write about the point. Every sentence this skill writes to Brian states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/writing-to-brian.md` in this skill. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+Say the point; do not write about the point. Every sentence this skill writes, to Brian or Nico or into Linear, Slack or email, states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/house-style.md` in this skill. The canonical copy is `HOUSE-STYLE.md` at the root of the bhub repo, with the 27-entry catalogue of forms to avoid.
 
 # Dev-Deploy Workflow
 

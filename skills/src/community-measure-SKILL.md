@@ -3,9 +3,9 @@ name: community-measure
 description: "Measures participation in the TNB community Slack against the decisions in tnb-strategy/community/MEASUREMENT-CANON.md. Produces the primary number (distinct non-host initiators, trailing 30 days), the secondary active-member count, the full participation ladder per member, and the reactivation list ranked by how far each member fell. Triggers on '/community-measure', 'run the community measurement', 'community numbers', 'how many active members', 'distinct initiators', 'who went quiet', 'reactivation list', 'the ladder', 'measure the community', or any request for how vibrant or active the TNB community is. Read-only on Slack; never posts. NOT the gross event counter (that is slack-stats), NOT the weekly editorial pick-list (that is tnb-digest), and NOT per-person Tendys scoring (that is Builder Bot)."
 ---
 
-## Writing to Brian (read first)
+## House style (read first)
 
-Say the point; do not write about the point. Every sentence this skill writes to Brian states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/writing-to-brian.md` in this skill. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+Say the point; do not write about the point. Every sentence this skill writes, to Brian or Nico or into Linear, Slack or email, states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/house-style.md` in this skill. The canonical copy is `HOUSE-STYLE.md` at the root of the bhub repo, with the 27-entry catalogue of forms to avoid.
 
 # TNB Community Measurement
 

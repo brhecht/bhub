@@ -4,9 +4,9 @@ description: >
   Generates a slate of genuinely non-obvious options, tactics, plays, or bets — the anti-mode-collapse generation process. Use whenever Brian asks for options in any plural form: "give me 10 ways to...", "what are my options", "how do I get X to Y", "ideas for...", "what should I do about...", "what am I missing", "/slate", "/what-did-i-miss". Also fires when Brian is about to pick a direction and only has one or two candidates on the table, or when a previous answer came back obvious, derivative, or mis-scaled and he pushes back. NOT for research questions with a findable answer (use `expert`), NOT for stress-testing a decision he has already made (use `grill-me`), NOT for drafting (use `create-content`). The job is not coverage of the option space. Coverage is what a list gives you. The job is options his own frame does not already contain.
 ---
 
-## Writing to Brian (read first)
+## House style (read first)
 
-Say the point; do not write about the point. Every sentence this skill writes to Brian states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/writing-to-brian.md` in this skill. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+Say the point; do not write about the point. Every sentence this skill writes, to Brian or Nico or into Linear, Slack or email, states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/house-style.md` in this skill. The canonical copy is `HOUSE-STYLE.md` at the root of the bhub repo, with the 27-entry catalogue of forms to avoid.
 
 # /slate
 

@@ -1,4 +1,8 @@
 #!/bin/bash
+# bsync v2.22 — HOUSE-STYLE.md. ensure_claude_md now imports bhub/HOUSE-STYLE.md (3.0, Oct 29 2026,
+#       which replaced WRITING-TO-BRIAN.md) and removes the old import so the rules are not loaded
+#       twice. New ensure_house_style_checks runs bhub/install-house-style.sh when the reply check,
+#       the save-and-send check or the session-start updater is missing on this Mac.
 # bsync v2.21 — ensure_claude_md. Keeps ~/.claude/CLAUDE.md on each Mac importing
 #       bhub/WRITING-TO-BRIAN.md (Brian's writing rules for Claude, approved Oct 24 2026),
 #       so every Claude Code session on every machine reads them. Local runs only; it
@@ -1015,41 +1019,69 @@ emit_health() {
 # is appended rather than the file replaced.
 ensure_claude_md() {
   [[ "$ENV" == "local" ]] || return 0
-  local spec="$BSUITE_DIR/bhub/WRITING-TO-BRIAN.md"
+  local spec="$BSUITE_DIR/bhub/HOUSE-STYLE.md"
   local target="$HOME/.claude/CLAUDE.md"
   local tilde="~"   # a literal tilde; bare ~ in the replacement would expand to $HOME
-  local import_line="@${BSUITE_DIR/#$HOME/$tilde}/bhub/WRITING-TO-BRIAN.md"
+  local import_line="@${BSUITE_DIR/#$HOME/$tilde}/bhub/HOUSE-STYLE.md"
+  local old_line="@${BSUITE_DIR/#$HOME/$tilde}/bhub/WRITING-TO-BRIAN.md"
   if [[ ! -f "$spec" ]]; then
     log "ensure_claude_md: $spec not found, skipped"
     return 0
   fi
   mkdir -p "$HOME/.claude"
+  # v2.22: WRITING-TO-BRIAN.md became HOUSE-STYLE.md on Oct 29 2026. Drop the old import (and the
+  # two-line header bsync 2.21 wrote above it) so the rules are not loaded twice.
+  if [[ -f "$target" ]] && grep -qF -- "$old_line" "$target"; then
+    python3 - "$target" "$old_line" <<'PY'
+import sys, re
+p, old = sys.argv[1], sys.argv[2]
+t = open(p).read()
+t = t.replace("The writing rules below apply to every message written to Brian, on every project. The canonical file lives in the bhub repo and is kept current by bsync; edit it there, never here.\n", "")
+t = t.replace(old + "\n", "")
+t = re.sub(r"\n{3,}", "\n\n", t)
+open(p, "w").write(t)
+PY
+    log "ensure_claude_md: removed the WRITING-TO-BRIAN import from $target"
+  fi
   if [[ -f "$target" ]] && grep -qF -- "$import_line" "$target"; then
     return 0
   fi
   if [[ -f "$target" ]]; then
-    printf '\n%s\n' "$import_line" >> "$target"
+    printf '\n# B-Suite house style (kept current by bsync; edit it in the bhub repo, never here)\n%s\n' "$import_line" >> "$target"
     log "ensure_claude_md: appended import line to existing $target"
   else
     {
       echo "# Brian's standing instructions for Claude Code"
       echo ""
-      echo "The writing rules below apply to every message written to Brian, on every project. The canonical file lives in the bhub repo and is kept current by bsync; edit it there, never here."
-      echo ""
+      echo "# B-Suite house style (kept current by bsync; edit it in the bhub repo, never here)"
       echo "$import_line"
     } > "$target"
     log "ensure_claude_md: created $target"
   fi
 }
 
+# v2.22: the house-style checks (reply check, save-and-send check, session-start updater) are
+# installed by bhub/install-house-style.sh, which is idempotent. Run it when any piece is missing.
+ensure_house_style_checks() {
+  [[ "$ENV" == "local" ]] || return 0
+  local inst="$BSUITE_DIR/bhub/install-house-style.sh"
+  [[ -f "$inst" ]] || return 0
+  if [[ -f "$HOME/.claude/writing-check/send-check.py" && -f "$HOME/.claude/house-style/update.sh" ]] \
+     && grep -qF 'send-check.py' "$HOME/.claude/settings.json" 2>/dev/null; then
+    return 0
+  fi
+  if bash "$inst" >> "$LOG_FILE" 2>&1; then log "ensure_house_style_checks: installed"; else log "ensure_house_style_checks: install failed, see log"; fi
+}
+
 # --- Main ---
-log "bsync v2.21.0 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
+log "bsync v2.22.0 started (mode: $MODE, apps: ${APPS:-all}, env: $ENV)"
 SYNC_ISSUES_FILE="$WORK_DIR/sync-issues.txt"
 : > "$SYNC_ISSUES_FILE" 2>/dev/null || true
 setup_git
 preflight_credentials
 clean_stale_locks
 ensure_claude_md
+ensure_house_style_checks
 
 # A rejected token or a stale embedded credential makes every later "ok" meaningless.
 # Say it loudly on stderr up front rather than letting it surface as N confusing

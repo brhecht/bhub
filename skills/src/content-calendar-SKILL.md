@@ -3,9 +3,9 @@ name: content-calendar
 description: "Brian's content calendar app (B Content). Use this, not athena or linear-ops, for content cards. A GHOST is a content idea card parked in the calendar, never a ghostwritten post. Triggers without a slash command: 'log a ghost Substack post about AI agents', 'add an idea for a LinkedIn', 'park that', 'put it on hold', 'what ghosts do I have', 'add a LinkedIn for Thursday on the Jesse clip', 'schedule a short for Friday', 'change today's LinkedIn publish date to tomorrow', 'move the Halloween newsletter to Draft', 'rename that card', 'change the due date on the newsletter to Wednesday', 'put this draft on Tuesday's LinkedIn', 'add a note to the Jesse podcast'. Edits cards directly; no Linear. Not for writing the piece (create-content) or Brian's task list (athena)."
 ---
 
-## Writing to Brian (read first)
+## House style (read first)
 
-Say the point; do not write about the point. Every sentence this skill writes to Brian states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/writing-to-brian.md` in this skill. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+Say the point; do not write about the point. Every sentence this skill writes, to Brian or Nico or into Linear, Slack or email, states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/house-style.md` in this skill. The canonical copy is `HOUSE-STYLE.md` at the root of the bhub repo, with the 27-entry catalogue of forms to avoid.
 
 # Content Calendar
 

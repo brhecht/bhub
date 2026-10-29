@@ -3,9 +3,9 @@ name: comms
 description: "Send messages between Brian and Nico via Email, Slack DM, or Brain Inbox ping. Use this skill whenever the user says 'email', 'DM', 'ping', 'send to', 'message', 'notify', or 'tell' followed by a person's name (Nico, Brian) — even if they don't explicitly say 'comms'. Also triggers on 'send to Brain Inbox', 'send to B Things Bot', or any request to communicate something to a team member. Handles channel routing automatically: email for longer content (creates Gmail draft), DM for quick Slack messages, ping for task-oriented Brain Inbox notifications."
 ---
 
-## Writing to Brian (read first)
+## House style (read first)
 
-Say the point; do not write about the point. Every sentence this skill writes to Brian states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/writing-to-brian.md` in this skill. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+Say the point; do not write about the point. Every sentence this skill writes, to Brian or Nico or into Linear, Slack or email, states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/house-style.md` in this skill. The canonical copy is `HOUSE-STYLE.md` at the root of the bhub repo, with the 27-entry catalogue of forms to avoid.
 
 # Comms Skill
 

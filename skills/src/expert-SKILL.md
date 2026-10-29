@@ -4,9 +4,9 @@ description: |
   On-demand deep research agent that combines current verified data with foundational academic knowledge to inform any decision. Use this skill whenever the user asks "what does the research say about...", "how should I think about...", "what's the best approach to...", or any question where the answer should be grounded in evidence rather than intuition. Also triggers on "expert on [topic]", "research [topic]", "deep dive on...", or any request that implies wanting expert-level, data-backed guidance — whether about pricing strategy, content format, marketing channels, curriculum design, thumbnails, hiring, product decisions, or anything else. This skill should trigger aggressively: if the user is asking a strategic or tactical question that has a researchable answer, use this skill. Don't wait for them to say "research" — if they'd benefit from evidence-based guidance, this is the skill.
 ---
 
-## Writing to Brian (read first)
+## House style (read first)
 
-Say the point; do not write about the point. Every sentence this skill writes to Brian states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/writing-to-brian.md` in this skill. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+Say the point; do not write about the point. Every sentence this skill writes, to Brian or Nico or into Linear, Slack or email, states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/house-style.md` in this skill. The canonical copy is `HOUSE-STYLE.md` at the root of the bhub repo, with the 27-entry catalogue of forms to avoid.
 
 # Expert — On-Demand Research Agent
 

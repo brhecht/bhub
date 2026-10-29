@@ -3,9 +3,9 @@ name: "priority-agenda"
 description: "Opens, rebuilds and re-ranks Brian's TNB Priority Agenda, and refreshes the panel that shows it. Triggers on '/priority-agenda', 'TNB agenda', 'priority agenda', 'my TNB priorities', 'what is my day look like', 'rebuild my priorities', 're-rank my day', 'update my agenda', 'refresh panel', 'reload the panel', 'show me the panel', or any request to see or change his ranked list of TNB work. A bare 'my agenda', 'my priorities' or 'open my agenda' with no team named gets one question first: Athena or TNB. The agenda lives in the Linear document 'Brian's priority agenda' (Team Ops, doc id 4aa0b7df0286); the panel reads that document live and has its own Refresh button, so a content change needs no republish. Covers The New Builder and TNB CRM teams only, never the private Athena team, whose agenda is `athena-agenda`. NOT the morning brief (that is `morning`) and NOT a plain Linear issue list."
 ---
 
-## Writing to Brian (read first)
+## House style (read first)
 
-Say the point; do not write about the point. Every sentence this skill writes to Brian states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/writing-to-brian.md` in this skill. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+Say the point; do not write about the point. Every sentence this skill writes, to Brian or Nico or into Linear, Slack or email, states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/house-style.md` in this skill. The canonical copy is `HOUSE-STYLE.md` at the root of the bhub repo, with the 27-entry catalogue of forms to avoid.
 
 # Priority Agenda
 

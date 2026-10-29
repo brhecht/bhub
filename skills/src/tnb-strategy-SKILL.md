@@ -3,9 +3,9 @@ name: tnb-strategy
 description: "The New Builder strategic brain — loads full TNB business context, operating plan, and positioning for any strategy discussion. Use this skill whenever the user mentions TNB strategy, The New Builder, New Builder business planning, War Room design, revenue modeling, quarterly review, coaching pipeline, content cadence, distribution strategy, podcast strategy, live events, or any question about what TNB should be building, selling, or prioritizing next. Also triggers on 'TNB check-in', 'strategy check-in', 'quarterly review', 'where are we with TNB', or any reference to the TNB operating plan or revenue targets. Also triggers on 'rebrand', 'pivot', or references to the HC→TNB transition. Trigger aggressively — if the conversation touches The New Builder as a business, this skill should load."
 ---
 
-## Writing to Brian (read first)
+## House style (read first)
 
-Say the point; do not write about the point. Every sentence this skill writes to Brian states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/writing-to-brian.md` in this skill. The canonical copy is `WRITING-TO-BRIAN.md` at the root of the bhub repo.
+Say the point; do not write about the point. Every sentence this skill writes, to Brian or Nico or into Linear, Slack or email, states a fact or gives an instruction, with a subject that exists and a verb that says what it literally does, including bullets and lines after a colon. Before sending, apply the three questions in `references/house-style.md` in this skill. The canonical copy is `HOUSE-STYLE.md` at the root of the bhub repo, with the 27-entry catalogue of forms to avoid.
 
 # TNB Strategy Skill
 
