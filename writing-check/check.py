@@ -5,9 +5,12 @@ Reads the hook JSON on stdin, finds the last assistant reply in the session tran
 housestyle.check_text over it, and records the sentences that break HOUSE-STYLE.md.
 
 Advisory mode (default): appends a record to ~/.claude/writing-check/log.jsonl and writes a pending
-note that the UserPromptSubmit hook (feedback.py) shows Claude on the next turn. Exit 0, no delay.
+note that the UserPromptSubmit hook (feedback.py) shows Claude on the next turn. The hook is
+installed with "async": true, so the second it takes runs in the background and never delays the
+next message; if the next message is sent inside that second, the note arrives one turn later.
 Blocking mode (BRIAN_WRITING_BLOCK=1 or --block, for unattended runs): if any prose sentence fails,
-returns decision=block so Claude rewrites before the reply is delivered.
+returns decision=block so Claude rewrites before the reply is delivered. Blocking needs a hook that
+is not async, since an async hook's output is not read.
 """
 import json, os, sys, datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

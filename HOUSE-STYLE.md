@@ -458,7 +458,9 @@ Three mechanisms exist and two are being built (October 29, 2026).
 - **The reply check.** Claude Code on each Mac runs `writing-check/check.py` after every reply. It parses
   every prose sentence with a grammar parser, logs the ones that break this document to
   `~/.claude/writing-check/log.jsonl`, and shows them to Claude at the start of the next turn. It costs
-  no tokens. In unattended runs it can block the reply and demand a rewrite. As of version 3.0 it
+  no tokens and runs in the background, so it never delays the next message; the parse takes about a
+  second, and a message sent inside that second gets the note one turn later. In unattended runs it
+  can block the reply and demand a rewrite. As of version 3.0 it
   detects entries 1 to 9, 12, 13, 16 to 24 and 27 of the catalogue, and the metaphor list in 6. It
   cannot read an antecedent, so for entry 4 it lets three shapes through: past tense ("That was my
   mistake"), a possessive complement ("That is my job") and "It is" with an adjective.

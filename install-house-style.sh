@@ -59,21 +59,27 @@ except Exception: s = {}
 hooks = s.setdefault('hooks', {})
 PY_ = '~/.claude/writing-check/venv/bin/python -W ignore ~/.claude/writing-check/'
 want = {
-  'Stop': (None, {'type': 'command', 'command': PY_ + 'check.py', 'timeout': 20, 'statusMessage': 'Checking the reply against HOUSE-STYLE.md'}),
+  'Stop': (None, {'type': 'command', 'command': PY_ + 'check.py', 'timeout': 20, 'async': True, 'statusMessage': 'Checking the reply against HOUSE-STYLE.md'}),
   'UserPromptSubmit': (None, {'type': 'command', 'command': PY_ + 'feedback.py', 'timeout': 5}),
   'PreToolUse': ('mcp__.*__(save_issue|save_comment|save_document|save_release_note|save_status_update|slack_send_message|slack_send_message_draft|slack_create_canvas|slack_update_canvas|send_message|reply|forward|create_draft|update_draft)$',
                  {'type': 'command', 'command': PY_ + 'send-check.py', 'timeout': 20, 'statusMessage': 'Checking the text against HOUSE-STYLE.md before it is saved'}),
   'SessionStart': (None, {'type': 'command', 'command': '~/.claude/house-style/update.sh', 'timeout': 60, 'async': True}),
 }
-added = []
+added = []; updated = []
 for event, (matcher, hook) in want.items():
     groups = hooks.setdefault(event, [])
-    if any(h.get('command') == hook['command'] for g in groups for h in g.get('hooks', [])): continue
+    existing = [h for g in groups for h in g.get('hooks', []) if h.get('command') == hook['command']]
+    if existing:
+        # Already installed: bring its settings up to date (the reply check became async on Oct 29 2026).
+        for h in existing:
+            for k, v in hook.items():
+                if h.get(k) != v: h[k] = v; updated.append(event)
+        continue
     g = {'hooks': [hook]}
     if matcher: g['matcher'] = matcher
     groups.append(g); added.append(event)
 json.dump(s, open(path, 'w'), indent=2); open(path, 'a').write('\n')
-print('hooks added: ' + (', '.join(added) if added else 'none, all four were already there'))
+print('hooks added: ' + (', '.join(added) if added else 'none, all four were already there') + ('; updated: ' + ', '.join(sorted(set(updated))) if updated else ''))
 PY
 echo
 echo "Done. The house style is installed. Open a new Claude Code session for the hooks to start."

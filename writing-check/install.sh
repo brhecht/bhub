@@ -26,7 +26,7 @@ echo "scripts installed in $DST"
 echo 'Hooks for ~/.claude/settings.json (merge, do not replace):'
 cat <<'JSON'
 "hooks": {
-  "Stop": [{"hooks": [{"type": "command", "command": "~/.claude/writing-check/venv/bin/python -W ignore ~/.claude/writing-check/check.py", "timeout": 20, "statusMessage": "Checking the reply against HOUSE-STYLE.md"}]}],
+  "Stop": [{"hooks": [{"type": "command", "command": "~/.claude/writing-check/venv/bin/python -W ignore ~/.claude/writing-check/check.py", "timeout": 20, "async": true, "statusMessage": "Checking the reply against HOUSE-STYLE.md"}]}],
   "UserPromptSubmit": [{"hooks": [{"type": "command", "command": "~/.claude/writing-check/venv/bin/python -W ignore ~/.claude/writing-check/feedback.py", "timeout": 5}]}]
 }
 JSON
