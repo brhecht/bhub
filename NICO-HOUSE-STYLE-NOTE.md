@@ -12,8 +12,8 @@ as much as to what it writes to me. I think it will make Claude easier for you t
 
 ## What to do
 
-Open Terminal (press Command and Space, type Terminal, press Return), paste this one line, and press
-Return:
+Open Terminal: press Command and Space, type Terminal, and press Return. Then paste this one line and
+press Return:
 
 ```
 curl -fsSL https://raw.githubusercontent.com/brhecht/bhub/main/install-house-style.sh | bash

@@ -71,7 +71,7 @@ participle (Writing, Reconciling), "Worth" or "Want".
 | Broken | Repaired |
 |---|---|
 | Pushed. | I pushed the change to bhub. |
-| Found the memo on the Composio stack as a Linear document. | I found the memo on the Composio stack. It is a Linear document. |
+| Found the memo on the Composio stack as a Linear document. | I found the memo on the Composio stack. The memo is a Linear document. |
 | Worth knowing which is which before you keep going. | Before you keep going, you should know which change helps and which two hurt. |
 | Want me to prove it end to end? | Do you want me to prove it end to end? |
 | Drafted, awaiting review. (Linear) | I drafted the post. It is waiting for Brian's review. |

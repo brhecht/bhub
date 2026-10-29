@@ -84,9 +84,10 @@ def nlp():
     return _nlp
 
 def strip_quotes(t):
-    """Drop quoted material: lines starting with '>' and runs of six or more words in quotation marks."""
+    """Drop quoted material: lines starting with '>' and quoted spans of thirty to six hundred characters
+    on one line. The pattern has no nested repeats, so a stray quotation mark cannot make it backtrack."""
     t = re.sub(r'^\s*>.*$', '', t, flags=re.M)
-    t = re.sub(r'["“](?:[^"”]+\s){5,}[^"”]*["”]', '', t)
+    t = re.sub(r'["“][^"“”\n]{30,600}["”]', '', t)
     return t
 
 def clean(t):
