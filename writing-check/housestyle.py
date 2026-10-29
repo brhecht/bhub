@@ -242,7 +242,7 @@ def check_text(text, strip_quoted=False, surface='code'):
         is_last = idx == len(seq) - 1
         kinds = []
         if ctx == 'label':
-            if not finite(nlp()(s.rstrip(':'))) and not re.match(r'^(#|\d+\.)', s): kinds = ['label-line']
+            if not finite(nlp()(s.rstrip(':'))) and not re.match(r'^(#|\d+\.)', s) and not is_imperative(s.rstrip(':')): kinds = ['label-line']
             ctx_count = 'prose'
         else:
             kinds = classify(s, prev_failed=prev_failed, is_last=is_last)
