@@ -116,6 +116,10 @@ def units(text):
         raw = raw.strip()
         if not raw: continue
         bare = re.sub(r'\*\*', '', raw)
+        # A bare command or address on its own line is not a sentence: a URL, or a line that starts
+        # with a shell command and has no final punctuation. Plain-text email cannot fence code.
+        if '://' in bare and not re.search(r'[.!?]$', bare) and len(bare.split()) <= 12: continue
+        if re.match(r'^(curl|git|bash|sh|zsh|python3?|pip3?|npm|npx|brew|cd|ls|cat|open|xcode-select|source|export)\b', bare) and not re.search(r'[.!?]$', bare): continue
         ctx = 'prose'
         if re.match(r'^#{1,4}\s', bare): ctx = 'heading'; bare = re.sub(r'^#+\s*', '', bare)
         elif re.match(r'^([-*]|\d+\.)\s+', bare):
