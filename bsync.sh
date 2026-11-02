@@ -1,4 +1,10 @@
 #!/bin/bash
+# bsync v2.22.2 — two fixes from the Nov 2 2026 MacBook Pro fleet audit. (1) The bsuite-handoffs
+#       clone was --depth 1, so `git log -1 -- <app>/HANDOFF.md` returned HEAD for every file:
+#       every handoff looked committed today, commits_since_handoff was always 0, and no repo
+#       could ever be reported stale. It is now a full-history clone. (2) The handoff folder
+#       lookup was case-sensitive, so B-Personal (handoff in b-personal/) was reported as
+#       having none.
 # bsync v2.22.1 — three fixes found by the Nov 2 2026 fleet audit. (1) sync_one_mount read
 #       `git status --porcelain`, which wraps any path containing a space in literal quotes;
 #       the backup copy and the restore then ran against a path that does not exist, so the
@@ -403,7 +409,12 @@ pull_one_repo() {
       path="/tmp/bhub-bootstrap"
     else
       [[ -d "$tmp_dir" ]] && rm -rf "$tmp_dir"
-      if git clone --depth 1 "https://github.com/${github}.git" "$tmp_dir" 2>/dev/null; then
+      # v2.22.2: bsuite-handoffs is cloned with full history. check_handoffs dates each
+      # HANDOFF.md by its last commit, and a --depth 1 clone reports HEAD for every file,
+      # so every handoff looked written today and the staleness check never fired.
+      local depth_args=(--depth 1)
+      [[ "$folder" == "bsuite-handoffs" ]] && depth_args=()
+      if git clone "${depth_args[@]}" "https://github.com/${github}.git" "$tmp_dir" 2>/dev/null; then
         status="ok"
         path="$tmp_dir"
       else
@@ -567,9 +578,16 @@ check_handoffs() {
     fi
 
     local handoff_file="$handoffs_repo/$folder/HANDOFF.md"
+    # v2.22.2: match the handoff folder case-insensitively (B-Personal's handoff is in b-personal/).
+    if [[ ! -f "$handoff_file" && -n "$handoffs_repo" ]]; then
+      local alt_dir
+      alt_dir=$(find "$handoffs_repo" -mindepth 1 -maxdepth 1 -type d -iname "$folder" 2>/dev/null | head -1)
+      [[ -n "$alt_dir" && -f "$alt_dir/HANDOFF.md" ]] && handoff_file="$alt_dir/HANDOFF.md"
+    fi
     local handoff_exists="false"
     local handoff_date=""
     local handoff_commit_date=""
+    local handoff_commit_ts=""   # v2.22.2: drift = app commits on a later New York day than the handoff's last commit
     local latest_commit_date=""
     local latest_commit_msg=""
     local commits_since_handoff=0
@@ -583,7 +601,8 @@ check_handoffs() {
 
     # Handoff commit date comes from the bsuite-handoffs repo
     if [[ -n "$handoffs_repo" ]] && cd "$handoffs_repo" 2>/dev/null; then
-      handoff_commit_date=$(git log -1 --format="%ai" -- "$folder/HANDOFF.md" 2>/dev/null | cut -d' ' -f1)
+      handoff_commit_ts=$(TZ=America/New_York git log -1 --format="%ad" --date=iso-local -- "${handoff_file#$handoffs_repo/}" 2>/dev/null)
+      handoff_commit_date=$(echo "$handoff_commit_ts" | cut -d' ' -f1)
     fi
 
     # App-code commit dates come from the app repo
@@ -592,7 +611,7 @@ check_handoffs() {
       latest_commit_msg=$(git log -1 --format="%s" 2>/dev/null)
 
       if [[ -n "$handoff_commit_date" ]]; then
-        commits_since_handoff=$(git log --oneline --after="$handoff_commit_date" 2>/dev/null | wc -l | xargs)
+        commits_since_handoff=$(TZ=America/New_York git log --oneline --after="${handoff_commit_date} 23:59:59" 2>/dev/null | wc -l | xargs)
       elif [[ "$handoff_exists" == "true" ]]; then
         commits_since_handoff=$(git log --oneline -20 2>/dev/null | wc -l | xargs)
       fi
@@ -600,7 +619,7 @@ check_handoffs() {
       if [[ $commits_since_handoff -gt 0 ]]; then
         stale="true"
         if [[ -n "$handoff_commit_date" ]]; then
-          recent_commits=$(git log --oneline --after="$handoff_commit_date" --format="%h %s" 2>/dev/null | head -15)
+          recent_commits=$(TZ=America/New_York git log --oneline --after="${handoff_commit_date} 23:59:59" --format="%h %s" 2>/dev/null | head -15)
         else
           recent_commits=$(git log --oneline -10 --format="%h %s" 2>/dev/null)
         fi
@@ -1190,7 +1209,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.22.1",
+  "bsync_version": "2.22.2",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
