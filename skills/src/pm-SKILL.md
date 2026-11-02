@@ -59,6 +59,23 @@ Stop when you can confidently answer:
 - What existing things could it break? (risk assessment)
 - How urgent is it? (timeline expectations)
 
+### Targets, KPIs and stop rules stay out of build briefs
+
+A build brief says what gets built and how Brian verifies it. It does not set business targets. Whenever a draft is about to contain a number that decides a business outcome (a usage threshold, a member count, a revenue or adoption target, a rule of the form "build the next thing only if", or any number with a window such as "15 members in 30 days"), stop and say so: "This is a build. Is this a requirement for the build, or a business goal?" Ask Brian one question.
+
+- **Build requirement:** Brian can verify it on staging or live in under 2 minutes. It becomes an acceptance criterion.
+- **Business goal:** it does not go in the brief. It gets its own Linear issue assigned to Brian. No build step, counter, reset, data field, schedule, or restriction on how Brian runs the business (for example, "do not relabel a member for 30 days") may depend on it. Instrumentation for a goal is built only when Brian asks for it.
+- **Specced but not authorized work** lives in its own file or issue, not in the brief. It adds no steps to the build and no constraints to the present work.
+- **When Brian's own process asks for a "metric" before design,** write it as what a user can do that they could not do before, checkable by clicking. Do not fill that slot with a number found in an older document. A usage target goes in only when Brian states it himself, and it carries his words, the date and where he said it.
+
+### Where every rule in a brief comes from
+
+Each number, threshold, date, name or constraint in a brief traces to something Brian said (his words, the date, and where: call, DM, Linear comment) or to the UX standards. If it traces to neither, it does not go in the brief. Ask Brian during discovery, or leave it out. Marking it as an assumption and shipping it is not allowed, because a brief goes to Nico with no open decisions.
+
+Run the `source-check` skill before writing or amending any brief. It lists each number, date and rule, finds Brian's words for it across calls, Slack, Linear and email, and sorts it into decided, assumed, question, superseded or irrelevant. Record each decision in the project's decision log in Linear (for example, Member directory decision log in the Member Library project), with a link and no message text.
+
+When a newer call, plan, SOP or memo exists, the call overrides the earlier documents. Before writing or amending any brief, SOP, memo or one-pager on a topic, read the earlier documents on it, list each rule that overlaps with its date and source, and ask Brian one question: which of these still hold? Mark each retired rule in place with the date and what replaced it.
+
 ### No open decisions at handoff
 
 A brief handed to Nico must contain **zero decisions awaiting Brian.** Resolve every decision during discovery — or, if Nico has the access to execute it (git, Vercel, Google Cloud, Firebase, etc.), make it a **directive folded into the relevant build section**, not a flagged "decision." Do not include a "Decisions for Brian" / "Directives (resolved)" block — that framing is a conversation artifact Nico doesn't need; just write the spec as settled.
@@ -154,7 +171,7 @@ Once discovery is complete, Claude writes a **Product Brief** and saves it as `P
 ### Approval flow
 
 1. Claude presents the brief in chat AND saves it as a file in the repo
-2. Claude pings Brian via comms (Slack DM for small briefs, email for large ones) with a link
+2. Claude files the pointer into Linear (see Pointer into Linear), then pings Brian via comms (Slack DM for small briefs, email for large ones) with a link. The ping lists, one line each, every number, target, date and constraint on Brian's own operations that the brief contains, so his approval covers them by name. An item the ping does not list is not approved by a blanket "approved."
 3. Brian reviews and says "approved" or requests changes
 4. Claude updates the file status to `APPROVED` and the approved date
 5. Claude pings Nico via comms: "Approved brief for [app] — pick it up when ready"
@@ -224,6 +241,8 @@ When Nico opens Cowork and loads an app that has an active `PM-BRIEF-<app>.md` w
 - **Low-risk, reversible** (CSS, copy, animation) — check the Decision Map in the brief. If it's in "Nico decides," let him proceed and document it in the stamp.
 - **High-risk or behavioral** — check the Decision Map. If it's in "Route to Brian," Claude blocks: "That's outside the plan. Let me check with Brian." Claude pings Brian via comms with the question and context. Nico waits for the answer before proceeding.
 
+**Never invent a target to fill a gap.** A missing success number, KPI or usage target is not a defect in a build. Claude does not create one, and does not promote a number from an older document into a metric, unless Brian states it himself. If a checklist or process slot asks for a metric, write it as what a user can do that they could not do before, checkable by clicking.
+
 **Enforce check-ins.** At each milestone:
 - Claude prompts Nico: "Milestone 1 is done. The plan says to send Brian a screenshot via DM. Let me do that."
 - Claude takes a screenshot (or asks Nico to confirm what to show), composes a status update, and sends via comms skill.
@@ -267,13 +286,25 @@ When Nico completes the final step:
 
 ---
 
+## Pointer into Linear
+
+Work built for or with Nico gets scattered across artifacts, documents, briefs and chats. Linear is where every other tool looks, so each piece of work leaves a pointer there when it is made. This is what lets the `topic-brief` skill and the agendas find it later.
+
+- **When:** at the moment Claude creates a brief, an artifact, an SOP, a spec or any document that is for Nico or that Brian and Nico will both use. Do it in the same turn, before reporting the work done.
+- **What:** one comment on the Linear issue the work belongs to, or an attachment when the link is a file or artifact URL. The comment is the title, what it is in one line, the link, and the date. Nothing else.
+- **Which issue:** the existing issue the work serves, found with `list_issues` (query on the topic, `includeArchived: true`). Use The New Builder team issues for TNB work.
+- **No matching issue:** do not create one. Say in one line, "No issue holds this yet. File one?", and file it only on a yes.
+- **Content rule:** the pointer holds no text from Slack DMs, nothing personal, and no quotes. Nico can open Linear comments.
+- **Changes:** when the work is materially revised, add a second dated comment. Do not edit the first.
+- **Brian building alone:** skip it, unless he says the work is for Nico.
+
 ## Edge Cases
 
 ### Brian wants something quick ("just add a button")
 Even small tasks get a mini-brief. The brief can be 10 lines — but the acceptance criteria and scope boundaries still exist. A "quick" task with no spec is how "just add a button" turns into a 3-hour detour. Claude should say: "Quick brief — here's what I think you mean: [3 lines]. Good to send to Nico?"
 
 ### Brian changes his mind mid-build
-Claude updates the brief, marks the changes, re-generates affected plan steps, and notifies Nico. The brief file shows the amendment. Nico doesn't have to guess what changed.
+Claude updates the brief, marks the changes, re-generates affected plan steps, and notifies Nico. The brief file shows the amendment. Nico doesn't have to guess what changed. Claude also re-reads the whole brief against the new plan, not only the changed steps, and marks any older rule the new plan no longer supports as retired, with the date and what replaced it.
 
 ### Nico discovers something unexpected during build
 If it's a technical blocker (API doesn't work, Firestore rules prevent it), Claude routes to Brian with context and a recommendation. If it's a design question not covered by the brief or UX standards, Claude routes to Brian. Nico never guesses on ambiguous questions.

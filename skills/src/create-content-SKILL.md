@@ -81,6 +81,25 @@ brand from Step 0. Never load both for the same piece.**
 
 ---
 
+## EDITING PASSES — match the pass Brian asks for (added 2026-10-28)
+
+When Brian hands over a draft for feedback, the pass he names sets the scope. Stay inside it.
+
+- **First pass / "flow, coherence, voice"** is structural only: what the piece is about,
+  whether the ending pays off the opening and the title, the order of sections, which
+  beats earn their place or are missing, where ideas compete or contradict, and whether
+  the register holds at the paragraph level. **Do NOT comment on specific words or
+  phrases, typos, capitalization, punctuation, never-use words, the three-syllable rule,
+  or any line edit.** Those belong to later passes. Hold the word-level items of the
+  anti-slop list and pre-delivery checklist until then.
+- **Deliver one issue at a time.** Lead with the single highest-priority structural
+  question, give your view on it, and wait for Brian's reply before raising the next. No
+  full list of notes up front, no must/should/nice dump. The discussion is the deliverable.
+- **Line edit / copy edit passes** (word choice, phrasing, never-use words, typos,
+  formatting) happen only when Brian asks for them.
+
+---
+
 ## HOW A SESSION WORKS
 
 Every session follows Brian's actual workflow. You don't impose structure — you follow his lead.
@@ -223,6 +242,9 @@ When you do draft prose:
 - The quote (see Step 6 — only on demand)
 
 ### Step 5: Editing loop
+
+Scope every round of feedback to the pass Brian named (see EDITING PASSES above): on a
+first pass, structure only, one issue at a time, waiting for his reply between issues.
 
 After delivering organized flow or a draft, **invite feedback naturally:**
 
@@ -409,6 +431,8 @@ Before any prose ships to Brian, run this checklist. If any check fails, rewrite
 
 These checks compound. The negation-pivot you didn't catch + the magazine framing you didn't catch + the fabricated detail = a draft Brian has to clean up before reading. Run all five before sending.
 
+This checklist governs prose Claude writes. When reviewing Brian's own draft, apply its word-level items only in a line-edit pass, never in a first pass on flow, coherence, and voice.
+
 ---
 
 ## REFERENCE FILE QUICK LOOKUP
@@ -426,6 +450,7 @@ These checks compound. The negation-pivot you didn't catch + the magazine framin
 | LinkedIn post structure in detail? | linkedin-patterns.md |
 | Newsletter structure in detail? | newsletter-patterns.md |
 | What did Brian teach in HC (legacy)? | brian-core-teachings.md (HC ONLY) |
+| What does a first pass cover vs. a line edit? | EDITING PASSES (this file) |
 
 ---
 
@@ -462,32 +487,6 @@ are ever read.
    abandoned). Note the brand of each piece (TNB vs HC) — TNB observations inform the
    TNB-leaning voice; don't let HC-era tics contaminate current TNB voice.
 
-3.5 **Collapse cross-format clusters before counting anything.** When a newsletter and a
-   LinkedIn post from the same week cover the same subject or occasion, that is **one
-   editorial decision expressed in two formats, not two independent confirmations.** Brian
-   runs a continuous theme across channels on purpose, and the pieces are often written
-   from the same thinking even when the actual content differs. Treating the pair as two
-   data points manufactures a false trend and will push a one-off into canon.
-
-   Group the delta into clusters (same subject or occasion, within ~7 days, across
-   formats) before extracting. Then apply this split:
-
-   - **Theme, subject, doctrine, thesis, argument, positioning line** → count the cluster
-     **once**. Cite both pieces as the sources, but describe it as one appearance. Never
-     write "confirmed," "recurring," "holds," or "Nth straight cycle" on the strength of a
-     single cluster.
-   - **Mechanical habits** (em and en dashes, ellipses, punctuation, typo tolerance,
-     sentence length, parenthetical frequency, bullet glyphs, salutation and footer
-     boilerplate) → count **each piece independently**. These are the hand, not the
-     editorial calendar, so a cluster really does give two samples.
-   - **Structural moves and humor beats** → judgment call, default to once. If the two
-     pieces reuse the same or near-identical sentences, it is plainly one instance. If
-     each piece produced the shape independently, log it as one instance and note that a
-     second, unrelated occurrence is still needed before calling it recurring.
-
-   A pattern earns "recurring" only from **separate occasions**, not separate formats of
-   the same occasion.
-
 4. **Update the Living Voice band** at the top of `style-guide.md` (the "Living Voice —
    last ~90 days" section). Add/replace observations there, each tagged with a date and
    brand. Age out anything older than ~90 days that no longer recurs. This band is what
@@ -509,7 +508,3 @@ are ever read.
   rather than backfilling everything.
 - Living Voice = free to update. Core = propose only.
 - A refresh that finds nothing new should make no changes and say so.
-- **Never count a cross-format pair as two confirmations of a theme** (see 3.5). A small
-  delta that is really one cluster should be reported as one observation, and it is a
-  correct outcome for such a run to conclude that nothing new was confirmed.
-

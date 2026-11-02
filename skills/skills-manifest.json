@@ -2,10 +2,10 @@
   "_comment": "Tracks skill versions across devices. Hash is MD5 of SKILL.md source. Bootstrap protocol (bsync.sh) compares this against installed versions.",
   "skills": {
     "comms": {
-      "version": "1.4.2",
-      "hash": "0f860190fb0cdb8631ecccbd37c1f2c5",
-      "updated": "2026-10-29",
-      "changelog": "1.4.2: House style section replaces Writing to Brian; references/house-style.md is HOUSE-STYLE.md 3.0 (27-entry catalogue, applies to text for Brian or Nico and to Linear, Slack and email). No other change. Reinstall the bundle. 1.4.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
+      "version": "1.4.3",
+      "hash": "5d8a463d549341ee1365e4bda7a75286",
+      "updated": "2026-11-02",
+      "changelog": "1.4.3: Repo source brought up to the installed claude.ai copy (rules added in the account editor Oct 23 to Nov 2 never reached bhub) plus the House style block. Reinstall the bundle. 1.4.2: House style section replaces Writing to Brian; references/house-style.md is HOUSE-STYLE.md 3.0 (27-entry catalogue, applies to text for Brian or Nico and to Linear, Slack and email). No other change. Reinstall the bundle. 1.4.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "content-calendar": {
       "version": "1.4.1",
@@ -24,10 +24,10 @@
       "hash": "2cfbe7ed256ae3377be92764f07ae26b"
     },
     "create-content": {
-      "version": "1.8.2",
-      "hash": "6bbb752e0df0ca089710ffc41e03ff96",
-      "updated": "2026-10-29",
-      "changelog": "1.8.2: House style section replaces Writing to Brian; references/house-style.md is HOUSE-STYLE.md 3.0 (27-entry catalogue, applies to text for Brian or Nico and to Linear, Slack and email). No other change. Reinstall the bundle. 1.8.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
+      "version": "1.8.3",
+      "hash": "53d8878e0c8853c61fefa0f9666a511e",
+      "updated": "2026-11-02",
+      "changelog": "1.8.3: Repo source brought up to the installed claude.ai copy (rules added in the account editor Oct 23 to Nov 2 never reached bhub) plus the House style block. Reinstall the bundle. 1.8.2: House style section replaces Writing to Brian; references/house-style.md is HOUSE-STYLE.md 3.0 (27-entry catalogue, applies to text for Brian or Nico and to Linear, Slack and email). No other change. Reinstall the bundle. 1.8.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "dev-deploy": {
       "version": "1.15.2",
@@ -65,7 +65,7 @@
       "version": "1.0.0",
       "hash": "c224d6294aec2cf696a1a654a5d22d86",
       "updated": "2026-03-23",
-      "changelog": "Initial release \u2014 HC strategic brain with operating plan, expert research, quarterly review protocol. Hash corrected April 9 to match actual source.",
+      "changelog": "Initial release — HC strategic brain with operating plan, expert research, quarterly review protocol. Hash corrected April 9 to match actual source.",
       "status": "archived",
       "archived_note": "Superseded by tnb-strategy as of April 3, 2026. Repo remains for reference but no longer actively maintained."
     },
@@ -74,10 +74,10 @@
       "hash": "1c07e7fc21a8ad77c257900350a61098"
     },
     "pm": {
-      "version": "1.5.2",
-      "hash": "716b3b5e338693bf7f7583e091db3d44",
-      "updated": "2026-10-29",
-      "changelog": "1.5.2: House style section replaces Writing to Brian; references/house-style.md is HOUSE-STYLE.md 3.0 (27-entry catalogue, applies to text for Brian or Nico and to Linear, Slack and email). No other change. Reinstall the bundle. 1.5.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
+      "version": "1.5.3",
+      "hash": "b3dcb4c8e902d0d76df2f8b1278f595b",
+      "updated": "2026-11-02",
+      "changelog": "1.5.3: Repo source brought up to the installed claude.ai copy (rules added in the account editor Oct 23 to Nov 2 never reached bhub) plus the House style block. Reinstall the bundle. 1.5.2: House style section replaces Writing to Brian; references/house-style.md is HOUSE-STYLE.md 3.0 (27-entry catalogue, applies to text for Brian or Nico and to Linear, Slack and email). No other change. Reinstall the bundle. 1.5.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "pptx": {
       "version": "1.0.0",
