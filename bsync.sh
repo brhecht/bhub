@@ -1,4 +1,7 @@
 #!/bin/bash
+# bsync v2.23 — the hourly Mac sync no longer jams when another Mac pushes first. auto_commit_and_push
+#       used to `git push` and give up on "not a fast-forward"; it now runs `git pull --rebase
+#       --autostash` and pushes again, and aborts (never forces) if the rebase conflicts.
 # bsync v2.22.2 — two fixes from the Nov 2 2026 MacBook Pro fleet audit. (1) The bsuite-handoffs
 #       clone was --depth 1, so `git log -1 -- <app>/HANDOFF.md` returned HEAD for every file:
 #       every handoff looked committed today, commits_since_handoff was always 0, and no repo
@@ -380,6 +383,23 @@ auto_commit_and_push() {
     if out=$(cd "$repo_dir" && git push origin "$cur_branch" 2>&1); then
       note="${note:+$note; }pushed $ahead_n commit(s)"
       log "$folder: pushed $ahead_n unpushed commit(s) to origin/$cur_branch"
+    elif echo "$out" | grep -qi -E 'fast-forward|rejected|fetch first'; then
+      # v2.23: another Mac pushed first. Rebase our commits onto origin and push again,
+      # instead of failing every hour until someone intervenes (Nov 2 2026: 5 MacBook Pro
+      # commits sat unpushed from 7:21 AM). A conflicting rebase is aborted, never forced.
+      if (cd "$repo_dir" && git pull -q --rebase --autostash origin "$cur_branch" >/dev/null 2>&1); then
+        if out=$(cd "$repo_dir" && git push origin "$cur_branch" 2>&1); then
+          note="${note:+$note; }rebased and pushed $ahead_n commit(s)"
+          log "$folder: rebased onto origin/$cur_branch and pushed $ahead_n commit(s)"
+        else
+          note="${note:+$note; }push FAILED after rebase ($ahead_n unpushed): $(echo "$out" | tail -1)"
+          log "$folder: push FAILED after rebase with $ahead_n unpushed commit(s): $(echo "$out" | tail -1)"
+        fi
+      else
+        (cd "$repo_dir" && git rebase --abort >/dev/null 2>&1; git stash list | head -0)
+        note="${note:+$note; }rebase conflict, left unpushed ($ahead_n commit(s)): needs a look"
+        log "$folder: rebase onto origin/$cur_branch conflicted, aborted; $ahead_n commit(s) left unpushed"
+      fi
     else
       note="${note:+$note; }push FAILED ($ahead_n unpushed): $(echo "$out" | tail -1)"
       log "$folder: push FAILED with $ahead_n unpushed commit(s): $(echo "$out" | tail -1)"
@@ -1209,7 +1229,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.22.2",
+  "bsync_version": "2.23.0",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
