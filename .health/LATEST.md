@@ -1,8 +1,6 @@
-# bhealth — MacBook Pro — 2026-10-26
+# bhealth — MacBook Pro — 2026-11-01
 
-Auto-healed: 1    Needs attention: 0
+Auto-healed: 0    Needs attention: 1
 
-## Auto-healed
-- Pulled 24 commits into content-calendar
-
-No flags. Fleet-ready on this Mac.
+## Needs your attention
+- bhub has 1 MODIFIED file(s) — review: cd /Users/BRHPro/Developer/B-Suite/bhub && git status

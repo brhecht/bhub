@@ -1,14 +1,14 @@
 {
   "bhealth_version": "1.1.0",
-  "timestamp": "2026-11-01T13:00:18Z",
+  "timestamp": "2026-11-02T02:19:50Z",
   "device": "MacBook Pro",
-  "hostname": "BRH-MacBook-Pro",
+  "hostname": "MacBookPro",
   "computer_name": "BRH MacBook Pro",
-  "os_version": "26.6.2",
+  "os_version": "27.2",
   "bsuite_path": "/Users/BRHPro/Developer/B-Suite",
   "git_auth_ok": true,
   "bsync_loaded": true,
-  "bsync_last_run": "2026-11-01 07:20:28",
+  "bsync_last_run": "2026-11-01 21:20:15",
   "repos": [
     {
       "repo": "things-app",
@@ -80,11 +80,11 @@
       "repo": "bhub",
       "branch": "main",
       "status": "dirty",
-      "ahead": 0,
+      "ahead": 2,
       "behind": 1,
       "dirty": 1,
       "untracked": 0,
-      "last_commit": "2026-10-29",
+      "last_commit": "2026-11-02",
       "action": "none"
     },
     {
@@ -368,6 +368,7 @@
   ],
   "actions": [],
   "flags": [
-    "bhub has 1 MODIFIED file(s) \u2014 review: cd /Users/BRHPro/Developer/B-Suite/bhub && git status"
+    "bhub has 1 MODIFIED file(s) \u2014 review: cd /Users/BRHPro/Developer/B-Suite/bhub && git status",
+    "bhub has 2 UNPUSHED commit(s) on branch 'main' \u2014 they exist only on this Mac: cd /Users/BRHPro/Developer/B-Suite/bhub && git push origin main"
   ]
 }
