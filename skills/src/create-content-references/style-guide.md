@@ -119,7 +119,23 @@ across all three pieces, ~10.5K characters; running total since the rule was app
 is 25 pieces and zero em dashes. Core section 5 never-use list: clean. No new PROPOSED
 CORE CHANGE; the standing Core section 3 one gains an eighth essay of evidence.*
 
-**Recurring structural moves (TNB, 2026-06 → 10)**
+*Delta refresh 2026-11-02: folded in 3 new TNB pieces (beehiiv "Have My Agent Call Your
+Agent" 10/28; LinkedIn "Photo App" 10/22 and "Jesse clip" 10/28). No HC-era pieces, no ghost
+cards. The API returned 30 cards reaching back to 7/28, so the delta is not
+truncated. This is a catch-up: the last refresh landed 10/18, so the weekly runs of 10/25 and
+11/1 did not land (the 11/1 run was scheduled and fired late, on 11/2). The three pieces are
+separate occasions (an SOP-for-dinners essay, a photo-app build, a podcast promo), so none is
+a cross-format cluster and each counts on its own; the 10/22 post does follow up on the photo
+culler the 10/7 essay described. Aged out (older than ~90 days, no recurrence since): the
+escalating-ladder explainer (6/29, 7/2), the anti-FOMO open (7/2), the non-coding capability
+post (7/14), the categorized-verdict research essay (7/24), the data-argument LI post (7/24),
+and the two-types-of-people open (7/24). The ~90-day window now starts ~8/4. Em dashes: zero
+across all three pieces, ~7.8K characters; running total since the rule was approved 8/17 is
+28 pieces and zero em dashes. Core section 5 never-use list: clean. One new PROPOSED CORE
+CHANGE (Core section 6 hook rule, see below); the standing Core section 3 one gains a ninth
+essay of evidence, with one fixture missing.*
+
+**Recurring structural moves (TNB, 2026-06 → 11)**
 
 - **LI posts open cold with a single arresting line, then a hard break.** A confession, a
   quoted zinger, or a count-up of damage — no runway. "Claude called BS on me the other
@@ -144,14 +160,6 @@ CORE CHANGE; the standing Core section 3 one gains an eighth essay of evidence.*
 - **Arrow bullets (`→`) and emoji bullets (🤥 💪)** are his current LI list texture —
   parallel options or a numbered "lies/myths" frame, prose before and after. (Future of
   Work 6/24; Three Lies 5/6; Anatomy 5/27.)
-- **The "escalating ladder" explainer** is a new didactic spine (distinct from the
-  build-narrative arc): he walks the reader up named rungs — *artifact → project → skill
-  → Cowork/Code app → hosted + loop* — each rung deflated to plain terms, arrow bullets
-  carrying the steps. Used across both the beehiiv and LI "Don't Panic" (6/29, 7/2).
-- **Anti-FOMO / anti-hype open, positioning against "shouty LinkedIn."** He quotes the
-  genre to mock it, then reassures: "'I fired my entire company and hired 500 agents…'
-  That's every other post on LinkedIn right now… nobody's dying here." (Don't Panic LI
-  7/2; the beehiiv version frames "loop engineering" the same way.)
 - **Second close type — warm community reassurance** (alongside the existing
   human-judgment close): onboarding/anti-FOMO pieces land on inclusion, not a thesis.
   "You're not late. You're right on time, and you're not alone." (Don't Panic 7/2/6/29.)
@@ -168,30 +176,6 @@ CORE CHANGE; the standing Core section 3 one gains an eighth essay of evidence.*
   fix the habit. I fixed the friction." · "It fell apart at the one place I never thought
   to test: me." (Bug Claude Couldn't Catch 7/15; Inputs LI 7/15.) A third close type
   alongside human-judgment and warm-community.
-- **The non-coding capability post.** He deliberately steps off the build track to show a
-  mundane consumer use of AI and reclaim it for the audience: "Those of us who are
-  knee-deep in vibe coding sometimes forget those simple capabilities." Then he runs the
-  banal task (487 Greece photos) as a real multi-step workflow, with 📸 emoji bullets
-  carrying the steps. (Vacation Photos, 7/14.)
-- **The categorized-verdict research essay.** New beehiiv spine, distinct from the
-  escalating ladder and the honest audit: he runs a big AI research project, then dumps
-  the findings into four named verdict buckets — *Busted Myths / Probably Help / Doesn't
-  Matter / Definitely Hurt* — each bucket a short list of claim-then-ruling. Then he
-  **undercuts his own findings**: "here's the catch: they're observational. Not a reliably
-  repeatable set of rules." He hands you the prescriptive payload and then removes its
-  authority, which is the actual thesis. (LinkedIn or LinkedOut? 7/24.)
-- **The data-argument LI post.** Opens on a two-line mock dialogue (`Friend:` / `Me: 🙄`,
-  the emoji doing all the work of the reply), then "let's zoom out and check some numbers"
-  and two paired stat blocks in **`‣` bullets** — a third bullet glyph alongside `→` and
-  emoji. A reader-guiding question turns the corner ("See what's happening?"), and the
-  post closes on a **forward-looking market prediction** rather than a resolved tension:
-  "maybe we're entering an era where it's the marketer who's the indispensable
-  co-founder." Sources land in a bare parenthetical footer: "(All data courtesy of the New
-  York Times)". (Vibe App Store 7/24.)
-- **The "two types of people" open with a third-option punchline.** A mock taxonomy that
-  he immediately breaks: "There are two types of people in the business world… I guess
-  there are also people who don't give a shit…but they're wrong." (LinkedIn or LinkedOut?
-  7/24.)
 - **Explicit reader-guiding labels** are now doing his transitions: "Key takeaway:" ·
   "Long story short," · "See what's happening?" · "But here's the real question:" · "here's
   the catch:". He signposts rather than transitioning smoothly. (All four 7/21–7/24
@@ -441,6 +425,57 @@ CORE CHANGE; the standing Core section 3 one gains an eighth essay of evidence.*
   together!", then "100% Written by me!". The essay used no best-of-week, quote or closing
   fields; the whole piece sits in the essay body. (Zombified 10/15.)
 
+- **LI cold open is gone for six posts running (11-02).** The 10/22 post opens on a
+  scene-setting sentence with a contrast clause: "On my first weekend back from Stowe School,
+  instead of enjoying the perfect NY autumn weather, I spent it coding." The 10/28 post opens
+  on a subordinate clause that builds to its subject: "Whenever I find myself floating around
+  in vibe coding la la land, it's so refreshing to have someone like @Jesse Allouf on The New
+  Builder Podcast." With 10/6, 10/8, 10/13 and 10/15, that is six LI posts in a row (all
+  post-residency) with no single arresting cold line. Still no leading emoji. The 10/18 note
+  said to watch one more cycle; it held, so this is now a proposed Core change. (Photo App
+  10/22; Jesse clip 10/28.)
+- **The scope-creep build post with the creep named up front (11-02).** "Of course, the scope
+  crept, and here's what I wound up with:" followed by five `→` bullets, each one a
+  capability in plain terms (open text field, finds first and last photos for approval,
+  categorizes by theme, groups similar shots and recommends one, exports to albums, writes a
+  share email). Same family as the 10/7 scope-creep confession, but here the list is the
+  payoff and he does not apologize for it. A mid-bullet quoted user line carries the voice:
+  "your eyes were closed in this one." (Photo App 10/22.)
+- **The purpose line after the list (11-02).** After the arrow bullets, one general sentence
+  states why the build mattered: "One of the most helpful things AI can do is help you make
+  order out of chaos." Then a short stake ("memories are lost") and a small-scale proof ("I've
+  shared those albums with at least a dozen people so far"). Close is satisfaction, not a
+  tension: "the satisfaction was more than worth the effort." That is a close type not in the
+  list above; it sits closest to the warm community reassurance close but is about the
+  builder's own reward. One occurrence. (Photo App 10/22.)
+- **The podcast promo as thesis-plus-twist (11-02).** Not a teaser close this time. He names
+  the guest and title, then the thesis and the "intriguing twist": "Jesse is a huge AI
+  enthusiast... And yet, he is incredibly selective about where and when to implement AI."
+  Two human-judgment beats ("a human in the loop", "AI is just a hammer in search of a nail"),
+  then the pointer ("full video on The New Builder YouTube channel linked below") and a
+  parenthetical thank-you to the guest's CEO. The withheld-detail teaser close from 7/22 did
+  not recur. (Jesse clip 10/28.)
+- **The essay that runs a failed-process story, then asks whether the process was worth it
+  (11-02).** Spine: a small real need (a dinner), a tool (Linear plus Claude), an AI-generated
+  18-question overreach, his own Claude making it worse, a six-hour 31-point SOP, then two
+  "painful realizations" named as "The first:" and "The second was the bigger question".
+  He puts both sides to Nico ("SOPs exist for a reason") and refuses to resolve it: "I'm still
+  not sure what to make of this confusing but surely significant episode." Closes on a
+  wait-and-see line with a pay-the-bill image: "those countless hours were a one-time agentic
+  efficiency tax. And we've already paid the bill. / I guess we'll find out at the next
+  dinner." This is public indecision (6/9, 10/6) at essay length, with the build-regret turn
+  of the 7/15 audit. (Agent Call 10/28.)
+- **Near-miss antithesis close: the title-line callback after a refusal to conclude
+  (11-02).** The last line is a deadpan pointer to the next occasion rather than a reversal
+  pair, so the antithesis-pair close (10/13) did not recur in this cycle's three pieces.
+  Counting from the 10/13 appearance, it is one separate occasion in the last three weeks.
+- **Fixed newsletter footer, ninth essay but one fixture missing (11-02).** "Dear Friends:"
+  (colon), the Membership Invitation block with the 😉, and "Thanks for reading, and let's all
+  keep building together!" are all present. "100% Written by me!" is absent from the archived
+  essay text, and the card's best-of, quote and closing fields are empty, so this may be an
+  archive miss rather than a decision. First time in nine essays the tag is not in the
+  archive. Watch one cycle. (Agent Call 10/28.)
+
 **Recurring voice / humor beats (TNB, 2026-06 → 10)**
 
 - **Claude (the AI) is now a recurring comic character with a personality** — it talks
@@ -627,6 +662,36 @@ CORE CHANGE; the standing Core section 3 one gains an eighth essay of evidence.*
   says AI failed him. The essay's AI posture is the opposite: skeptical of predictions, not
   of the tool. The last occurrences remain 9/17 and 10/7.
 
+- **Confusion as comedy, with the AI as the one confused (11-02).** "I was confused af" at the
+  AI's questions, then "Virtual smoke came out of its anthropomorphized ears," then "(Here,
+  Fable, take all my tokens!)" as the aside when the work balloons. The agent is a character
+  with a temper and a stamina problem, not a tool. "confused af" is the first abbreviated
+  profanity in the window; Core permits mild cursing in his own voice, so a drafting partner
+  can use it sparingly but should not add more. (Agent Call 10/28.)
+- **Toddler and wedding analogies as self-indictment (11-02).** "like a timid parent letting
+  his toddler run wild lest he risk setting off a tantrum. And then wondering why the toy room
+  looked like a war zone." And: "Was I planning an amazing wedding but spending 90% of my time
+  on the invitations?" Both analogies turn on him, not on the AI. Two in one essay, each a
+  question or a rueful image rather than a lesson. (Agent Call 10/28.)
+- **Turtles all the way down (11-02).** A single short paragraph, five words, to name the
+  recursion ("an SOP for making SOPs"). Short-paragraph punchline after a long explanatory
+  one, the same rhythm as the title callback close. (Agent Call 10/28.)
+- **Dry stage directions in the third person (11-02).** "Then my Claude found a bug and told
+  Nico to ignore the last email and use this new one. Much back-and-forth ensued..." The
+  agents are described as if they were coworkers sending memos. (Agent Call 10/28.)
+- **Weather and a lost weekend as the cost of the build (11-02).** "instead of enjoying the
+  perfect NY autumn weather, I spent it coding" and later "A few hours of coding solved that
+  problem. It was challenging but not that complicated, and that was part of the fun." Self-
+  deprecating setup, then an understated payoff. (Photo App 10/22.)
+- **Hammer-and-nail idiom, plus "la la land" (11-02).** "AI is just a hammer in search of a
+  nail" and "floating around in vibe coding la la land" are stock idioms used plainly, not
+  twisted. The second is a mild dig at his own genre. (Jesse clip 10/28.)
+- **The AI-did-not-help beat recurs, as a team of AIs (11-02).** First occurrence since 10/7.
+  The 10/28 essay is about two Claudes producing noise and a human restarting the work, so the
+  "AI cannot be trusted to carry the decision" thread is alive, aimed at process rather than
+  code. (Agent Call 10/28; Jesse clip 10/28 states it as "there's still a risk of agents
+  running amok with his marketing budget.")
+
 **Current lexicon additions (TNB)**
 
 - "slop" / "AI slop" (the tell-word for bad AI writing) · "coding-without-code" (his
@@ -718,6 +783,21 @@ CORE CHANGE; the standing Core section 3 one gains an eighth essay of evidence.*
   style>` wrappers and `&nbsp;`; the plain-text copy in `archiveData.text` differs from the
   published `liBody` (for example "Claude love" there versus "Claude talk" published), so
   read `liBody`, not the text copy. (Zombified 10/15; YC App 10/13; Member Dinner 10/15.)
+
+- **Lexicon, 11-02 delta.** New or newly prominent: "confused af" · "anthropomorphized ears" ·
+  "Claude-speak" (his name for the AI's question style) · "Linear vortex" · "all-seeing eye of
+  your life" · "SOP fugue state" · "agentic efficiency tax" · "heads-down" · "duke it out" ·
+  "wing-it method" · "process freak" · "right-hand man" (Nico) · "turtles all the way down" ·
+  "scope crept" · "make order out of chaos" · "la la land" · "hammer in search of a nail" ·
+  "human in the loop" · "running amok." Tools named: Linear, Claude, Granola, Slack, Gmail,
+  Notion (as the analogy for Linear), Fable (the model, as a joke about tokens), Photos (the
+  Apple app). People named: Nico, Jesse Allouf (Chief Marketing Officer, Tire Agent), Jared
+  Kugel (CEO, Tire Agent). Mechanical notes: the unspaced three-dot ellipsis joins clauses with
+  no space again ("Slack...and...Granola...and Gmail...and", "ensued...and"); all six in the
+  essay are the single … character in the archive text, not three dots. The LI bodies in the
+  archive carry no line breaks after HTML stripping ("nail.You can find"; "photos→ Open text
+  field"), so paragraph and bullet breaks must be read from the card, not inferred from the
+  stripped text. (Agent Call 10/28; Photo App 10/22; Jesse clip 10/28.)
 
 **Brand / drift notes**
 
@@ -853,6 +933,33 @@ CORE CHANGE; the standing Core section 3 one gains an eighth essay of evidence.*
 - **Drift: TNB money talk.** The 10/15 essay names four ways to earn and says TNB itself has
   no business model yet. Earlier pieces kept the business out of the essay. Observation only.
 
+- **Em dashes: still clean (2026-11-02).** Mechanical count across the three pieces in the
+  10/22 to 10/28 delta: **0 em dashes, 0 en dashes, 6 ellipses** (Agent Call 6, all the single
+  … character; Photo App 0; Jesse clip 0), about 7.8K characters. No spaced hyphens used as
+  dashes and no double hyphens. Running total since the rule was approved 8/17: 28 pieces,
+  zero em dashes. Flag stays closed.
+- **Ellipsis form flipped again, essay only (11-02).** Last cycle all six were three unspaced
+  dots; this cycle all six (all in the essay) are the single … character. Third swap in four
+  cycles, so it tracks the editing tool, not a choice. Do not normalize either form. The two
+  LI posts have no ellipses in about 3.3K characters.
+- **Core section 5 "never use" check (11-02):** clean. No "leverage," "utilize," "seamless,"
+  "empower," "optimize," "synergy," "stakeholders," or "monetize" in any of the three pieces.
+- **Drift: the cold-open LI move is now a pattern (see structural moves).** Six posts running.
+  Proposed as a Core section 6 change below.
+- **Drift: the anti-planning tension returns, in reverse (11-02).** The 10/28 essay asks
+  outright whether a 31-step SOP was worth it versus the old "wing-it" way, and does not
+  decide. That keeps the Core section 8 wing-it watch open (last evidence 9/20, 10/7) but this
+  time Nico makes the case for process and Brian ends up neutral. Observation only.
+- **Drift: the business-candor level is back to normal (11-02).** Neither LI post nor the
+  essay talks about TNB revenue. The 10/15 essay's candor about having no business model
+  stays a one-off for now.
+- **Data gap: six older beehiiv cards still carry no body (11-02).** "Overheard: Pac-Man..." (7/30),
+  "Trapped Between AI and Abaci" (8/11), "Packing Cubes and Playlists" (8/18), "The Uncanny
+  Professor" (8/25), "One Weekend, Lost and Found" (9/1) and "Start With the Purpose" (9/16)
+  show only an empty-body stub in this API response. None is newer than the watermark, so
+  none was analyzed. The 10/28 card also has an empty `body.essayBody` and its essay lives
+  only in `archiveData.essay`, so the extractor must read the archive field first.
+
 > **PROPOSED CORE CHANGE (awaiting Brian's approval) — 2026-06-28:**
 > Core §3 still hard-codes HC-era newsletter fixtures that TNB no longer uses: the
 > mandatory **"HC Update,"** the **"Stay Humble!" / "Pitch Strong and Stay Humble!"**
@@ -893,6 +1000,26 @@ CORE CHANGE; the standing Core section 3 one gains an eighth essay of evidence.*
 > *Amendment 2026-10-18:* the 10/15 essay is the eighth in a row with the four TNB fixtures in
 > order ("Dear Friends:" with a colon, no HC Update, Membership Invitation block with the 😉,
 > thanks line, "100% Written by me!"). Still propose-only; Core not edited.
+>
+> *Amendment 2026-11-02:* the 10/28 essay is the ninth in a row with "Dear Friends:" (colon), no
+> HC Update, the Membership Invitation block with the 😉 and the thanks line, but "100% Written
+> by me!" is missing from the archived text, and the best-of, quote and closing fields are empty
+> too. Probably an archive miss; the other three fixtures hold. Still propose-only; Core not
+> edited.
+
+> **PROPOSED CORE CHANGE (awaiting Brian's approval), 2026-11-02, Core section 6 hook rule:**
+> Core §6 says the first two lines of a LinkedIn post "must create tension, curiosity, or a
+> contrarian claim" and gives short cold examples. The last six LI posts (10/6, 10/8, 10/13,
+> 10/15, 10/22, 10/28) do not open that way. They open on a rhetorical run of fears, an origin
+> story with a hedge, a setting-and-count statement, a stated feeling, a scene-setting
+> sentence with a contrast clause, and a "Whenever I find myself..." subordinate clause. All
+> are post-residency; none leads with an emoji; none reads as a cold one-line hook. Evidence
+> for the old rule is the 5/14 to 9/17 posts. Recommend rewording §6 Hook so the cold line is
+> one option among several and scene-setting or stated-feeling opens are allowed. Counter-
+> evidence to weigh: reach data from the linkedin-analysis skill may show the cold opens
+> perform better, and that is Brian's call, not the voice refresh's. Propose-only; Core not
+> edited. Kill criterion: if the next two LI posts return to a cold one-line open, drop this
+> proposal.
 
 ---
 
