@@ -1,5 +1,11 @@
 #!/bin/bash
-# bhealth v1.0 — B-Suite fleet audit with three-tier healing
+# bhealth v1.2 — B-Suite fleet audit with three-tier healing
+#
+# v1.2 (Nov 2 2026): health reports and LATEST.md now go to bsuite-handoffs/.health
+# (private repo, cloned on every Mac) instead of bhub/.health. bhub is public, and
+# every report carried hostnames, local paths and the names of private repos. The
+# weekly cloud check reads bsuite-handoffs through the session's GitHub connection.
+# bhub still receives skills-manifest.json and HANDOFF-MASTER.md updates.
 #
 # Verifies that THIS Mac is in sync with the rest of the fleet, auto-heals
 # safe drift, launches install prompts for things that need a click, and
@@ -10,7 +16,7 @@
 #   2. Launch + prompt: open .skill installers when versions drift
 #   3. Flag (no touch): uncommitted work, expired PAT, missing toolchain
 #
-# Writes a JSON report to bhub/.health/{device}-{date}.json and updates
+# Writes a JSON report to bsuite-handoffs/.health/{device}-{date}.json and updates
 # skills-manifest.json with this device's current state. Commits and pushes.
 #
 # Usage:
@@ -31,7 +37,13 @@ MANIFEST="$SCRIPT_DIR/skills/skills-manifest.json"
 TOKEN_FILE="$BSUITE_DIR/.git-token"
 DEVICE_FILE="$BSUITE_DIR/.bhealth-device"
 LAST_RUN_FILE="$BSUITE_DIR/.bhealth-last-run-epoch"
-HEALTH_DIR="$SCRIPT_DIR/.health"
+HANDOFFS_DIR="$BSUITE_DIR/bsuite-handoffs"
+HEALTH_DIR="$HANDOFFS_DIR/.health"
+# If bsuite-handoffs is not cloned on this Mac, reports go outside any repo so
+# nothing private lands in public bhub. audit_repos flags the missing clone.
+if [[ ! -d "$HANDOFFS_DIR/.git" ]]; then
+  HEALTH_DIR="$BSUITE_DIR/.bhealth-reports"
+fi
 TODAY="$(date '+%Y-%m-%d')"
 TIMESTAMP_UTC="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
 
@@ -617,7 +629,7 @@ actions = load_lines(f"{tmp}/actions.txt")
 flags = load_lines(f"{tmp}/flags.txt")
 
 report = {
-    "bhealth_version": "1.1.0",
+    "bhealth_version": "1.2.0",
     "timestamp": os.environ["TIMESTAMP_UTC"],
     "device": os.environ["DEVICE_NAME"],
     "hostname": os.environ["HOSTNAME_VAL"],
@@ -674,27 +686,49 @@ commit_push() {
   [[ "$MODE" == "--dry-run" ]] && return
   [[ "$GIT_AUTH_OK" != "true" ]] && { say "${WARN} Skipping commit — git auth not verified"; return; }
 
+  local bhub_ok="false" handoffs_ok="false"
+
+  # bhub (public): manifest and master stub only. Never .health (v1.2).
   cd "$SCRIPT_DIR" || return
-
-  # Pull first to minimize merge conflicts
   git pull --rebase origin main >/dev/null 2>&1 || true
-
-  git add ".health/" "skills/skills-manifest.json" "HANDOFF-MASTER.md" 2>/dev/null
+  git add "skills/skills-manifest.json" "HANDOFF-MASTER.md" 2>/dev/null
   if git diff --cached --quiet 2>/dev/null; then
-    say "${INFO} No changes to commit"
-    # Nothing to commit means local + remote are consistent — counts as a
-    # successful run for the weekly idempotence marker.
-    COMMIT_PUSH_OK="true"
-    return
+    say "${INFO} bhub: no changes to commit"
+    bhub_ok="true"
+  else
+    local msg="bhealth: ${DEVICE_NAME} manifest ${TODAY}"
+    if git commit -m "$msg" >/dev/null 2>&1 && git push origin main >/dev/null 2>&1; then
+      say "${OK} bhub committed + pushed: $msg"
+      bhub_ok="true"
+    else
+      say "${WARN} bhub commit or push failed — check git status"
+    fi
   fi
 
-  local msg="bhealth: ${DEVICE_NAME} audit ${TODAY} — ${#REPORT_ACTIONS[@]} auto-heals, ${#REPORT_FLAGS[@]} flags"
-  if git commit -m "$msg" >/dev/null 2>&1 && git push origin main >/dev/null 2>&1; then
-    say "${OK} Committed + pushed: $msg"
-    COMMIT_PUSH_OK="true"
+  # bsuite-handoffs (private): the health report.
+  if [[ -d "$HANDOFFS_DIR/.git" ]]; then
+    cd "$HANDOFFS_DIR" || return
+    git pull --rebase origin main >/dev/null 2>&1 || true
+    git add ".health/" 2>/dev/null
+    if git diff --cached --quiet 2>/dev/null; then
+      say "${INFO} bsuite-handoffs: no report changes to commit"
+      handoffs_ok="true"
+    else
+      local hmsg="bhealth: ${DEVICE_NAME} audit ${TODAY} — ${#REPORT_ACTIONS[@]} auto-heals, ${#REPORT_FLAGS[@]} flags"
+      if git commit -m "$hmsg" >/dev/null 2>&1 && git push origin main >/dev/null 2>&1; then
+        say "${OK} bsuite-handoffs committed + pushed: $hmsg"
+        handoffs_ok="true"
+      else
+        say "${WARN} bsuite-handoffs commit or push failed — the hourly bsync will retry the push"
+      fi
+    fi
+    cd "$SCRIPT_DIR" || true
   else
-    say "${WARN} Commit or push failed — check git status"
+    say "${WARN} bsuite-handoffs not cloned here — report saved to ${HEALTH_DIR/#$HOME/~} and not committed"
+    REPORT_FLAGS+=("bsuite-handoffs missing — the health report is not reaching GitHub from this Mac")
   fi
+
+  [[ "$bhub_ok" == "true" && "$handoffs_ok" == "true" ]] && COMMIT_PUSH_OK="true"
 }
 
 # Update the weekly marker after a successful commit_push so the daily
@@ -715,7 +749,7 @@ update_weekly_marker() {
 # fine. Nothing ever told you. In quiet mode we now write a readable digest and, where
 # the OS allows, actually notify.
 deliver_flags_quietly() {
-  local digest="$BSUITE_DIR/bhub/.health/LATEST.md"
+  local digest="$HEALTH_DIR/LATEST.md"
   mkdir -p "$(dirname "$digest")" 2>/dev/null
   {
     echo "# bhealth — ${DEVICE_NAME} — ${TODAY}"
