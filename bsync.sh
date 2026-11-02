@@ -1,4 +1,13 @@
 #!/bin/bash
+# bsync v2.22.1 — three fixes found by the Nov 2 2026 fleet audit. (1) sync_one_mount read
+#       `git status --porcelain`, which wraps any path containing a space in literal quotes;
+#       the backup copy and the restore then ran against a path that does not exist, so the
+#       backups were empty files and stray directories named "archive appeared. It now reads
+#       `-z` records. (2) The handoff-date trim used xargs, which dies on an apostrophe;
+#       replaced with sed. (3) check_skills now also looks in ~/.claude/skills/synced/*/ and
+#       counts a skill as matching when only its frontmatter formatting differs
+#       (match_basis reports which). The JSON bsync_version string, which had stayed at
+#       2.21.0 since v2.21, now follows this header.
 # bsync v2.22 — HOUSE-STYLE.md. ensure_claude_md now imports bhub/HOUSE-STYLE.md (3.0, Oct 29 2026,
 #       which replaced WRITING-TO-BRIAN.md) and removes the old import so the rules are not loaded
 #       twice. New ensure_house_style_checks runs bhub/install-house-style.sh when the reply check,
@@ -569,7 +578,7 @@ check_handoffs() {
 
     if [[ -n "$handoffs_repo" && -f "$handoff_file" ]]; then
       handoff_exists="true"
-      handoff_date=$(grep -i 'last updated' "$handoff_file" 2>/dev/null | head -1 | sed 's/.*[Ll]ast [Uu]pdated[: ]*//' | sed 's/\*.*//' | sed 's/~.*//' | xargs)
+      handoff_date=$(grep -i 'last updated' "$handoff_file" 2>/dev/null | head -1 | sed 's/.*[Ll]ast [Uu]pdated[: ]*//' | sed 's/\*.*//' | sed 's/~.*//' | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//')
     fi
 
     # Handoff commit date comes from the bsuite-handoffs repo
@@ -651,7 +660,16 @@ check_skills() {
   fi
 
   python3 - "$manifest" "$BSUITE_DIR/bhub/skills" "$WORK_DIR/bhub/skills" <<'PYEOF'
-import json, sys, hashlib, glob, os, zipfile
+import json, sys, hashlib, glob, os, zipfile, re
+
+def body_md5(raw):
+    """MD5 of a SKILL.md with its frontmatter removed. A skill saved from a card gets its
+    frontmatter rewritten by the editor (quoting, wrapping), so the whole-file hash differs
+    even when the instructions are identical."""
+    text = raw.decode('utf-8', 'replace').replace('\r\n', '\n')
+    m = re.match(r'^---\n.*?\n---\n(.*)$', text, re.S)
+    body = (m.group(1) if m else text).strip()
+    return hashlib.md5(body.encode('utf-8')).hexdigest()
 
 manifest_path = sys.argv[1]
 install_dirs  = sys.argv[2:]
@@ -669,15 +687,22 @@ for skill_name in sorted(skills):
 
     # Find installed SKILL.md (one glob per search path; stop at first hit)
     installed_hash = 'not_found'
+    installed_body_hash = 'not_found'
+    # v2.22.1: the account-synced skills live under ~/.claude/skills/synced/<account-id>/<skill>/,
+    # which the two older patterns never looked in, so every skill reported not_found.
     for pattern in [f'/sessions/*/mnt/.claude/skills/{skill_name}/SKILL.md',
-                    os.path.expanduser(f'~/.claude/skills/{skill_name}/SKILL.md')]:
+                    os.path.expanduser(f'~/.claude/skills/{skill_name}/SKILL.md'),
+                    os.path.expanduser(f'~/.claude/skills/synced/*/{skill_name}/SKILL.md')]:
         matches = glob.glob(pattern)
         if matches:
             with open(matches[0], 'rb') as fh:
-                installed_hash = hashlib.md5(fh.read()).hexdigest()
+                raw = fh.read()
+            installed_hash = hashlib.md5(raw).hexdigest()
+            installed_body_hash = body_md5(raw)
             break
 
     match = installed_hash == expected_hash
+    match_basis = 'full_file' if match else 'none'
 
     # Find .skill bundle for the install link
     install_path = ''
@@ -691,12 +716,20 @@ for skill_name in sorted(skills):
     # Catches the silent-drift failure mode where a skill's source/bundle is edited but the
     # manifest version+hash are NOT bumped, so version tracking quietly lies (the a81d1e3 bug).
     source_hash = 'not_found'
+    source_body_hash = 'not_found'
     for d in reversed(install_dirs):  # prefer the freshly-pulled work-dir copy as source of truth
         cand = f'{d}/src/{skill_name}-SKILL.md'
         if os.path.exists(cand):
             with open(cand, 'rb') as fh:
-                source_hash = hashlib.md5(fh.read()).hexdigest()
+                raw = fh.read()
+            source_hash = hashlib.md5(raw).hexdigest()
+            source_body_hash = body_md5(raw)
             break
+    # Same instructions, different frontmatter formatting: count it as a match.
+    if (not match and source_body_hash != 'not_found' and installed_body_hash == source_body_hash
+            and source_hash == expected_hash):
+        match = True
+        match_basis = 'body_only'
     bundle_hash = 'not_found'
     if install_path:
         try:
@@ -715,6 +748,7 @@ for skill_name in sorted(skills):
         f'"expected_hash": {json.dumps(expected_hash)}, '
         f'"installed_hash": {json.dumps(installed_hash)}, '
         f'"match": {"true" if match else "false"}, '
+        f'"match_basis": {json.dumps(match_basis)}, '
         f'"source_hash": {json.dumps(source_hash)}, '
         f'"bundle_hash": {json.dumps(bundle_hash)}, '
         f'"manifest_synced": {manifest_synced}, '
@@ -892,11 +926,16 @@ sync_one_mount() {
   [[ -f .git/index.lock ]] && mv .git/index.lock ".git/index.lock.cwk2_$$" 2>/dev/null
   git read-tree HEAD 2>/dev/null
 
-  while IFS= read -r line; do
+  # v2.22.1: read git status as NUL-delimited records (-z). Plain --porcelain wraps any path
+  # containing a space in literal double quotes, so the cp/git-show below ran against a
+  # path that does not exist: backups came out as empty files and restores landed in
+  # directories literally named "archive. -z never quotes.
+  while IFS= read -r -d '' line; do
     [[ -z "$line" ]] && continue
     local code="${line:0:2}"
     local file="${line:3}"
     case "$code" in
+      "??"|"!!") continue ;;
       " M"|"M "|" D"|"D ")
         # Back the file up before clobbering it, and say so. Previously this
         # silently destroyed uncommitted edits.
@@ -909,7 +948,7 @@ sync_one_mount() {
         echo "overwrote-local-edit:$folder:$file" >> "$SYNC_ISSUES_FILE" 2>/dev/null
         ;;
     esac
-  done < <(git status --porcelain 2>/dev/null | grep -v "^??")
+  done < <(git status --porcelain -z 2>/dev/null)
 }
 
 sync_mount_to_origin() {
@@ -1151,7 +1190,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.21.0",
+  "bsync_version": "2.22.1",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
