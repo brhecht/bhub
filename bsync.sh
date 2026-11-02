@@ -1,4 +1,5 @@
 #!/bin/bash
+# bsync v2.23.2 — hc-website (dead) and the five live apps builder-bot, muscle-anatomy, saturn-v-anatomy, b-personal-hub and setlist-predictor join SKIP_HANDOFF_CHECK. Brian confirmed Nov 2 2026 the five are live apps on tnb.ai/projects that do not change, so the weekly check stops listing them as missing a handoff. (The 2.23.1 commit of the same day was empty: a test run of bsync reset the mount before the edit was committed. Commit first, test from a scratch BSUITE_DIR.)
 # bsync v2.23 — the hourly Mac sync no longer jams when another Mac pushes first. auto_commit_and_push
 #       used to `git push` and give up on "not a fast-forward"; it now runs `git pull --rebase
 #       --autostash` and pushes again, and aborts (never forces) if the rebase conflicts.
@@ -226,7 +227,7 @@ github_for() {
 }
 
 # Skip deep handoff check on dormant/archived repos and on the handoffs repo itself
-SKIP_HANDOFF_CHECK="pitch-scorer b-marketing hc-strategy bsuite-handoffs"
+SKIP_HANDOFF_CHECK="pitch-scorer b-marketing hc-strategy bsuite-handoffs hc-website builder-bot muscle-anatomy saturn-v-anatomy b-personal-hub setlist-predictor"
 
 # v2.19: paths the Mac hourly run may commit + push on its own when they are dirty on
 # main. Format: folder:relative/path. Scope deliberately narrow: only files that
@@ -1229,7 +1230,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.23.0",
+  "bsync_version": "2.23.2",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
