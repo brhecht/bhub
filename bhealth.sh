@@ -89,6 +89,7 @@ REPOS=(
   # migration — was never health-checked at all.
   "builder-bot:brhecht/builder-bot"
   "bsuite-handoffs:brhecht/bsuite-handoffs"
+  "deck-ride:brhecht/deck-ride"
 )
 
 # Emoji helpers

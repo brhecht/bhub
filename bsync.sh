@@ -1,4 +1,5 @@
 #!/bin/bash
+# bsync v2.24 — deck-ride enrolled (Nov 13 2026). It is The Investor's Ride, a pitch-deck demo page built on the MacBook Pro on Nov 12 and stored in the private repo brhecht/deck-ride. Brian wants to work on it from the Mac mini, so every Mac now clones and pulls it.
 # bsync v2.23.2 — hc-website (dead) and the five live apps builder-bot, muscle-anatomy, saturn-v-anatomy, b-personal-hub and setlist-predictor join SKIP_HANDOFF_CHECK. Brian confirmed Nov 2 2026 the five are live apps on tnb.ai/projects that do not change, so the weekly check stops listing them as missing a handoff. (The 2.23.1 commit of the same day was empty: a test run of bsync reset the mount before the edit was committed. Commit first, test from a scratch BSUITE_DIR.)
 # bsync v2.23 — the hourly Mac sync no longer jams when another Mac pushes first. auto_commit_and_push
 #       used to `git push` and give up on "not a fast-forward"; it now runs `git pull --rebase
@@ -176,6 +177,7 @@ REPOS=(
   "builder-bot:brhecht/builder-bot"
   "bsuite-handoffs:brhecht/bsuite-handoffs"
   "b-line:brhecht/b-line"
+  "deck-ride:brhecht/deck-ride"
   # Sibling repos under ~/Developer/ (alongside B-Suite/, not inside it)
   "muscle-anatomy:brhecht/muscle-anatomy:.."
   "saturn-v-anatomy:brhecht/saturn-v-anatomy:.."
@@ -1230,7 +1232,7 @@ sync_mount_to_origin
 # Output structured JSON report
 cat <<HEADER
 {
-  "bsync_version": "2.23.2",
+  "bsync_version": "2.24",
   "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
   "environment": "$ENV",
   "bsuite_path": "$BSUITE_DIR",
