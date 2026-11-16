@@ -61,7 +61,8 @@ A few "sibling" repos live alongside B-Suite directly under `~/Developer/` (not 
 | eddy | brhecht/eddy-tracker | B-Suite | eddy, tracker, course launch, gantt |
 | hc-funnel | brhecht/hc-funnel | B-Suite | funnel, quiz, ads, meta ads, landing page, pitch assessment |
 | hc-strategy | brhecht/hc-strategy | B-Suite | hc strategy — RETIRED Oct 17 2026, superseded by tnb-strategy since April; closing note at top of hc-strategy/STRATEGY-CONTEXT.md |
-| tnb-strategy | brhecht/tnb-strategy | B-Suite | tnb, the new builder, tnb strategy, new builder strategy, war room (private — Brian only) |
+| tnb-strategy | brhecht/tnb-strategy | B-Suite | tnb strategy archive — ARCHIVED Nov 16 2026, superseded by tnb-2027; notice at top of CANON.md and README.md (private — Brian only) |
+| tnb-2027 | brhecht/tnb-2027 | B-Suite | tnb, the new builder, tnb strategy, new builder strategy, tnb direction, north star (private — Brian only; current TNB strategy since Nov 16 2026) |
 | hc-website | brhecht/hc-website | B-Suite | hc website, humble conviction website |
 | tnb-website | brhecht/tnb-website | B-Suite | tnb website, the new builder website, thenewbuilder.ai |
 | pitch-scorer | brhecht/pitch-scorer | B-Suite | pitch scorer (archived) |
@@ -109,6 +110,7 @@ git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/hc-strategy.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/hc-website.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/tnb-website.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/tnb-strategy.git && \
+git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/tnb-2027.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/builder-bot.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/bsuite-handoffs.git && \
 git clone https://brhecht:YOUR_TOKEN@github.com/brhecht/b-line.git && \
@@ -221,7 +223,7 @@ If the user's session genuinely needs the full fleet (e.g., audit, fleet-wide re
 
 1. Find the repo path from bsync results (the `/tmp/bsync-*/` clone)
 2. Read the app's `HANDOFF.md`
-3. If the app's skill references additional docs (e.g., tnb-strategy references `strategy/STRATEGY-CONTEXT.md`), read those too
+3. If the app's skill references additional docs (e.g., tnb-strategy references `tnb-2027/3-HOW-SESSIONS-WORK.md`), read those too
 4. Respond with a brief status summary and ask **"What do you want to work on?"** — unless the user already told you, in which case start the work
 
 **Step 2.4: Clean up legacy files**

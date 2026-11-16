@@ -56,10 +56,10 @@
       "hash": "424449ce8e8a1895f9ea83a2fa7b3f93"
     },
     "handoff": {
-      "version": "3.13.3",
-      "hash": "56b5af5b429fb5aca631e400d4fb97a7",
-      "updated": "2026-10-29",
-      "changelog": "3.13.3: House style section replaces Writing to Brian; references/house-style.md is HOUSE-STYLE.md 3.0 (27-entry catalogue, applies to text for Brian or Nico and to Linear, Slack and email). No other change. Reinstall the bundle. 3.13.2: Stamp-on-push now also updates the app's section in HANDOFF-MASTER.md (Status, Last updated, one Key context bullet) in the same commit whenever the push changed what the app is or does, so the master no longer waits for the words 'handoff away'. Reinstall the bundle."
+      "version": "3.13.4",
+      "hash": "c7cd7248a58b973dbcdd8250809cf39b",
+      "updated": "2026-11-16",
+      "changelog": "3.13.4: Repo table adds tnb-2027 (current TNB strategy) and marks tnb-strategy archived Nov 16 2026; device setup clones tnb-2027. Reinstall the bundle. 3.13.3: House style section replaces Writing to Brian; references/house-style.md is HOUSE-STYLE.md 3.0 (27-entry catalogue, applies to text for Brian or Nico and to Linear, Slack and email). No other change. Reinstall the bundle. 3.13.2: Stamp-on-push now also updates the app's section in HANDOFF-MASTER.md (Status, Last updated, one Key context bullet) in the same commit whenever the push changed what the app is or does, so the master no longer waits for the words 'handoff away'. Reinstall the bundle."
     },
     "hc-strategy": {
       "version": "1.0.0",
@@ -120,10 +120,10 @@
       "changelog": "1.2.2: House style section replaces Writing to Brian; references/house-style.md is HOUSE-STYLE.md 3.0 (27-entry catalogue, applies to text for Brian or Nico and to Linear, Slack and email). No other change. Reinstall the bundle. 1.2.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "tnb-strategy": {
-      "version": "1.2.2",
-      "hash": "fafe2c51042285ba9ad4453d50532adc",
-      "updated": "2026-10-29",
-      "changelog": "1.2.2: House style section replaces Writing to Brian; references/house-style.md is HOUSE-STYLE.md 3.0 (27-entry catalogue, applies to text for Brian or Nico and to Linear, Slack and email). No other change. Reinstall the bundle. 1.2.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
+      "version": "2.0.0",
+      "hash": "685c02d09a70be0453240df15107b803",
+      "updated": "2026-11-16",
+      "changelog": "2.0.0: Rewritten for the Nov 16 2026 restart. Loads the private repo tnb-2027 and its session rules; tnb-strategy and hc-strategy are archives and are not read unless Brian names a file. The April strategy summary, the quarterly review and the War Room material are removed. Reinstall the bundle. 1.2.2: House style section replaces Writing to Brian; references/house-style.md is HOUSE-STYLE.md 3.0 (27-entry catalogue, applies to text for Brian or Nico and to Linear, Slack and email). No other change. Reinstall the bundle. 1.2.1: Writing to Brian section restated around the 2.0 principle (say the point, do not write about the point); references/writing-to-brian.md is now spec 2.0 with the three-question check and four exemplars. No other change. Reinstall the bundle."
     },
     "xlsx": {
       "version": "1.0.0",

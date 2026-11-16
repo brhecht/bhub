@@ -171,6 +171,7 @@ REPOS=(
   "hc-funnel:brhecht/hc-funnel"
   "hc-strategy:brhecht/hc-strategy"
   "tnb-strategy:brhecht/tnb-strategy"
+  "tnb-2027:brhecht/tnb-2027"
   "hc-website:brhecht/hc-website"
   "tnb-website:brhecht/tnb-website"
   "pitch-scorer:brhecht/pitch-scorer"
