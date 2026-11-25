@@ -1,6 +1,8 @@
 #!/bin/bash
 # bhealth v1.2 — B-Suite fleet audit with three-tier healing
 #
+# v1.3 (Nov 25 2026): the quiet digest is written before the commit, so LATEST.md
+# no longer stays modified in bsuite-handoffs and trips the hourly bsync.
 # v1.2 (Nov 2 2026): health reports and LATEST.md now go to bsuite-handoffs/.health
 # (private repo, cloned on every Mac) instead of bhub/.health. bhub is public, and
 # every report carried hostnames, local paths and the names of private repos. The
@@ -711,6 +713,11 @@ commit_push() {
   if [[ -d "$HANDOFFS_DIR/.git" ]]; then
     cd "$HANDOFFS_DIR" || return
     git pull --rebase origin main >/dev/null 2>&1 || true
+    # v1.3: write the digest BEFORE the commit. It used to be written by
+    # final_summary, after the push, which left .health/LATEST.md modified in
+    # bsuite-handoffs. The hourly bsync refuses to fast-forward a dirty repo, so
+    # every quiet bhealth run turned the next pull-only runs DEGRADED.
+    quiet && write_digest
     git add ".health/" 2>/dev/null
     if git diff --cached --quiet 2>/dev/null; then
       say "${INFO} bsuite-handoffs: no report changes to commit"
@@ -750,7 +757,8 @@ update_weekly_marker() {
 # a suppressed stdout and buried in a JSON file inside a git repo. The checks worked
 # fine. Nothing ever told you. In quiet mode we now write a readable digest and, where
 # the OS allows, actually notify.
-deliver_flags_quietly() {
+DIGEST_WRITTEN="false"
+write_digest() {
   local digest="$HEALTH_DIR/LATEST.md"
   mkdir -p "$(dirname "$digest")" 2>/dev/null
   {
@@ -768,6 +776,14 @@ deliver_flags_quietly() {
       echo ""; echo "No flags. Fleet-ready on this Mac."
     fi
   } > "$digest" 2>/dev/null || true
+  DIGEST_WRITTEN="true"
+}
+
+deliver_flags_quietly() {
+  local digest="$HEALTH_DIR/LATEST.md"
+  # commit_push normally writes the digest so it lands in the commit. Write it
+  # here only when that did not happen (dry run, no git auth, repo missing).
+  [[ "$DIGEST_WRITTEN" == "true" ]] || write_digest
 
   [[ ${#REPORT_FLAGS[@]} -eq 0 ]] && return
 
